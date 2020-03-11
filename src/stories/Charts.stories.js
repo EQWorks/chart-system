@@ -1,10 +1,10 @@
-import React from 'react';
+// import React from 'react';
 
-export default {
-  title: '',
-  component:,
-};
+// export default {
+//   title: '',
+//   component:,
+// };
 
-export const NameOfYourComponent = () => (
-  <YourComponent/>
-)
+// export const NameOfYourComponent = () => (
+//   <YourComponent/>
+// )
