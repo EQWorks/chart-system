@@ -108,7 +108,7 @@ const formattedData = [
   const style = {
       height: 300,
       width: width,
-      // backgroundColor: 'lightGrey'
+      backgroundColor: 'lightGrey'
   }
 
   const legend = {

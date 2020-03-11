@@ -4,13 +4,15 @@ import PieChart from '../components/PieChart';
 
 export default {
   component: PieChart,
-  title: 'Pie Chart',
+  title: 'Nivo',
 };
 
-export const nivo = () => {
+export const PieCharts = () => {
 return (
 <>
+    <div>Small</div>
     <PieChart width={300}></PieChart>
+    <div>Medium</div>
     <PieChart width={400}></PieChart>
 </>
 )}
