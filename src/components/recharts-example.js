@@ -18,8 +18,15 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 import { isNaN } from 'lodash'
+import styled from 'styled-components'
 
 
+const Row = styled.div`
+  box-sizing: border-box;
+  width: ${props => props.width || 100}%;
+  padding: 5px;
+  float: left;
+`
 const Style = {}
 
 
@@ -91,6 +98,37 @@ const shownElementNames = Object.freeze({
   animation: 'Animation',
 })
 
+const init = state => state
+const reducer = (state, { type, payload }) => {
+  return {
+    ...state,
+    [type]: payload,
+  }
+}
+
+const formatString = (label) => {
+  if (typeof label === 'string') {
+    return label.replace('value', '')
+      .split(/[_-]/g)
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ')
+  }
+  return label
+}
+
+const formatValue = (value) => {
+  if (typeof value === 'string') {
+    return value
+  }
+  return Math.abs(value)
+}
+
+const tooltipFormatterTemplate = (changeValue = false) =>
+  (value, _, entry) =>
+    [changeValue ? formatValue(value) : value, formatString(entry.dataKey)]
+
+const legendFormatter = (label, entry) => formatString(entry.dataKey)
+
 
 const Chart = ({
   shownElements,
@@ -114,7 +152,27 @@ const Chart = ({
 }) => {
   const [selectedValue, setSelectedValue] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState(false)
-  // const [] = useReducer()
+  const reducerInit = {
+    shownElements,
+    layout,
+    split,
+    dataSets,
+    category,
+    chartType,
+    detailFontSize,
+    chartData,
+    chartTitle,
+    categoryAxisTitle,
+    valueAxisTitle,
+    strokeDasharray,
+    exploreValue,
+    exploreCategory,
+    border,
+    domainMin,
+    domainMax,
+  }
+  const [state, dispatch] = useReducer(reducer, reducerInit, init)
+
   // const update = (type, payload) => dispatch({ type, payload })
   // const toggleElement = (e, element) => {
   //   e.stopPropagation()
@@ -200,27 +258,6 @@ const Chart = ({
     return <p>Configure data to display chart options</p>
   }
 
-  const formatString = (label) => {
-    if (typeof label === 'string') {
-      return label.replace('value', '')
-        .split(/[_-]/g)
-        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
-        .join(' ')
-    }
-    return label
-  }
-
-  const formatValue = (value) => {
-    if (typeof value === 'string') {
-      return value
-    }
-    return Math.abs(value)
-  }
-
-  const tooltipFormatterTemplate = (changeValue = false) =>
-    (value, _, entry) =>
-      [changeValue ? formatValue(value) : value, formatString(entry.dataKey)]
-
   const metricOptions = Object.keys(chartData[0]).map(keyName => (
     {
       text: formatString(keyName),
@@ -232,7 +269,6 @@ const Chart = ({
   let barGap
   let finalData = chartData
   let tooltipFormatter = tooltipFormatterTemplate(false)
-  const legendFormatter = (label, entry) => formatString(entry.dataKey)
 
   let absAxis
 
@@ -250,8 +286,7 @@ const Chart = ({
     } else {
       barGap = (-(axis * ratio) / finalData.length) + adjustment
     }
-
-
+    // manual values to get "split" behavior
     // 14 = -70 // -13
     // 11 = -73
     // 10 = -75 //
@@ -274,32 +309,38 @@ const Chart = ({
     absAxis = tick => Math.abs(tick)
   }
 
-  // const toggleElementControls = Object.keys(shownElements).map(ele => (
-  //   <Form.Field
-  //     key={ele}
-  //     control={Checkbox}
-  //     width={12}
-  //     label={shownElementNames[ele]}
-  //     checked={shownElements[ele]}
-  //     onChange={e => toggleElement(e, ele)}
-  //   />
-  // ))
+  const toggleElementControls = Object.keys(state.shownElements).map(ele => (
+    <React.Fragment key={ele}>
+      <input
+        type='checkbox'
+        id={ele}
+        name={ele}
+        checked={state.shownElements[ele]}
+        onChange={() => dispatch({
+          type: 'shownElements',
+          // toggle only this state
+          payload: {...state.shownElements, [ele]: !state.shownElements[ele] }
+        })}
+      />
+      <label htmlFor={ele}>{shownElementNames[ele]}</label><br />
+    </React.Fragment>
+  ))
 
-  const valueAxisLabel = shownElements.valueAxisTitle ? {
+  const valueAxisLabel = state.shownElements.valueAxisTitle ? {
     value: valueAxisTitle,
     angle: -90,
     position: 'insideLeft',
   } : null
-  const categoryAxisLabel = shownElements.categoryAxisTitle ? {
+  const categoryAxisLabel = state.shownElements.categoryAxisTitle ? {
     value: categoryAxisTitle,
     offset: 0,
     position: 'insideBottom',
   } : null
 
-  const categoryAxisTick = shownElements.categoryAxisDetail ?
+  const categoryAxisTick = state.shownElements.categoryAxisDetail ?
     { fontSize: detailFontSize * widthRatio } : false
   const valueAxisTick =
-    shownElements.valueAxisDetail ? { fontSize: detailFontSize * widthRatio } : false
+    state.shownElements.valueAxisDetail ? { fontSize: detailFontSize * widthRatio } : false
 
   const currentCategoryOptions = metricOptions.map(option => ({
     ...option,
@@ -312,11 +353,11 @@ const Chart = ({
   }))
 
   const categoryKey = selectedCategory ||
-    currentCategoryOptions.map(o => o.value).includes(category) ? category : null
+    (currentCategoryOptions.map(o => o.value).includes(category) ? category : null)
   const valueKey = selectedValue || (dataSets.length > 0 ? dataSets[0].dataKey : '')
 
   const categoryAxisProps = {
-    hide: !shownElements.categoryAxis,
+    hide: !state.shownElements.categoryAxis,
     label: categoryAxisLabel,
     dataKey: categoryKey,
     tick: categoryAxisTick,
@@ -326,7 +367,7 @@ const Chart = ({
   }
 
   const valueAxisProps = {
-    hide: !shownElements.valueAxis,
+    hide: !state.shownElements.valueAxis,
     tickFormatter: absAxis,
     label: valueAxisLabel,
     tick: valueAxisTick,
@@ -374,18 +415,18 @@ const Chart = ({
   }
 
   let chart
-  if (chartType === 'bar') {
+  if (state.chartType === 'bar') {
     chart = (
       <BarChart barGap={barGap} layout={layout} data={finalData}>
-        {shownElements.cartesianGrid && (
+        {state.shownElements.cartesianGrid && (
           <CartesianGrid
             strokeDasharray={strokeDasharray}
           />
         )}
         {categoryAxis}
         {valueAxis}
-        {shownElements.legend && <Legend formatter={legendFormatter} />}
-        {shownElements.tooltip && <Tooltip formatter={tooltipFormatter} />}
+        {state.shownElements.legend && <Legend formatter={legendFormatter} />}
+        {state.shownElements.tooltip && <Tooltip formatter={tooltipFormatter} />}
         {dataSets.map((dataSet, i) => (
           <Bar
             key={Math.random()}
@@ -393,7 +434,7 @@ const Chart = ({
             dataKey={i === 0 ? selectedValue || dataSet.dataKey : dataSet.dataKey}
             name={dataSet.dataKey}
             fill={dataSet.palette[0]}
-            isAnimationActive={shownElements.animation}
+            isAnimationActive={state.shownElements.animation}
           >
             {
               finalData.map((d, i) => (
@@ -407,18 +448,18 @@ const Chart = ({
         ))}
       </BarChart>
     )
-  } else if (chartType === 'scatter') {
+  } else if (state.chartType === 'scatter') {
     chart = (
       <ScatterChart layout={layout} data={finalData}>
-        {shownElements.cartesianGrid && (
+        {state.shownElements.cartesianGrid && (
           <CartesianGrid
             strokeDasharray={strokeDasharray}
           />
         )}
         {categoryAxis}
         {valueAxis}
-        {shownElements.legend && <Legend />}
-        {shownElements.tooltip && (
+        {state.shownElements.legend && <Legend />}
+        {state.shownElements.tooltip && (
           <Tooltip
             cursor={{ strokeDasharray: '2 2' }}
             formatter={tooltipFormatter}
@@ -431,7 +472,7 @@ const Chart = ({
             dataKey={i === 0 ? selectedValue || dataSet.dataKey : dataSet.dataKey}
             name={dataSet.dataKey}
             fill={dataSet.palette[0]}
-            isAnimationActive={shownElements.animation}
+            isAnimationActive={state.shownElements.animation}
           >
             {
               finalData.map((d, i) => (
@@ -445,18 +486,18 @@ const Chart = ({
         ))}
       </ScatterChart>
     )
-  } else if (chartType === 'line') {
+  } else if (state.chartType === 'line') {
     chart = (
       <LineChart layout={layout} data={finalData}>
-        {shownElements.cartesianGrid && (
+        {state.shownElements.cartesianGrid && (
           <CartesianGrid
             strokeDasharray={strokeDasharray}
           />
         )}
         {categoryAxis}
         {valueAxis}
-        {shownElements.legend && <Legend />}
-        {shownElements.tooltip && <Tooltip formatter={tooltipFormatter} />}
+        {state.shownElements.legend && <Legend />}
+        {state.shownElements.tooltip && <Tooltip formatter={tooltipFormatter} />}
         {dataSets.map((dataSet, i) => (
           <Line
             key={Math.random()}
@@ -466,7 +507,7 @@ const Chart = ({
             stroke={dataSet.palette[0]}
             strokeWidth='3'
             fill={dataSet.palette[0]}
-            isAnimationActive={shownElements.animation}
+            isAnimationActive={state.shownElements.animation}
             dot={{ stroke: dataSet.palette[0], strokeWidth: 2 }}
             activeDot={{ r: 8 }}
             type='monotone'
@@ -474,18 +515,18 @@ const Chart = ({
         ))}
       </LineChart>
     )
-  } else if (chartType === 'area') {
+  } else if (state.chartType === 'area') {
     chart = (
       <AreaChart layout={layout} data={finalData}>
-        {shownElements.cartesianGrid && (
+        {state.shownElements.cartesianGrid && (
           <CartesianGrid
             strokeDasharray={strokeDasharray}
           />
         )}
         {categoryAxis}
         {valueAxis}
-        {shownElements.legend && <Legend />}
-        {shownElements.tooltip && <Tooltip formatter={tooltipFormatter} />}
+        {state.shownElements.legend && <Legend />}
+        {state.shownElements.tooltip && <Tooltip formatter={tooltipFormatter} />}
         {dataSets.map((dataSet, i) => (
           <Area
             key={Math.random()}
@@ -495,7 +536,7 @@ const Chart = ({
             stroke={dataSet.palette[0]}
             fill={dataSet.palette[0]}
             fillOpacity={1}
-            isAnimationActive={shownElements.animation}
+            isAnimationActive={state.shownElements.animation}
           />
         ))}
       </AreaChart>
@@ -503,15 +544,15 @@ const Chart = ({
   } else {
     chart = (
       <BarChart barGap={barGap} layout={layout} data={finalData}>
-        {shownElements.cartesianGrid && (
+        {state.shownElements.cartesianGrid && (
           <CartesianGrid
             strokeDasharray={strokeDasharray}
           />
         )}
         {categoryAxis}
         {valueAxis}
-        {shownElements.legend && <Legend />}
-        {shownElements.tooltip && <Tooltip formatter={tooltipFormatter} />}
+        {state.shownElements.legend && <Legend />}
+        {state.shownElements.tooltip && <Tooltip formatter={tooltipFormatter} />}
         {dataSets.map((dataSet, i) => (
           <Bar
             key={Math.random()}
@@ -539,43 +580,81 @@ const Chart = ({
     graphClass += ` ${Style.graphBorder}`
   }
 
+  const displayControls = (
+    <React.Fragment>
+      <p>Chart Type</p>
+      {['bar', 'scatter', 'line', 'area'].map(type => (
+        <React.Fragment key={type}>
+          <input
+            type='radio'
+            id={type}
+            name='chartType'
+            checked={state.chartType === type}
+            onChange={() => dispatch({ type: 'chartType', payload: type})}
+          />
+          <label htmlFor={type}>{type}</label><br />
+        </React.Fragment>
+      ))}
+      <p>Orientation</p>
+      {['horizontal', 'vertical'].map(type => (
+        <React.Fragment key={type}>
+          <input
+            type='radio'
+            id={type}
+            name='layout'
+            checked={state.layout === type}
+            onChange={() => dispatch({ type: 'layout', payload: type})}
+          />
+          <label htmlFor={type}>{type}</label><br />
+        </React.Fragment>
+      ))}
+      <input
+        type='checkbox'
+        id='split'
+        name='split'
+        checked={state.split}
+        onChange={() => dispatch({
+          type: 'split',
+          payload: !state.split,
+        })}
+      />
+      <label hmtlFor='split'>Split</label>
+    </React.Fragment>
+  )
+
   const element = (
     <React.Fragment>
-      {/*exploreValue && (
-        <Grid.Row>
-          <Dropdown
-            placeholder='value axis'
-            selection
-            search
-            fluid
-            options={currentMetricOptions
-              .filter(option => !isNaN(parseFloat(chartData[0][option.value])))}
-            value={selectedValue || valueKey}
-            onChange={(e, { value }) => setSelectedValue(value)}
-          />
-        </Grid.Row>
-        )
-      */}
-      {/*exploreCategory && (
-        <Grid.Row>
-          <Dropdown
-            placeholder='category axis'
-            selection
-            search
-            fluid
-            options={metricOptions}
-            value={selectedCategory || categoryKey}
-            onChange={(e, { value }) => setSelectedCategory(value)}
-          />
-        </Grid.Row>
-        )
-      */}
+      {exploreValue && (
+        <Row>
+          <select onChange={(e) => setSelectedValue(e.target.value)}>
+            {currentMetricOptions
+              .filter(option => !isNaN(parseFloat(chartData[0][option.value])))
+              .map(opt => <option key={opt.key} value={opt.value}>{opt.text}</option>)
+            }
+          </select>
+        </Row>
+      )}
+      {exploreCategory && (
+        <Row>
+          <select onChange={(e) => setSelectedCategory(e.target.value)}>
+            {metricOptions
+              .map(opt => <option key={opt.key} value={opt.value}>{opt.text}</option>)
+            }
+          </select>
+        </Row>
+      )}
       <div className={graphClass}>
-        {shownElements.title && <div className={Style.chartTitle}>{chartTitle}</div>}
+        {state.shownElements.title && <div className={Style.chartTitle}>{chartTitle}</div>}
         <ResponsiveContainer width={width} height={height}>
           {chart}
         </ResponsiveContainer>
       </div>
+      <Row width={50}>
+        {toggleElementControls}
+      </Row>
+      <Row width={50}>
+        {displayControls}
+      </Row>
     </React.Fragment>
   )
 
@@ -677,88 +756,7 @@ const Chart = ({
   //     </Grid>
   //   </Segment>
   // )
-  // const displayControls = (
-  //   <Segment padded raised className={Style.configWrapper}>
-  //     <Label color='blue' ribbon>
-  //       Display
-  //     </Label>
-  //     <Form>
-  //       <Label>Show/Hide Elements</Label>
-  //       <Form.Group>
-  //         {toggleElementControls.slice(0, 5)}
-  //       </Form.Group>
-  //       <Form.Group>
-  //         {toggleElementControls.slice(5)}
-  //       </Form.Group>
-  //       <Grid>
-  //         <Grid.Column width={8}>
-  //           <Label>Chart Type</Label>
-  //           <Form.Group>
-  //             <Form.Field
-  //               control={Radio}
-  //               label='Bar'
-  //               name='chartType'
-  //               value='bar'
-  //               checked={chartType === 'bar'}
-  //               onChange={(e, { value }) => changeType(e, value)}
-  //             />
-  //             <Form.Field
-  //               control={Radio}
-  //               label='Scatter'
-  //               name='chartType'
-  //               value='scatter'
-  //               checked={chartType === 'scatter'}
-  //               onChange={(e, { value }) => changeType(e, value)}
-  //             />
-  //             <Form.Field
-  //               control={Radio}
-  //               label='Line'
-  //               name='chartType'
-  //               value='line'
-  //               checked={chartType === 'line'}
-  //               onChange={(e, { value }) => changeType(e, value)}
-  //             />
-  //             <Form.Field
-  //               control={Radio}
-  //               label='Area'
-  //               name='chartType'
-  //               value='area'
-  //               checked={chartType === 'area'}
-  //               onChange={(e, { value }) => changeType(e, value)}
-  //             />
-  //           </Form.Group>
-  //         </Grid.Column>
-  //         <Grid.Column width={8}>
-  //           <Label>Orientation</Label>
-  //           <Form.Group>
-  //             <Form.Field
-  //               control={Radio}
-  //               label='Horizontal'
-  //               name='axisDirection'
-  //               value='horizontal'
-  //               checked={layout === 'horizontal'}
-  //               onChange={(e, { value }) => changeLayout(e, value)}
-  //             />
-  //             <Form.Field
-  //               control={Radio}
-  //               label='Vertical'
-  //               name='axisDirection'
-  //               value='vertical'
-  //               checked={layout === 'vertical'}
-  //               onChange={(e, { value }) => changeLayout(e, value)}
-  //             />
-  //             <Form.Field
-  //               control={Checkbox}
-  //               label='Split'
-  //               checked={split}
-  //               onChange={e => toggleSplit(e)}
-  //             />
-  //           </Form.Group>
-  //         </Grid.Column>
-  //       </Grid>
-  //     </Form>
-  //   </Segment>
-  // )
+
 
   return (
     <React.Fragment>
