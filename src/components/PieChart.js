@@ -112,7 +112,7 @@ export default function PieChart ({ width='100%', height='300px' }) {
   const style = {
     height: height,
     width: width,
-    backgroundColor: 'lightGrey'
+    // backgroundColor: 'lightGrey'
   }
   //--------------------------------------
   const legend = {
@@ -148,27 +148,44 @@ export default function PieChart ({ width='100%', height='300px' }) {
   //--------------------------------------
   const designSystemColors = ['#0039ac', '#0084ff', '#e6f0ff', '#9ac4fb','#0062d9']
 
-  const [colors, setColors] = useState(designSystemColors)
+  // const [colors, setColors] = useState(designSystemColors)
 
   //--------------------------------------
-  const mouseLeaveHandler = ( ) => {
-    setColors(designSystemColors)
+  let path
+  let arc
+  const mouseLeaveHandler = () => {
+    // setColors(designSystemColors)
+
+    return (path.forEach( (tag, i) => {
+      tag.setAttribute('fill', designSystemColors[i])
+      tag.setAttribute('stroke', designSystemColors[i])
+    }
+    ))
 
   }
 
   const mouseOverHandler = (_data, event) => {
-    console.log('enter pie')
-    let arc = event.target
+    arc = event.target
+    let arcColor = arc.getAttribute('fill')
+    path = Array.from(arc.parentNode.children)
+    path.length = 5
 
-    //  ( event.target !== arc ? mouseLeaveHandler() : null)
+    return (path.forEach( tag => {
+      return arcColor !== tag.getAttribute('fill')
+        ? (tag.setAttribute('stroke', 'lightgray'), tag.setAttribute('fill', 'lightgray'))
+        : null
+    }))
 
-    let newColors = [...colors].map(color => {
-      return color !== arc.getAttribute('fill') ?
-        color = 'lightgray'
-        : color
-    })
 
-    setColors(newColors)
+    // console.log(path[0].getAttribute('fill'))
+    // console.log('>>>>>',arc)
+
+    // let newColors = [...colors].map(color => {
+    //   return color !== arc.getAttribute('fill') ?
+    //     color = 'lightgray'
+    //     : color
+    // })
+    // setColors(newColors)
 
     // event.target.style.fill = 'black'
     // event.target.style.fill = '#9EE1CE';
@@ -188,7 +205,7 @@ export default function PieChart ({ width='100%', height='300px' }) {
         cornerRadius={3}
         //---------------
         //FROM https://github.com/plouc/nivo/issues/477
-        colors={colors}
+        colors={designSystemColors}
         // colors={{ scheme: 'blues' }}
         // colors={d => d.color}
         //---------------
@@ -260,6 +277,8 @@ export default function PieChart ({ width='100%', height='300px' }) {
         //   // event.currentTarget.style.strokeWidth = '' + borderWidth
         //   // event.target.style.opacity = '1'
         // }}
+
+        // onMouseMove={() => console.log('onmousemove')}
       />
     </div>
   )
