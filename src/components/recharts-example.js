@@ -148,6 +148,7 @@ const Chart = ({
   border,
   domainMin,
   domainMax,
+  // eslint-disable-next-line react/prop-types
   widthRatio,
 }) => {
   const [selectedValue, setSelectedValue] = useState(false)
@@ -354,7 +355,7 @@ const Chart = ({
 
   const categoryKey = selectedCategory ||
     (currentCategoryOptions.map(o => o.value).includes(category) ? category : null)
-  const valueKey = selectedValue || (dataSets.length > 0 ? dataSets[0].dataKey : '')
+  // const valueKey = selectedValue || (dataSets.length > 0 ? dataSets[0].dataKey : '')
 
   const categoryAxisProps = {
     hide: !state.shownElements.categoryAxis,
