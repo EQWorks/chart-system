@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { ResponsivePie } from '@nivo/pie'
+
 // import numeral from 'numeral'
 
 
 
 const propTypes = {
   width: PropTypes.number,
-  height: PropTypes.number
-//   data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  height: PropTypes.number,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
 //   selectedDataType: PropTypes.string.isRequired,
 //   fieldConfig: PropTypes.arrayOf(PropTypes.shape({
 //     key: PropTypes.string.isRequired,
@@ -18,12 +19,12 @@ const propTypes = {
 }
 
 // export default function PieChart ({ width='100%', height='300px', data, selectedDataType, fieldConfig }) {
-export default function PieChart ({ width='100%', height=300 }) {
+export default function PieChart ({ data, width='100%', height=300 }) {
   // make sure parent container have a defined height when using
-// responsive component, otherwise height will be 0 and
-// no chart will be rendered.
-// website examples showcase many properties,
-// you'll often use just a few of them.
+  // responsive component, otherwise height will be 0 and
+  // no chart will be rendered.
+  // website examples showcase many properties,
+  // you'll often use just a few of them.
 
 
   //   const formattedData = formatData(data, selectedDataType)
@@ -59,48 +60,13 @@ export default function PieChart ({ width='100%', height=300 }) {
   // const formattedData = parseData(d)
 
   //--------------------------------------
-  //DATA FROM RANDOM EXAMPLE
-  const formattedData = [
-    {
-      'id': 'erlang',
-      'label': 'erlang',
-      'value': 461,
-      // 'color': '#0039ac'
-    },
-    {
-      'id': 'elixir',
-      'label': 'elixir',
-      'value': 300,
-      // 'color': '#0084ff'
-    },
-    {
-      'id': 'css',
-      'label': 'css',
-      'value': 66,
-      // 'color': '#e6f0ff'
-    },
-    {
-      'id': 'scala',
-      'label': 'scala',
-      'value': 135,
-      // 'color': '#9ac4fb'
-    },
-    {
-      'id': 'stylus',
-      'label': 'stylus',
-      'value': 387,
-      // 'color': '#0062d9'
-    },
-  ]
-
-  //--------------------------------------
   function percentData(){
     let sum = 0
 
-    for (let d of formattedData){
+    for (let d of data){
       sum = sum + d.value
     }
-    formattedData.forEach(arc => {
+    data.forEach(arc => {
       arc.percent = `${(arc.value * 100 /sum).toFixed(2)}%`
     })
     return sum
@@ -176,7 +142,7 @@ export default function PieChart ({ width='100%', height=300 }) {
   return (
     <div style={style}>
       <ResponsivePie
-        data={formattedData}
+        data={data}
         margin={{ top: 36, right: 36, bottom: 36, left: 36}}
         {...style.width >= 400 && {margin: {top: 36, right: 120, bottom: 36, left: 36}}}
         sortByValue
