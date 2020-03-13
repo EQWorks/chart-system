@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { ResponsivePie } from '@nivo/pie'
 // import numeral from 'numeral'
@@ -17,8 +17,10 @@ const propTypes = {
 //   })).isRequired,
 }
 
+
 // export default function PieChart ({ width='100%', height='300px', data, selectedDataType, fieldConfig }) {
 export default function PieChart ({ width='100%', height=300 }) {
+
   // make sure parent container have a defined height when using
 // responsive component, otherwise height will be 0 and
 // no chart will be rendered.
@@ -59,6 +61,7 @@ export default function PieChart ({ width='100%', height=300 }) {
   // const formattedData = parseData(d)
 
   //--------------------------------------
+
   //DATA FROM RANDOM EXAMPLE
   const formattedData = [
     {
@@ -66,18 +69,21 @@ export default function PieChart ({ width='100%', height=300 }) {
       'label': 'erlang',
       'value': 461,
       // 'color': '#0039ac'
+
     },
     {
       'id': 'elixir',
       'label': 'elixir',
       'value': 300,
       // 'color': '#0084ff'
+
     },
     {
       'id': 'css',
       'label': 'css',
       'value': 66,
       // 'color': '#e6f0ff'
+
     },
     {
       'id': 'scala',
@@ -94,6 +100,7 @@ export default function PieChart ({ width='100%', height=300 }) {
   ]
 
   //--------------------------------------
+
   function percentData(){
     let sum = 0
 
@@ -108,6 +115,7 @@ export default function PieChart ({ width='100%', height=300 }) {
   //--------------------------------------
   percentData()
   //   console.log(formattedData)
+
   //--------------------------------------
   const style = {
     height: height,
@@ -138,12 +146,14 @@ export default function PieChart ({ width='100%', height=300 }) {
   }
 
   //--------------------------------------
+
   const arcLabel = e =>
     (<>
       <tspan x="0" y="0">{e.percent}</tspan>
       <tspan x="0" y="15">{e.label} </tspan>
     </>
     )
+  
   //--------------------------------------
   const designSystemColors = ['#0039ac', '#0084ff', '#e6f0ff', '#9ac4fb','#0062d9']
 
@@ -234,3 +244,4 @@ export default function PieChart ({ width='100%', height=300 }) {
 }
 
 PieChart.propTypes = propTypes
+
