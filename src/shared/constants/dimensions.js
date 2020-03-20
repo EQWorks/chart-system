@@ -1,0 +1,3 @@
+export const LOWER_ASPECT_RATIO = 320 / 427
+export const LOWER_WIDTH_BREAK = 427
+export const SCATTER_CHART_TITLE_HEIGHT = 56
