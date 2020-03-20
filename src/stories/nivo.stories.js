@@ -1,9 +1,11 @@
 import React from 'react'
 import PieChart from '../components/pie-chart'
 import BarChart from '../components/bar-chart'
-import pieChartData from '../constants/pie-chart-data'
-import barChartData from '../constants/bar-chart-data'
+import ScatterChart from '../components/scatter-chart/index'
+import pieChartData from '../shared/constants/pie-chart-data'
+import barChartData from '../shared/constants/bar-chart-data'
 import styled from 'styled-components'
+import { storiesOf } from '@storybook/react'
 
 import { withKnobs, radios, boolean, number } from '@storybook/addon-knobs'
 
@@ -124,3 +126,9 @@ export const BarCharts = () => {
     </Row>
   )
 }
+storiesOf('ScatterChart', module)
+  .add('Small ScatterChart', () => <ScatterChart wrapperWidth={ 320 } wrapperHeight={ 320 } />)
+  .add('Small responsive ScatterChart', () => <ScatterChart wrapperWidth={ 400 } wrapperHeight={ 700 } />)
+  .add('Medium ScatterChart', () => <ScatterChart wrapperWidth={ 427 } wrapperHeight={ 320 } />)
+  .add('Medium responsive ScatterChart', () => <ScatterChart wrapperWidth={ 600 } wrapperHeight={ 300 } />)
+  .add('Medium responsive ScatterChart tall container', () => <ScatterChart wrapperWidth={ 450 } wrapperHeight={ 460 } />)

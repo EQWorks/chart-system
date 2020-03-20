@@ -1,6 +1,6 @@
 import React from 'react'
 import Recharts from '../components/recharts/recharts-example'
-import { animals } from '../constants/recharts-data'
+import { animals } from '../shared/constants/recharts-data'
 
 export default {
   component: Recharts,
