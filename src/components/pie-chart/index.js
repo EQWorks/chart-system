@@ -10,16 +10,16 @@ const propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
-//   selectedDataType: PropTypes.string.isRequired,
-//   fieldConfig: PropTypes.arrayOf(PropTypes.shape({
-//     key: PropTypes.string.isRequired,
-//     name: PropTypes.string.isRequired,
-//     format: PropTypes.string,
-//   })).isRequired,
+  //   selectedDataType: PropTypes.string.isRequired,
+  //   fieldConfig: PropTypes.arrayOf(PropTypes.shape({
+  //     key: PropTypes.string.isRequired,
+  //     name: PropTypes.string.isRequired,
+  //     format: PropTypes.string,
+  //   })).isRequired,
 }
 
 // export default function PieChart ({ width='100%', height='300px', data, selectedDataType, fieldConfig }) {
-export default function PieChart ({ data, width='100%', height=300 }) {
+export default function PieChart({ data, width = '100%', height = 300 }) {
   // make sure parent container have a defined height when using
   // responsive component, otherwise height will be 0 and
   // no chart will be rendered.
@@ -60,14 +60,14 @@ export default function PieChart ({ data, width='100%', height=300 }) {
   // const formattedData = parseData(d)
 
   //--------------------------------------
-  function percentData(){
+  function percentData() {
     let sum = 0
 
-    for (let d of data){
+    for (let d of data) {
       sum = sum + d.value
     }
     data.forEach(arc => {
-      arc.percent = `${(arc.value * 100 /sum).toFixed(2)}%`
+      arc.percent = `${(arc.value * 100 / sum).toFixed(2)}%`
     })
     return sum
   }
@@ -87,7 +87,7 @@ export default function PieChart ({ data, width='100%', height=300 }) {
         anchor: 'right',
         direction: 'column',
         translateY: 0,
-        ...style.width >= 490 ? {translateX: -20} : {translateX: 20},
+        ...style.width >= 490 ? { translateX: -20 } : { translateX: 20 },
         itemWidth: 0,
         itemHeight: 22,
         itemTextColor: '#999',
@@ -111,7 +111,7 @@ export default function PieChart ({ data, width='100%', height=300 }) {
     </>
     )
   //--------------------------------------
-  const designSystemColors = ['#0039ac', '#0084ff', '#e6f0ff', '#9ac4fb','#0062d9']
+  const designSystemColors = ['#0039ac', '#0084ff', '#e6f0ff', '#9ac4fb', '#0062d9']
 
   //--------------------------------------
   let path
@@ -119,7 +119,7 @@ export default function PieChart ({ data, width='100%', height=300 }) {
   let arc
 
   const mouseLeaveHandler = () => {
-    return (path.forEach( (tag, i) => {
+    return (path.forEach((tag, i) => {
       tag.setAttribute('fill', designSystemColors[i])
       tag.setAttribute('stroke', designSystemColors[i])
     }
@@ -132,7 +132,7 @@ export default function PieChart ({ data, width='100%', height=300 }) {
     let arcColor = arc.getAttribute('fill')
     path = Array.from(arc.parentNode.children).filter(tag => tag.tagName === 'path')
 
-    return (path.forEach( tag => {
+    return (path.forEach(tag => {
       return arcColor !== tag.getAttribute('fill')
         ? (tag.setAttribute('stroke', 'lightgray'), tag.setAttribute('fill', 'lightgray'))
         : null
@@ -143,8 +143,8 @@ export default function PieChart ({ data, width='100%', height=300 }) {
     <div style={style}>
       <ResponsivePie
         data={data}
-        margin={{ top: 36, right: 36, bottom: 36, left: 36}}
-        {...style.width >= 400 && {margin: {top: 36, right: 120, bottom: 36, left: 36}}}
+        margin={{ top: 36, right: 36, bottom: 36, left: 36 }}
+        {...style.width >= 400 && { margin: { top: 36, right: 120, bottom: 36, left: 36 } }}
         sortByValue
         padAngle={0.7}
         cornerRadius={3}
@@ -157,8 +157,8 @@ export default function PieChart ({ data, width='100%', height=300 }) {
         borderWidth={2}
         borderColor={{ from: 'color', modifiers: [['darker', '0.3']] }}
         enableRadialLabels={false}
-        {...style.width <= 300 ? {sliceLabel: arcLabel} : {sliceLabel: 'percent'} }
-        {...style.height <= 300 ? {slicesLabelsSkipAngle: 20} : {slicesLabelsSkipAngle: 10}}
+        {...style.width <= 300 ? { sliceLabel: arcLabel } : { sliceLabel: 'percent' }}
+        {...style.height <= 300 ? { slicesLabelsSkipAngle: 20 } : { slicesLabelsSkipAngle: 10 }}
         slicesLabelsTextColor='white'
         // slicesLabelsTextColor='#333333'
         animate
@@ -171,22 +171,22 @@ export default function PieChart ({ data, width='100%', height=300 }) {
           </>
         }
 
-        {...style.width >= 400 && legend }
+        {...style.width >= 400 && legend}
 
         //TO CHANGE FONT SIZE OF THE LEGEND AND PIE
         theme={{
           legends: {
             text: {
               ...style.width < 251
-                ? {fontSize: 10}
-                : {...style.width > 499 ? {fontSize: 14}: {fontSize: 12}}
+                ? { fontSize: 10 }
+                : { ...style.width > 499 ? { fontSize: 14 } : { fontSize: 12 } }
             }
           },
           labels: {
             text: {
               ...style.width < 251
-                ? {fontSize: 10}
-                : {...style.width > 499 ? {fontSize: 14}: {fontSize: 12}}
+                ? { fontSize: 10 }
+                : { ...style.width > 499 ? { fontSize: 14 } : { fontSize: 12 } }
             }
           }
         }}
