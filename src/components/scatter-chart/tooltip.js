@@ -30,10 +30,7 @@ const TooltipWrapper = styled.div`
  * @param { string } label - a string variable
  * @return { string } - the first part of the string, up the '.'
  */
-const formatLabel = (label) => {
-  let index = label.indexOf('.')
-  return label.substring(0, index)
-}
+const formatLabel = label => label.split('.')[0]
 
 // tooltip - creates tooltip component used in scatter charts
 const tooltip = (node) => (

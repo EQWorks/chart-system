@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { ResponsiveScatterPlot } from '@nivo/scatterplot'
 import tooltip from './tooltip'
-import { handleMouseEnter, handleMouseLeave } from './events'
+import { onMouseEnter, onMouseLeave } from './events'
 import scatterChartData from '../../shared/constants/scatter-chart-data'
 import styled from 'styled-components'
 import {
@@ -85,8 +85,8 @@ const setCommonProps = (HEIGHT_WIDTH_RATIO) => {
     },
     gridXValues: scatterChartData[0].data.length,
     gridYValues: [ 0.0, 0.2, 0.4, 0.6, 0.8, 1.0 ],
-    onMouseEnter: (data, event) => handleMouseEnter(data, event),
-    onMouseLeave: (data, event) => handleMouseLeave(data, event),
+    onMouseEnter,
+    onMouseLeave,
     useMesh: false,
     // legends will change format and placement with container width & height changes
     legends: [
