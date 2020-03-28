@@ -1,6 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 
+const TooltipWrapper = styled.div`
+  border-radius: 4px;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.16);
+  background-color: #ffffff;
+  min-width: 99px;
+  min-height: 63px;
+  text-align: center;
+`
+
 // styles for various tooltip components
 const TooltipNode = styled.div`
   height: 8px;
@@ -9,21 +18,15 @@ const TooltipNode = styled.div`
   display: inline-block;
   margin-right: 6px;
 `
+
 const TooltipLabel = styled.strong`
   height: 17px;
   font-size: 12px;
 `
+
 const TooltipData = styled.div`
   font-size: 12px;
   margin-left: 2px;
-`
-const TooltipWrapper = styled.div`
-  border-radius: 4px;
-  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.16);
-  background-color: #ffffff;
-  width: 99px;
-  height: 63px;
-  text-align: center;
 `
 /**
  * formatLabel - removes the part of string after '.'

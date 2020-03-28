@@ -43,19 +43,19 @@ const getAspectRatio = (width, height) => {
 const isAspectRatio = (width, height, aspectRatio) => {
   const componentAspectRatio = getAspectRatio(width, height)
 
-  return componentAspectRatio === aspectRatio
+  return componentAspectRatio == aspectRatio
 }
 
 const isMinimumSizeAndRatio = (width, height, aspectRatio, minimumSize) => {
   const componentAspectRatio = getAspectRatio(width, height)
 
-  if (aspectRatio !== aspectRatios.ANY && componentAspectRatio !== aspectRatio) return false
+  if (aspectRatio != aspectRatios.ANY && componentAspectRatio != aspectRatio) return false
 
-  if (componentAspectRatio === aspectRatios.LANDSCAPE && width < minimumSize) {
+  if (componentAspectRatio == aspectRatios.LANDSCAPE && width < minimumSize) {
     return false
   }
 
-  if (componentAspectRatio === aspectRatios.PORTRAIT && height < minimumSize) {
+  if (componentAspectRatio == aspectRatios.PORTRAIT && height < minimumSize) {
     return false
   }
 
@@ -93,11 +93,9 @@ const setCommonProps = (width, height, data, axisBottomLegendLabel, axisLeftLege
       ? { top: 25, right: isMinimumSizeAndRatio(width, height, aspectRatios.LANDSCAPE, 500) ? 200 : 50, bottom: 79, left: 100 }
       : { top: 25, right: 50, bottom: 200, left: 100 },
     data: data,
-    // TBD
-    keys: ['visits', 'visitors', 'repeat_visitors', 'single_visitors', 'multi_visitors'],
-    // TBD
+    keys: Object.keys(data[0]),
     indexBy: Object.keys(data[0])[0],
-    groupMode: 'grouped',
+    groupMode: 'stacked',
     layout: 'vertical',
     colors: [
       designSystemColors.blue70,
@@ -149,8 +147,8 @@ const propTypes = {
   axisLeftLegendLabel: PropTypes.string
 }
 
-// BarChart - creates a bar chart
-const BarChart = ({
+// StackedBarChart - creates a stacked bar chart
+const StackedBarChart = ({
   data,
   axisBottomLegendLabel,
   axisLeftLegendLabel
@@ -198,6 +196,6 @@ const BarChart = ({
   )
 }
 
-export default BarChart
+export default StackedBarChart
 
-BarChart.propTypes = propTypes
+StackedBarChart.propTypes = propTypes
