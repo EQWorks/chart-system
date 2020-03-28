@@ -1,16 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { ResponsiveScatterPlot } from '@nivo/scatterplot'
+import { ResponsiveLine } from '@nivo/line'
 
 import styled from 'styled-components'
-
 import 'react-virtualized/styles.css'
+
 import { AutoSizer } from 'react-virtualized'
 
 import tooltip from './tooltip'
-import { onMouseEnter, onMouseLeave } from './events'
-
-import scatterChartData from '../../shared/constants/scatter-chart-data'
 
 import {
   LOWER_ASPECT_RATIO,
@@ -50,17 +47,17 @@ const ChartInner = styled.div`
 `
 
 // legend for square container or with width < height
-const legendSm = {
-  anchor: 'bottom',
-  direction: 'row',
-  itemWidth: 83,
-  itemHeight: 17,
-  symbolSize: 8,
-  symbolSpacing: 6,
-  symbolShape: 'circle',
-  translateX: 8.5,
-  translateY: 42
-}
+// const legendSm = {
+//   anchor: 'bottom',
+//   direction: 'row',
+//   itemWidth: 83,
+//   itemHeight: 17,
+//   symbolSize: 8,
+//   symbolSpacing: 6,
+//   symbolShape: 'circle',
+//   translateX: 8.5,
+//   translateY: 42
+// }
 
 // legend for elongated container
 const legendMd = {
@@ -75,79 +72,73 @@ const legendMd = {
   translateY: 0
 }
 
-// sets common props for Nivo ResponsiveScatterPlot component
-const setCommonProps = (HEIGHT_WIDTH_RATIO) => {
+// sets common props for Nivo ResponsiveLine component
+const setCommonProps = (HEIGHT_WIDTH_RATIO, data) => {
   return {
     margin: HEIGHT_WIDTH_RATIO > LOWER_ASPECT_RATIO
       ? { top: 25, right: 52, bottom: 79, left: 43 }
       : { top: 35, right: 139, bottom: 69, left: 63 },
-    data: scatterChartData,
-    xScale: { type: 'linear', min: 10, max: 'auto' },
-    yScale: { type: 'linear', min: 0, max: 1 },
+    data: data,
+    xScale: { type: 'point' },
+    yScale: { type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false },
     colors: [
       designSystemColors.blue70,
       designSystemColors.pink70,
       designSystemColors.teal70
     ],
-    nodeSize: 8,
+    useMesh: true,
+    enableCrosshair: true,
+    crosshairType: 'bottom',
+    layers: [
+      'grid',
+      'markers',
+      'axes',
+      'areas',
+      'crosshair',
+      'lines',
+      'points',
+      'slices',
+      'mesh',
+      'legends'
+    ],
     axisBottom: {
-      // we hide tick labels for small scatter charts
-      format: (d) => HEIGHT_WIDTH_RATIO > LOWER_ASPECT_RATIO ? null : `${d}`,
-      tickValues: scatterChartData[0].data.length,
-      tickSize: 8
+      tickSize: 5,
+      tickPadding: 5,
+      tickRotation: HEIGHT_WIDTH_RATIO > LOWER_ASPECT_RATIO ? 30 : 0,
+      legend: HEIGHT_WIDTH_RATIO > LOWER_ASPECT_RATIO ? null : 'testing', // chartSizer(MODELANDSCAPE, 40, 'testing', null)
+      legendOffset: 40,
+      legendPosition: 'middle'
     },
     axisLeft: {
-      format: (d) => HEIGHT_WIDTH_RATIO > LOWER_ASPECT_RATIO ? null : `${d}`,
-      tickValues: [0.0, 0.2, 0.4, 0.6, 0.8, 1.0],
-      tickSize: 8
+      tickSize: 5,
+      tickPadding: 5,
+      tickRotation: 0,
+      legend: HEIGHT_WIDTH_RATIO > LOWER_ASPECT_RATIO ? null : 'testing',
+      legendOffset: -40,
+      legendPosition: 'middle'
     },
-    gridXValues: scatterChartData[0].data.length,
-    gridYValues: [0.0, 0.2, 0.4, 0.6, 0.8, 1.0],
-    onMouseEnter,
-    onMouseLeave,
-    useMesh: false,
-    // legends will change format and placement with container width & height changes
     legends: [
-      HEIGHT_WIDTH_RATIO > LOWER_ASPECT_RATIO ? legendSm : legendMd
-    ],
-    animate: true,
-    motionStiffness: 90,
-    motionDamping: 15,
-    theme: {
-      // font size for the whole chart
-      fontSize: 12,
-      // axis definition needed to display on top of the grid lines
-      axis: {
-        domain: {
-          line: {
-            stroke: 'black'
-          }
-        }
-      },
-      grid: {
-        line: {
-          stroke: '#dbdbdb',
-          strokeWidth: 1,
-          strokeDasharray: '5 5'
-        }
-      }
-    }
+      HEIGHT_WIDTH_RATIO > LOWER_ASPECT_RATIO ? [] : legendMd
+    ]
   }
 }
 
+
 const propTypes = {
   wrapperWidth: PropTypes.number,
-  wrapperHeight: PropTypes.number
+  wrapperHeight: PropTypes.number,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired
 }
 
-// ScatterChart - creates a scatter chart
-const ScatterChart = ({
+// LineChart - creates a line chart
+const LineChart = ({
   wrapperWidth,
-  wrapperHeight
+  wrapperHeight,
+  data
 }) => {
   const HEIGHT_WIDTH_RATIO = wrapperHeight / wrapperWidth
 
-  const commonProps = setCommonProps(HEIGHT_WIDTH_RATIO)
+  const commonProps = setCommonProps(HEIGHT_WIDTH_RATIO, data)
 
   return (
     <Wrapper
@@ -155,17 +146,17 @@ const ScatterChart = ({
       wrapperHeight={wrapperHeight}
     >
       <Title>
-        Title Test
+        Title
       </Title>
       <ChartContainer>
         <AutoSizer>
           {({ height, width }) => (
             <ChartInner height={height} width={width}>
-              <ResponsiveScatterPlot
+              <ResponsiveLine
                 {...commonProps}
-                tooltip={({ node }) => tooltip(node)}
+                tooltip={(slice) => tooltip(slice)}
               >
-              </ResponsiveScatterPlot>
+              </ResponsiveLine>
             </ChartInner>
           )}
         </AutoSizer>
@@ -174,6 +165,6 @@ const ScatterChart = ({
   )
 }
 
-export default ScatterChart
+export default LineChart
 
-ScatterChart.propTypes = propTypes
+LineChart.propTypes = propTypes

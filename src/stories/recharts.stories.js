@@ -1,10 +1,12 @@
 import React from 'react'
+
 import Recharts from '../components/recharts/recharts-example'
+
 import { animals } from '../shared/constants/recharts-data'
 
 export default {
-  component: Recharts,
   title: 'Recharts',
+  component: Recharts,
 }
 
 export const Basic = () => (

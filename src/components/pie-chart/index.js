@@ -2,129 +2,136 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { ResponsivePie } from '@nivo/pie'
 
-// import numeral from 'numeral'
+import styled from 'styled-components'
+
+import 'react-virtualized/styles.css'
+import { AutoSizer } from 'react-virtualized'
+
+import tooltip from './tooltip'
+
+import pieChartData from '../../shared/constants/pie-chart-data'
+
+import {
+  LOWER_ASPECT_RATIO,
+  // LOWER_WIDTH_BREAK,
+  // SCATTER_CHART_TITLE_HEIGHT
+} from '../../shared/constants/dimensions.js'
+
+import designSystemColors from '../../shared/constants/design-system-colors'
+
+// define styled elements
+const Title = styled.div`
+  margin: 16px;
+  height: 24px;
+  font-size: 18px;
+`
+
+const Wrapper = styled.div`
+  width: ${ props => props.wrapperWidth}px;
+  height: ${ props => props.wrapperHeight}px;
+  border-style: solid;
+  border-width: 0.01px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+`
+
+const ChartContainer = styled.div`
+  display: flex;
+  flex: 1;
+  height: 100%;
+`
+
+const ChartInner = styled.div`
+  position: relative;
+  width: ${ props => props.width}px;
+  height: ${ props => props.height}px;
+`
 
 
+const arcLabel = e => (
+  <>
+    <tspan x="0" y="0">{e.percent}</tspan>
+    <tspan x="0" y="15">{e.label} </tspan>
+  </>
+)
 
-const propTypes = {
-  width: PropTypes.number,
-  height: PropTypes.number,
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  //   selectedDataType: PropTypes.string.isRequired,
-  //   fieldConfig: PropTypes.arrayOf(PropTypes.shape({
-  //     key: PropTypes.string.isRequired,
-  //     name: PropTypes.string.isRequired,
-  //     format: PropTypes.string,
-  //   })).isRequired,
+// legend for elongated container
+const legendMd = {
+  anchor: 'right',
+  direction: 'column',
+  itemWidth: 84.5,
+  itemHeight: 19,
+  symbolSize: 8,
+  symbolSpacing: 6,
+  symbolShape: 'circle',
+  translateX: 126,
+  translateY: 0,
+  effects: [
+    {
+      on: 'hover',
+      style: { itemTextColor: '#000' },
+    },
+  ],
 }
 
-// export default function PieChart ({ width='100%', height='300px', data, selectedDataType, fieldConfig }) {
-export default function PieChart({ data, width = '100%', height = 300 }) {
-  // make sure parent container have a defined height when using
-  // responsive component, otherwise height will be 0 and
-  // no chart will be rendered.
-  // website examples showcase many properties,
-  // you'll often use just a few of them.
 
-
-  //   const formattedData = formatData(data, selectedDataType)
-  //   console.log(formattedData)
-
-  //FUTURE DATA FROM LOCUS - uncomment lines 31-57
-  // let d = {
-  //     "Totals": {
-  //         "visits": 7782,
-  //         "visitors": 3525,
-  //         "repeat_visitors": 1695,
-  //         "single_visitors": 3243,
-  //         "multi_visitors": 282,
-  //         "repeat_visitor_rate": 0.460430967943783,
-  //         "multi_visitor_rate": 0.0792857567675623
-  //  }
-  // }
-
-  // const parseData = (obj) => {
-  //     let data = obj.Totals
-  //     let finalData = []
-  //     for (let visit in data){
-  //         let element = {
-  //             id: visit,
-  //             label: visit.length > 10 ? `${visit.slice(0,10)}...` : visit,
-  //             value: data[visit]
-  //         }
-  //         finalData.push(element)
-  //     }
-  //     return finalData
-  // }
-
-  // const formattedData = parseData(d)
-
-  //--------------------------------------
-  function percentData() {
-    let sum = 0
-
-    for (let d of data) {
-      sum = sum + d.value
+// sets common props for Nivo ResponsivePie component
+const setCommonProps = (HEIGHT_WIDTH_RATIO) => {
+  return {
+    margin: HEIGHT_WIDTH_RATIO > LOWER_ASPECT_RATIO
+      ? { top: 25, right: 52, bottom: 79, left: 43 }
+      : { top: 35, right: 139, bottom: 69, left: 63 },
+    data: pieChartData,
+    colors: [
+      designSystemColors.blue70,
+      designSystemColors.yellow70,
+      designSystemColors.pink70,
+      designSystemColors.purple70,
+      designSystemColors.teal70
+    ],
+    padAngle: 0.7,
+    cornerRadius: 3,
+    sortByValue: true,
+    enableRadialLabels: false,
+    // legends will change format and placement with container width & height changes
+    legends: HEIGHT_WIDTH_RATIO > LOWER_ASPECT_RATIO ? [] : [legendMd],
+    sliceLabel: HEIGHT_WIDTH_RATIO > LOWER_ASPECT_RATIO ? arcLabel : 'percent',
+    slicesLabelsSkipAngle: HEIGHT_WIDTH_RATIO > LOWER_ASPECT_RATIO ? 20 : 10,
+    slicesLabelsTextColor: 'white',
+    animate: true,
+    motionStiffness: 90,
+    motionDamping: 15,
+    theme: {
+      fontSize: 12
     }
-    data.forEach(arc => {
-      arc.percent = `${(arc.value * 100 / sum).toFixed(2)}%`
-    })
-    return sum
   }
-  //--------------------------------------
-  percentData()
-  //   console.log(formattedData)
-  //--------------------------------------
-  const style = {
-    height: height,
-    width: width,
-    backgroundColor: 'lightGrey'
-  }
-  //--------------------------------------
-  const legend = {
-    legends: [
-      {
-        anchor: 'right',
-        direction: 'column',
-        translateY: 0,
-        ...style.width >= 490 ? { translateX: -20 } : { translateX: 20 },
-        itemWidth: 0,
-        itemHeight: 22,
-        itemTextColor: '#999',
-        symbolSize: 18,
-        symbolShape: 'circle',
-        effects: [
-          {
-            on: 'hover',
-            style: { itemTextColor: '#000' },
-          },
-        ],
-      }
-    ]
-  }
+}
 
-  //--------------------------------------
-  const arcLabel = e =>
-    (<>
-      <tspan x="0" y="0">{e.percent}</tspan>
-      <tspan x="0" y="15">{e.label} </tspan>
-    </>
-    )
-  //--------------------------------------
-  const designSystemColors = ['#0039ac', '#0084ff', '#e6f0ff', '#9ac4fb', '#0062d9']
+const propTypes = {
+  wrapperWidth: PropTypes.number,
+  wrapperHeight: PropTypes.number
+}
 
-  //--------------------------------------
+// PieChart - creates a pie chart
+const PieChart = ({
+  wrapperWidth,
+  wrapperHeight
+}) => {
+  const HEIGHT_WIDTH_RATIO = wrapperHeight / wrapperWidth
+
+  const commonProps = setCommonProps(HEIGHT_WIDTH_RATIO)
+
   let path
 
   let arc
 
   const mouseLeaveHandler = () => {
     return (path.forEach((tag, i) => {
-      tag.setAttribute('fill', designSystemColors[i])
-      tag.setAttribute('stroke', designSystemColors[i])
+      tag.setAttribute('fill', commonProps.colors[i])
+      tag.setAttribute('stroke', commonProps.colors[i])
     }
     ))
-
   }
 
   const mouseOverHandler = (_data, event) => {
@@ -138,65 +145,55 @@ export default function PieChart({ data, width = '100%', height = 300 }) {
         : null
     }))
   }
-  //--------------------------------------
+
+  function percentData() {
+    let sum = 0
+
+    for (let d of commonProps.data) {
+      sum = sum + d.value
+    }
+    commonProps.data.forEach(arc => {
+      arc.percent = `${(arc.value * 100 / sum).toFixed(2)}%`
+    })
+    return sum
+  }
+
+  percentData()
+
   return (
-    <div style={style}>
-      <ResponsivePie
-        data={data}
-        margin={{ top: 36, right: 36, bottom: 36, left: 36 }}
-        {...style.width >= 400 && { margin: { top: 36, right: 120, bottom: 36, left: 36 } }}
-        sortByValue
-        padAngle={0.7}
-        cornerRadius={3}
-        //---------------
-        //FROM https://github.com/plouc/nivo/issues/477
-        colors={designSystemColors}
-        // colors={{ scheme: 'blues' }}
-        // colors={d => d.color}
-        //---------------
-        borderWidth={2}
-        borderColor={{ from: 'color', modifiers: [['darker', '0.3']] }}
-        enableRadialLabels={false}
-        {...style.width <= 300 ? { sliceLabel: arcLabel } : { sliceLabel: 'percent' }}
-        {...style.height <= 300 ? { slicesLabelsSkipAngle: 20 } : { slicesLabelsSkipAngle: 10 }}
-        slicesLabelsTextColor='white'
-        // slicesLabelsTextColor='#333333'
-        animate
-        motionStiffness={90}
-        motionDamping={15}
-        tooltip={(e) =>
-          <>
-            <span> {e.id}: </span>
-            <strong>{e.value} </strong>
-          </>
-        }
-
-        {...style.width >= 400 && legend}
-
-        //TO CHANGE FONT SIZE OF THE LEGEND AND PIE
-        theme={{
-          legends: {
-            text: {
-              ...style.width < 251
-                ? { fontSize: 10 }
-                : { ...style.width > 499 ? { fontSize: 14 } : { fontSize: 12 } }
-            }
-          },
-          labels: {
-            text: {
-              ...style.width < 251
-                ? { fontSize: 10 }
-                : { ...style.width > 499 ? { fontSize: 14 } : { fontSize: 12 } }
-            }
-          }
-        }}
-
-        //FROM https://github.com/plouc/nivo/issues/295 & https://github.com/plouc/nivo/issues/724
-        onMouseEnter={mouseOverHandler}
-        onMouseLeave={mouseLeaveHandler}
-      />
-    </div>
+    <Wrapper
+      wrapperWidth={wrapperWidth}
+      wrapperHeight={wrapperHeight}
+    >
+      <Title>
+        Title
+      </Title>
+      <ChartContainer>
+        <AutoSizer>
+          {({ height, width }) => (
+            <ChartInner height={height} width={width}>
+              <ResponsivePie
+                {...commonProps}
+                tooltip={({ id, value, color }) => tooltip(id, value, color)}
+                onMouseEnter={mouseOverHandler}
+                onMouseLeave={mouseLeaveHandler}
+                theme={{
+                  tooltip: {
+                    container: {
+                      padding: 0
+                    }
+                  }
+                }}
+              >
+              </ResponsivePie>
+            </ChartInner>
+          )}
+        </AutoSizer>
+      </ChartContainer>
+    </Wrapper>
   )
 }
+
+export default PieChart
 
 PieChart.propTypes = propTypes
