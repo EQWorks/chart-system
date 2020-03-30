@@ -49,6 +49,8 @@ const isAspectRatio = (width, height, aspectRatio) => {
 const isMinimumSizeAndRatio = (width, height, aspectRatio, minimumSize) => {
   const componentAspectRatio = getAspectRatio(width, height)
 
+  console.log('Width: ', width, 'height: ', height, 'aspectRatio: ', aspectRatio, 'minimumSize: ', minimumSize, 'componentAspectRatio: ', componentAspectRatio)
+
   if (aspectRatio !== aspectRatios.ANY && componentAspectRatio !== aspectRatio) return false
 
   if (componentAspectRatio === aspectRatios.LANDSCAPE && width < minimumSize) {
@@ -66,10 +68,11 @@ const isMinimumSizeAndRatio = (width, height, aspectRatio, minimumSize) => {
 const setCommonProps = (width, height, data, axisBottomLegendLabel, axisLeftLegendLabel) => {
   const legend = {
     dataFrom: 'keys',
-    anchor: 'right',
-    direction: 'column',
+    anchor: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 'right' : 'bottom',
+    direction: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 'column' : 'row',
     justify: false,
     translateX: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 140 : 0,
+    translateY: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 0 : 140,
     itemsSpacing: 2,
     itemHeight: 20,
     itemDirection: 'left-to-right',
@@ -88,10 +91,11 @@ const setCommonProps = (width, height, data, axisBottomLegendLabel, axisLeftLege
     ]
   }
 
+
   return {
     margin: isAspectRatio(width, height, aspectRatios.LANDSCAPE)
-      ? { top: 25, right: isMinimumSizeAndRatio(width, height, aspectRatios.LANDSCAPE, 500) ? 200 : 50, bottom: 79, left: 100 }
-      : { top: 25, right: 50, bottom: 200, left: 100 },
+      ? { top: 25, right: isMinimumSizeAndRatio(width, height, aspectRatios.ANY, 500) ? 200 : 50, bottom: 79, left: 100 }
+      : { top: 25, right: 50, bottom: width > 300 ? 200 : 79, left: 100 },
     data: data,
     // TBD
     keys: ['visits', 'visitors', 'repeat_visitors', 'single_visitors', 'multi_visitors'],
@@ -129,9 +133,8 @@ const setCommonProps = (width, height, data, axisBottomLegendLabel, axisLeftLege
       legendPosition: 'middle',
       legendOffset: -60
     } : null),
-    legends: (isMinimumSizeAndRatio(width, height, aspectRatios.ANY, 500) ? [
-      legend
-    ] : []),
+    legends: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ?
+    (height > 100 ? [legend] : []) : (width > 400 ? [legend] : []),
     labelSkipWidth: 12,
     labelSkipHeight: 12,
     animate: true,
