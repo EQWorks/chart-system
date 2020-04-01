@@ -10,7 +10,6 @@ const TooltipWrapper = styled.div`
   text-align: center;
 `
 
-// styles for various tooltip components
 const TooltipNode = styled.div`
   height: 8px;
   width: 8px;
@@ -28,14 +27,9 @@ const TooltipData = styled.div`
   font-size: 12px;
   margin-left: 2px;
 `
-/**
- * formatLabel - removes the part of string after '.'
- * @param { string } label - a string variable
- * @return { string } - the first part of the string, up the '.'
- */
+
 const formatLabel = label => label.split('.')[0]
 
-// tooltip - creates tooltip component used in scatter charts
 const tooltip = (node) => (
   <TooltipWrapper>
     <TooltipNode

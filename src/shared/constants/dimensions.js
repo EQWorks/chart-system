@@ -1,3 +1,6 @@
-export const LOWER_ASPECT_RATIO = 320 / 427
-export const LOWER_WIDTH_BREAK = 427
-export const SCATTER_CHART_TITLE_HEIGHT = 56
+export const WIDTH_BREAKPOINT_1 = 232
+export const WIDTH_BREAKPOINT_2 = 256
+export const WIDTH_BREAKPOINT_3 = 336
+export const HEIGHT_BREAKPOINT_1 = 206
+export const HEIGHT_BREAKPOINT_2 = 230
+export const HEIGHT_BREAKPOINT_3 = 310
