@@ -9,37 +9,29 @@ import { AutoSizer } from 'react-virtualized'
 
 import tooltip from './tooltip'
 
-import pieChartData from '../../shared/constants/pie-chart-data'
+import designSystemColors from '../../shared/constants/design-system-colors'
 
 import {
-  LOWER_ASPECT_RATIO,
-  // LOWER_WIDTH_BREAK,
-  // SCATTER_CHART_TITLE_HEIGHT
-} from '../../shared/constants/dimensions.js'
-
-import designSystemColors from '../../shared/constants/design-system-colors'
+  WIDTH_BREAKPOINT_1,
+  WIDTH_BREAKPOINT_2,
+  WIDTH_BREAKPOINT_3,
+  HEIGHT_BREAKPOINT_1,
+  HEIGHT_BREAKPOINT_2,
+  HEIGHT_BREAKPOINT_3
+} from '../../shared/constants/dimensions'
 
 // define styled elements
 const Title = styled.div`
-  margin: 16px;
+  margin: 16px 16px 0 16px;
   height: 24px;
   font-size: 18px;
-`
-
-const Wrapper = styled.div`
-  width: ${ props => props.wrapperWidth}px;
-  height: ${ props => props.wrapperHeight}px;
-  border-style: solid;
-  border-width: 0.01px;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  display: flex;
-  flex-direction: column;
 `
 
 const ChartContainer = styled.div`
   display: flex;
   flex: 1;
   height: 100%;
+  margin: 0px 16px 16px 16px;
 `
 
 const ChartInner = styled.div`
@@ -48,6 +40,64 @@ const ChartInner = styled.div`
   height: ${ props => props.height}px;
 `
 
+const setChartMargin = (width, height) => {
+  // default values
+  const top = 5
+  let right = 140
+  let bottom = 86
+  let left = 20
+
+  if (width < WIDTH_BREAKPOINT_3) {
+    right = 6
+  } else {
+    if (width < WIDTH_BREAKPOINT_3) {
+      right = 8
+    }
+  }
+
+  // values from Zeplin design
+  if (height < HEIGHT_BREAKPOINT_1) {
+    bottom = 15
+  } else {
+    if (height < HEIGHT_BREAKPOINT_2) {
+      bottom = 20
+    } else {
+      if (height < HEIGHT_BREAKPOINT_3) {
+        bottom = 63
+      }
+    }
+  }
+
+  if (width < WIDTH_BREAKPOINT_1) {
+    left = 8
+  } else {
+    if (width < WIDTH_BREAKPOINT_2) {
+      left = 80
+    } else {
+      if (width < WIDTH_BREAKPOINT_3) {
+        left = 80
+      }
+    }
+  }
+
+  return { top, right, bottom, left }
+}
+
+const aspectRatios = {
+  LANDSCAPE: 0,
+  PORTRAIT: 1,
+  ANY: 2
+}
+
+const getAspectRatio = (width, height) => {
+  return width / height > 1 ? aspectRatios.LANDSCAPE : aspectRatios.PORTRAIT
+}
+
+const isAspectRatio = (width, height, aspectRatio) => {
+  const componentAspectRatio = getAspectRatio(width, height)
+
+  return componentAspectRatio === aspectRatio
+}
 
 const arcLabel = e => (
   <>
@@ -56,80 +106,89 @@ const arcLabel = e => (
   </>
 )
 
-// legend for elongated container
-const legendMd = {
-  anchor: 'right',
-  direction: 'column',
-  itemWidth: 84.5,
-  itemHeight: 19,
-  symbolSize: 8,
-  symbolSpacing: 6,
-  symbolShape: 'circle',
-  translateX: 126,
-  translateY: 0,
-  effects: [
-    {
-      on: 'hover',
-      style: { itemTextColor: '#000' },
-    },
-  ],
-}
-
+const colors = [
+  designSystemColors.blue70,
+  designSystemColors.yellow70,
+  designSystemColors.pink70,
+  designSystemColors.purple70,
+  designSystemColors.teal70
+]
 
 // sets common props for Nivo ResponsivePie component
-const setCommonProps = (HEIGHT_WIDTH_RATIO) => {
+const setCommonProps = (width, height, data, isDonut) => {
+  const LEGEND_HEIGHT = 17
+
+  const legend = {
+    dataFrom: 'keys',
+    anchor: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 'right' : 'bottom',
+    direction: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 'column' : 'row',
+    itemWidth: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 84.5 : 83,
+    itemHeight: LEGEND_HEIGHT,
+    symbolSize: 8,
+    justify: false,
+    symbolSpacing: 6,
+    symbolShape: 'circle',
+    translateX: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 99 : 8.5,
+    translateY: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 0 : 74
+  }
+
   return {
-    margin: HEIGHT_WIDTH_RATIO > LOWER_ASPECT_RATIO
-      ? { top: 25, right: 52, bottom: 79, left: 43 }
-      : { top: 35, right: 139, bottom: 69, left: 63 },
-    data: pieChartData,
-    colors: [
-      designSystemColors.blue70,
-      designSystemColors.yellow70,
-      designSystemColors.pink70,
-      designSystemColors.purple70,
-      designSystemColors.teal70
-    ],
+    margin: setChartMargin(width, height),
+    data: data,
+    colors: colors,
     padAngle: 0.7,
     cornerRadius: 3,
     sortByValue: true,
     enableRadialLabels: false,
-    // legends will change format and placement with container width & height changes
-    legends: HEIGHT_WIDTH_RATIO > LOWER_ASPECT_RATIO ? [] : [legendMd],
-    sliceLabel: HEIGHT_WIDTH_RATIO > LOWER_ASPECT_RATIO ? arcLabel : 'percent',
-    slicesLabelsSkipAngle: HEIGHT_WIDTH_RATIO > LOWER_ASPECT_RATIO ? 20 : 10,
-    slicesLabelsTextColor: 'white',
+    legends: isAspectRatio(width, height, aspectRatios.LANDSCAPE)
+      ? (height > 100 ? [legend] : [])
+      : (width > 400 ? [legend] : []),
+    sliceLabel: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? arcLabel : 'percent',
+    slicesLabelsSkipAngle: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 20 : 10,
+    slicesLabelsTextColor: '#fff',
+    innerRadius: isDonut ? 0.6 : 0,
     animate: true,
     motionStiffness: 90,
     motionDamping: 15,
     theme: {
-      fontSize: 12
+      // font size for the whole chart
+      fontSize: 12,
+      // axis definition needed to display on top of the grid lines
+      axis: {
+        domain: {
+          line: {
+            stroke: 'black'
+          }
+        }
+      },
+      grid: {
+        line: {
+          stroke: '#dbdbdb',
+          strokeWidth: 1,
+          strokeDasharray: '5 5'
+        }
+      }
     }
   }
 }
 
 const propTypes = {
-  wrapperWidth: PropTypes.number,
-  wrapperHeight: PropTypes.number
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isDonut: PropTypes.bool
 }
 
 // PieChart - creates a pie chart
 const PieChart = ({
-  wrapperWidth,
-  wrapperHeight
+  data,
+  isDonut
 }) => {
-  const HEIGHT_WIDTH_RATIO = wrapperHeight / wrapperWidth
-
-  const commonProps = setCommonProps(HEIGHT_WIDTH_RATIO)
-
   let path
-
   let arc
 
   const mouseLeaveHandler = () => {
     return (path.forEach((tag, i) => {
-      tag.setAttribute('fill', commonProps.colors[i])
-      tag.setAttribute('stroke', commonProps.colors[i])
+      tag.setAttribute('fill', colors[i])
+      tag.setAttribute('stroke', colors[i])
     }
     ))
   }
@@ -149,10 +208,11 @@ const PieChart = ({
   function percentData() {
     let sum = 0
 
-    for (let d of commonProps.data) {
+    for (let d of data) {
       sum = sum + d.value
     }
-    commonProps.data.forEach(arc => {
+
+    data.forEach(arc => {
       arc.percent = `${(arc.value * 100 / sum).toFixed(2)}%`
     })
     return sum
@@ -161,10 +221,7 @@ const PieChart = ({
   percentData()
 
   return (
-    <Wrapper
-      wrapperWidth={wrapperWidth}
-      wrapperHeight={wrapperHeight}
-    >
+    <>
       <Title>
         Title
       </Title>
@@ -173,24 +230,17 @@ const PieChart = ({
           {({ height, width }) => (
             <ChartInner height={height} width={width}>
               <ResponsivePie
-                {...commonProps}
+                {...setCommonProps(width, height, data, isDonut)}
                 tooltip={({ id, value, color }) => tooltip(id, value, color)}
                 onMouseEnter={mouseOverHandler}
                 onMouseLeave={mouseLeaveHandler}
-                theme={{
-                  tooltip: {
-                    container: {
-                      padding: 0
-                    }
-                  }
-                }}
               >
               </ResponsivePie>
             </ChartInner>
           )}
         </AutoSizer>
       </ChartContainer>
-    </Wrapper>
+    </>
   )
 }
 

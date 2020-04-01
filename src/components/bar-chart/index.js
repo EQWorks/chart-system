@@ -12,6 +12,15 @@ import tooltip from './tooltip'
 
 import designSystemColors from '../../shared/constants/design-system-colors'
 
+import {
+  WIDTH_BREAKPOINT_1,
+  WIDTH_BREAKPOINT_2,
+  WIDTH_BREAKPOINT_3,
+  HEIGHT_BREAKPOINT_1,
+  HEIGHT_BREAKPOINT_2,
+  HEIGHT_BREAKPOINT_3
+} from '../../shared/constants/dimensions'
+
 // define styled elements
 const Title = styled.div`
   margin: 16px 16px 0 16px;
@@ -22,6 +31,8 @@ const Title = styled.div`
 const ChartContainer = styled.div`
   display: flex;
   flex: 1;
+  height: 100%;
+  margin: 0px 16px 16px 16px;
 `
 
 const ChartInner = styled.div`
@@ -29,6 +40,49 @@ const ChartInner = styled.div`
   width: ${ props => props.width}px;
   height: ${ props => props.height}px;
 `
+
+const setChartMargin = (width, height) => {
+  // default values
+  const top = 5
+  let right = 76
+  let bottom = 86
+  let left = 63
+
+  if (width < WIDTH_BREAKPOINT_3) {
+    right = 6
+  } else {
+    if (width < WIDTH_BREAKPOINT_3) {
+      right = 8
+    }
+  }
+
+  // values from Zeplin design
+  if (height < HEIGHT_BREAKPOINT_1) {
+    bottom = 15
+  } else {
+    if (height < HEIGHT_BREAKPOINT_2) {
+      bottom = 38
+    } else {
+      if (height < HEIGHT_BREAKPOINT_3) {
+        bottom = 63
+      }
+    }
+  }
+
+  if (width < WIDTH_BREAKPOINT_1) {
+    left = 8
+  } else {
+    if (width < WIDTH_BREAKPOINT_2) {
+      left = 49
+    } else {
+      if (width < WIDTH_BREAKPOINT_3) {
+        left = 66
+      }
+    }
+  }
+
+  return { top, right, bottom, left }
+}
 
 const aspectRatios = {
   LANDSCAPE: 0,
@@ -46,56 +100,31 @@ const isAspectRatio = (width, height, aspectRatio) => {
   return componentAspectRatio === aspectRatio
 }
 
-const isMinimumSizeAndRatio = (width, height, aspectRatio, minimumSize) => {
-  const componentAspectRatio = getAspectRatio(width, height)
-
-  console.log('Width: ', width, 'height: ', height, 'aspectRatio: ', aspectRatio, 'minimumSize: ', minimumSize, 'componentAspectRatio: ', componentAspectRatio)
-
-  if (aspectRatio !== aspectRatios.ANY && componentAspectRatio !== aspectRatio) return false
-
-  if (componentAspectRatio === aspectRatios.LANDSCAPE && width < minimumSize) {
-    return false
-  }
-
-  if (componentAspectRatio === aspectRatios.PORTRAIT && height < minimumSize) {
-    return false
-  }
-
-  return true
+const isLess = (a, b) => {
+  return a < b
 }
 
 // sets common props for Nivo ResponsiveBar component
 const setCommonProps = (width, height, data, axisBottomLegendLabel, axisLeftLegendLabel) => {
+  const LEGEND_HEIGHT = 17
+
   const legend = {
     dataFrom: 'keys',
     anchor: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 'right' : 'bottom',
     direction: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 'column' : 'row',
-    justify: false,
-    translateX: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 140 : 0,
-    translateY: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 0 : 140,
-    itemsSpacing: 2,
-    itemHeight: 20,
-    itemDirection: 'left-to-right',
-    itemOpacity: 0.85,
-    itemWidth: 84.5,
+    itemWidth: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 84.5 : 83,
+    itemHeight: LEGEND_HEIGHT,
     symbolSize: 8,
+    justify: false,
     symbolSpacing: 6,
     symbolShape: 'circle',
-    effects: [
-      {
-        on: 'hover',
-        style: {
-          itemOpacity: 1
-        }
-      }
-    ]
+    translateX: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 99 : 8.5,
+    translateY: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 0 : 74
   }
 
 
   return {
-    margin: isAspectRatio(width, height, aspectRatios.LANDSCAPE)
-      ? { top: 25, right: isMinimumSizeAndRatio(width, height, aspectRatios.ANY, 500) ? 200 : 50, bottom: 79, left: 100 }
-      : { top: 25, right: 50, bottom: width > 300 ? 200 : 79, left: 100 },
+    margin: setChartMargin(width, height),
     data: data,
     // TBD
     keys: ['visits', 'visitors', 'repeat_visitors', 'single_visitors', 'multi_visitors'],
@@ -116,32 +145,51 @@ const setCommonProps = (width, height, data, axisBottomLegendLabel, axisLeftLege
     enableGridY: true,
     enableLabel: false,
     axisBottom: {
-      format: (d) => (isMinimumSizeAndRatio(width, height, aspectRatios.ANY, 500) ? `${d}` : ''),
-      tickSize: (isMinimumSizeAndRatio(width, height, aspectRatios.ANY, 500) ? 5 : 0),
-      tickPadding: 5,
-      legend: (isMinimumSizeAndRatio(width, height, aspectRatios.ANY, 500) ? axisBottomLegendLabel : ''),
-      legendPosition: 'middle',
-      tickRotation: 0,
-      legendOffset: 40
+      // we hide tick labels up to a certain width
+      format: (d) => isLess(height, HEIGHT_BREAKPOINT_2) ? null : `${d}`,
+      tickValues: 8,
+      tickSize: 8,
+      // hide axis legend up to a certain heigth
+      legend: isLess(height, HEIGHT_BREAKPOINT_1) ? '' : axisBottomLegendLabel,
+      legendHeight: LEGEND_HEIGHT,
+      legendOffset: isLess(height, HEIGHT_BREAKPOINT_2) ? 23 : 39,
+      legendPosition: 'middle'
     },
-    axisLeft: (isMinimumSizeAndRatio(width, height, aspectRatios.ANY, 500) ? {
-      format: (d) => (isMinimumSizeAndRatio(width, height, aspectRatios.ANY, 500) ? `${d}` : ''),
-      tickSize: (isMinimumSizeAndRatio(width, height, aspectRatios.ANY, 500) ? 5 : 0),
-      tickPadding: 5,
-      legend: (isMinimumSizeAndRatio(width, height, aspectRatios.ANY, 500) ? axisLeftLegendLabel : ''),
-      tickRotation: 0,
-      legendPosition: 'middle',
-      legendOffset: -60
-    } : null),
-    legends: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ?
-    (height > 100 ? [legend] : []) : (width > 400 ? [legend] : []),
-    labelSkipWidth: 12,
-    labelSkipHeight: 12,
+    axisLeft: {
+      orient: 'left',
+      // we hide tick labels up to a certain height
+      format: (d) => isLess(width, WIDTH_BREAKPOINT_2) ? '' : `${d}`,
+      tickSize: 8,
+      // hide axis legend until a certain width
+      legend: isLess(width, WIDTH_BREAKPOINT_1) ? '' : axisLeftLegendLabel,
+      legendHeight: LEGEND_HEIGHT,
+      // legendOffset -15 places label by the ticks
+      legendOffset: isLess(width, WIDTH_BREAKPOINT_2) ? -15 : -48,
+      legendPosition: 'middle'
+    },
+    legends: isAspectRatio(width, height, aspectRatios.LANDSCAPE)
+      ? (height > 100 ? [legend] : [])
+      : (width > 400 ? [legend] : []),
     animate: true,
     motionStiffness: 90,
     motionDamping: 15,
     theme: {
-      fontSize: 12
+      // font size for the whole chart
+      fontSize: 12,
+      // axis definition needed to display on top of the grid lines
+      axis: {
+        domain: {
+          line: {
+            stroke: 'black'
+          }
+        }
+      },
+      grid: {
+        line: {
+          stroke: '#dbdbdb',
+          strokeWidth: 1
+        }
+      }
     }
   }
 }
@@ -171,26 +219,6 @@ const BarChart = ({
               <ResponsiveBar
                 {...setCommonProps(width, height, data, axisBottomLegendLabel, axisLeftLegendLabel)}
                 tooltip={({ id, value, color }) => tooltip(id, value, color)}
-                theme={{
-                  tooltip: {
-                    container: {
-                      padding: 0
-                    },
-                  },
-                  axis: {
-                    domain: {
-                      line: {
-                        stroke: 'black'
-                      }
-                    }
-                  },
-                  grid: {
-                    line: {
-                      stroke: '#dbdbdb',
-                      strokeWidth: 1
-                    }
-                  }
-                }}
               >
               </ResponsiveBar>
             </ChartInner>

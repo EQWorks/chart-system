@@ -32,7 +32,6 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
-
 const ResponsiveGridLayout = WidthProvider(GridLayout)
 
 storiesOf('StackedBarChart', module)

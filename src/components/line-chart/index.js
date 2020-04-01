@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { ResponsiveLine } from '@nivo/line'
 
@@ -9,35 +9,29 @@ import { AutoSizer } from 'react-virtualized'
 
 import tooltip from './tooltip'
 
-import {
-  LOWER_ASPECT_RATIO,
-  // LOWER_WIDTH_BREAK,
-  // SCATTER_CHART_TITLE_HEIGHT
-} from '../../shared/constants/dimensions.js'
-
 import designSystemColors from '../../shared/constants/design-system-colors'
+
+import {
+  WIDTH_BREAKPOINT_1,
+  WIDTH_BREAKPOINT_2,
+  WIDTH_BREAKPOINT_3,
+  HEIGHT_BREAKPOINT_1,
+  HEIGHT_BREAKPOINT_2,
+  HEIGHT_BREAKPOINT_3
+} from '../../shared/constants/dimensions'
 
 // define styled elements
 const Title = styled.div`
-  margin: 16px;
+  margin: 16px 16px 0 16px;
   height: 24px;
   font-size: 18px;
-`
-
-const Wrapper = styled.div`
-  width: ${ props => props.wrapperWidth}px;
-  height: ${ props => props.wrapperHeight}px;
-  border-style: solid;
-  border-width: 0.01px;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  display: flex;
-  flex-direction: column;
 `
 
 const ChartContainer = styled.div`
   display: flex;
   flex: 1;
   height: 100%;
+  margin: 0px 16px 16px 16px;
 `
 
 const ChartInner = styled.div`
@@ -46,38 +40,87 @@ const ChartInner = styled.div`
   height: ${ props => props.height}px;
 `
 
-// legend for square container or with width < height
-// const legendSm = {
-//   anchor: 'bottom',
-//   direction: 'row',
-//   itemWidth: 83,
-//   itemHeight: 17,
-//   symbolSize: 8,
-//   symbolSpacing: 6,
-//   symbolShape: 'circle',
-//   translateX: 8.5,
-//   translateY: 42
-// }
+const setChartMargin = (width, height) => {
+  // default values
+  const top = 5
+  let right = 76
+  let bottom = 86
+  let left = 63
 
-// legend for elongated container
-const legendMd = {
-  anchor: 'right',
-  direction: 'column',
-  itemWidth: 84.5,
-  itemHeight: 19,
-  symbolSize: 8,
-  symbolSpacing: 6,
-  symbolShape: 'circle',
-  translateX: 126,
-  translateY: 0
+  if (width < WIDTH_BREAKPOINT_3) {
+    right = 6
+  } else {
+    if (width < WIDTH_BREAKPOINT_3) {
+      right = 8
+    }
+  }
+
+  // values from Zeplin design
+  if (height < HEIGHT_BREAKPOINT_1) {
+    bottom = 15
+  } else {
+    if (height < HEIGHT_BREAKPOINT_2) {
+      bottom = 38
+    } else {
+      if (height < HEIGHT_BREAKPOINT_3) {
+        bottom = 63
+      }
+    }
+  }
+
+  if (width < WIDTH_BREAKPOINT_1) {
+    left = 8
+  } else {
+    if (width < WIDTH_BREAKPOINT_2) {
+      left = 49
+    } else {
+      if (width < WIDTH_BREAKPOINT_3) {
+        left = 66
+      }
+    }
+  }
+
+  return { top, right, bottom, left }
+}
+
+const aspectRatios = {
+  LANDSCAPE: 0,
+  PORTRAIT: 1,
+  ANY: 2
+}
+
+const getAspectRatio = (width, height) => {
+  return width / height > 1 ? aspectRatios.LANDSCAPE : aspectRatios.PORTRAIT
+}
+
+const isAspectRatio = (width, height, aspectRatio) => {
+  const componentAspectRatio = getAspectRatio(width, height)
+
+  return componentAspectRatio === aspectRatio
+}
+
+const isLess = (a, b) => {
+  return a < b
 }
 
 // sets common props for Nivo ResponsiveLine component
-const setCommonProps = (HEIGHT_WIDTH_RATIO, data) => {
+const setCommonProps = (width, height, data, axisBottomLegendLabel, axisLeftLegendLabel) => {
+  const LEGEND_HEIGHT = 17
+
+  const legend = {
+    anchor: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 'right' : 'bottom',
+    direction: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 'column' : 'row',
+    itemWidth: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 84.5 : 83,
+    itemHeight: LEGEND_HEIGHT,
+    symbolSize: 8,
+    symbolSpacing: 6,
+    symbolShape: 'circle',
+    translateX: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 99 : 8.5,
+    translateY: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 0 : 74
+  }
+
   return {
-    margin: HEIGHT_WIDTH_RATIO > LOWER_ASPECT_RATIO
-      ? { top: 25, right: 52, bottom: 79, left: 43 }
-      : { top: 35, right: 139, bottom: 69, left: 63 },
+    margin: setChartMargin(width, height),
     data: data,
     xScale: { type: 'point' },
     yScale: { type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false },
@@ -86,6 +129,9 @@ const setCommonProps = (HEIGHT_WIDTH_RATIO, data) => {
       designSystemColors.pink70,
       designSystemColors.teal70
     ],
+    pointColor: { theme: 'background' },
+    pointBorderWidth: 0,
+    pointBorderColor: { from: 'serieColor' },
     useMesh: true,
     enableCrosshair: true,
     crosshairType: 'bottom',
@@ -102,58 +148,145 @@ const setCommonProps = (HEIGHT_WIDTH_RATIO, data) => {
       'legends'
     ],
     axisBottom: {
-      tickSize: 5,
-      tickPadding: 5,
-      tickRotation: HEIGHT_WIDTH_RATIO > LOWER_ASPECT_RATIO ? 30 : 0,
-      legend: HEIGHT_WIDTH_RATIO > LOWER_ASPECT_RATIO ? null : 'testing', // chartSizer(MODELANDSCAPE, 40, 'testing', null)
-      legendOffset: 40,
+      // we hide tick labels up to a certain width
+      format: (d) => isLess(height, HEIGHT_BREAKPOINT_2) ? null : `${d}`,
+      tickValues: data[0].data.length,
+      tickSize: 8,
+      // hide axis legend up to a certain heigth
+      legend: isLess(height, HEIGHT_BREAKPOINT_1) ? '' : axisBottomLegendLabel,
+      legendHeight: LEGEND_HEIGHT,
+      legendOffset: isLess(height, HEIGHT_BREAKPOINT_2) ? 23 : 39,
       legendPosition: 'middle'
     },
     axisLeft: {
-      tickSize: 5,
-      tickPadding: 5,
-      tickRotation: 0,
-      legend: HEIGHT_WIDTH_RATIO > LOWER_ASPECT_RATIO ? null : 'testing',
-      legendOffset: -40,
+      orient: 'left',
+      // we hide tick labels up to a certain height
+      format: (d) => isLess(width, WIDTH_BREAKPOINT_2) ? '' : `${d}`,
+      tickSize: 8,
+      // hide axis legend until a certain width
+      legend: isLess(width, WIDTH_BREAKPOINT_1) ? '' : axisLeftLegendLabel,
+      legendHeight: LEGEND_HEIGHT,
+      // legendOffset -15 places label by the ticks
+      legendOffset: isLess(width, WIDTH_BREAKPOINT_2) ? -15 : -48,
       legendPosition: 'middle'
     },
-    legends: [
-      HEIGHT_WIDTH_RATIO > LOWER_ASPECT_RATIO ? [] : legendMd
-    ]
+    // legends will change format and placement with container width & height changes
+    legends: isAspectRatio(width, height, aspectRatios.LANDSCAPE)
+      ? (height > 100 ? [legend] : [])
+      : (width > 400 ? [legend] : []),
+    theme: {
+      // font size for the whole chart
+      fontSize: 12,
+      // axis definition needed to display on top of the grid lines
+      axis: {
+        domain: {
+          line: {
+            stroke: 'black'
+          }
+        }
+      },
+      grid: {
+        line: {
+          stroke: '#dbdbdb',
+          strokeWidth: 1,
+          strokeDasharray: '5 5'
+        }
+      }
+    }
   }
 }
 
 
 const propTypes = {
-  wrapperWidth: PropTypes.number,
-  wrapperHeight: PropTypes.number,
-  data: PropTypes.arrayOf(PropTypes.object).isRequired
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  axisBottomLegendLabel: PropTypes.string,
+  axisLeftLegendLabel: PropTypes.string
 }
 
 // LineChart - creates a line chart
 const LineChart = ({
-  wrapperWidth,
-  wrapperHeight,
-  data
+  data,
+  axisBottomLegendLabel,
+  axisLeftLegendLabel
 }) => {
-  const HEIGHT_WIDTH_RATIO = wrapperHeight / wrapperWidth
 
-  const commonProps = setCommonProps(HEIGHT_WIDTH_RATIO, data)
+  const customLines = ({ series, lineGenerator }) => {
+    return series.map(datum => (
+      <path
+        key={datum.id}
+        d={lineGenerator(datum.data.map(d => {
+          return {
+            x: d.position.x,
+            y: d.position.y
+          }
+        }))}
+        fill='none'
+        stroke={datum.color}
+        strokeWidth={color.serieId === datum.id ? '4px' : '2px'}
+      />
+    ))
+  }
+
+  const [color, setColor] = useState({})
+  const [layers, setLayers] = useState([
+    'grid',
+    'markers',
+    'axes',
+    'areas',
+    'crosshair',
+    'lines',
+    'points',
+    'slices',
+    'mesh',
+    'legends'
+  ])
+
+  const mouseLeave = () => {
+    setColor({})
+    setLayers([
+      'grid',
+      'markers',
+      'axes',
+      'areas',
+      'crosshair',
+      'lines',
+      'points',
+      'slices',
+      'mesh',
+      'legends'
+    ])
+  }
+
+  const mouseMove = (p) => {
+    const newLayer = [
+      'grid',
+      'markers',
+      'axes',
+      'areas',
+      'crosshair',
+      customLines,
+      'points',
+      'slices',
+      'mesh',
+      'legends'
+    ]
+    setColor(p)
+    setLayers(newLayer)
+  }
 
   return (
-    <Wrapper
-      wrapperWidth={wrapperWidth}
-      wrapperHeight={wrapperHeight}
-    >
+    <>
       <Title>
-        Title
+        Test
       </Title>
       <ChartContainer>
         <AutoSizer>
           {({ height, width }) => (
-            <ChartInner height={height} width={width}>
+            <ChartInner id='chart-inner' height={height} width={width} onMouseLeave={mouseLeave}>
               <ResponsiveLine
-                {...commonProps}
+                {...setCommonProps(width, height, data, axisBottomLegendLabel, axisLeftLegendLabel)}
+                layers={layers}
+                onMouseMove={(p, e) => mouseMove(p, e)}
                 tooltip={(slice) => tooltip(slice)}
               >
               </ResponsiveLine>
@@ -161,7 +294,7 @@ const LineChart = ({
           )}
         </AutoSizer>
       </ChartContainer>
-    </Wrapper>
+    </>
   )
 }
 
