@@ -14,7 +14,9 @@ const propTypes = {
 const LineChart = ({ data, axisBottomLegendLabel, axisLeftLegendLabel}) => {
   const colors = [
     designSystemColors.blue70,
+    designSystemColors.yellow70,
     designSystemColors.pink70,
+    designSystemColors.purple70,
     designSystemColors.teal70
   ]
 

@@ -32,29 +32,32 @@ const TooltipLabel = styled.strong`
 
 const TooltipData = styled.span`
   font-size: 12px;
+  margin: 0 5px;
 `
 
 const formatLabel = label => label.split('.')[0]
 
-const tooltip = (id, value, color) => (
-  <TooltipWrapper>
-    <TooltipHeader>
-      <TooltipNode
-        style={{ backgroundColor: color }}
-      />
-      <TooltipLabel>
-        {formatLabel(id)}
-      </TooltipLabel>
-    </TooltipHeader>
-    <TooltipBody>
-      <TooltipData>
-        {` Value (%) - ${value}`}
-      </TooltipData>
-      <TooltipData>
-        {`Column - ${id}`}
-      </TooltipData>
-    </TooltipBody>
-  </TooltipWrapper>
-)
+const tooltip = (id, value, color, axisBottomLegendLabel, axisLeftLegendLabel) => {
+  return (
+    <TooltipWrapper>
+      <TooltipHeader>
+        <TooltipNode
+          style={{ backgroundColor: color }}
+        />
+        <TooltipLabel>
+          {formatLabel(id)}
+        </TooltipLabel>
+      </TooltipHeader>
+      <TooltipBody>
+        <TooltipData>
+          {`${axisBottomLegendLabel}: ${value}`}
+        </TooltipData>
+        <TooltipData>
+          {`${axisLeftLegendLabel}: ${id}`}
+        </TooltipData>
+      </TooltipBody>
+    </TooltipWrapper>
+  )
+}
 
 export default tooltip

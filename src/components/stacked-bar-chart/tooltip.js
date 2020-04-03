@@ -32,11 +32,12 @@ const TooltipLabel = styled.strong`
 
 const TooltipData = styled.span`
   font-size: 12px;
+  margin: 0 5px;
 `
 
 const formatLabel = label => label.split('.')[0]
 
-const tooltip = (id, value, color) => (
+const tooltip = (id, value, color, axisBottomLegendLabel, axisLeftLegendLabel) => (
   <TooltipWrapper>
     <TooltipHeader>
       <TooltipNode
@@ -48,10 +49,10 @@ const tooltip = (id, value, color) => (
     </TooltipHeader>
     <TooltipBody>
       <TooltipData>
-        {` Value (%) - ${value}`}
+        {`${axisBottomLegendLabel}: ${value}`}
       </TooltipData>
       <TooltipData>
-        {`Column - ${id}`}
+        {`${axisLeftLegendLabel}: ${id}`}
       </TooltipData>
     </TooltipBody>
   </TooltipWrapper>

@@ -32,11 +32,12 @@ const TooltipLabel = styled.strong`
 
 const TooltipData = styled.span`
   font-size: 12px;
+  margin: 0 5px;
 `
 
 const formatLabel = label => label
 
-const tooltip = (slice) => {
+const tooltip = (slice, axisBottomLegendLabel, axisLeftLegendLabel) => {
   return (
     <>
       <TooltipWrapper>
@@ -50,10 +51,10 @@ const tooltip = (slice) => {
         </TooltipHeader>
         <TooltipBody>
           <TooltipData>
-            {` X Axis Metric Value - ${slice.point.data.x}`}
+            {`${axisBottomLegendLabel}: ${slice.point.data.x}`}
           </TooltipData>
           <TooltipData>
-            {` Y Axis Metric Value - ${slice.point.data.y}`}
+            {`${axisLeftLegendLabel}: ${slice.point.data.y}`}
           </TooltipData>
         </TooltipBody>
       </TooltipWrapper>
