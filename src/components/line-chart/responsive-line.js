@@ -215,7 +215,7 @@ const ResponsiveLineChart = ({
         }))}
         fill='none'
         stroke={datum.color}
-        strokeWidth={color.serieId === datum.id ? '4px' : '2px'}
+        strokeWidth='2px'
       />
     ))
   }
@@ -286,10 +286,10 @@ const ResponsiveLineChart = ({
             <ChartInner id='chart-inner' height={height} width={width} onMouseLeave={mouseLeave}>
               <ResponsiveLine
                 {...setCommonProps(width, height, data, axisBottomLegendLabel, axisLeftLegendLabel)}
-                colors={Object.keys(color).length === 0 ? {datum: 'color'} : getColor}
+                colors={Object.keys(color).length === 0 ? { datum: 'color' } : getColor}
                 layers={layers}
                 onMouseMove={(p, e) => mouseMove(p, e)}
-                tooltip={(slice) => tooltip(slice)}
+                tooltip={(slice) => tooltip(slice, axisBottomLegendLabel, axisLeftLegendLabel)}
               >
               </ResponsiveLine>
             </ChartInner>

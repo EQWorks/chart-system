@@ -31,6 +31,7 @@ const TooltipLabel = styled.strong`
 
 const TooltipData = styled.span`
   font-size: 12px;
+  margin: 0 5px;
 `
 
 const formatLabel = label => label

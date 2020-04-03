@@ -218,7 +218,21 @@ const StackedBarChart = ({
             <ChartInner height={height} width={width}>
               <ResponsiveBar
                 {...setCommonProps(width, height, data, axisBottomLegendLabel, axisLeftLegendLabel)}
-                tooltip={({ id, value, color }) => tooltip(id, value, color)}
+                tooltip={({ id, value, color }) => tooltip(id, value, color, axisBottomLegendLabel, axisLeftLegendLabel)}
+                onMouseEnter={(_data, event) => {
+                  let dataPoints = Array.from(event.target.parentNode.parentElement.getElementsByTagName('rect'))
+                  let hoverItemIndex = dataPoints.indexOf(event.target)
+                  dataPoints.splice(hoverItemIndex, 1)
+                  dataPoints.forEach(point => {
+                    point.style.opacity = 0.1
+                  })
+                }}
+                onMouseLeave={(_data, event) => {
+                  let dataPoints = Array.from(event.target.parentNode.parentElement.getElementsByTagName('rect'))
+                  for (let i = 0; i < dataPoints.length; i++) {
+                    dataPoints[i].style.opacity = 1
+                  }
+                }}
               >
               </ResponsiveBar>
             </ChartInner>

@@ -25,25 +25,25 @@ const TooltipLabel = styled.strong`
 
 const TooltipData = styled.div`
   font-size: 12px;
-  margin-left: 2px;
+  margin: 0 5px;
 `
 
 const formatLabel = label => label.split('.')[0]
 
-const tooltip = (node) => (
+const tooltip = (node, axisBottomLegendLabel, axisLeftLegendLabel) => (
   <TooltipWrapper>
     <TooltipNode
       style={{ backgroundColor: node.style.color }}
     />
     <TooltipLabel>
-      { formatLabel(node.id)}
+      {formatLabel(node.id)}
     </TooltipLabel>
     <br />
     <TooltipData>
-      { `x-axis: ${ node.data.formattedX }` }
+      {`${axisBottomLegendLabel}: ${node.data.formattedX}`}
     </TooltipData>
     <TooltipData>
-      { `y-axis: ${ node.data.formattedY }` }
+      {`${axisLeftLegendLabel}: ${node.data.formattedY}`}
     </TooltipData>
   </TooltipWrapper>
 )

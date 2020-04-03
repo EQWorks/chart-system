@@ -208,7 +208,7 @@ const ScatterChart = ({
             <ChartInner id='chart-inner' height={height} width={width}>
               <ResponsiveScatterPlot
                 {...setCommonProps(width, height, data, axisBottomLegendLabel, axisLeftLegendLabel)}
-                tooltip={({ node }) => tooltip(node)}
+                tooltip={({ node }) => tooltip(node, axisBottomLegendLabel, axisLeftLegendLabel)}
               >
               </ResponsiveScatterPlot>
             </ChartInner>
