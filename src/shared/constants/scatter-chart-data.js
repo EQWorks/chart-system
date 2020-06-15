@@ -12,7 +12,7 @@ const scatterChartData = [
     ],
   },
   {
-    id: 'Legend 2',
+    id: 'Mammamia',
     data: [
       { id: 0, x: 20, y: 0.3 },
       { id: 1, x: 30, y: 0.375 },
@@ -24,7 +24,7 @@ const scatterChartData = [
     ],
   },
   {
-    id: 'Legend 3',
+    id: 'Third Legend Longer',
     data: [
       { id: 0, x: 20, y: 0.2 },
       { id: 1, x: 30, y: 0.425 },
