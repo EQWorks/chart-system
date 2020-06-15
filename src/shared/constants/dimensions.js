@@ -4,3 +4,4 @@ export const WIDTH_BREAKPOINT_3 = 336
 export const HEIGHT_BREAKPOINT_1 = 206
 export const HEIGHT_BREAKPOINT_2 = 230
 export const HEIGHT_BREAKPOINT_3 = 310
+export const LEGEND_LABEL_WIDTH = 42
