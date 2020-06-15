@@ -18,7 +18,8 @@ import {
   WIDTH_BREAKPOINT_3,
   HEIGHT_BREAKPOINT_1,
   HEIGHT_BREAKPOINT_2,
-  HEIGHT_BREAKPOINT_3
+  HEIGHT_BREAKPOINT_3,
+  LEGEND_LABEL_WIDTH
 } from '../../shared/constants/dimensions'
 
 // define styled elements
@@ -41,20 +42,21 @@ const ChartInner = styled.div`
   height: ${ props => props.height}px;
 `
 
-const setChartMargin = (width, height) => {
+const setChartMargin = (width, height, legendLength) => {
+  console.log('legendLengh: ', legendLength)
   // default values
   const top = 5
   let right = 76
   let bottom = 86
   let left = 63
 
-  if (width < WIDTH_BREAKPOINT_3) {
-    right = 6
-  } else {
+  if (isAspectRatio(width, height, aspectRatios.LANDSCAPE)) {
     if (width < WIDTH_BREAKPOINT_3) {
       right = 8
+    } else if (width >= WIDTH_BREAKPOINT_3 + legendLength) {
+      right = legendLength + 26
     }
-  }
+  } else right = 8
 
   // values from Zeplin design
   if (height < HEIGHT_BREAKPOINT_1) {
@@ -84,6 +86,50 @@ const setChartMargin = (width, height) => {
   return { top, right, bottom, left }
 }
 
+const getLegendLabelMaxWidth = (data) => {
+  let legendLabelWidthMax = 0
+  data.forEach(dataSet => {
+    legendLabelWidthMax = Math.max(legendLabelWidthMax, getTextSize(dataSet.id, '12px noto sans'))
+  })
+  console.log('legendLabelWidthMax: ', legendLabelWidthMax)
+  return legendLabelWidthMax
+}
+
+const getTextSize = (text, font) => { 
+  let canvas = document.createElement('canvas')
+  let context = canvas.getContext('2d')
+  context.font = font
+  let width = context.measureText(text).width
+  // let height = parseInt(context.font)
+  let textSize = Math.ceil(width)
+  console.log('label, width: ', text, textSize)
+  return textSize
+}
+
+const formatData = (width, legendLength, data, originalData) => {
+  console.log('originalData in format data: ', originalData)
+  console.log('data in format data: ', data)
+  if ((width >= WIDTH_BREAKPOINT_3) && (width < WIDTH_BREAKPOINT_3 + legendLength)) {
+    data.forEach( (dataSet) => {
+      // console.log('dataSet.id.length: ', dataSet.id.length )
+      let labelWidth = getTextSize(dataSet.id, '12px noto sans')
+      console.log('labelSize: ', labelWidth)
+      if (labelWidth > LEGEND_LABEL_WIDTH) {
+        let label = dataSet.id.slice(0, 5) + '..'
+        if (getTextSize(label, '12px noto sans') > LEGEND_LABEL_WIDTH + 4) {
+          label = dataSet.id.slice(0, 3) + '...'
+        } else if (getTextSize(label, '12px noto sans') > LEGEND_LABEL_WIDTH) {
+          label = dataSet.id.slice(0, 4) + '..'
+        } else if (getTextSize(label, '12px noto sans') < LEGEND_LABEL_WIDTH) {
+          label = dataSet.id.slice(0, 5) + '...'
+        }
+        dataSet.id = label
+      }
+    })
+    return data
+  } else return originalData
+}
+
 const aspectRatios = {
   LANDSCAPE: 0,
   PORTRAIT: 1,
@@ -105,25 +151,34 @@ const isLess= (a, b) => {
 }
 
 // sets common props for Nivo ResponsiveScatterPlot component
-const setCommonProps = (width, height, data, axisBottomLegendLabel, axisLeftLegendLabel) => {
+const setCommonProps = (
+  width,
+  height,
+  data,
+  originalData,
+  legendLength,
+  axisBottomLegendLabel,
+  axisLeftLegendLabel
+) => {
   const LEGEND_HEIGHT = 17
-
   const legend = {
     anchor: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 'right' : 'bottom',
     direction: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 'column' : 'row',
-    itemWidth: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 84.5 : 83,
+    // there is an issue with the library, the itemWidth is in fact a rect width but the rect doesn't include the text of the label
+    itemWidth: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 28 : 83,
+    // itemWidth: getLegendItemWidth(width, height, data, originalData),
     itemHeight: LEGEND_HEIGHT,
     symbolSize: 8,
     symbolSpacing: 6,
     symbolShape: 'circle',
-    translateX: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 99: 8.5,
+    translateX: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 44: 8.5,
     translateY: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 0: 74
   }
 
   // const HEIGHT_WIDTH_RATIO = width / height
   return {
-    margin: setChartMargin(width, height),
-    data: data,
+    margin: setChartMargin(width, height, legendLength),
+    data: formatData(width, legendLength, data, originalData),
     xScale: { type: 'linear' },
     yScale: { type: 'linear' },
     colors: [
@@ -196,6 +251,11 @@ const ScatterChart = ({
   axisBottomLegendLabel,
   axisLeftLegendLabel
 }) => {
+  console.log('data: ', data)
+  let originalData = JSON.parse(JSON.stringify(data))
+  console.log('original data: ', originalData)
+  const LEGEND_LENGTH = getLegendLabelMaxWidth(originalData)
+  console.log('LEGEND_LENGTH: ', LEGEND_LENGTH)
 
   return (
     <>
@@ -207,7 +267,7 @@ const ScatterChart = ({
           {({ height, width }) => (
             <ChartInner id='chart-inner' height={height} width={width}>
               <ResponsiveScatterPlot
-                {...setCommonProps(width, height, data, axisBottomLegendLabel, axisLeftLegendLabel)}
+                {...setCommonProps(width, height, data, originalData, LEGEND_LENGTH, axisBottomLegendLabel, axisLeftLegendLabel)}
                 tooltip={({ node }) => tooltip(node, axisBottomLegendLabel, axisLeftLegendLabel)}
               >
               </ResponsiveScatterPlot>
