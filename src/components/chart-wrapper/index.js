@@ -42,6 +42,7 @@ const ChartWrapper = ({
     <ChartContainer>
       <AutoSizer>
         {({ height, width }) => (
+          // TODO: responsive-line had onMouseLeave={mouseLeave}
           <ChartInner height={height} width={width}>
             {React.cloneElement(children, { height, width })}
           </ChartInner>
