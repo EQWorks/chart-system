@@ -8,7 +8,7 @@ import 'react-virtualized/styles.css'
 
 import { AutoSizer } from 'react-virtualized'
 
-import tooltip from './tooltip'
+import Tooltip from '../tooltip'
 
 import designSystemColors from '../../shared/constants/design-system-colors'
 
@@ -218,7 +218,17 @@ const BarChart = ({
             <ChartInner height={height} width={width}>
               <ResponsiveBar
                 {...setCommonProps(width, height, data, axisBottomLegendLabel, axisLeftLegendLabel)}
-                tooltip={({ id, value, color }) => tooltip(id, value, color, axisBottomLegendLabel, axisLeftLegendLabel)}
+                // also ({ data, index, theme })
+                tooltip={({ id, value, color, indexValue }) => (
+                  <Tooltip
+                    label={id}
+                    color={color}
+                    display={[
+                      { label: axisBottomLegendLabel, value: indexValue },
+                      { label: axisLeftLegendLabel, value },
+                    ]}
+                  />
+                )}
                 onMouseEnter={(_data, event) => {
                   let dataPoints = Array.from(event.target.parentNode.parentElement.getElementsByTagName('rect'))
                   let hoverItemIndex = dataPoints.indexOf(event.target)
