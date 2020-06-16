@@ -6,10 +6,6 @@ import lineChartData from '../shared/data/line-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
-export default {
-  title: 'Line'
-}
-
 storiesOf('Line Chart', module)
   .add('Widget Line Chart', () => (
     <ResponsiveChartWrapper>

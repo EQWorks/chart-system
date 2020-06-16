@@ -6,10 +6,6 @@ import barChartData from '../shared/data/bar-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
-export default {
-  title: 'Stack Bar Chart'
-}
-
 storiesOf('StackedBarChart', module)
   .add('Widget Stacked Bar Chart', () => (
     <ResponsiveChartWrapper>

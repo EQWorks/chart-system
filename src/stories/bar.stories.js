@@ -6,10 +6,6 @@ import barChartData from '../shared/data/bar-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
-export default {
-  title: 'Bar Chart'
-}
-
 storiesOf('Bar Chart', module)
   .add('Widget Bar Chart', () => (
     <ResponsiveChartWrapper>

@@ -6,10 +6,6 @@ import pieChartData from '../shared/data/pie-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
-export default {
-  title: 'Pie'
-}
-
 storiesOf('Pie Chart', module)
   .add('Widget Pie Chart', () => (
     <ResponsiveChartWrapper>

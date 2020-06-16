@@ -6,10 +6,6 @@ import scatterChartData from '../shared/data/scatter-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
-export default {
-  title: 'Scatter Chart'
-}
-
 storiesOf('ScatterChart', module)
   .add('Widget Scatter Chart', () => (
     <ResponsiveChartWrapper>
