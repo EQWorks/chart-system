@@ -2,37 +2,12 @@ import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { ResponsiveScatterPlot } from '@nivo/scatterplot'
 
-import styled from 'styled-components'
-
-import 'react-virtualized/styles.css'
-import { AutoSizer } from 'react-virtualized'
-
 import Tooltip from '../tooltip'
 import { onMouseEnter, onMouseLeave } from './events'
 
 import designSystemColors from '../../shared/constants/design-system-colors'
 import { getCommonProps } from '../../shared/utils'
 
-
-// define styled elements
-const Title = styled.div`
-  margin: 16px 16px 10px 16px;
-  height: 24px;
-  font-size: 18px;
-`
-
-const ChartContainer = styled.div`
-  display: flex;
-  flex: 1;
-  height: 100%;
-  margin: 0px 16px 16px 16px;
-`
-
-const ChartInner = styled.div`
-  position: relative;
-  width: ${ props => props.width}px;
-  height: ${ props => props.height}px;
-`
 
 // sets common props for Nivo ResponsiveScatterPlot component
 const setCommonProps = (width, height, data, axisBottomLegendLabel, axisLeftLegendLabel, ref) => ({
@@ -60,18 +35,28 @@ const setCommonProps = (width, height, data, axisBottomLegendLabel, axisLeftLege
 })
 
 const propTypes = {
-  data: PropTypes.array,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
   axisBottomLegendLabel: PropTypes.string,
   axisLeftLegendLabel: PropTypes.string,
+  width: PropTypes.number,
+  height: PropTypes.number,
+}
+
+const defaultProps = {
+  axisBottomLegendLabel: '',
+  axisLeftLegendLabel: '',
+  width: 100,
+  height: 100,
 }
 
 // ScatterChart - creates a scatter chart
 const ScatterChart = ({
   data,
   axisBottomLegendLabel,
-  axisLeftLegendLabel
+  axisLeftLegendLabel,
+  width,
+  height,
 }) => {
-
   /**
    * initRef - React ref used to target and trim Legend labels
    * @param { number } width - width of the chart container (ChartInner)
@@ -117,38 +102,25 @@ const ScatterChart = ({
       }
     }
   }, [])
-
   return (
-    <>
-      <Title>
-        Test
-      </Title>
-      <ChartContainer>
-        <AutoSizer>
-          {({ height, width }) => (
-            <ChartInner id='chart-inner' height={height} width={width}>
-              <ResponsiveScatterPlot
-                {...setCommonProps(width, height, data, axisBottomLegendLabel, axisLeftLegendLabel, initRef(width, height))}
-                tooltip={({ node }) => (
-                  <Tooltip
-                    label={node.id.split('.')[0]}
-                    color={node.style.color}
-                    display={[
-                      { label: axisBottomLegendLabel, value: node.data.formattedX },
-                      { label: axisLeftLegendLabel, value: node.data.formattedY },
-                    ]}
-                  />
-                )}
-              >
-              </ResponsiveScatterPlot>
-            </ChartInner>
-          )}
-        </AutoSizer>
-      </ChartContainer>
-    </>
+    <ResponsiveScatterPlot
+      {...setCommonProps(width, height, data, axisBottomLegendLabel, axisLeftLegendLabel, initRef)}
+      tooltip={({ node }) => (
+        <Tooltip
+          label={node.id.split('.')[0]}
+          color={node.style.color}
+          display={[
+            { label: axisBottomLegendLabel, value: node.data.formattedX },
+            { label: axisLeftLegendLabel, value: node.data.formattedY },
+          ]}
+        />
+      )}
+    >
+    </ResponsiveScatterPlot>
   )
 }
 
-export default ScatterChart
-
+ScatterChart.defaultProps = defaultProps
 ScatterChart.propTypes = propTypes
+
+export default ScatterChart
