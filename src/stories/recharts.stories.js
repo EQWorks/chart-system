@@ -2,7 +2,7 @@ import React from 'react'
 
 import Recharts from '../components/recharts/recharts-example'
 
-import { animals } from '../shared/constants/recharts-data'
+import { animals } from '../shared/data/recharts-data'
 
 export default {
   title: 'Recharts',

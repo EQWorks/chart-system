@@ -2,7 +2,7 @@ import React from 'react'
 
 import BarChart from '../components/bar-chart'
 
-import barChartData from '../shared/constants/bar-chart-data'
+import barChartData from '../shared/data/bar-chart-data'
 
 import GridLayout, { WidthProvider } from 'react-grid-layout'
 

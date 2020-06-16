@@ -1,7 +1,7 @@
 import React from 'react'
 
 import LineChart from '../components/line-chart'
-import lineChartData from '../shared/constants/line-chart-data'
+import lineChartData from '../shared/data/line-chart-data'
 
 import GridLayout, { WidthProvider } from 'react-grid-layout'
 

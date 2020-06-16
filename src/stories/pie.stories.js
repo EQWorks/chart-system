@@ -1,7 +1,7 @@
 import React from 'react'
 
 import PieChart from '../components/pie-chart'
-import pieChartData from '../shared/constants/pie-chart-data'
+import pieChartData from '../shared/data/pie-chart-data'
 
 import GridLayout, { WidthProvider } from 'react-grid-layout'
 

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import ScatterChart from '../components/scatter-chart'
-import scatterChartData from '../shared/constants/scatter-chart-data'
+import scatterChartData from '../shared/data/scatter-chart-data'
 
 import GridLayout, { WidthProvider } from 'react-grid-layout'
 
