@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import 'react-virtualized/styles.css'
 import { AutoSizer } from 'react-virtualized'
 
-import tooltip from './tooltip'
+import Tooltip from '../tooltip'
 import { onMouseEnter, onMouseLeave } from './events'
 
 import designSystemColors from '../../shared/constants/design-system-colors'
@@ -373,15 +373,17 @@ const ScatterChart = ({
           {({ height, width }) => (
             <ChartInner id='chart-inner' height={height} width={width}>
               <ResponsiveScatterPlot
-                {...setCommonProps(
-                  width,
-                  height,
-                  data,
-                  axisBottomLegendLabel,
-                  axisLeftLegendLabel,
-                  initRef(width, height)
+                {...setCommonProps(width, height, data, axisBottomLegendLabel, axisLeftLegendLabel, initRef(width, height))}
+                tooltip={({ node }) => (
+                  <Tooltip
+                    label={node.id.split('.')[0]}
+                    color={node.style.color}
+                    display={[
+                      { label: axisBottomLegendLabel, value: node.data.formattedX },
+                      { label: axisLeftLegendLabel, value: node.data.formattedY },
+                    ]}
+                  />
                 )}
-                tooltip={({ node }) => tooltip(node, axisBottomLegendLabel, axisLeftLegendLabel)}
               >
               </ResponsiveScatterPlot>
             </ChartInner>

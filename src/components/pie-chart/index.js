@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import 'react-virtualized/styles.css'
 import { AutoSizer } from 'react-virtualized'
 
-import tooltip from './tooltip'
+import Tooltip from '../tooltip'
 
 import designSystemColors from '../../shared/constants/design-system-colors'
 
@@ -231,7 +231,16 @@ const PieChart = ({
             <ChartInner height={height} width={width}>
               <ResponsivePie
                 {...setCommonProps(width, height, data, isDonut)}
-                tooltip={({ id, value, color }) => tooltip(id, value, color)}
+                tooltip={({ id, value, percent, color }) => (
+                  <Tooltip
+                    label={id}
+                    color={color}
+                    display={[
+                      { label: 'Value', value },
+                      { label: 'Share', value: percent },
+                    ]}
+                  />
+                )}
                 onMouseEnter={mouseOverHandler}
                 onMouseLeave={mouseLeaveHandler}
               >

@@ -7,7 +7,7 @@ import 'react-virtualized/styles.css'
 
 import { AutoSizer } from 'react-virtualized'
 
-import tooltip from './tooltip'
+import Tooltip from '../tooltip'
 
 import {
   WIDTH_BREAKPOINT_1,
@@ -289,7 +289,16 @@ const ResponsiveLineChart = ({
                 colors={Object.keys(color).length === 0 ? { datum: 'color' } : getColor}
                 layers={layers}
                 onMouseMove={(p, e) => mouseMove(p, e)}
-                tooltip={(slice) => tooltip(slice, axisBottomLegendLabel, axisLeftLegendLabel)}
+                tooltip={({ point }) => (
+                  <Tooltip
+                    color={point.borderColor}
+                    label={point.serieId}
+                    display={[
+                      { label: axisBottomLegendLabel, value: point.data.x },
+                      { label: axisLeftLegendLabel, value: point.data.y },
+                    ]}
+                  />
+                )}
               >
               </ResponsiveLine>
             </ChartInner>
