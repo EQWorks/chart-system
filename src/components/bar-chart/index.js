@@ -3,37 +3,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { ResponsiveBar } from '@nivo/bar'
 
-import styled from 'styled-components'
-import 'react-virtualized/styles.css'
-
-import { AutoSizer } from 'react-virtualized'
-
 import Tooltip from '../tooltip'
 
 import designSystemColors from '../../shared/constants/design-system-colors'
-
 import { getCommonProps } from '../../shared/utils'
 
-
-// define styled elements
-const Title = styled.div`
-  margin: 16px 16px 0 16px;
-  height: 24px;
-  font-size: 18px;
-`
-
-const ChartContainer = styled.div`
-  display: flex;
-  flex: 1;
-  height: 100%;
-  margin: 0px 16px 16px 16px;
-`
-
-const ChartInner = styled.div`
-  position: relative;
-  width: ${ props => props.width}px;
-  height: ${ props => props.height}px;
-`
 
 // sets common props for Nivo ResponsiveBar component
 const setCommonProps = (width, height, data, axisBottomLegendLabel, axisLeftLegendLabel) => ({
@@ -70,62 +44,56 @@ const setCommonProps = (width, height, data, axisBottomLegendLabel, axisLeftLege
 const propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   axisBottomLegendLabel: PropTypes.string,
-  axisLeftLegendLabel: PropTypes.string
+  axisLeftLegendLabel: PropTypes.string,
+  width: PropTypes.number,
+  height: PropTypes.number,
 }
 
-// BarChart - creates a bar chart
+const defaultProps = {
+  axisBottomLegendLabel: '',
+  axisLeftLegendLabel: '',
+  width: 100,
+  height: 100,
+}
+
 const BarChart = ({
   data,
   axisBottomLegendLabel,
-  axisLeftLegendLabel
-}) => {
+  axisLeftLegendLabel,
+  width,
+  height,
+}) => (
+  <ResponsiveBar
+    {...setCommonProps(width, height, data, axisBottomLegendLabel, axisLeftLegendLabel)}
+    // also ({ data, index, theme })
+    tooltip={({ id, value, color, indexValue }) => (
+      <Tooltip
+        label={id}
+        color={color}
+        display={[
+          { label: axisBottomLegendLabel, value: indexValue },
+          { label: axisLeftLegendLabel, value },
+        ]}
+      />
+    )}
+    onMouseEnter={(_data, event) => {
+      let dataPoints = Array.from(event.target.parentNode.parentElement.getElementsByTagName('rect'))
+      let hoverItemIndex = dataPoints.indexOf(event.target)
+      dataPoints.splice(hoverItemIndex, 1)
+      dataPoints.forEach(point => {
+        point.style.opacity = 0.1
+      })
+    }}
+    onMouseLeave={(_data, event) => {
+      let dataPoints = Array.from(event.target.parentNode.parentElement.getElementsByTagName('rect'))
+      for (let i = 0; i < dataPoints.length; i++) {
+        dataPoints[i].style.opacity = 1
+      }
+    }}
+  />
+)
 
-  return (
-    <>
-      <Title>
-        Title
-      </Title>
-      <ChartContainer>
-        <AutoSizer>
-          {({ height, width }) => (
-            <ChartInner height={height} width={width}>
-              <ResponsiveBar
-                {...setCommonProps(width, height, data, axisBottomLegendLabel, axisLeftLegendLabel)}
-                // also ({ data, index, theme })
-                tooltip={({ id, value, color, indexValue }) => (
-                  <Tooltip
-                    label={id}
-                    color={color}
-                    display={[
-                      { label: axisBottomLegendLabel, value: indexValue },
-                      { label: axisLeftLegendLabel, value },
-                    ]}
-                  />
-                )}
-                onMouseEnter={(_data, event) => {
-                  let dataPoints = Array.from(event.target.parentNode.parentElement.getElementsByTagName('rect'))
-                  let hoverItemIndex = dataPoints.indexOf(event.target)
-                  dataPoints.splice(hoverItemIndex, 1)
-                  dataPoints.forEach(point => {
-                    point.style.opacity = 0.1
-                  })
-                }}
-                onMouseLeave={(_data, event) => {
-                  let dataPoints = Array.from(event.target.parentNode.parentElement.getElementsByTagName('rect'))
-                  for (let i = 0; i < dataPoints.length; i++) {
-                    dataPoints[i].style.opacity = 1
-                  }
-                }}
-              >
-              </ResponsiveBar>
-            </ChartInner>
-          )}
-        </AutoSizer>
-      </ChartContainer>
-    </>
-  )
-}
+BarChart.defaultProps = defaultProps
+BarChart.propTypes = propTypes
 
 export default BarChart
-
-BarChart.propTypes = propTypes

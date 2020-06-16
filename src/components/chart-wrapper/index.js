@@ -28,22 +28,22 @@ const ChartInner = styled.div`
 
 const propTypes = {
   title: PropTypes.string,
-  chart: PropTypes.element.isRequired,
+  children: PropTypes.element.isRequired,
 }
 
 const defaultProps = { title: '' }
 
 const ChartWrapper = ({
   title,
-  chart,
+  children,
 }) => (
   <>
-    <Title>{title}</Title>
+    {title.length && <Title>{title}</Title>}
     <ChartContainer>
       <AutoSizer>
         {({ height, width }) => (
           <ChartInner height={height} width={width}>
-            {chart}
+            {React.cloneElement(children, { height, width })}
           </ChartInner>
         )}
       </AutoSizer>
