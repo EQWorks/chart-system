@@ -46,17 +46,18 @@ const setChartMargin = (width, height, legendLength) => {
   console.log('legendLengh: ', legendLength)
   // default values
   const top = 5
-  let right = 76
+  let right = 8 //76
   let bottom = 86
   let left = 63
 
   if (isAspectRatio(width, height, aspectRatios.LANDSCAPE)) {
-    if (width < WIDTH_BREAKPOINT_3) {
-      right = 8
-    } else if (width >= WIDTH_BREAKPOINT_3 + legendLength) {
+    if (width >= WIDTH_BREAKPOINT_3 + legendLength) {
+      // unsure where 26 comes from, 8 is circle symbol size, 6 is space between circle and key in legend
       right = legendLength + 26
+    } else if (width >= WIDTH_BREAKPOINT_3) {
+      right = 76
     }
-  } else right = 8
+  }
 
   // values from Zeplin design
   if (height < HEIGHT_BREAKPOINT_1) {
@@ -106,23 +107,34 @@ const getTextSize = (text, font) => {
   return textSize
 }
 
+const trimText = (text, containerWidth) => {
+  console.log('text in trimText: ', text)
+  let font = '12px noto sans'
+  let n = text.length - 1
+  let textWidth = getTextSize(text.substr(0, n) + '..', font)
+  console.log('textWidth, containerWidth:', textWidth, containerWidth)
+  if (textWidth <= containerWidth) {
+    text = text.substr(0, n) + '..'
+  } else {
+    text = trimText(text.substr(0, n - 1), containerWidth)
+  }
+  console.log('text final: ', text)
+  return text
+}
+
 const formatData = (width, legendLength, data, originalData) => {
   console.log('originalData in format data: ', originalData)
   console.log('data in format data: ', data)
   if ((width >= WIDTH_BREAKPOINT_3) && (width < WIDTH_BREAKPOINT_3 + legendLength)) {
     data.forEach( (dataSet) => {
+      console.log('dataSet.id 1: ', dataSet.id)
       // console.log('dataSet.id.length: ', dataSet.id.length )
       let labelWidth = getTextSize(dataSet.id, '12px noto sans')
       console.log('labelSize: ', labelWidth)
       if (labelWidth > LEGEND_LABEL_WIDTH) {
-        let label = dataSet.id.slice(0, 5) + '..'
-        if (getTextSize(label, '12px noto sans') > LEGEND_LABEL_WIDTH + 4) {
-          label = dataSet.id.slice(0, 3) + '...'
-        } else if (getTextSize(label, '12px noto sans') > LEGEND_LABEL_WIDTH) {
-          label = dataSet.id.slice(0, 4) + '..'
-        } else if (getTextSize(label, '12px noto sans') < LEGEND_LABEL_WIDTH) {
-          label = dataSet.id.slice(0, 5) + '...'
-        }
+        console.log('dataSet.id: ', dataSet.id)
+        let label = trimText(dataSet.id, LEGEND_LABEL_WIDTH)
+        console.log('trimmed label: ', label)
         dataSet.id = label
       }
     })
@@ -162,9 +174,10 @@ const setCommonProps = (
 ) => {
   const LEGEND_HEIGHT = 17
   const legend = {
+    // data: [{id: 1, label: 'FirstLabel'}, {id: 2, label: 'SecondLabel'}, {id: 3, label: 'ThirdLabel'}],
     anchor: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 'right' : 'bottom',
     direction: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 'column' : 'row',
-    // there is an issue with the library, the itemWidth is in fact a rect width but the rect doesn't include the text of the label
+    // there is an issue with the library, the itemWidth is in fact a rect width but the rect doesn't seem to include the text of the label
     itemWidth: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 28 : 83,
     // itemWidth: getLegendItemWidth(width, height, data, originalData),
     itemHeight: LEGEND_HEIGHT,
