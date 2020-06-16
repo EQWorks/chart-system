@@ -2,36 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { ResponsivePie } from '@nivo/pie'
 
-import styled from 'styled-components'
-
-import 'react-virtualized/styles.css'
-import { AutoSizer } from 'react-virtualized'
-
 import Tooltip from '../tooltip'
 
 import designSystemColors from '../../shared/constants/design-system-colors'
 
 import { isAspectRatio, aspectRatios, getCommonProps } from '../../shared/utils'
 
-// define styled elements
-const Title = styled.div`
-  margin: 16px 16px 0 16px;
-  height: 24px;
-  font-size: 18px;
-`
-
-const ChartContainer = styled.div`
-  display: flex;
-  flex: 1;
-  height: 100%;
-  margin: 0px 16px 16px 16px;
-`
-
-const ChartInner = styled.div`
-  position: relative;
-  width: ${ props => props.width}px;
-  height: ${ props => props.height}px;
-`
 
 const arcLabel = e => (
   <>
@@ -70,15 +46,26 @@ const setCommonProps = (width, height, data, isDonut) => ({
   })
 })
 
+
 const propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  isDonut: PropTypes.bool
+  isDonut: PropTypes.bool,
+  width: PropTypes.number,
+  height: PropTypes.number,
+}
+
+const defaultProps = {
+  isDonut: false,
+  width: 100,
+  height: 100,
 }
 
 // PieChart - creates a pie chart
 const PieChart = ({
   data,
-  isDonut
+  isDonut,
+  height,
+  width,
 }) => {
   let path
   let arc
@@ -119,38 +106,26 @@ const PieChart = ({
   percentData()
 
   return (
-    <>
-      <Title>
-        Title
-      </Title>
-      <ChartContainer>
-        <AutoSizer>
-          {({ height, width }) => (
-            <ChartInner height={height} width={width}>
-              <ResponsivePie
-                {...setCommonProps(width, height, data, isDonut)}
-                tooltip={({ id, value, percent, color }) => (
-                  <Tooltip
-                    label={id}
-                    color={color}
-                    display={[
-                      { label: 'Value', value },
-                      { label: 'Share', value: percent },
-                    ]}
-                  />
-                )}
-                onMouseEnter={mouseOverHandler}
-                onMouseLeave={mouseLeaveHandler}
-              >
-              </ResponsivePie>
-            </ChartInner>
-          )}
-        </AutoSizer>
-      </ChartContainer>
-    </>
+    <ResponsivePie
+      {...setCommonProps(width, height, data, isDonut)}
+      tooltip={({ id, value, percent, color }) => (
+        <Tooltip
+          label={id}
+          color={color}
+          display={[
+            { label: 'Value', value },
+            { label: 'Share', value: percent },
+          ]}
+        />
+      )}
+      onMouseEnter={mouseOverHandler}
+      onMouseLeave={mouseLeaveHandler}
+    >
+    </ResponsivePie>
   )
 }
 
-export default PieChart
-
+PieChart.defaultProps = defaultProps
 PieChart.propTypes = propTypes
+
+export default PieChart

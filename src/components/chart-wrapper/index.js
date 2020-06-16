@@ -33,6 +33,7 @@ const propTypes = {
 
 const defaultProps = { title: '' }
 
+// TODO export each chart with this already in index.js
 const ChartWrapper = ({
   title,
   children,
@@ -42,7 +43,6 @@ const ChartWrapper = ({
     <ChartContainer>
       <AutoSizer>
         {({ height, width }) => (
-          // TODO: responsive-line had onMouseLeave={mouseLeave}
           <ChartInner height={height} width={width}>
             {React.cloneElement(children, { height, width })}
           </ChartInner>
