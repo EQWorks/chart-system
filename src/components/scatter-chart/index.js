@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { ResponsiveScatterPlot } from '@nivo/scatterplot'
 
@@ -72,10 +72,12 @@ const setChartMargin = (width, height, legendLength) => {
   }
 
   if (width < WIDTH_BREAKPOINT_1) {
+    // 8 is the width of vertical axis ticks that need to fit on the side of the chart
     left = 8
   } else {
     if (width < WIDTH_BREAKPOINT_2) {
-      left = 49
+      // 41 = 8(ticks) + 8(space) + 17(height of axis label) + 8(space to margin)
+      left = 41
     } else {
       if (width < WIDTH_BREAKPOINT_3) {
         left = 66
@@ -94,7 +96,7 @@ const getLegendLabelMaxWidth = (data) => {
   return legendLabelWidthMax
 }
 
-const getTextSize = (text, font) => { 
+const getTextSize = (text, font) => {
   let canvas = document.createElement('canvas')
   let context = canvas.getContext('2d')
   context.font = font
@@ -113,22 +115,6 @@ const trimText = (text, containerWidth) => {
     text = trimText(text.substr(0, n - 1), containerWidth)
   }
   return text
-}
-
-const formatData = (width, legendLabelWidth, data, originalData) => {
-  data = JSON.parse(JSON.stringify(originalData))
-  if ((width >= WIDTH_BREAKPOINT_3) &&
-      (width < WIDTH_BREAKPOINT_3 + legendLabelWidth + LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH)) {
-    data.forEach( (dataSet) => {
-      let labelWidth = getTextSize(dataSet.id, '12px noto sans')
-      let labelContainer = width - WIDTH_BREAKPOINT_3 + TRIMMED_LEGEND_WIDTH
-      if (labelWidth > labelContainer) {
-        let label = trimText(dataSet.id, labelContainer)
-        dataSet.id = label
-      }
-    })
-    return data
-  } else return originalData
 }
 
 const aspectRatios = {
@@ -156,12 +142,28 @@ const setCommonProps = (
   width,
   height,
   data,
-  originalData,
   legendLabelWidth,
   axisBottomLegendLabel,
-  axisLeftLegendLabel
+  axisLeftLegendLabel,
+  ref
 ) => {
   const LEGEND_HEIGHT = 17
+  const symbolShape = ({
+    x, y, size, fill, borderWidth, borderColor,
+  }) => (
+    <circle
+      r={size / 2}
+      cx={x + size / 2}
+      cy={y + size / 2}
+      fill={fill}
+      strokeWidth={borderWidth}
+      stroke={borderColor}
+      style={{
+        pointerEvents: 'none',
+      }}
+      ref={ref}
+    />
+  )
   const legend = {
     // data: [{id: 1, label: 'FirstLabel'}, {id: 2, label: 'SecondLabel'}, {id: 3, label: 'ThirdLabel'}],
     anchor: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 'right' : 'bottom',
@@ -173,7 +175,7 @@ const setCommonProps = (
     itemHeight: LEGEND_HEIGHT,
     symbolSize: 8,
     symbolSpacing: 6,
-    symbolShape: 'circle',
+    symbolShape,
     translateX: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 44: 8.5,
     translateY: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 0: 74
   }
@@ -181,7 +183,8 @@ const setCommonProps = (
   // const HEIGHT_WIDTH_RATIO = width / height
   return {
     margin: setChartMargin(width, height, legendLabelWidth),
-    data: formatData(width, legendLabelWidth, data, originalData),
+    // data: formatData(width, legendLabelWidth, data, originalData),
+    data: data,
     xScale: { type: 'linear' },
     yScale: { type: 'linear' },
     colors: [
@@ -254,11 +257,31 @@ const ScatterChart = ({
   axisBottomLegendLabel,
   axisLeftLegendLabel
 }) => {
-  // console.log('data: ', data)
-  let originalData = JSON.parse(JSON.stringify(data))
-  // console.log('original data: ', originalData)
-  const LEGEND_LABEL_LENGTH = getLegendLabelMaxWidth(originalData)
-  // console.log('LEGEND_LENGTH: ', LEGEND_LENGTH)
+  const initRef = useCallback(width => node => {
+    if ((node !== null) && (width >= WIDTH_BREAKPOINT_3)) {
+      const text = Array.from(node.parentNode.children).find(tag => tag.tagName === 'text')
+      if (text) {
+        // set its original value as attribute, so that we don't keep repeating
+        if (!text.getAttribute('og-key')) {
+          text.setAttribute('og-key', text.innerHTML)
+        }
+        let original = text.getAttribute('og-key') || text.innerHTML
+        // need to only measure length of the key without the '..'
+        if (original.endsWith('..')) {
+          original = original.split('..')[0]
+        }
+        let labelWidth = getTextSize(original, '12px noto sans')
+        let labelContainer = width - WIDTH_BREAKPOINT_3 + TRIMMED_LEGEND_WIDTH
+        let label = original
+        if (labelWidth > labelContainer) {
+          label = trimText(original, labelContainer)
+        }
+        text.innerHTML = label
+      }
+    }
+  }, [])
+
+  const LEGEND_LABEL_LENGTH = getLegendLabelMaxWidth(data)
 
   return (
     <>
@@ -268,16 +291,16 @@ const ScatterChart = ({
       <ChartContainer>
         <AutoSizer>
           {({ height, width }) => (
-            <ChartInner id='chart-inner' height={height} width={width}>
+            <ChartInner id='chart-inner' height={height} width={width} legend>
               <ResponsiveScatterPlot
                 {...setCommonProps(
                   width,
                   height,
                   data,
-                  originalData,
                   LEGEND_LABEL_LENGTH,
                   axisBottomLegendLabel,
-                  axisLeftLegendLabel
+                  axisLeftLegendLabel,
+                  initRef(width)
                 )}
                 tooltip={({ node }) => tooltip(node, axisBottomLegendLabel, axisLeftLegendLabel)}
               >
