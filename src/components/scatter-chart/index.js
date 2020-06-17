@@ -19,7 +19,8 @@ import {
   HEIGHT_BREAKPOINT_1,
   HEIGHT_BREAKPOINT_2,
   HEIGHT_BREAKPOINT_3,
-  LEGEND_LABEL_WIDTH
+  TRIMMED_LEGEND_WIDTH,
+  LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH,
 } from '../../shared/constants/dimensions'
 
 // define styled elements
@@ -43,23 +44,21 @@ const ChartInner = styled.div`
 `
 
 const setChartMargin = (width, height, legendLength) => {
-  console.log('legendLengh: ', legendLength)
   // default values
   const top = 5
-  let right = 8 //76
+  // TO DO: adjust default value to include dynamically the last tick label on the x-axis
+  let right = 8
   let bottom = 86
   let left = 63
 
   if (isAspectRatio(width, height, aspectRatios.LANDSCAPE)) {
-    if (width >= WIDTH_BREAKPOINT_3 + legendLength) {
-      // unsure where 26 comes from, 8 is circle symbol size, 6 is space between circle and key in legend
-      right = legendLength + 26
+    if (width >= WIDTH_BREAKPOINT_3 + legendLength - LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH) {
+      right = legendLength + LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH
     } else if (width >= WIDTH_BREAKPOINT_3) {
-      right = 76
+      right = width - WIDTH_BREAKPOINT_3 + LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH + TRIMMED_LEGEND_WIDTH
     }
   }
 
-  // values from Zeplin design
   if (height < HEIGHT_BREAKPOINT_1) {
     bottom = 15
   } else {
@@ -92,7 +91,6 @@ const getLegendLabelMaxWidth = (data) => {
   data.forEach(dataSet => {
     legendLabelWidthMax = Math.max(legendLabelWidthMax, getTextSize(dataSet.id, '12px noto sans'))
   })
-  console.log('legendLabelWidthMax: ', legendLabelWidthMax)
   return legendLabelWidthMax
 }
 
@@ -101,40 +99,31 @@ const getTextSize = (text, font) => {
   let context = canvas.getContext('2d')
   context.font = font
   let width = context.measureText(text).width
-  // let height = parseInt(context.font)
   let textSize = Math.ceil(width)
-  console.log('label, width: ', text, textSize)
   return textSize
 }
 
 const trimText = (text, containerWidth) => {
-  console.log('text in trimText: ', text)
   let font = '12px noto sans'
   let n = text.length - 1
   let textWidth = getTextSize(text.substr(0, n) + '..', font)
-  console.log('textWidth, containerWidth:', textWidth, containerWidth)
   if (textWidth <= containerWidth) {
     text = text.substr(0, n) + '..'
   } else {
     text = trimText(text.substr(0, n - 1), containerWidth)
   }
-  console.log('text final: ', text)
   return text
 }
 
-const formatData = (width, legendLength, data, originalData) => {
-  console.log('originalData in format data: ', originalData)
-  console.log('data in format data: ', data)
-  if ((width >= WIDTH_BREAKPOINT_3) && (width < WIDTH_BREAKPOINT_3 + legendLength)) {
+const formatData = (width, legendLabelWidth, data, originalData) => {
+  data = JSON.parse(JSON.stringify(originalData))
+  if ((width >= WIDTH_BREAKPOINT_3) &&
+      (width < WIDTH_BREAKPOINT_3 + legendLabelWidth + LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH)) {
     data.forEach( (dataSet) => {
-      console.log('dataSet.id 1: ', dataSet.id)
-      // console.log('dataSet.id.length: ', dataSet.id.length )
       let labelWidth = getTextSize(dataSet.id, '12px noto sans')
-      console.log('labelSize: ', labelWidth)
-      if (labelWidth > LEGEND_LABEL_WIDTH) {
-        console.log('dataSet.id: ', dataSet.id)
-        let label = trimText(dataSet.id, LEGEND_LABEL_WIDTH)
-        console.log('trimmed label: ', label)
+      let labelContainer = width - WIDTH_BREAKPOINT_3 + TRIMMED_LEGEND_WIDTH
+      if (labelWidth > labelContainer) {
+        let label = trimText(dataSet.id, labelContainer)
         dataSet.id = label
       }
     })
@@ -168,7 +157,7 @@ const setCommonProps = (
   height,
   data,
   originalData,
-  legendLength,
+  legendLabelWidth,
   axisBottomLegendLabel,
   axisLeftLegendLabel
 ) => {
@@ -178,6 +167,7 @@ const setCommonProps = (
     anchor: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 'right' : 'bottom',
     direction: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 'column' : 'row',
     // there is an issue with the library, the itemWidth is in fact a rect width but the rect doesn't seem to include the text of the label
+    // 28 will place the legend 12 pixels away from the chart to the right
     itemWidth: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 28 : 83,
     // itemWidth: getLegendItemWidth(width, height, data, originalData),
     itemHeight: LEGEND_HEIGHT,
@@ -190,8 +180,8 @@ const setCommonProps = (
 
   // const HEIGHT_WIDTH_RATIO = width / height
   return {
-    margin: setChartMargin(width, height, legendLength),
-    data: formatData(width, legendLength, data, originalData),
+    margin: setChartMargin(width, height, legendLabelWidth),
+    data: formatData(width, legendLabelWidth, data, originalData),
     xScale: { type: 'linear' },
     yScale: { type: 'linear' },
     colors: [
@@ -220,7 +210,7 @@ const setCommonProps = (
       legend: isLess(width, WIDTH_BREAKPOINT_1) ? '' : axisLeftLegendLabel,
       legendHeight: LEGEND_HEIGHT,
       // legendOffset -15 places label by the ticks
-      legendOffset: isLess(width, WIDTH_BREAKPOINT_2) ? -15 : -48,
+      legendOffset: isLess(width, WIDTH_BREAKPOINT_2) ? -23 : -48,
       legendPosition: 'middle'
     },
     onMouseEnter,
@@ -264,11 +254,11 @@ const ScatterChart = ({
   axisBottomLegendLabel,
   axisLeftLegendLabel
 }) => {
-  console.log('data: ', data)
+  // console.log('data: ', data)
   let originalData = JSON.parse(JSON.stringify(data))
-  console.log('original data: ', originalData)
-  const LEGEND_LENGTH = getLegendLabelMaxWidth(originalData)
-  console.log('LEGEND_LENGTH: ', LEGEND_LENGTH)
+  // console.log('original data: ', originalData)
+  const LEGEND_LABEL_LENGTH = getLegendLabelMaxWidth(originalData)
+  // console.log('LEGEND_LENGTH: ', LEGEND_LENGTH)
 
   return (
     <>
@@ -280,7 +270,15 @@ const ScatterChart = ({
           {({ height, width }) => (
             <ChartInner id='chart-inner' height={height} width={width}>
               <ResponsiveScatterPlot
-                {...setCommonProps(width, height, data, originalData, LEGEND_LENGTH, axisBottomLegendLabel, axisLeftLegendLabel)}
+                {...setCommonProps(
+                  width,
+                  height,
+                  data,
+                  originalData,
+                  LEGEND_LABEL_LENGTH,
+                  axisBottomLegendLabel,
+                  axisLeftLegendLabel
+                )}
                 tooltip={({ node }) => tooltip(node, axisBottomLegendLabel, axisLeftLegendLabel)}
               >
               </ResponsiveScatterPlot>
