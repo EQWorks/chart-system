@@ -34,7 +34,7 @@ const ResponsiveGridLayout = WidthProvider(GridLayout)
 
 storiesOf('ScatterChart', module)
   .add('Widget Scatter Chart', () => (
-    <ResponsiveGridLayout className='layout' layout={layout} cols={12} rowHeight={30} >
+    <ResponsiveGridLayout className='layout' layout={layout} cols={300} rowHeight={30} >
       <Wrapper key='a'>
         <ScatterChart data={scatterChartData} axisBottomLegendLabel={'axisBottomLegend'} axisLeftLegendLabel={'axisLeftLegend'}></ScatterChart>
       </Wrapper>
