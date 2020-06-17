@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useCallback } from 'react'
 
 import PropTypes from 'prop-types'
 import { ResponsiveBar } from '@nivo/bar'
@@ -18,7 +18,8 @@ import {
   WIDTH_BREAKPOINT_3,
   HEIGHT_BREAKPOINT_1,
   HEIGHT_BREAKPOINT_2,
-  HEIGHT_BREAKPOINT_3
+  HEIGHT_BREAKPOINT_3,
+  LEGEND_LABEL_WIDTH
 } from '../../shared/constants/dimensions'
 
 // define styled elements
@@ -39,6 +40,15 @@ const ChartInner = styled.div`
   position: relative;
   width: ${ props => props.width}px;
   height: ${ props => props.height}px;
+  .legend ~ text {
+    max-width: 10px;
+    width: 10px;
+    text-overflow: ellipsis;
+    text-length: 10px;
+  }
+  .legend {
+    background-color: black;
+  }
 `
 
 const setChartMargin = (width, height) => {
@@ -105,21 +115,36 @@ const isLess = (a, b) => {
 }
 
 // sets common props for Nivo ResponsiveBar component
-const setCommonProps = (width, height, data, axisBottomLegendLabel, axisLeftLegendLabel) => {
+const setCommonProps = (width, height, data, axisBottomLegendLabel, axisLeftLegendLabel, ref) => {
   const LEGEND_HEIGHT = 17
-
+  const symbolShape = ({
+    x, y, size, fill, borderWidth, borderColor,
+  }) => (
+    <rect
+      x={x}
+      y={y}
+      transform={`rotate(45 ${size/2} ${size/2})`}
+      fill={fill}
+      strokeWidth={borderWidth}
+      stroke={borderColor}
+      width={size}
+      height={size}
+      style={{ pointerEvents: 'none' }}
+      ref={ref}
+    />
+  )
   const legend = {
     dataFrom: 'keys',
     anchor: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 'right' : 'bottom',
     direction: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 'column' : 'row',
-    itemWidth: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 84.5 : 83,
+    itemWidth: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 28 : 83,
     itemHeight: LEGEND_HEIGHT,
     symbolSize: 8,
     justify: false,
     symbolSpacing: 6,
-    symbolShape: 'circle',
-    translateX: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 99 : 8.5,
-    translateY: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 0 : 74
+    symbolShape,
+    translateX: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 44: 8.5,
+    translateY: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 0: 74
   }
 
 
@@ -200,12 +225,58 @@ const propTypes = {
   axisLeftLegendLabel: PropTypes.string
 }
 
+const getTextSize = (text, font) => { 
+  let canvas = document.createElement('canvas')
+  let context = canvas.getContext('2d')
+  context.font = font
+  let width = context.measureText(text).width
+  // let height = parseInt(context.font)
+  let textSize = Math.ceil(width)
+  console.log('label, width: ', text, textSize)
+  return textSize
+}
+
+const trimText = (text, containerWidth) => {
+  console.log('text in trimText: ', text)
+  let font = '12px noto sans'
+  let n = text.length - 1
+  let textWidth = getTextSize(text.substr(0, n) + '..', font)
+  console.log('textWidth, containerWidth:', textWidth, containerWidth)
+  if (textWidth <= containerWidth) {
+    text = text.substr(0, n) + '..'
+  } else {
+    text = trimText(text.substr(0, n - 1), containerWidth)
+  }
+  console.log('text final: ', text)
+  return text
+}
+
 // BarChart - creates a bar chart
 const BarChart = ({
   data,
   axisBottomLegendLabel,
   axisLeftLegendLabel
 }) => {
+
+  const initRef = useCallback(node => {
+    if (node !== null) {
+      const text = Array.from(node.parentNode.children).find(tag => tag.tagName === 'text')
+      if (text) {
+        console.log(text)
+        console.log(text.innerHTML)
+        // set its original value as attribute, so that we don't keep repeating
+        if (!text.getAttribute('og-key')) {
+          text.setAttribute('og-key', text.innerHTML)
+        }
+        const original = text.getAttribute('og-key') || text.innerHTML
+        let labelWidth = getTextSize(original, '12px noto sans')
+        if (labelWidth > LEGEND_LABEL_WIDTH) {
+          let label = trimText(original, LEGEND_LABEL_WIDTH)
+          text.innerHTML = label
+        }
+      }
+    }
+  }, [])
 
   return (
     <>
@@ -217,7 +288,7 @@ const BarChart = ({
           {({ height, width }) => (
             <ChartInner height={height} width={width}>
               <ResponsiveBar
-                {...setCommonProps(width, height, data, axisBottomLegendLabel, axisLeftLegendLabel)}
+                {...setCommonProps(width, height, data, axisBottomLegendLabel, axisLeftLegendLabel, initRef)}
                 tooltip={({ id, value, color }) => tooltip(id, value, color, axisBottomLegendLabel, axisLeftLegendLabel)}
                 onMouseEnter={(_data, event) => {
                   let dataPoints = Array.from(event.target.parentNode.parentElement.getElementsByTagName('rect'))
