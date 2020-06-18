@@ -13,14 +13,18 @@ import { onMouseEnter, onMouseLeave } from './events'
 import designSystemColors from '../../shared/constants/design-system-colors'
 
 import {
+  WIDTH_BREAKPOINT_0,
   WIDTH_BREAKPOINT_1,
   WIDTH_BREAKPOINT_2,
   WIDTH_BREAKPOINT_3,
   HEIGHT_BREAKPOINT_1,
   HEIGHT_BREAKPOINT_2,
   HEIGHT_BREAKPOINT_3,
+  TEXT_HEIGHT,
+  BUFFER,
   TRIMMED_LEGEND_WIDTH,
   LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH,
+  LEGEND_ROW_FIXED_ELEMENTS_WIDTH
 } from '../../shared/constants/dimensions'
 
 // define styled elements
@@ -42,16 +46,23 @@ const ChartInner = styled.div`
   width: ${ props => props.width}px;
   height: ${ props => props.height}px;
 `
-
-const setChartMargin = (width, height, legendLength) => {
+/**
+ * setChartMargin - sets the values of the chart margins
+ * @param { number } width - width of the chart conatiner (ChartInner)
+ * @param { number } heigth - height of the chart conatiner (ChartInner)
+ * @param { number } legendLength - maximum length of a label/key text in the legend
+ * @param { number } legendItemCount - number of items in the legend
+ * @returns { object } - top, right, bottom, left values
+ */
+const setChartMargin = (width, height, legendLength, legendItemCount) => {
   // default values
   const top = 5
   // TO DO: adjust default value to include dynamically the last tick label on the x-axis
-  let right = 8
+  let right = BUFFER
   let bottom = 86
   let left = 63
 
-  if (isAspectRatio(width, height, aspectRatios.LANDSCAPE)) {
+  if (isAspectRatio(width, height, aspectRatios.LANDSCAPE) || legendItemCount > 3) {
     if (width >= WIDTH_BREAKPOINT_3 + legendLength - LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH) {
       right = legendLength + LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH
     } else if (width >= WIDTH_BREAKPOINT_3) {
@@ -72,8 +83,8 @@ const setChartMargin = (width, height, legendLength) => {
   }
 
   if (width < WIDTH_BREAKPOINT_1) {
-    // 8 is the width of vertical axis ticks that need to fit on the side of the chart
-    left = 8
+    // BUFFER = 8 is the width of vertical axis ticks that need to fit on the side of the chart
+    left = BUFFER
   } else {
     if (width < WIDTH_BREAKPOINT_2) {
       // 41 = 8(ticks) + 8(space) + 17(height of axis label) + 8(space to margin)
@@ -88,6 +99,11 @@ const setChartMargin = (width, height, legendLength) => {
   return { top, right, bottom, left }
 }
 
+/**
+ * getLegendLabelMaxWidth - calculates the width of the longest label text in the legend
+ * @param { array } data - data array
+ * @returns { number } - the width of the longest label text in the legend
+ */
 const getLegendLabelMaxWidth = (data) => {
   let legendLabelWidthMax = 0
   data.forEach(dataSet => {
@@ -96,6 +112,12 @@ const getLegendLabelMaxWidth = (data) => {
   return legendLabelWidthMax
 }
 
+/**
+ * getTextSize - calculates a rendered text width in pixels
+ * @param { string } text - a text string
+ * @param { string } font - a string with the font included ex: '12px noto sans'
+ * @returns { number } - the width of the rendered text in pixels
+ */
 const getTextSize = (text, font) => {
   let canvas = document.createElement('canvas')
   let context = canvas.getContext('2d')
@@ -105,6 +127,12 @@ const getTextSize = (text, font) => {
   return textSize
 }
 
+/**
+ * trimText - trims a text and adds '..' at the end
+ * @param { string } text - a text string
+ * @param { number } containerWidth - width of the text container in pixels
+ * @returns { string } - a trimmed text with '..' added at the end
+ */
 const trimText = (text, containerWidth) => {
   let font = '12px noto sans'
   let n = text.length - 1
@@ -115,6 +143,27 @@ const trimText = (text, containerWidth) => {
     text = trimText(text.substr(0, n - 1), containerWidth)
   }
   return text
+}
+
+/**
+ * setLegendItemWidth - sets the itemWidth of the row / bottom legend
+ * @param { number } width - width of the chart container (ChartInner)
+ * @returns { number } - itemWidth's length in pixels
+ */
+// a legend item = buffers, symbol, and keys
+const setLegendItemWidth = (width) => {
+  let itemWidth = 69
+  if (width > WIDTH_BREAKPOINT_2) {
+    /* we have to take out right axis label height which pushes the row/bottom legend to the right
+     * when ticks labels are added after WIDTH_BREAKPOINT_2
+     * BUFFER is added in translateX in the Legend props
+     */
+    itemWidth = itemWidth + (width - WIDTH_BREAKPOINT_0 - TEXT_HEIGHT - BUFFER) / 3
+  } else if (width > WIDTH_BREAKPOINT_0) {
+    itemWidth = itemWidth + (width - WIDTH_BREAKPOINT_0) / 3
+  }
+  console.log('itemWidth: ', itemWidth)
+  return itemWidth
 }
 
 const aspectRatios = {
@@ -143,6 +192,7 @@ const setCommonProps = (
   height,
   data,
   legendLabelWidth,
+  legendItemCount,
   axisBottomLegendLabel,
   axisLeftLegendLabel,
   ref
@@ -165,24 +215,29 @@ const setCommonProps = (
     />
   )
   const legend = {
-    // data: [{id: 1, label: 'FirstLabel'}, {id: 2, label: 'SecondLabel'}, {id: 3, label: 'ThirdLabel'}],
-    anchor: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 'right' : 'bottom',
-    direction: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 'column' : 'row',
-    // there is an issue with the library, the itemWidth is in fact a rect width but the rect doesn't seem to include the text of the label
-    // 28 will place the legend 12 pixels away from the chart to the right
-    itemWidth: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 28 : 83,
-    // itemWidth: getLegendItemWidth(width, height, data, originalData),
+    anchor: (isAspectRatio(width, height, aspectRatios.LANDSCAPE) || legendItemCount > 3) ? 'right' : 'bottom',
+    direction: (isAspectRatio(width, height, aspectRatios.LANDSCAPE) || legendItemCount > 3) ? 'column' : 'row',
+    // MY SOLUTION - itemWidth extends right away with extending the width for a bottom legend
+    // itemWidth: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 14 : setLegendItemWidth(width),
+
+    // Do's design - Do wants the legend items to extend only after width > WIDTH_BREAKPOINT_3
+    itemWidth: (isAspectRatio(width, height, aspectRatios.LANDSCAPE) || legendItemCount > 3) ?
+      0 :
+      (width < WIDTH_BREAKPOINT_3 ?
+        (WIDTH_BREAKPOINT_0 - BUFFER) / 3:
+        setLegendItemWidth(width)),
     itemHeight: LEGEND_HEIGHT,
     symbolSize: 8,
     symbolSpacing: 6,
     symbolShape,
-    translateX: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 44: 8.5,
-    translateY: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 0: 74
+    // 14 is the buffer to the right between chart and column Legend
+    translateX: (isAspectRatio(width, height, aspectRatios.LANDSCAPE) || legendItemCount > 3) ? 14: BUFFER,
+    translateY: (isAspectRatio(width, height, aspectRatios.LANDSCAPE) || legendItemCount > 3) ? 0: 74
   }
 
   // const HEIGHT_WIDTH_RATIO = width / height
   return {
-    margin: setChartMargin(width, height, legendLabelWidth),
+    margin: setChartMargin(width, height, legendLabelWidth, legendItemCount),
     // data: formatData(width, legendLabelWidth, data, originalData),
     data: data,
     xScale: { type: 'linear' },
@@ -220,9 +275,9 @@ const setCommonProps = (
     onMouseLeave,
     useMesh: false,
     // legends will change format and placement with container width & height changes
-    legends: isAspectRatio(width, height, aspectRatios.LANDSCAPE)
+    legends: (isAspectRatio(width, height, aspectRatios.LANDSCAPE) && legendItemCount > 3)
       ? (height > 100 ? [legend] : [])
-      : (width > 400 ? [legend] : []),
+      : (width >= WIDTH_BREAKPOINT_0 ? [legend] : []),
     theme: {
       // font size for the whole chart
       fontSize: 12,
@@ -257,8 +312,15 @@ const ScatterChart = ({
   axisBottomLegendLabel,
   axisLeftLegendLabel
 }) => {
-  const initRef = useCallback(width => node => {
-    if ((node !== null) && (width >= WIDTH_BREAKPOINT_3)) {
+
+  /**
+   * initRef - React ref used to target and trim Legend labels
+   * @param { number } width - width of the chart container (ChartInner)
+   * @param { number } heigth - height of the chart container (ChartInner)
+   * @param { html } node - Legend html node
+   */
+  const initRef = useCallback((width, height) => node => {
+    if ((node !== null) && (width >= WIDTH_BREAKPOINT_0)) {
       const text = Array.from(node.parentNode.children).find(tag => tag.tagName === 'text')
       if (text) {
         // set its original value as attribute, so that we don't keep repeating
@@ -271,9 +333,25 @@ const ScatterChart = ({
           original = original.split('..')[0]
         }
         let labelWidth = getTextSize(original, '12px noto sans')
-        let labelContainer = width - WIDTH_BREAKPOINT_3 + TRIMMED_LEGEND_WIDTH
+        // MY SOLUTION
+        // let labelContainer = isAspectRatio(width, height, aspectRatios.LANDSCAPE) ?
+        // // we only want to start trimming for column legend when width >= WIDTH_BREAKPOINT_3
+        //   ((width >= WIDTH_BREAKPOINT_3) ?
+        //     width - WIDTH_BREAKPOINT_3 + TRIMMED_LEGEND_WIDTH :
+        //     0):
+        //   setLegendItemWidth(width, height) - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
+
+        // Do's design
+        let labelContainer = isAspectRatio(width, height, aspectRatios.LANDSCAPE) ?
+        // we only want to start trimming for column legend when width >= WIDTH_BREAKPOINT_3
+          ((width >= WIDTH_BREAKPOINT_3) ?
+            width - WIDTH_BREAKPOINT_3 + TRIMMED_LEGEND_WIDTH :
+            0):
+          ((width >= WIDTH_BREAKPOINT_3) ?
+            setLegendItemWidth(width, height) - LEGEND_ROW_FIXED_ELEMENTS_WIDTH :
+            72 - LEGEND_ROW_FIXED_ELEMENTS_WIDTH)
         let label = original
-        if (labelWidth > labelContainer) {
+        if (labelContainer && (labelWidth > labelContainer)) {
           label = trimText(original, labelContainer)
         }
         text.innerHTML = label
@@ -282,6 +360,7 @@ const ScatterChart = ({
   }, [])
 
   const LEGEND_LABEL_LENGTH = getLegendLabelMaxWidth(data)
+  const legendItemCount = data.length
 
   return (
     <>
@@ -298,9 +377,10 @@ const ScatterChart = ({
                   height,
                   data,
                   LEGEND_LABEL_LENGTH,
+                  legendItemCount,
                   axisBottomLegendLabel,
                   axisLeftLegendLabel,
-                  initRef(width)
+                  initRef(width, height)
                 )}
                 tooltip={({ node }) => tooltip(node, axisBottomLegendLabel, axisLeftLegendLabel)}
               >
