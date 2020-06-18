@@ -6,13 +6,16 @@ import { ResponsiveBar } from '@nivo/bar'
 
 import Tooltip from '../tooltip'
 
-import { getCommonProps, processData } from '../../shared/utils'
+import { getCommonProps, processDataKeys, processColors } from '../../shared/utils'
 
 
 const propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
   keys: PropTypes.array,
   indexBy: PropTypes.string,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  colors: PropTypes.array,
+  colorType: PropTypes.string,
+  colorParam: PropTypes.string,
   axisBottomLegendLabel: PropTypes.string,
   axisLeftLegendLabel: PropTypes.string,
   width: PropTypes.number,
@@ -22,6 +25,9 @@ const propTypes = {
 const defaultProps = {
   keys: [],
   indexBy: '',
+  colors: [],
+  colorType: 'palette',
+  colorParam: '70',
   axisBottomLegendLabel: '',
   axisLeftLegendLabel: '',
   width: 100,
@@ -29,9 +35,12 @@ const defaultProps = {
 }
 
 const BarChart = ({
-  data,
   keys,
   indexBy,
+  data,
+  colors,
+  colorType,
+  colorParam,
   axisBottomLegendLabel,
   axisLeftLegendLabel,
   width,
@@ -40,14 +49,15 @@ const BarChart = ({
   // a single key is required for the X axis scale
   // the rest are used as values
   // indexBy cannot be present in keys[]
-  const { finalKeys, finalIndexBy, colors } = processData({ data, keys, indexBy })
+  const { finalKeys, finalIndexBy } = processDataKeys({ data, keys, indexBy })
+  const finalColors = colors.length ? colors : processColors(finalKeys.length, colorType, colorParam)
   return (
     <ResponsiveBar
       indexBy={finalIndexBy}
       keys={finalKeys}
       groupMode='grouped'
       layout='vertical'
-      colors={colors}
+      colors={finalColors}
       enableRadialLabels={false}
       enableGridY={true}
       enableLabel={false}

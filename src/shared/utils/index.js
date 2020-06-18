@@ -301,19 +301,33 @@ export const getCommonProps = ({
   }
 }
 
-export const processData = ({ indexBy, keys, data }) => {
+export const processDataKeys = ({ indexBy, keys, data }) => {
   // remove indexBy and assign colors
   const finalIndexBy = indexBy.length ? indexBy : Object.keys(data[0])[0]
   const finalKeys = keys.length ? keys : Object.keys(omit(data[0], finalIndexBy))
   return {
-    colors: [
-      designSystemColors.blue70,
-      designSystemColors.yellow70,
-      designSystemColors.pink70,
-      designSystemColors.purple70,
-      designSystemColors.teal70,
-    ],
     finalKeys,
     finalIndexBy,
   }
 }
+
+const COLOR_METHODS = {
+  'random': num => {
+    const colors = Object.values(designSystemColors)
+    return new Array(num).fill(0).map(() => colors[Math.floor(Math.random() * colors.length)])
+  },
+  'monochromatic': (num, hue) => {
+    // return all values for keys that have `${hue}xx`
+    // repeat if necessary
+    const colors = Object.keys(designSystemColors).filter(o => o.indexOf(hue) >= 0)
+    return new Array(num).fill(0).map((_, i) => designSystemColors[colors[i % colors.length]])
+  },
+  'palette': (num, lightness) => {
+    // return all values for keys that have `hue${lightness}`
+    // repeat if necessary
+    const colors = Object.keys(designSystemColors).filter(o => o.indexOf(lightness) >= 0)
+    return new Array(num).fill(0).map((_, i) => designSystemColors[colors[i % colors.length]])
+  },
+}
+
+export const processColors = (numberOfColors, type, param) => COLOR_METHODS[type](numberOfColors, param)

@@ -9,6 +9,11 @@ import ResponsiveChartWrapper from './responsive-chart-wrapper'
 storiesOf('Bar Chart', module)
   .add('Widget Bar Chart', () => (
     <ResponsiveChartWrapper>
-      <BarChart title='My Title' data={barChartData} axisBottomLegendLabel='Address City' axisLeftLegendLabel='Visitors' />
+      <BarChart
+        title='My Title'
+        data={barChartData}
+        axisBottomLegendLabel='Address City'
+        axisLeftLegendLabel='Visitors'
+      />
     </ResponsiveChartWrapper>
   ))
