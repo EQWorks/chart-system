@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import { ResponsiveLine } from '@nivo/line'
@@ -7,47 +6,15 @@ import { ResponsiveLine } from '@nivo/line'
 import Tooltip from '../tooltip'
 
 import { getCommonProps, processColors } from '../../shared/utils'
+import { chartPropTypes, chartDefaultProps } from '../../shared/constants/chart-props'
 
 
 const Container = styled.div`
   height: 100%;
   width: 100%;
 `
-// sets common props for Nivo ResponsiveLine component
-const setCommonProps = (width, height, data, axisBottomLegendLabel, axisLeftLegendLabel) => ({
-  xScale: { type: 'point' },
-  yScale: { type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false },
-  pointColor: { theme: 'background' },
-  pointBorderWidth: 0,
-  pointBorderColor: { from: 'serieColor' },
-  useMesh: true,
-  // enableCrosshair: true,
-  // crosshairType: 'bottom',
-  ...getCommonProps({
-    data,
-    height,
-    width,
-    axisBottomLegendLabel,
-    axisLeftLegendLabel,
-    dash: true,
-    tickValues: data[0].data.length,
-  })
-})
-
-const propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  axisBottomLegendLabel: PropTypes.string,
-  axisLeftLegendLabel: PropTypes.string,
-  width: PropTypes.number,
-  height: PropTypes.number,
-}
-
-const defaultProps = {
-  axisBottomLegendLabel: '',
-  axisLeftLegendLabel: '',
-  width: 100,
-  height: 100,
-}
+const propTypes = chartPropTypes
+const defaultProps = chartDefaultProps
 
 const mouseOut = (event) => {
   const container = event.target
@@ -62,21 +29,33 @@ const mouseOut = (event) => {
 // LineChart - creates a line chart
 const ResponsiveLineChart = ({
   data,
+  colors,
+  colorType,
+  colorParam,
   axisBottomLegendLabel,
   axisLeftLegendLabel,
   width,
   height,
+  ...nivoProps
 }) => {
 
-  const finalColors = processColors(data.length, 'palette', '70')
+  const finalColors = colors.length ? colors : processColors(data.length, colorType, colorParam)
 
   return (
     // NOTE: onMouseLeave and onMouseEnter events not firing correctly
     // https://github.com/plouc/nivo/issues/756
     <Container onMouseOut={mouseOut}>
       <ResponsiveLine
-        {...setCommonProps(width, height, data, axisBottomLegendLabel, axisLeftLegendLabel)}
+        {...nivoProps}
         colors={finalColors}
+        xScale={{ type: 'point' }}
+        yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
+        pointColor={{ theme: 'background' }}
+        pointBorderWidth={0}
+        pointBorderColor={{ from: 'serieColor' }}
+        useMesh={true}
+        enableCrosshair={true}
+        crosshairType='bottom'
         onMouseMove={(d, event) => {
           let dataPoints = Array.from(event.target.parentNode.parentNode.getElementsByTagName('path'))
           let hoverItemIndex = data.findIndex(o => d.serieId === o.id)
@@ -96,6 +75,15 @@ const ResponsiveLineChart = ({
             ]}
           />
         )}
+        {...getCommonProps({
+          data,
+          height,
+          width,
+          axisBottomLegendLabel,
+          axisLeftLegendLabel,
+          dash: true,
+          tickValues: data[0].data.length,
+        })}
       >
       </ResponsiveLine>
     </Container>
