@@ -4,9 +4,8 @@ import { ResponsivePie } from '@nivo/pie'
 
 import Tooltip from '../tooltip'
 
-import designSystemColors from '../../shared/constants/design-system-colors'
-
-import { isAspectRatio, aspectRatios, getCommonProps } from '../../shared/utils'
+import { isAspectRatio, aspectRatios, getCommonProps, processColors } from '../../shared/utils'
+import { chartPropTypes, chartDefaultProps } from '../../shared/constants/chart-props'
 
 
 const arcLabel = e => (
@@ -16,64 +15,36 @@ const arcLabel = e => (
   </>
 )
 
-const colors = [
-  designSystemColors.blue70,
-  designSystemColors.yellow70,
-  designSystemColors.pink70,
-  designSystemColors.purple70,
-  designSystemColors.teal70
-]
-
-// sets common props for Nivo ResponsivePie component
-const setCommonProps = (width, height, data, isDonut) => ({
-  colors,
-  padAngle: 0.7,
-  cornerRadius: 3,
-  sortByValue: true,
-  enableRadialLabels: false,
-  sliceLabel: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? arcLabel : 'percent',
-  slicesLabelsSkipAngle: isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 20 : 10,
-  slicesLabelsTextColor: '#fff',
-  innerRadius: isDonut ? 0.6 : 0,
-  animate: true,
-  motionStiffness: 90,
-  motionDamping: 15,
-  ...getCommonProps({
-    data,
-    height,
-    width,
-    dash: true,
-  })
-})
-
-
 const propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
   isDonut: PropTypes.bool,
-  width: PropTypes.number,
-  height: PropTypes.number,
+  ...chartPropTypes,
 }
 
 const defaultProps = {
   isDonut: false,
-  width: 100,
-  height: 100,
+  ...chartDefaultProps,
 }
 
 // PieChart - creates a pie chart
 const PieChart = ({
-  data,
   isDonut,
-  height,
+  data,
+  colors,
+  colorType,
+  colorParam,
   width,
+  height,
+  ...nivoProps
 }) => {
+  const finalColors = colors.length ? colors : processColors(data.length, colorType, colorParam)
+
   let path
   let arc
 
   const mouseLeaveHandler = () => {
     return (path.forEach((tag, i) => {
-      tag.setAttribute('fill', colors[i])
-      tag.setAttribute('stroke', colors[i])
+      tag.setAttribute('fill', finalColors[i])
+      tag.setAttribute('stroke', finalColors[i])
     }
     ))
   }
@@ -107,7 +78,19 @@ const PieChart = ({
 
   return (
     <ResponsivePie
-      {...setCommonProps(width, height, data, isDonut)}
+      {...nivoProps}
+      colors={finalColors}
+      padAngle={0.7}
+      cornerRadius={3}
+      sortByValue={true}
+      enableRadialLabels={false}
+      sliceLabel={isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? arcLabel : 'percent'}
+      slicesLabelsSkipAngle={isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 20 : 10}
+      slicesLabelsTextColor='#fff'
+      innerRadius={isDonut ? 0.6 : 0}
+      animate={true}
+      motionStiffness={90}
+      motionDamping={15}
       tooltip={({ id, value, percent, color }) => (
         <Tooltip
           label={id}
@@ -120,6 +103,12 @@ const PieChart = ({
       )}
       onMouseEnter={mouseOverHandler}
       onMouseLeave={mouseLeaveHandler}
+      {...getCommonProps({
+        data,
+        height,
+        width,
+        dash: true,
+      })}
     >
     </ResponsivePie>
   )
