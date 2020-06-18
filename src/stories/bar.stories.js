@@ -7,13 +7,24 @@ import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
 storiesOf('Bar Chart', module)
-  .add('Widget Bar Chart', () => (
+  .add('Stacked', () => (
     <ResponsiveChartWrapper>
       <BarChart
         title='My Title'
         data={barChartData}
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
+      />
+    </ResponsiveChartWrapper>
+  ))
+  .add('Grouped', () => (
+    <ResponsiveChartWrapper>
+      <BarChart
+        title='My Title'
+        data={barChartData}
+        axisBottomLegendLabel='Address City'
+        axisLeftLegendLabel='Visitors'
+        groupMode='grouped'
       />
     </ResponsiveChartWrapper>
   ))

@@ -14,8 +14,8 @@ const propTypes = {
   indexBy: PropTypes.string,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   colors: PropTypes.array,
-  colorType: PropTypes.string,
-  colorParam: PropTypes.string,
+  colorType: PropTypes.string, // TODO oneOf(['random', 'palette', 'monochromatic'])
+  colorParam: PropTypes.string, // whatever value matches the requirement of colorType, currently the hue (mono) or lightness (palette)
   axisBottomLegendLabel: PropTypes.string,
   axisLeftLegendLabel: PropTypes.string,
   width: PropTypes.number,
@@ -45,6 +45,7 @@ const BarChart = ({
   axisLeftLegendLabel,
   width,
   height,
+  ...nivoProps
 }) => {
   // a single key is required for the X axis scale
   // the rest are used as values
@@ -53,10 +54,10 @@ const BarChart = ({
   const finalColors = colors.length ? colors : processColors(finalKeys.length, colorType, colorParam)
   return (
     <ResponsiveBar
+      // TODO right now, our props override, but need to see if there are any that should take precedent
+      {...nivoProps}
       indexBy={finalIndexBy}
       keys={finalKeys}
-      groupMode='grouped'
-      layout='vertical'
       colors={finalColors}
       enableRadialLabels={false}
       enableGridY={true}
