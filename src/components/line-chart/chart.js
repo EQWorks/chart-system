@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
@@ -6,13 +6,12 @@ import { ResponsiveLine } from '@nivo/line'
 
 import Tooltip from '../tooltip'
 
-import designSystemColors from '../../shared/constants/design-system-colors'
-import { getCommonProps } from '../../shared/utils'
+import { getCommonProps, processColors } from '../../shared/utils'
 
 
 const Container = styled.div`
   height: 100%;
-  width: 100%
+  width: 100%;
 `
 // sets common props for Nivo ResponsiveLine component
 const setCommonProps = (width, height, data, axisBottomLegendLabel, axisLeftLegendLabel) => ({
@@ -22,20 +21,8 @@ const setCommonProps = (width, height, data, axisBottomLegendLabel, axisLeftLege
   pointBorderWidth: 0,
   pointBorderColor: { from: 'serieColor' },
   useMesh: true,
-  enableCrosshair: true,
-  crosshairType: 'bottom',
-  layers: [
-    'grid',
-    'markers',
-    'axes',
-    'areas',
-    'crosshair',
-    'lines',
-    'points',
-    'slices',
-    'mesh',
-    'legends'
-  ],
+  // enableCrosshair: true,
+  // crosshairType: 'bottom',
   ...getCommonProps({
     data,
     height,
@@ -62,108 +49,43 @@ const defaultProps = {
   height: 100,
 }
 
-const colors = [
-  designSystemColors.blue70,
-  designSystemColors.yellow70,
-  designSystemColors.pink70,
-  designSystemColors.purple70,
-  designSystemColors.teal70
-]
-const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)]
+const mouseOut = (event) => {
+  const container = event.target
+  // event target changes depending on what the cursor leaves from
+  if (container.tagName === 'rect') {
+    container.parentNode.parentNode.getElementsByTagName('path').forEach(p => p.style.opacity = 1.0)
+  } else if (container.tagName === 'svg') {
+    container.children[1].getElementsByTagName('path').forEach(p => p.style.opacity = 1.0)
+  }
+}
 
 // LineChart - creates a line chart
 const ResponsiveLineChart = ({
-  data: baseData,
+  data,
   axisBottomLegendLabel,
   axisLeftLegendLabel,
   width,
   height,
 }) => {
-  // TODO properly handle arbitrary amount of data without randomizing colors
-  const data = useMemo(() => baseData.map(datum => ({
-    ...datum,
-    color: getRandomColor()
-  })), [baseData])
-  const customLines = ({ series, lineGenerator }) => {
-    return series.map(datum => (
-      <path
-        key={datum.id}
-        d={lineGenerator(datum.data.map(d => {
-          return {
-            x: d.position.x,
-            y: d.position.y
-          }
-        }))}
-        fill='none'
-        stroke={datum.color}
-        strokeWidth='2px'
-      />
-    ))
-  }
 
-  const [color, setColor] = useState({})
-  const [layers, setLayers] = useState([
-    'grid',
-    'markers',
-    'axes',
-    'areas',
-    'crosshair',
-    'lines',
-    'points',
-    'slices',
-    'mesh',
-    'legends'
-  ])
-
-  const mouseLeave = () => {
-    setColor({})
-    setLayers([
-      'grid',
-      'markers',
-      'axes',
-      'areas',
-      'crosshair',
-      'lines',
-      'points',
-      'slices',
-      'mesh',
-      'legends'
-    ])
-  }
-
-  const mouseMove = (p) => {
-    const newLayer = [
-      'grid',
-      'markers',
-      'axes',
-      'areas',
-      'crosshair',
-      customLines,
-      'points',
-      'slices',
-      'mesh',
-      'legends'
-    ]
-    setColor(p)
-    setLayers(newLayer)
-  }
-
-  const getColor = line => {
-    if (line.id === color.serieId) {
-      return line.color
-    } else {
-      return '#d4d4d4'
-    }
-  }
+  const finalColors = processColors(data.length, 'palette', '70')
 
   return (
-    // NOTE: ResponsiveLine doesn't work when directly receiving onMouseLeave
-    <Container onMouseLeave={mouseLeave}>
+    // NOTE: onMouseLeave and onMouseEnter events not firing correctly
+    // https://github.com/plouc/nivo/issues/756
+    <Container onMouseOut={mouseOut}>
       <ResponsiveLine
         {...setCommonProps(width, height, data, axisBottomLegendLabel, axisLeftLegendLabel)}
-        colors={Object.keys(color).length === 0 ? { datum: 'color' } : getColor}
-        layers={layers}
-        onMouseMove={(p, e) => mouseMove(p, e)}
+        colors={finalColors}
+        onMouseMove={(d, event) => {
+          let dataPoints = Array.from(event.target.parentNode.parentNode.getElementsByTagName('path'))
+          let hoverItemIndex = data.findIndex(o => d.serieId === o.id)
+          let hovered = dataPoints.splice(hoverItemIndex, 1)
+          hovered[0].style.opacity = 1.0
+          dataPoints.forEach(point => {
+            point.style.opacity = 0.1
+          })
+        }}
         tooltip={({ point }) => (
           <Tooltip
             color={point.borderColor}
