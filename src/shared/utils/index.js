@@ -1,4 +1,5 @@
 import React from 'react'
+import { omit } from 'lodash'
 import {
   WIDTH_BREAKPOINT_0,
   WIDTH_BREAKPOINT_1,
@@ -14,6 +15,7 @@ import {
   LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH,
   LEGEND_ROW_FIXED_ELEMENTS_WIDTH,
 } from '../constants/dimensions'
+import designSystemColors from '../constants/design-system-colors'
 
 import LegendCircle from '../../components/legend-symbol'
 
@@ -296,5 +298,22 @@ export const getCommonProps = ({
         }
       }
     }
+  }
+}
+
+export const processData = ({ indexBy, keys, data }) => {
+  // remove indexBy and assign colors
+  const finalIndexBy = indexBy.length ? indexBy : Object.keys(data[0])[0]
+  const finalKeys = keys.length ? keys : Object.keys(omit(data[0], finalIndexBy))
+  return {
+    colors: [
+      designSystemColors.blue70,
+      designSystemColors.yellow70,
+      designSystemColors.pink70,
+      designSystemColors.purple70,
+      designSystemColors.teal70,
+    ],
+    finalKeys,
+    finalIndexBy,
   }
 }
