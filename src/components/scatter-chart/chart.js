@@ -1,63 +1,38 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { ResponsiveScatterPlot } from '@nivo/scatterplot'
 
 import Tooltip from '../tooltip'
 import { onMouseEnter, onMouseLeave } from './events'
 
-import designSystemColors from '../../shared/constants/design-system-colors'
-import { getCommonProps } from '../../shared/utils'
+
+import { getCommonProps, processColors } from '../../shared/utils'
+import { chartPropTypes, chartDefaultProps } from '../../shared/constants/chart-props'
 
 
-// sets common props for Nivo ResponsiveScatterPlot component
-const setCommonProps = (width, height, data, axisBottomLegendLabel, axisLeftLegendLabel) => ({
-  xScale: { type: 'linear' },
-  yScale: { type: 'linear' },
-  colors: [
-    designSystemColors.blue70,
-    designSystemColors.pink70,
-    designSystemColors.teal70
-  ],
-  nodeSize: 8,
-  onMouseEnter,
-  onMouseLeave,
-  useMesh: false,
-  ...getCommonProps({
-    data,
-    height,
-    width,
-    axisBottomLegendLabel,
-    axisLeftLegendLabel,
-    dash: true,
-    tickValues: data[0].data.length,
-  })
-})
-
-const propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  axisBottomLegendLabel: PropTypes.string,
-  axisLeftLegendLabel: PropTypes.string,
-  width: PropTypes.number,
-  height: PropTypes.number,
-}
-
-const defaultProps = {
-  axisBottomLegendLabel: '',
-  axisLeftLegendLabel: '',
-  width: 100,
-  height: 100,
-}
+const propTypes = chartPropTypes
+const defaultProps = chartDefaultProps
 
 // ScatterChart - creates a scatter chart
 const ScatterChart = ({
   data,
+  colors,
+  colorType,
+  colorParam,
   axisBottomLegendLabel,
   axisLeftLegendLabel,
   width,
   height,
+  ...nivoProps
 }) => (
   <ResponsiveScatterPlot
-    {...setCommonProps(width, height, data, axisBottomLegendLabel, axisLeftLegendLabel)}
+    {...nivoProps}
+    colors={colors.length ? colors : processColors(data.length, colorType, colorParam)}
+    xScale={{ type: 'linear' }}
+    yScale={{ type: 'linear' }}
+    nodeSize={8}
+    onMouseEnter={onMouseEnter}
+    onMouseLeave={onMouseLeave}
+    useMesh={false}
     tooltip={({ node }) => (
       <Tooltip
         label={node.id.split('.')[0]}
@@ -68,8 +43,16 @@ const ScatterChart = ({
         ]}
       />
     )}
-  >
-  </ResponsiveScatterPlot>
+    {...getCommonProps({
+      data,
+      height,
+      width,
+      axisBottomLegendLabel,
+      axisLeftLegendLabel,
+      dash: true,
+      tickValues: data[0].data.length,
+    })}
+  />
 )
 
 ScatterChart.defaultProps = defaultProps
