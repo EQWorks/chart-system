@@ -1,5 +1,7 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
+
 
 const TooltipWrapper = styled.div`
   border-radius: 4px;
@@ -8,6 +10,7 @@ const TooltipWrapper = styled.div`
   min-height: 73px;
   padding-left: 6px;
 `
+
 const TooltipHeader = styled.div``
 
 const TooltipBody = styled.div`
@@ -16,13 +19,13 @@ const TooltipBody = styled.div`
   margin-left: 16px;
 `
 
-// styles for various tooltip components
 const TooltipNode = styled.div`
   height: 8px;
   width: 8px;
   border-radius: 50%;
   display: inline-block;
   margin-right: 6px;
+  background-color: ${props => props.backgroundColor}
 `
 
 const TooltipLabel = styled.strong`
@@ -35,27 +38,40 @@ const TooltipData = styled.span`
   margin: 0 5px;
 `
 
-const formatLabel = label => label.split('.')[0]
+const propTypes = {
+  label: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+  display: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string.isRequired,
+    value: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]).isRequired
+  })),
+}
 
-const tooltip = (id, value, color, axisBottomLegendLabel, axisLeftLegendLabel) => (
+const Tooltip = ({
+  label,
+  color,
+  display,
+}) => (
   <TooltipWrapper>
     <TooltipHeader>
-      <TooltipNode
-        style={{ backgroundColor: color }}
-      />
+      <TooltipNode backgroundColor={color} />
       <TooltipLabel>
-        {formatLabel(id)}
+        {label}
       </TooltipLabel>
     </TooltipHeader>
     <TooltipBody>
-      <TooltipData>
-        {`${axisBottomLegendLabel}: ${value}`}
-      </TooltipData>
-      <TooltipData>
-        {`${axisLeftLegendLabel}: ${id}`}
-      </TooltipData>
+      {display.map(({ label, value }) => (
+        <TooltipData key={label}>
+          {label}: {value}
+        </TooltipData>
+      ))}
     </TooltipBody>
   </TooltipWrapper>
 )
 
-export default tooltip
+Tooltip.propTypes = propTypes
+
+export default Tooltip

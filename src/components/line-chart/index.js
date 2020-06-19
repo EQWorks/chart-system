@@ -1,36 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import ChartWrapper from '../chart-wrapper'
+import Chart from './chart'
 
-import ResponsiveLineChart from './responsive-line'
-import designSystemColors from '../../shared/constants/design-system-colors'
 
+const propTypes = { title: PropTypes.string }
+const defaultProps = { title: '' }
 
-const propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  axisBottomLegendLabel: PropTypes.string,
-  axisLeftLegendLabel: PropTypes.string
-}
+const ResponsiveChart = ({ title, ...chartProps }) => (
+  <ChartWrapper title={title}>
+    <Chart {...chartProps} />
+  </ChartWrapper>
+)
 
-const LineChart = ({ data, axisBottomLegendLabel, axisLeftLegendLabel}) => {
-  const colors = [
-    designSystemColors.blue70,
-    designSystemColors.yellow70,
-    designSystemColors.pink70,
-    designSystemColors.purple70,
-    designSystemColors.teal70
-  ]
+ResponsiveChart.propTypes = propTypes
+ResponsiveChart.defaultProps = defaultProps
 
-  const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)]
-
-  const dataWithColor = data.map(datum => ({
-    ...datum,
-    color: getRandomColor()
-  }))
-
-  return (
-    <ResponsiveLineChart data={dataWithColor} axisBottomLegendLabel={axisBottomLegendLabel} axisLeftLegendLabel={axisLeftLegendLabel} />
-  )
-}
-
-export default LineChart
-LineChart.propTypes = propTypes
+export default ResponsiveChart
