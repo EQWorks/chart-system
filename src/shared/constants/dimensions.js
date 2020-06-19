@@ -5,6 +5,7 @@ export const WIDTH_BREAKPOINT_3 = 336
 export const HEIGHT_BREAKPOINT_1 = 206
 export const HEIGHT_BREAKPOINT_2 = 230
 export const HEIGHT_BREAKPOINT_3 = 310
+export const LEGEND_HEIGHT = 17
 export const TEXT_HEIGHT = 17
 export const BUFFER = 8
 // minimum width in pixels of the legend keys when we start trimming if necessary
