@@ -92,11 +92,11 @@ const setChartMargin = (width, height, legendLength, legendItemCount) => {
 
 /**
  * getLegendLabelMaxWidth - calculates the width of the longest label text in the legend
- * @param { array } data - data array
+ * @param { array } key - array of keys that will be in the legend
  * @returns { number } - the width of the longest label text in the legend
  */
-const getLegendLabelMaxWidth = (data) => data.reduce((max, dataSet) =>
-  Math.max(max, getTextSize(dataSet.id, '12px noto sans')), 0)
+const getLegendLabelMaxWidth = (keys) => keys.reduce((max, key) =>
+  Math.max(max, getTextSize(key, '12px noto sans')), 0)
 
 /**
  * getTextSize - calculates a rendered text width in pixels
@@ -121,14 +121,11 @@ const getTextSize = (text, font) => {
  */
 const trimText = (text, containerWidth) => {
   let font = '12px noto sans'
-  let n = text.length - 1
-  let textWidth = getTextSize(text.substr(0, n) + '..', font)
-  if (textWidth <= containerWidth) {
-    text = text.substr(0, n) + '..'
-  } else {
-    text = trimText(text.substr(0, n - 1), containerWidth)
+  const n = text.length - 1
+  if (getTextSize(text.substr(0, n) + '..', font) <= containerWidth) {
+    return text + '..'
   }
-  return text
+  return trimText(text.substr(0, n), containerWidth)
 }
 
 /**
@@ -171,14 +168,32 @@ const isLess = (a, b) => {
   return a < b
 }
 
+const getLegendLabelContainerWidth = ({ width, height, marginRight }) => {
+  // alternate solution compared with current design (below)
+  // let labelContainer = isAspectRatio(width, height, aspectRatios.LANDSCAPE) ?
+  // // we only want to start trimming for column legend when width >= WIDTH_BREAKPOINT_3
+  //   ((width >= WIDTH_BREAKPOINT_3) ?
+  //     width - WIDTH_BREAKPOINT_3 + TRIMMED_LEGEND_WIDTH :
+  //     0):
+  //   setLegendItemWidth(width, height) - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
+
+  // we only want to start trimming for column legend when width >= WIDTH_BREAKPOINT_3
+  if (isAspectRatio(width, height, aspectRatios.LANDSCAPE)) {
+    return width >= WIDTH_BREAKPOINT_3 ?
+      marginRight - 28 : 0
+  }
+  return width >= WIDTH_BREAKPOINT_3 ?
+    setLegendItemWidth(width, height) - LEGEND_ROW_FIXED_ELEMENTS_WIDTH : 72 - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
+}
+
 /**
  * initRef - React ref used to target and trim Legend labels
  * @param { number } width - width of chart container
  * @param { number } height - height of chart container
  * @param { html } node - Legend html node
  */
-export const trimLegendLabel = ({ width, height }) => node => {
-  if ((node !== null) && (width >= WIDTH_BREAKPOINT_0)) {
+export const trimLegendLabel = ({ width, height, marginRight }) => node => {
+  if (node) {
     const text = Array.from(node.parentNode.children).find(tag => tag.tagName === 'text')
     if (text) {
       // set its original value as attribute, so that we don't keep repeating
@@ -186,30 +201,11 @@ export const trimLegendLabel = ({ width, height }) => node => {
         text.setAttribute('og-key', text.innerHTML)
       }
       let original = text.getAttribute('og-key') || text.innerHTML
-      // need to only measure length of the key without the '..'
-      if (original.endsWith('..')) {
-        original = original.split('..')[0]
-      }
-      let labelWidth = getTextSize(original, '12px noto sans')
-      // MY SOLUTION
-      // let labelContainer = isAspectRatio(width, height, aspectRatios.LANDSCAPE) ?
-      // // we only want to start trimming for column legend when width >= WIDTH_BREAKPOINT_3
-      //   ((width >= WIDTH_BREAKPOINT_3) ?
-      //     width - WIDTH_BREAKPOINT_3 + TRIMMED_LEGEND_WIDTH :
-      //     0):
-      //   setLegendItemWidth(width, height) - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
 
-      // Do's design
-      let labelContainer = isAspectRatio(width, height, aspectRatios.LANDSCAPE) ?
-      // we only want to start trimming for column legend when width >= WIDTH_BREAKPOINT_3
-        ((width >= WIDTH_BREAKPOINT_3) ?
-          width - WIDTH_BREAKPOINT_3 + TRIMMED_LEGEND_WIDTH :
-          0):
-        ((width >= WIDTH_BREAKPOINT_3) ?
-          setLegendItemWidth(width, height) - LEGEND_ROW_FIXED_ELEMENTS_WIDTH :
-          72 - LEGEND_ROW_FIXED_ELEMENTS_WIDTH)
+      const labelContainer = getLegendLabelContainerWidth({ width, height, marginRight })
       let label = original
-      if (labelContainer && (labelWidth > labelContainer)) {
+      if (labelContainer) {
+        // why this? Is it form the 0 return value above in getLegendLabelContainerWidth
         label = trimText(original, labelContainer)
       }
       text.innerHTML = label
@@ -230,17 +226,16 @@ const getCommonAxisProps = (dimension, breakpointOne, breakpointTwo, axisLegendL
 })
 
 export const getCommonProps = ({
-  data,
+  keys,
   height,
   width,
   axisBottomLegendLabel, // not for pie
   axisLeftLegendLabel, // not for pie
   dash, // not for pie?
-  tickValues, // not for pie
   legendProps = {},
 }) => {
-  const legendLabelWidth = getLegendLabelMaxWidth(data)
-  const legendItemCount = data.length
+  const legendLabelWidth = getLegendLabelMaxWidth(keys)
+  const legendItemCount = keys.length
 
   const aspectRatioProps = (isAspectRatio(width, height, aspectRatios.LANDSCAPE) || legendItemCount > 3) ? ({
     anchor: 'right',
@@ -255,8 +250,8 @@ export const getCommonProps = ({
     translateX: BUFFER,
     translateY: 74,
   })
-
-  const symbolShape = nivoProps => <LegendCircle {...nivoProps} width={width} height={height} />
+  const margin = setChartMargin(width, height, legendLabelWidth, legendItemCount)
+  const symbolShape = nivoProps => <LegendCircle {...nivoProps} width={width} height={height} marginRight={margin.right} />
   const legend = {
     itemHeight: LEGEND_HEIGHT,
     symbolSize: 8,
@@ -267,10 +262,8 @@ export const getCommonProps = ({
   }
 
   return {
-    data,
-    margin: setChartMargin(width, height, legendLabelWidth, legendItemCount),
+    margin,
     axisBottom: {
-      tickValues,
       ...getCommonAxisProps(height, HEIGHT_BREAKPOINT_1, HEIGHT_BREAKPOINT_2, axisBottomLegendLabel, [23, 39]),
     },
     axisLeft: {
@@ -302,7 +295,7 @@ export const getCommonProps = ({
 }
 
 export const processDataKeys = ({ indexBy, keys, data }) => {
-  // remove indexBy and assign colors
+  // remove indexBy from keys
   const finalIndexBy = indexBy.length ? indexBy : Object.keys(data[0])[0]
   const finalKeys = keys.length ? keys : Object.keys(omit(data[0], finalIndexBy))
   return {
@@ -310,6 +303,31 @@ export const processDataKeys = ({ indexBy, keys, data }) => {
     finalIndexBy,
   }
 }
+
+export const processSeriesDataKeys = ({ indexBy, xKey, yKey, data }) => {
+  // remove indexBy and assign colors
+  const finalIndexBy = indexBy.length ? indexBy : Object.keys(data[0])[0]
+  const finalXKey = xKey.length ? xKey : Object.keys(data[0])[1]
+  const finalYKey = yKey.length ? yKey : Object.keys(data[0])[2]
+
+  return {
+    finalIndexBy,
+    finalXKey,
+    finalYKey,
+  }
+}
+
+// convert flat array { indexBy: 'value', ...rest }
+// to grouped by unique indexBy value
+// i.e. [{ id: 'value1', data: [{ ...rest }] }]
+export const convertDataToNivo = ({ data, indexBy, xKey, yKey }) => Object.values(data.reduce((ret, ele) => {
+  const id = ele[indexBy]
+  if (!ret[id]) {
+    ret[id] = { id, data: [] }
+  }
+  ret[id].data.push({ x: ele[xKey], y: ele[yKey] })
+  return ret
+}, {}))
 
 const COLOR_METHODS = {
   'random': num => {

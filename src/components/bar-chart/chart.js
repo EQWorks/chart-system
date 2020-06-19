@@ -1,6 +1,5 @@
 import React from 'react'
 
-import PropTypes from 'prop-types'
 import { ResponsiveBar } from '@nivo/bar'
 
 
@@ -10,17 +9,8 @@ import { getCommonProps, processDataKeys, processColors } from '../../shared/uti
 import { chartPropTypes, chartDefaultProps } from '../../shared/constants/chart-props'
 
 
-const propTypes = {
-  keys: PropTypes.array,
-  indexBy: PropTypes.string,
-  ...chartPropTypes,
-}
-
-const defaultProps = {
-  keys: [],
-  indexBy: '',
-  ...chartDefaultProps,
-}
+const propTypes = chartPropTypes
+const defaultProps = chartDefaultProps
 
 const BarChart = ({
   keys,
@@ -44,6 +34,7 @@ const BarChart = ({
     <ResponsiveBar
       // TODO right now, our props override, but need to see if there are any that should take precedent
       {...nivoProps}
+      data={data}
       indexBy={finalIndexBy}
       keys={finalKeys}
       colors={finalColors}
@@ -78,13 +69,12 @@ const BarChart = ({
         }
       }}
       {...getCommonProps({
-        data,
+        keys: finalKeys,
         height,
         width,
         axisBottomLegendLabel,
         axisLeftLegendLabel,
-        legendProps: { dataFrom: 'keys', justify: false },
-        tickValues: 8,
+        legendProps: { dataFrom: 'keys' },
       })}
     />
   )

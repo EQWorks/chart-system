@@ -5,16 +5,22 @@ import { ResponsiveLine } from '@nivo/line'
 
 import Tooltip from '../tooltip'
 
-import { getCommonProps, processColors } from '../../shared/utils'
-import { chartPropTypes, chartDefaultProps } from '../../shared/constants/chart-props'
+import { getCommonProps, processSeriesDataKeys, convertDataToNivo, processColors } from '../../shared/utils'
+import { chartPropTypes, chartDefaultProps, seriesPropTypes, seriesDefaultProps } from '../../shared/constants/chart-props'
 
 
 const Container = styled.div`
   height: 100%;
   width: 100%;
 `
-const propTypes = chartPropTypes
-const defaultProps = chartDefaultProps
+const propTypes = {
+  ...seriesPropTypes,
+  ...chartPropTypes,
+}
+const defaultProps = {
+  ...seriesDefaultProps,
+  ...chartDefaultProps,
+}
 
 const mouseOut = (event) => {
   const container = event.target
@@ -29,6 +35,9 @@ const mouseOut = (event) => {
 // LineChart - creates a line chart
 const ResponsiveLineChart = ({
   data,
+  indexBy,
+  xKey,
+  yKey,
   colors,
   colorType,
   colorParam,
@@ -39,7 +48,9 @@ const ResponsiveLineChart = ({
   ...nivoProps
 }) => {
 
-  const finalColors = colors.length ? colors : processColors(data.length, colorType, colorParam)
+  const { finalIndexBy, finalXKey, finalYKey } = processSeriesDataKeys({ data, indexBy, xKey, yKey })
+  const finalData = convertDataToNivo({ data, indexBy: finalIndexBy, xKey: finalXKey, yKey: finalYKey })
+  const finalColors = colors.length ? colors : processColors(finalData.length, colorType, colorParam)
 
   return (
     // NOTE: onMouseLeave and onMouseEnter events not firing correctly
@@ -47,6 +58,7 @@ const ResponsiveLineChart = ({
     <Container onMouseOut={mouseOut}>
       <ResponsiveLine
         {...nivoProps}
+        data={finalData}
         colors={finalColors}
         xScale={{ type: 'point' }}
         yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
@@ -76,13 +88,12 @@ const ResponsiveLineChart = ({
           />
         )}
         {...getCommonProps({
-          data,
+          keys: finalData.map(o => o.id),
           height,
           width,
           axisBottomLegendLabel,
           axisLeftLegendLabel,
           dash: true,
-          tickValues: data[0].data.length,
         })}
       >
       </ResponsiveLine>

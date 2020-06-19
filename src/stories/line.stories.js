@@ -9,6 +9,14 @@ import ResponsiveChartWrapper from './responsive-chart-wrapper'
 storiesOf('Line Chart', module)
   .add('Widget Line Chart', () => (
     <ResponsiveChartWrapper>
-      <LineChart title='Test' data={lineChartData} axisBottomLegendLabel={'axisBottomLegend'} axisLeftLegendLabel={'axisLeftLegend'} />
+      <LineChart
+        title='Test'
+        data={lineChartData}
+        indexBy='country'
+        xKey='vehicle'
+        yKey='amount'
+        axisBottomLegendLabel={'axisBottomLegend'}
+        axisLeftLegendLabel={'axisLeftLegend'}
+      />
     </ResponsiveChartWrapper>
   ))

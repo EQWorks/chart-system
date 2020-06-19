@@ -79,6 +79,7 @@ const PieChart = ({
   return (
     <ResponsivePie
       {...nivoProps}
+      data={data}
       colors={finalColors}
       padAngle={0.7}
       cornerRadius={3}
@@ -104,7 +105,7 @@ const PieChart = ({
       onMouseEnter={mouseOverHandler}
       onMouseLeave={mouseLeaveHandler}
       {...getCommonProps({
-        data,
+        keys: data.map(o => o.id),
         height,
         width,
         dash: true,
