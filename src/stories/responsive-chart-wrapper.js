@@ -20,13 +20,13 @@ const Wrapper = styled.div`
 const ResponsiveGridLayout = WidthProvider(GridLayout)
 
 const layout = [
-  { i: 'a', x: 0, y: 0, w: 6, h: 6 }
+  { i: 'a', x: 0, y: 0, w: 50, h: 6 }
 ]
 
 const propTypes = { children: PropTypes.element }
 
 const ResponsiveChartWrapper = ({ children }) => (
-  <ResponsiveGridLayout className='layout' layout={layout} cols={12} rowHeight={30}>
+  <ResponsiveGridLayout className='layout' layout={layout} cols={300} rowHeight={30}>
     <Wrapper key='a'>
       {children}
     </Wrapper>

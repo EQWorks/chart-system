@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   WIDTH_BREAKPOINT_0,
   WIDTH_BREAKPOINT_1,
@@ -11,8 +12,10 @@ import {
   BUFFER,
   TRIMMED_LEGEND_WIDTH,
   LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH,
+  LEGEND_ROW_FIXED_ELEMENTS_WIDTH,
 } from '../constants/dimensions'
 
+import LegendCircle from '../../components/legend-symbol'
 
 // currently values are the same except for PIE
 /*
@@ -166,6 +169,63 @@ const isLess = (a, b) => {
   return a < b
 }
 
+/**
+ * initRef - React ref used to target and trim Legend labels
+ * @param { number } width - width of chart container
+ * @param { number } height - height of chart container
+ * @param { html } node - Legend html node
+ */
+export const trimLegendLabel = ({ width, height }) => node => {
+  if ((node !== null) && (width >= WIDTH_BREAKPOINT_0)) {
+    const text = Array.from(node.parentNode.children).find(tag => tag.tagName === 'text')
+    if (text) {
+      // set its original value as attribute, so that we don't keep repeating
+      if (!text.getAttribute('og-key')) {
+        text.setAttribute('og-key', text.innerHTML)
+      }
+      let original = text.getAttribute('og-key') || text.innerHTML
+      // need to only measure length of the key without the '..'
+      if (original.endsWith('..')) {
+        original = original.split('..')[0]
+      }
+      let labelWidth = getTextSize(original, '12px noto sans')
+      // MY SOLUTION
+      // let labelContainer = isAspectRatio(width, height, aspectRatios.LANDSCAPE) ?
+      // // we only want to start trimming for column legend when width >= WIDTH_BREAKPOINT_3
+      //   ((width >= WIDTH_BREAKPOINT_3) ?
+      //     width - WIDTH_BREAKPOINT_3 + TRIMMED_LEGEND_WIDTH :
+      //     0):
+      //   setLegendItemWidth(width, height) - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
+
+      // Do's design
+      let labelContainer = isAspectRatio(width, height, aspectRatios.LANDSCAPE) ?
+      // we only want to start trimming for column legend when width >= WIDTH_BREAKPOINT_3
+        ((width >= WIDTH_BREAKPOINT_3) ?
+          width - WIDTH_BREAKPOINT_3 + TRIMMED_LEGEND_WIDTH :
+          0):
+        ((width >= WIDTH_BREAKPOINT_3) ?
+          setLegendItemWidth(width, height) - LEGEND_ROW_FIXED_ELEMENTS_WIDTH :
+          72 - LEGEND_ROW_FIXED_ELEMENTS_WIDTH)
+      let label = original
+      if (labelContainer && (labelWidth > labelContainer)) {
+        label = trimText(original, labelContainer)
+      }
+      text.innerHTML = label
+    }
+  }
+}
+
+const getCommonAxisProps = (dimension, breakpointOne, breakpointTwo, axisLegendLabel, offsets) => ({
+  tickSize: 8,
+  legendHeight: LEGEND_HEIGHT,
+  legendPosition: 'middle',
+  // hide axis legend until a certain width
+  legend: isLess(dimension, breakpointOne) ? '' : axisLegendLabel,
+  // we hide tick labels up to a certain height
+  format: (d) => isLess(dimension, breakpointTwo) ? null : `${d}`,
+  // legendOffset -15 places label by the ticks
+  legendOffset: isLess(dimension, breakpointTwo) ? offsets[0] : offsets[1],
+})
 
 export const getCommonProps = ({
   data,
@@ -176,33 +236,7 @@ export const getCommonProps = ({
   dash, // not for pie?
   tickValues, // not for pie
   legendProps = {},
-  ref,
 }) => {
-  const propTypes = {
-    x: PropTypes.number,
-    y: PropTypes.number,
-    size: PropTypes.number,
-    fill: PropTypes.string,
-    borderWidth: PropTypes.number,
-    borderColor: PropTypes.string,
-  }
-  const symbolShape = ({
-    x, y, size, fill, borderWidth, borderColor,
-  }) => (
-    <circle
-      r={size / 2}
-      cx={x + size / 2}
-      cy={y + size / 2}
-      fill={fill}
-      strokeWidth={borderWidth}
-      stroke={borderColor}
-      style={{
-        pointerEvents: 'none',
-      }}
-      ref={ref}
-    />
-  )
-  symbolShape.propTypes = propTypes
   const legendLabelWidth = getLegendLabelMaxWidth(data)
   const legendItemCount = data.length
 
@@ -219,6 +253,8 @@ export const getCommonProps = ({
     translateX: BUFFER,
     translateY: 74,
   })
+
+  const symbolShape = nivoProps => <LegendCircle {...nivoProps} width={width} height={height} />
   const legend = {
     itemHeight: LEGEND_HEIGHT,
     symbolSize: 8,
@@ -228,20 +264,9 @@ export const getCommonProps = ({
     ...legendProps,
   }
 
-  const getCommonAxisProps = (dimension, breakpointOne, breakpointTwo, axisLegendLabel, offsets) => ({
-    tickSize: 8,
-    legendHeight: LEGEND_HEIGHT,
-    legendPosition: 'middle',
-    // hide axis legend until a certain width
-    legend: isLess(dimension, breakpointOne) ? '' : axisLegendLabel,
-    // we hide tick labels up to a certain height
-    format: (d) => isLess(dimension, breakpointTwo) ? null : `${d}`,
-    // legendOffset -15 places label by the ticks
-    legendOffset: isLess(dimension, breakpointTwo) ? offsets[0] : offsets[1],
-  })
   return {
     data,
-    margin: setChartMargin(width, height, legendLabelWidth),
+    margin: setChartMargin(width, height, legendLabelWidth, legendItemCount),
     axisBottom: {
       tickValues,
       ...getCommonAxisProps(height, HEIGHT_BREAKPOINT_1, HEIGHT_BREAKPOINT_2, axisBottomLegendLabel, [23, 39]),
