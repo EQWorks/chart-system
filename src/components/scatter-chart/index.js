@@ -20,6 +20,7 @@ import {
   HEIGHT_BREAKPOINT_1,
   HEIGHT_BREAKPOINT_2,
   HEIGHT_BREAKPOINT_3,
+  LEGEND_HEIGHT,
   TEXT_HEIGHT,
   BUFFER,
   TRIMMED_LEGEND_WIDTH,
@@ -104,13 +105,8 @@ const setChartMargin = (width, height, legendLength, legendItemCount) => {
  * @param { array } data - data array
  * @returns { number } - the width of the longest label text in the legend
  */
-const getLegendLabelMaxWidth = (data) => {
-  let legendLabelWidthMax = 0
-  data.forEach(dataSet => {
-    legendLabelWidthMax = Math.max(legendLabelWidthMax, getTextSize(dataSet.id, '12px noto sans'))
-  })
-  return legendLabelWidthMax
-}
+const getLegendLabelMaxWidth = (data) => data.reduce((max, dataSet) =>
+  Math.max(max, getTextSize(dataSet.id, '12px noto sans')), 0)
 
 /**
  * getTextSize - calculates a rendered text width in pixels
@@ -162,7 +158,6 @@ const setLegendItemWidth = (width) => {
   } else if (width > WIDTH_BREAKPOINT_0) {
     itemWidth = itemWidth + (width - WIDTH_BREAKPOINT_0) / 3
   }
-  console.log('itemWidth: ', itemWidth)
   return itemWidth
 }
 
@@ -191,13 +186,18 @@ const setCommonProps = (
   width,
   height,
   data,
-  legendLabelWidth,
-  legendItemCount,
   axisBottomLegendLabel,
   axisLeftLegendLabel,
   ref
 ) => {
-  const LEGEND_HEIGHT = 17
+  const propTypes = {
+    x: PropTypes.number,
+    y: PropTypes.number,
+    size: PropTypes.number,
+    fill: PropTypes.string,
+    borderWidth: PropTypes.number,
+    borderColor: PropTypes.string,
+  }
   const symbolShape = ({
     x, y, size, fill, borderWidth, borderColor,
   }) => (
@@ -214,6 +214,10 @@ const setCommonProps = (
       ref={ref}
     />
   )
+  symbolShape.propTypes = propTypes
+  const legendLabelWidth = getLegendLabelMaxWidth(data)
+  const legendItemCount = data.length
+
   const legend = {
     anchor: (isAspectRatio(width, height, aspectRatios.LANDSCAPE) || legendItemCount > 3) ? 'right' : 'bottom',
     direction: (isAspectRatio(width, height, aspectRatios.LANDSCAPE) || legendItemCount > 3) ? 'column' : 'row',
@@ -303,7 +307,7 @@ const setCommonProps = (
 const propTypes = {
   data: PropTypes.array,
   axisBottomLegendLabel: PropTypes.string,
-  axisLeftLegendLabel: PropTypes.string
+  axisLeftLegendLabel: PropTypes.string,
 }
 
 // ScatterChart - creates a scatter chart
@@ -359,9 +363,6 @@ const ScatterChart = ({
     }
   }, [])
 
-  const LEGEND_LABEL_LENGTH = getLegendLabelMaxWidth(data)
-  const legendItemCount = data.length
-
   return (
     <>
       <Title>
@@ -370,14 +371,12 @@ const ScatterChart = ({
       <ChartContainer>
         <AutoSizer>
           {({ height, width }) => (
-            <ChartInner id='chart-inner' height={height} width={width} legend>
+            <ChartInner id='chart-inner' height={height} width={width}>
               <ResponsiveScatterPlot
                 {...setCommonProps(
                   width,
                   height,
                   data,
-                  LEGEND_LABEL_LENGTH,
-                  legendItemCount,
                   axisBottomLegendLabel,
                   axisLeftLegendLabel,
                   initRef(width, height)
