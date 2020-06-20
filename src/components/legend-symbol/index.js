@@ -11,15 +11,14 @@ const propTypes = {
   fill: PropTypes.string.isRequired,
   borderWidth: PropTypes.number.isRequired,
   borderColor: PropTypes.string.isRequired,
-  height: PropTypes.number.isRequired,
-  width: PropTypes.number.isRequired,
+  legendLabelContainerWidth: PropTypes.number.isRequired,
 }
 
 const LegendCircle = ({
-  x, y, size, fill, borderWidth, borderColor, height, width,
+  x, y, size, fill, borderWidth, borderColor, legendLabelContainerWidth
 }) => {
 
-  const initRef = useCallback(trimLegendLabel({ width, height }), [])
+  const initRef = useCallback(trimLegendLabel({ legendLabelContainerWidth }), [])
 
   return (
     <circle
