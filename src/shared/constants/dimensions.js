@@ -16,3 +16,4 @@ export const LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH = 38
 // 31 = 8(symbol-circle) + 6(buffer to key) + 17(margin right)
 // all spaces of an item of the row legend, everything minus key length in pixels
 export const LEGEND_ROW_FIXED_ELEMENTS_WIDTH = 31
+export const AXIS_TICK_WIDTH = 8
