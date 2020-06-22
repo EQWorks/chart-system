@@ -1,8 +1,6 @@
 import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 
-import { trimLegendLabel  } from '../../shared/utils'
-
 
 const propTypes = {
   x: PropTypes.number.isRequired,
@@ -11,14 +9,14 @@ const propTypes = {
   fill: PropTypes.string.isRequired,
   borderWidth: PropTypes.number.isRequired,
   borderColor: PropTypes.string.isRequired,
-  legendLabelContainerWidth: PropTypes.number.isRequired,
+  trimLegendLabel: PropTypes.func.isRequired,
 }
 
 const LegendCircle = ({
-  x, y, size, fill, borderWidth, borderColor, legendLabelContainerWidth
+  x, y, size, fill, borderWidth, borderColor, trimLegendLabel
 }) => {
 
-  const initRef = useCallback(trimLegendLabel({ legendLabelContainerWidth }), [])
+  const initRef = useCallback(trimLegendLabel, [])
 
   return (
     <circle
