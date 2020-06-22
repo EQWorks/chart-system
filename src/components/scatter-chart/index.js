@@ -56,7 +56,8 @@ const ChartInner = styled.div`
  * @param { number } legendItemCount - number of items in the legend
  * @returns { object } - top, right, bottom, left values
  */
-const setChartMargin = (width, height, legendLength, legendItemCount, maxXAxisTickLabelWidth) => {
+const setChartMargin = (width, height, legendLength, legendItemCount, maxXAxisTickLabelWidth, maxYAxisTickLabelWidth) => {
+  console.log('maxXAxisTickLabelWidth, maxYAxisTickLabelWidth 1: ', maxXAxisTickLabelWidth, maxYAxisTickLabelWidth)
   // default values
   const top = 5
   // TO DO: adjust default value to include dynamically the last tick label on the x-axis
@@ -92,15 +93,14 @@ const setChartMargin = (width, height, legendLength, legendItemCount, maxXAxisTi
   }
 
   if (width < WIDTH_BREAKPOINT_1) {
-    // BUFFER = 8 is the width of vertical axis ticks that need to fit on the side of the chart
-    left = BUFFER
+    left = AXIS_TICK_WIDTH
   } else {
     if (width < WIDTH_BREAKPOINT_2) {
-      // 41 = 8(ticks) + 8(space) + 17(height of axis label) + 8(space to margin)
-      left = 41
+      // TEXT_HEIGHT = axis legend height
+      left = TEXT_HEIGHT + 2 * BUFFER + AXIS_TICK_WIDTH
     } else {
-      if (width < WIDTH_BREAKPOINT_3) {
-        left = 66
+      if (width >= WIDTH_BREAKPOINT_2) {
+        left = TEXT_HEIGHT + 3 * BUFFER + AXIS_TICK_WIDTH + maxYAxisTickLabelWidth
       }
     }
   }
@@ -234,9 +234,6 @@ const setCommonProps = (
       dataSet.data.reduce((max, dataSet1) =>
         Math.max(max, dataSet1.y,), 0), 0), '12px noto sans')
 
-  const axis_label_position = TEXT_HEIGHT / 2 + AXIS_TICK_WIDTH + BUFFER
-  console.log('axis_label_position: ', axis_label_position)
-
   const legend = {
     anchor: (isAspectRatio(width, height, aspectRatios.LANDSCAPE) || legendItemCount > 3) ? 'right' : 'bottom',
     direction: (isAspectRatio(width, height, aspectRatios.LANDSCAPE) || legendItemCount > 3) ? 'column' : 'row',
@@ -260,7 +257,13 @@ const setCommonProps = (
 
   // const HEIGHT_WIDTH_RATIO = width / height
   return {
-    margin: setChartMargin(width, height, legendLabelWidth, legendItemCount, maxXAxisTickLabelWidth),
+    margin: setChartMargin(
+      width,
+      height,
+      legendLabelWidth,
+      legendItemCount,
+      maxXAxisTickLabelWidth,
+      maxYAxisTickLabelWidth),
     // data: formatData(width, legendLabelWidth, data, originalData),
     data: data,
     xScale: { type: 'linear' },
