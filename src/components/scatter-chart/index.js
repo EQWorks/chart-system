@@ -25,7 +25,8 @@ import {
   BUFFER,
   TRIMMED_LEGEND_WIDTH,
   LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH,
-  LEGEND_ROW_FIXED_ELEMENTS_WIDTH
+  LEGEND_ROW_FIXED_ELEMENTS_WIDTH,
+  AXIS_TICK_WIDTH
 } from '../../shared/constants/dimensions'
 
 // define styled elements
@@ -55,13 +56,20 @@ const ChartInner = styled.div`
  * @param { number } legendItemCount - number of items in the legend
  * @returns { object } - top, right, bottom, left values
  */
-const setChartMargin = (width, height, legendLength, legendItemCount) => {
+const setChartMargin = (width, height, legendLength, legendItemCount, maxXAxisTickLabelWidth) => {
   // default values
   const top = 5
   // TO DO: adjust default value to include dynamically the last tick label on the x-axis
   let right = BUFFER
   let bottom = 86
   let left = 63
+
+  /** at HEIGHT_BREAKPOINT_2 the x-axis ticks appear in the chart and the chart and the right margin
+    * has to adjust to include the last x-axis tick value
+    */
+  if (height > HEIGHT_BREAKPOINT_2) {
+    right = maxXAxisTickLabelWidth * 0.6
+  }
 
   if (isAspectRatio(width, height, aspectRatios.LANDSCAPE) || legendItemCount > 3) {
     if (width >= WIDTH_BREAKPOINT_3 + legendLength - LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH) {
@@ -218,6 +226,17 @@ const setCommonProps = (
   const legendLabelWidth = getLegendLabelMaxWidth(data)
   const legendItemCount = data.length
 
+  // calculate the longest x-axis tick label width in pixels
+  const maxXAxisTickLabelWidth = getTextSize(data[0].data[data.length - 1].x, '12px noto sans')
+  // calculate the longest y-axis tick label width in pixels
+  const maxYAxisTickLabelWidth = getTextSize(
+    data.reduce((max, dataSet) =>
+      dataSet.data.reduce((max, dataSet1) =>
+        Math.max(max, dataSet1.y,), 0), 0), '12px noto sans')
+
+  const axis_label_position = TEXT_HEIGHT / 2 + AXIS_TICK_WIDTH + BUFFER
+  console.log('axis_label_position: ', axis_label_position)
+
   const legend = {
     anchor: (isAspectRatio(width, height, aspectRatios.LANDSCAPE) || legendItemCount > 3) ? 'right' : 'bottom',
     direction: (isAspectRatio(width, height, aspectRatios.LANDSCAPE) || legendItemCount > 3) ? 'column' : 'row',
@@ -241,7 +260,7 @@ const setCommonProps = (
 
   // const HEIGHT_WIDTH_RATIO = width / height
   return {
-    margin: setChartMargin(width, height, legendLabelWidth, legendItemCount),
+    margin: setChartMargin(width, height, legendLabelWidth, legendItemCount, maxXAxisTickLabelWidth),
     // data: formatData(width, legendLabelWidth, data, originalData),
     data: data,
     xScale: { type: 'linear' },
@@ -272,7 +291,10 @@ const setCommonProps = (
       legend: isLess(width, WIDTH_BREAKPOINT_1) ? '' : axisLeftLegendLabel,
       legendHeight: LEGEND_HEIGHT,
       // legendOffset -15 places label by the ticks
-      legendOffset: isLess(width, WIDTH_BREAKPOINT_2) ? -23 : -48,
+      legendOffset: isLess(width, WIDTH_BREAKPOINT_2) ?
+        // legendOffset 0 places the label rigth on the y-axis that's why we add TEXT_HEIGHT / 2
+        -(TEXT_HEIGHT / 2 + AXIS_TICK_WIDTH + BUFFER):
+        -(TEXT_HEIGHT / 2 + AXIS_TICK_WIDTH + 2 * BUFFER + maxYAxisTickLabelWidth),
       legendPosition: 'middle'
     },
     onMouseEnter,
