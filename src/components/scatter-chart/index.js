@@ -26,7 +26,8 @@ import {
   TRIMMED_LEGEND_WIDTH,
   LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH,
   LEGEND_ROW_FIXED_ELEMENTS_WIDTH,
-  AXIS_TICK_WIDTH
+  AXIS_TICK_WIDTH,
+  SYMBOL_SIZE
 } from '../../shared/constants/dimensions'
 
 // define styled elements
@@ -56,18 +57,21 @@ const ChartInner = styled.div`
  * @param { number } legendItemCount - number of items in the legend
  * @returns { object } - top, right, bottom, left values
  */
-const setChartMargin = (width, height, legendLength, legendItemCount, maxXAxisTickLabelWidth, maxYAxisTickLabelWidth) => {
+const setChartMargin = (width, height, legendLength, legendItemCount, lastXAxisTickLabelWidth, maxYAxisTickLabelWidth) => {
   // default values
   const top = 5
-  let right = BUFFER
+  /** when no legend or tick labels are present, right margin should adjust to SYMBOL_SIZE / 2 + 1
+    * as the symbols on the chart could stick out halfway beyond the chart frame
+    */
+  let right = SYMBOL_SIZE / 2 + 1
   let bottom = 86
   let left = 63
 
-  /** at HEIGHT_BREAKPOINT_2 the x-axis ticks appear in the chart and the chart and the right margin
-    * has to adjust to include the last x-axis tick value
+  /** at HEIGHT_BREAKPOINT_2 the x-axis ticks appear in the chart, therefore, the right margin
+    * has to adjust to include just over half of the last x-axis tick lable width
     */
-  if (height > HEIGHT_BREAKPOINT_2) {
-    right = maxXAxisTickLabelWidth * 0.6
+  if (height >= HEIGHT_BREAKPOINT_2) {
+    right = Math.max(right, lastXAxisTickLabelWidth * 0.6)
   }
 
   if (isAspectRatio(width, height, aspectRatios.LANDSCAPE) || legendItemCount > 3) {
@@ -225,7 +229,7 @@ const setCommonProps = (
   const legendItemCount = data.length
 
   // calculate the longest x-axis tick label width in pixels
-  const maxXAxisTickLabelWidth = getTextSize(data[0].data[data.length - 1].x, '12px noto sans')
+  const lastXAxisTickLabelWidth = getTextSize(data[0].data[data.length - 1].x, '12px noto sans')
   // calculate the longest y-axis tick label width in pixels
   const maxYAxisTickLabelWidth = getTextSize(
     data.reduce((max, dataSet) =>
@@ -260,7 +264,7 @@ const setCommonProps = (
       height,
       legendLabelWidth,
       legendItemCount,
-      maxXAxisTickLabelWidth,
+      lastXAxisTickLabelWidth,
       maxYAxisTickLabelWidth),
     // data: formatData(width, legendLabelWidth, data, originalData),
     data: data,
