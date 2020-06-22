@@ -57,10 +57,8 @@ const ChartInner = styled.div`
  * @returns { object } - top, right, bottom, left values
  */
 const setChartMargin = (width, height, legendLength, legendItemCount, maxXAxisTickLabelWidth, maxYAxisTickLabelWidth) => {
-  console.log('maxXAxisTickLabelWidth, maxYAxisTickLabelWidth 1: ', maxXAxisTickLabelWidth, maxYAxisTickLabelWidth)
   // default values
   const top = 5
-  // TO DO: adjust default value to include dynamically the last tick label on the x-axis
   let right = BUFFER
   let bottom = 86
   let left = 63
