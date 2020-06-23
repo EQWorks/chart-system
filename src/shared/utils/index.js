@@ -82,7 +82,7 @@ const setChartMargin = (width, height, maxLegendLabelWidth, legendItemCount, max
   let bottomLegendOffset = 1.5 * TEXT_HEIGHT + AXIS_TICK_WIDTH + 2 * BUFFER - 6
 
   if (height >= HEIGHT_BREAKPOINT_3) {
-    bottom = AXIS_TICK_WIDTH + 4 * BUFFER + 3 * TEXT_HEIGHT
+    bottom = AXIS_TICK_WIDTH + 3 * BUFFER + 2 * TEXT_HEIGHT
   } else if (height >= HEIGHT_BREAKPOINT_2) {
     bottom = AXIS_TICK_WIDTH + 3 * BUFFER + 2 * TEXT_HEIGHT
   } else if (height >= HEIGHT_BREAKPOINT_1) {
@@ -123,9 +123,9 @@ const setChartMargin = (width, height, maxLegendLabelWidth, legendItemCount, max
       }
       right = legendLabelContainerWidth + LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH
       // deleted below as we take care of it above when we set bottom
-    // } else {
+    } else {
       // adjust bottom
-      // bottom += LEGEND_HEIGHT + 8 // fixed spacing of legend?
+      bottom += LEGEND_HEIGHT + BUFFER
     }
   }
 
