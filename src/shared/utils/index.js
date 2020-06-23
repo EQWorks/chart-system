@@ -119,13 +119,14 @@ const getTextSize = (text, font) => {
  * @param { number } containerWidth - width of the text container in pixels
  * @returns { string } - a trimmed text with '..' added at the end
  */
-const trimText = (text, containerWidth) => {
+const trimText = (text, containerWidth, count = 0) => {
   let font = '12px noto sans'
-  const n = text.length - 1
-  if (getTextSize(text.substr(0, n) + '..', font) <= containerWidth) {
-    return text + '..'
+  const n = text.length
+  const suffix = count ? '..' : ''
+  if (getTextSize(text.substr(0, n) + suffix, font) <= containerWidth) {
+    return text + suffix
   }
-  return trimText(text.substr(0, n), containerWidth)
+  return trimText(text.substr(0, n - 1), containerWidth, count + 1)
 }
 
 /**
