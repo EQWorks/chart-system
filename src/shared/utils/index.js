@@ -1,7 +1,8 @@
 import React from 'react'
 import { omit } from 'lodash'
 import {
-  WIDTH_BREAKPOINT_0,
+  // COMMENTED OUT FOR LINTING PASS
+  // WIDTH_BREAKPOINT_0,
   WIDTH_BREAKPOINT_1,
   WIDTH_BREAKPOINT_2,
   WIDTH_BREAKPOINT_3,
@@ -15,7 +16,8 @@ import {
   SYMBOL_SIZE,
   TRIMMED_LEGEND_WIDTH,
   LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH,
-  LEGEND_ROW_FIXED_ELEMENTS_WIDTH,
+  // COMMENTED OUT FOR LINTING PASS
+  // LEGEND_ROW_FIXED_ELEMENTS_WIDTH,
 } from '../constants/dimensions'
 import designSystemColors from '../constants/design-system-colors'
 
@@ -314,41 +316,42 @@ const getCommonAxisProps = (dimension, showAxisLegend, showAxisTicks, axisLegend
  * @returns { number } - itemWidth's length in pixels
  */
 // a legend item = buffers, symbol, and keys
-const setLegendItemWidth = (width) => {
-  let itemWidth = 69
-  if (width > WIDTH_BREAKPOINT_2) {
-    /* we have to take out right axis label height which pushes the row/bottom legend to the right
-     * when ticks labels are added after WIDTH_BREAKPOINT_2
-     * BUFFER is added in translateX in the Legend props
-     */
-    itemWidth = itemWidth + (width - WIDTH_BREAKPOINT_0 - TEXT_HEIGHT - BUFFER) / 3
-  } else if (width > WIDTH_BREAKPOINT_0) {
-    itemWidth = itemWidth + (width - WIDTH_BREAKPOINT_0) / 3
-  }
-  return itemWidth
-}
-
-const getLabelContainerWidth = ({ width, height }) => {
-  let labelContainer
-  if (isAspectRatio(width, height, aspectRatios.LANDSCAPE)) {
-    labelContainer = TRIMMED_LEGEND_WIDTH
-    // MY
-    // if (width >= WIDTH_BREAKPOINT_3) {
-    //   labelContainer = width - WIDTH_BREAKPOINT_3 + TRIMMED_LEGEND_WIDTH
-    // } else {
-    //   labelContainer = 0
-    // }
-  } else {
-    if (width >= WIDTH_BREAKPOINT_3) {
-      labelContainer = setLegendItemWidth(width) - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
-    } else {
-      labelContainer = 72 - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
-    }
-    // MY
-    // labelContainer = setLegendItemWidth(width) - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
-  }
-  return labelContainer
-}
+// COMMENTED OUT FOR LINTING PASS
+// const setLegendItemWidth = (width) => {
+//   let itemWidth = 69
+//   if (width > WIDTH_BREAKPOINT_2) {
+//     /* we have to take out right axis label height which pushes the row/bottom legend to the right
+//      * when ticks labels are added after WIDTH_BREAKPOINT_2
+//      * BUFFER is added in translateX in the Legend props
+//      */
+//     itemWidth = itemWidth + (width - WIDTH_BREAKPOINT_0 - TEXT_HEIGHT - BUFFER) / 3
+//   } else if (width > WIDTH_BREAKPOINT_0) {
+//     itemWidth = itemWidth + (width - WIDTH_BREAKPOINT_0) / 3
+//   }
+//   return itemWidth
+// }
+// COMMENTED OUT FOR LINTING PASS
+// const getLabelContainerWidth = ({ width, height }) => {
+//   let labelContainer
+//   if (isAspectRatio(width, height, aspectRatios.LANDSCAPE)) {
+//     labelContainer = TRIMMED_LEGEND_WIDTH
+//     // MY
+//     // if (width >= WIDTH_BREAKPOINT_3) {
+//     //   labelContainer = width - WIDTH_BREAKPOINT_3 + TRIMMED_LEGEND_WIDTH
+//     // } else {
+//     //   labelContainer = 0
+//     // }
+//   } else {
+//     if (width >= WIDTH_BREAKPOINT_3) {
+//       labelContainer = setLegendItemWidth(width) - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
+//     } else {
+//       labelContainer = 72 - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
+//     }
+//     // MY
+//     // labelContainer = setLegendItemWidth(width) - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
+//   }
+//   return labelContainer
+// }
 
 export const getCommonProps = ({
   keys,
@@ -380,12 +383,14 @@ export const getCommonProps = ({
   } = setChartMargin(width, height, maxLegendLabelWidth, legendItemCount, maxYAxisTickLabelWidth, lastXAxisTickLabelWidth)
 
   const chartWidth = width - margin.right
-  const legendItemWidth = setLegendItemWidth(width)
+  //// COMMENTED OUT FOR LINTING PASS
+  // const legendItemWidth = setLegendItemWidth(width)
   // TODO tinker with max number of row legend elements
   // split based on the number and trim accordingly
   // const itemWidth = width < WIDTH_BREAKPOINT_3 ? (WIDTH_BREAKPOINT_0 - BUFFER) / 3 : legendItemWidth
   const itemWidth = width / 5 // size of label or whole item?
-  console.log('---> width:', itemWidth, width, 5)
+  //// COMMENTED OUT FOR LINTING PASS
+  // console.log('---> width:', itemWidth, width, 5)
   // also trim to match
   // also
   const translateX = 0
