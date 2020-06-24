@@ -169,7 +169,7 @@ const isLess = (a, b) => {
   return a < b
 }
 
-const getLegendLabelContainerWidth = ({ width, height, marginRight }) => {
+const getLegendLabelContainerWidth = ({ width, height }) => {
   // alternate solution compared with current design (below)
   // let labelContainer = isAspectRatio(width, height, aspectRatios.LANDSCAPE) ?
   // // we only want to start trimming for column legend when width >= WIDTH_BREAKPOINT_3
@@ -181,7 +181,7 @@ const getLegendLabelContainerWidth = ({ width, height, marginRight }) => {
   // we only want to start trimming for column legend when width >= WIDTH_BREAKPOINT_3
   if (isAspectRatio(width, height, aspectRatios.LANDSCAPE)) {
     return width >= WIDTH_BREAKPOINT_3 ?
-      marginRight - 28 : 0
+      width - WIDTH_BREAKPOINT_3 + TRIMMED_LEGEND_WIDTH : 0
   }
   return width >= WIDTH_BREAKPOINT_3 ?
     setLegendItemWidth(width, height) - LEGEND_ROW_FIXED_ELEMENTS_WIDTH : 72 - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
@@ -193,7 +193,7 @@ const getLegendLabelContainerWidth = ({ width, height, marginRight }) => {
  * @param { number } height - height of chart container
  * @param { html } node - Legend html node
  */
-export const trimLegendLabel = ({ width, height, marginRight }) => node => {
+export const trimLegendLabel = ({ width, height }) => node => {
   if (node) {
     const text = Array.from(node.parentNode.children).find(tag => tag.tagName === 'text')
     if (text) {
@@ -203,7 +203,7 @@ export const trimLegendLabel = ({ width, height, marginRight }) => node => {
       }
       let original = text.getAttribute('og-key') || text.innerHTML
 
-      const labelContainer = getLegendLabelContainerWidth({ width, height, marginRight })
+      const labelContainer = getLegendLabelContainerWidth({ width, height })
       let label = original
       if (labelContainer) {
         // why this? Is it form the 0 return value above in getLegendLabelContainerWidth
@@ -252,7 +252,7 @@ export const getCommonProps = ({
     translateY: 74,
   })
   const margin = setChartMargin(width, height, legendLabelWidth, legendItemCount)
-  const symbolShape = nivoProps => <LegendCircle {...nivoProps} width={width} height={height} marginRight={margin.right} />
+  const symbolShape = nivoProps => <LegendCircle {...nivoProps} width={width} height={height} />
   const legend = {
     itemHeight: LEGEND_HEIGHT,
     symbolSize: 8,
