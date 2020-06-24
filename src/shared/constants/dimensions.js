@@ -7,8 +7,10 @@ export const HEIGHT_BREAKPOINT_2 = 230
 export const HEIGHT_BREAKPOINT_3 = 310
 export const LEGEND_HEIGHT = 17
 export const TEXT_HEIGHT = 17
-export const BUFFER = 8
-// minimum width in pixels of the legend keys when we start trimming if necessary
+export const AXIS_LEGEND_WIDTH = 25
+export const AXIS_LABEL_TICKS = 8
+export const BUFFER = 8 // base space between any elements
+// minimum width given to the legend keys
 export const TRIMMED_LEGEND_WIDTH = 42
 // 38 = 12(space to chart to left) + 8(symbol-circle) + 6(space) + 12(space to margin)
 // all spaces around and elements of the column legend, everything minus key length in pixels

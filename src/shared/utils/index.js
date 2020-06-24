@@ -9,6 +9,8 @@ import {
   HEIGHT_BREAKPOINT_3,
   LEGEND_HEIGHT,
   TEXT_HEIGHT,
+  AXIS_LABEL_TICKS,
+  AXIS_LEGEND_WIDTH,
   BUFFER,
   TRIMMED_LEGEND_WIDTH,
   LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH,
@@ -53,37 +55,22 @@ const setChartMargin = (width, height, maxLegendLabelWidth, legendItemCount) => 
   const top = 5
   // TO DO: adjust default value to include dynamically the last tick label on the x-axis
   let right = BUFFER
-  let bottom = 86
-  let left = 63
 
-  /*
-  let itemWidth = 69
-  if (width > WIDTH_BREAKPOINT_2) {
-    // we have to take out right axis label height which pushes the row/bottom legend to the right
-    // when ticks labels are added after WIDTH_BREAKPOINT_2
-    // BUFFER is added in translateX in the Legend props
-    itemWidth = itemWidth + (width - WIDTH_BREAKPOINT_0 - TEXT_HEIGHT - BUFFER) / 3
-  } else if (width > WIDTH_BREAKPOINT_0) {
-    itemWidth = itemWidth + (width - WIDTH_BREAKPOINT_0) / 3
-  }
-  return itemWidth
-  */
 
-  let showBottomLegendLabel = true
-  let showBottomAxisTicks = true
-  let bottomLegendOffset = 39
-  // TODO convert the breakpoint conditions to be > for consistency?
-  if (height < HEIGHT_BREAKPOINT_1) {
-    showBottomLegendLabel = false
-    showBottomAxisTicks = false
-    bottomLegendOffset = 23
-    bottom = 15
-  } else if (height < HEIGHT_BREAKPOINT_2) {
-    showBottomAxisTicks = false
-    bottomLegendOffset = 23
-    bottom = 38
-  } else if (height < HEIGHT_BREAKPOINT_3) {
+  let bottom = 15
+  let showBottomLegendLabel
+  let bottomLegendOffset = TEXT_HEIGHT + AXIS_LABEL_TICKS
+  let showBottomAxisTicks
+
+  if (height >= HEIGHT_BREAKPOINT_2) {
+    showBottomAxisTicks = true
+    showBottomLegendLabel = true
+    bottomLegendOffset += 2 * BUFFER
     bottom = 63
+  } else if (height >= HEIGHT_BREAKPOINT_1) {
+    showBottomLegendLabel = true
+    bottomLegendOffset += 2 * BUFFER
+    bottom = 38
   }
 
   const rightHandLegend = isAspectRatio(width, height, aspectRatios.LANDSCAPE) || legendItemCount > 3
@@ -98,8 +85,16 @@ const setChartMargin = (width, height, maxLegendLabelWidth, legendItemCount) => 
   if (showLegend) {
     // adjust right or bottom margin accordingly
     if (rightHandLegend) {
-      // default is different between current and required space
-      // enforce a minimum
+      /*
+        if (width >= WIDTH_BREAKPOINT_3) {
+          labelContainer = width - WIDTH_BREAKPOINT_3 + TRIMMED_LEGEND_WIDTH
+        } else {
+          labelContainer = 0
+        }
+      */
+      // NOTE: affects an empty <rect> in landscape, that seems to conflict with translateX
+      legendItemWidth = 0
+      // default is different between current and required space, enforce a minimum
       // increase the right margin until it fits the longest label
       legendLabelContainerWidth = Math.max(width - WIDTH_BREAKPOINT_3, TRIMMED_LEGEND_WIDTH)
       if (width - WIDTH_BREAKPOINT_3 >= LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH + maxLegendLabelWidth) {
@@ -107,35 +102,50 @@ const setChartMargin = (width, height, maxLegendLabelWidth, legendItemCount) => 
       }
       right = legendLabelContainerWidth + LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH
     } else {
+      // NOTE: originally applied with below
+      // itemWidth: width < WIDTH_BREAKPOINT_3 ? (WIDTH_BREAKPOINT_0 - BUFFER) / 3 : setLegendItemWidth(width)
+      // TODO: breakdown below
+      legendItemWidth = 69
+      if (width > WIDTH_BREAKPOINT_2) {
+        // we have to take out right axis label height which pushes the row/bottom legend to the right
+        // when ticks labels are added after WIDTH_BREAKPOINT_2
+        // BUFFER is added in translateX in the Legend props
+        legendItemWidth += (width - WIDTH_BREAKPOINT_0 - TEXT_HEIGHT - BUFFER) / 3
+      } else if (width > WIDTH_BREAKPOINT_0) {
+        legendItemWidth += (width - WIDTH_BREAKPOINT_0) / 3
+      }
+      // itemWidth - 14
+      // QUESTION: difference between itemWidth and legendLabelContainer
+      /*
+        if (width >= WIDTH_BREAKPOINT_3) {
+          labelContainer = setLegendItemWidth(width) - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
+        } else {
+          labelContainer = 72 - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
+        }
+        // MY
+        // labelContainer = setLegendItemWidth(width) - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
+      */
       // adjust bottom
-      bottom += LEGEND_HEIGHT + 8 // fixed spacing of legend?
+      bottom += LEGEND_HEIGHT + BUFFER
     }
   }
 
-  let showLeftLegendLabel = true // isLess(width, BP_1) ? false : true
-  let showLeftAxisTicks = true // isLess(width, BP_2) ? false : true
-  let leftLegendOffset = -48 //isLess(width, BP_2) ? -15 : 48
+  // default is smallest
+  let left = AXIS_LABEL_TICKS
+  let showLeftLegendLabel // hide <BP1
+  let leftLegendOffset = -(2 * BUFFER)
+  let showLeftAxisTicks // show <BP2
 
-  // default is largest i.e. 3+
-  // things change as it gets smaller
-  // TODO handle label ticks
-  if (width < WIDTH_BREAKPOINT_1) {
-    // 0 -> 1
-    showLeftLegendLabel = false
-    showLeftAxisTicks = false
-    leftLegendOffset = -15
-    // BUFFER = 8 is the width of vertical axis ticks that need to fit on the side of the chart
-    left = BUFFER
-  } else if (width < WIDTH_BREAKPOINT_2) {
-    // 1 -> 2
-    showLeftAxisTicks = false
-    leftLegendOffset = -15
-    // 41 = 8(ticks) + 8(space) + 17(height of axis label) + 8(space to margin)
-    left = BUFFER + 8 + 8 + LEGEND_HEIGHT
-  } else if (width < WIDTH_BREAKPOINT_3) {
-    // 2 -> 3
-    // TODO why extra margin?
-    left = BUFFER + 8 + 8 + LEGEND_HEIGHT + 25
+  // TODO handle axis ticks
+  if (width >= WIDTH_BREAKPOINT_2) {
+    showLeftAxisTicks = true
+    showLeftLegendLabel = true
+    leftLegendOffset -= AXIS_LEGEND_WIDTH + BUFFER
+    // QUESTION why is AXIS_LEGEND_WIDTH 25? 17 + 8?
+    left += 2 * BUFFER + LEGEND_HEIGHT + AXIS_LEGEND_WIDTH
+  } else if (width >= WIDTH_BREAKPOINT_1) {
+    showLeftLegendLabel = true
+    left += 2 * BUFFER + LEGEND_HEIGHT
   }
 
   return {
@@ -242,7 +252,7 @@ export const trimLegendLabel = legendLabelContainerWidth => node => {
 }
 
 const getCommonAxisProps = (dimension, showAxisLegend, showAxisTicks, axisLegendLabel, legendOffset, displayFn = d => d) => ({
-  tickSize: 8,
+  tickSize: AXIS_LABEL_TICKS,
   legendHeight: LEGEND_HEIGHT,
   legendPosition: 'middle',
   legend: showAxisLegend ? axisLegendLabel : '',
@@ -253,48 +263,6 @@ const getCommonAxisProps = (dimension, showAxisLegend, showAxisTicks, axisLegend
   // legendOffset to position around the axis
   legendOffset,
 })
-
-/**
- * setLegendItemWidth - sets the itemWidth of the row / bottom legend
- * @param { number } width - width of the chart container (ChartInner)
- * @returns { number } - itemWidth's length in pixels
- */
-// a legend item = buffers, symbol, and keys
-const setLegendItemWidth = (width) => {
-  let itemWidth = 69
-  if (width > WIDTH_BREAKPOINT_2) {
-    /* we have to take out right axis label height which pushes the row/bottom legend to the right
-     * when ticks labels are added after WIDTH_BREAKPOINT_2
-     * BUFFER is added in translateX in the Legend props
-     */
-    itemWidth = itemWidth + (width - WIDTH_BREAKPOINT_0 - TEXT_HEIGHT - BUFFER) / 3
-  } else if (width > WIDTH_BREAKPOINT_0) {
-    itemWidth = itemWidth + (width - WIDTH_BREAKPOINT_0) / 3
-  }
-  return itemWidth
-}
-
-const getLabelContainerWidth = ({ width, height }) => {
-  let labelContainer
-  if (isAspectRatio(width, height, aspectRatios.LANDSCAPE)) {
-    labelContainer = TRIMMED_LEGEND_WIDTH
-    // MY
-    // if (width >= WIDTH_BREAKPOINT_3) {
-    //   labelContainer = width - WIDTH_BREAKPOINT_3 + TRIMMED_LEGEND_WIDTH
-    // } else {
-    //   labelContainer = 0
-    // }
-  } else {
-    if (width >= WIDTH_BREAKPOINT_3) {
-      labelContainer = setLegendItemWidth(width) - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
-    } else {
-      labelContainer = 72 - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
-    }
-    // MY
-    // labelContainer = setLegendItemWidth(width) - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
-  }
-  return labelContainer
-}
 
 export const getCommonProps = ({
   data,
@@ -321,41 +289,36 @@ export const getCommonProps = ({
     showLeftAxisTicks,
     bottomLegendOffset,
     leftLegendOffset,
+    legendItemWidth,
     ...margin
   } = setChartMargin(width, height, maxLegendLabelWidth, legendItemCount)
 
   const chartWidth = width - margin.right
-  const legendItemWidth = setLegendItemWidth(width)
   // TODO tinker with max number of row legend elements
   // split based on the number and trim accordingly
   // const itemWidth = width < WIDTH_BREAKPOINT_3 ? (WIDTH_BREAKPOINT_0 - BUFFER) / 3 : legendItemWidth
   const itemWidth = width / 5 // size of label or whole item?
-  console.log('---> width:', itemWidth, width, 5)
   // also trim to match
-  // also
-  const translateX = 0
+  // TODO handle translateX and translateY
   const aspectRatioProps = rightHandLegend ? ({
     anchor: 'right',
     direction: 'column',
-    // TODO how are below set?
-    itemWidth: 0,
     translateX: 14,
     translateY: 0,
   }) : ({
     anchor: 'bottom',
     direction: 'row',
-    itemWidth,
-    // translateX: BUFFER,
-    translateX,
+    translateX: BUFFER,
     translateY: 74,
   })
 
-  const symbolShape = nivoProps => <LegendCircle {...nivoProps} trimLegendLabel={trimLegendLabel(rightHandLegend ? legendLabelContainerWidth : itemWidth - 14)} />
+  const symbolShape = nivoProps => <LegendCircle {...nivoProps} trimLegendLabel={trimLegendLabel(legendLabelContainerWidth)} />
   const legend = {
     itemHeight: LEGEND_HEIGHT,
     symbolSize: 8,
     symbolSpacing: 6,
     symbolShape,
+    itemWidth: legendItemWidth,
     ...aspectRatioProps,
     ...legendProps,
   }
@@ -370,7 +333,7 @@ export const getCommonProps = ({
     },
     axisLeft: {
       orient: 'left',
-      ...getCommonAxisProps(width, showLeftLegendLabel, showLeftAxisTicks, axisLeftLegendLabel, leftLegendOffset, d => Math.round(d * 100000 / 1000) + 'k'),
+      ...getCommonAxisProps(width, showLeftLegendLabel, showLeftAxisTicks, axisLeftLegendLabel, leftLegendOffset, d => d * 100000),
     },
     legends: showLegend ? [legend] : [],
     theme: {
