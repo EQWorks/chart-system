@@ -1,4 +1,5 @@
 import React from 'react'
+import { omit } from 'lodash'
 import {
   WIDTH_BREAKPOINT_0,
   WIDTH_BREAKPOINT_1,
@@ -14,6 +15,7 @@ import {
   LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH,
   LEGEND_ROW_FIXED_ELEMENTS_WIDTH,
 } from '../constants/dimensions'
+import designSystemColors from '../constants/design-system-colors'
 
 import LegendCircle from '../../components/legend-symbol'
 
@@ -35,15 +37,20 @@ left = 8
 left = 80
 left = 80
 */
+
+// given a font size, we want to calculate the dimensions of the chart
+// the margin is the amount of space that the left axis ticks/legend, right legend or bottom axis ticks/legend AND legend have
+// the margins should be the size of these elements + spacing
+
 /**
  * setChartMargin - sets the values of the chart margins
  * @param { number } width - width of the chart conatiner (ChartInner)
  * @param { number } heigth - height of the chart conatiner (ChartInner)
- * @param { number } legendLength - maximum length of a label/key text in the legend
+ * @param { number } maxLegendLabelWidth - maximum length of a label/key text in the legend
  * @param { number } legendItemCount - number of items in the legend
  * @returns { object } - top, right, bottom, left values
  */
-const setChartMargin = (width, height, legendLength, legendItemCount) => {
+const setChartMargin = (width, height, maxLegendLabelWidth, legendItemCount) => {
   // default values
   const top = 5
   // TO DO: adjust default value to include dynamically the last tick label on the x-axis
@@ -51,50 +58,113 @@ const setChartMargin = (width, height, legendLength, legendItemCount) => {
   let bottom = 86
   let left = 63
 
-  if (isAspectRatio(width, height, aspectRatios.LANDSCAPE) || legendItemCount > 3) {
-    if (width >= WIDTH_BREAKPOINT_3 + legendLength - LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH) {
-      right = legendLength + LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH
-    } else if (width >= WIDTH_BREAKPOINT_3) {
-      right = width - WIDTH_BREAKPOINT_3 + LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH + TRIMMED_LEGEND_WIDTH
-    }
+  /*
+  let itemWidth = 69
+  if (width > WIDTH_BREAKPOINT_2) {
+    // we have to take out right axis label height which pushes the row/bottom legend to the right
+    // when ticks labels are added after WIDTH_BREAKPOINT_2
+    // BUFFER is added in translateX in the Legend props
+    itemWidth = itemWidth + (width - WIDTH_BREAKPOINT_0 - TEXT_HEIGHT - BUFFER) / 3
+  } else if (width > WIDTH_BREAKPOINT_0) {
+    itemWidth = itemWidth + (width - WIDTH_BREAKPOINT_0) / 3
   }
+  return itemWidth
+  */
 
+  let showBottomLegendLabel = true
+  let showBottomAxisTicks = true
+  let bottomLegendOffset = 39
+  // TODO convert the breakpoint conditions to be > for consistency?
   if (height < HEIGHT_BREAKPOINT_1) {
+    showBottomLegendLabel = false
+    showBottomAxisTicks = false
+    bottomLegendOffset = 23
     bottom = 15
-  } else {
-    if (height < HEIGHT_BREAKPOINT_2) {
-      bottom = 38
-    } else {
-      if (height < HEIGHT_BREAKPOINT_3) {
-        bottom = 63
+  } else if (height < HEIGHT_BREAKPOINT_2) {
+    showBottomAxisTicks = false
+    bottomLegendOffset = 23
+    bottom = 38
+  } else if (height < HEIGHT_BREAKPOINT_3) {
+    bottom = 63
+  }
+
+  const rightHandLegend = isAspectRatio(width, height, aspectRatios.LANDSCAPE) || legendItemCount > 3
+  let showLegend = width >= WIDTH_BREAKPOINT_3
+  if (!rightHandLegend) {
+    // showLegend = height > 100
+    showLegend = height > HEIGHT_BREAKPOINT_1
+  }
+  let legendLabelContainerWidth
+  let legendItemWidth
+
+  if (showLegend) {
+    // adjust right or bottom margin accordingly
+    if (rightHandLegend) {
+      // default is different between current and required space
+      // enforce a minimum
+      // increase the right margin until it fits the longest label
+      legendLabelContainerWidth = Math.max(width - WIDTH_BREAKPOINT_3, TRIMMED_LEGEND_WIDTH)
+      if (width - WIDTH_BREAKPOINT_3 >= LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH + maxLegendLabelWidth) {
+        legendLabelContainerWidth = maxLegendLabelWidth
       }
+      right = legendLabelContainerWidth + LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH
+    } else {
+      // adjust bottom
+      bottom += LEGEND_HEIGHT + 8 // fixed spacing of legend?
     }
   }
 
+  let showLeftLegendLabel = true // isLess(width, BP_1) ? false : true
+  let showLeftAxisTicks = true // isLess(width, BP_2) ? false : true
+  let leftLegendOffset = -48 //isLess(width, BP_2) ? -15 : 48
+
+  // default is largest i.e. 3+
+  // things change as it gets smaller
+  // TODO handle label ticks
   if (width < WIDTH_BREAKPOINT_1) {
+    // 0 -> 1
+    showLeftLegendLabel = false
+    showLeftAxisTicks = false
+    leftLegendOffset = -15
     // BUFFER = 8 is the width of vertical axis ticks that need to fit on the side of the chart
     left = BUFFER
-  } else {
-    if (width < WIDTH_BREAKPOINT_2) {
-      // 41 = 8(ticks) + 8(space) + 17(height of axis label) + 8(space to margin)
-      left = 41
-    } else {
-      if (width < WIDTH_BREAKPOINT_3) {
-        left = 66
-      }
-    }
+  } else if (width < WIDTH_BREAKPOINT_2) {
+    // 1 -> 2
+    showLeftAxisTicks = false
+    leftLegendOffset = -15
+    // 41 = 8(ticks) + 8(space) + 17(height of axis label) + 8(space to margin)
+    left = BUFFER + 8 + 8 + LEGEND_HEIGHT
+  } else if (width < WIDTH_BREAKPOINT_3) {
+    // 2 -> 3
+    // TODO why extra margin?
+    left = BUFFER + 8 + 8 + LEGEND_HEIGHT + 25
   }
 
-  return { top, right, bottom, left }
+  return {
+    top,
+    right,
+    bottom,
+    left,
+    showLegend,
+    rightHandLegend,
+    legendItemWidth,
+    legendLabelContainerWidth,
+    showBottomLegendLabel,
+    showLeftLegendLabel,
+    showBottomAxisTicks,
+    showLeftAxisTicks,
+    bottomLegendOffset,
+    leftLegendOffset,
+  }
 }
 
 /**
  * getLegendLabelMaxWidth - calculates the width of the longest label text in the legend
- * @param { array } data - data array
+ * @param { array } key - array of keys that will be in the legend
  * @returns { number } - the width of the longest label text in the legend
  */
-const getLegendLabelMaxWidth = (data) => data.reduce((max, dataSet) =>
-  Math.max(max, getTextSize(dataSet.id, '12px noto sans')), 0)
+const getLegendLabelMaxWidth = (keys) => keys.reduce((max, key) =>
+  Math.max(max, getTextSize(key, '12px noto sans')), 0)
 
 /**
  * getTextSize - calculates a rendered text width in pixels
@@ -117,17 +187,68 @@ const getTextSize = (text, font) => {
  * @param { number } containerWidth - width of the text container in pixels
  * @returns { string } - a trimmed text with '..' added at the end
  */
-const trimText = (text, containerWidth) => {
+const TRIM = '..'
+const trimText = (text, containerWidth, count = 0) => {
   let font = '12px noto sans'
-  let n = text.length - 1
-  let textWidth = getTextSize(text.substr(0, n) + '..', font)
+  let n = text.length
+  const suffix = count ? TRIM : ''
+  let textWidth = getTextSize(text.substr(0, n) + suffix, font)
   if (textWidth <= containerWidth) {
-    text = text.substr(0, n) + '..'
+    return text.substr(0, n) + suffix
   } else {
-    text = trimText(text.substr(0, n - 1), containerWidth)
+    return trimText(text.substr(0, n - 1), containerWidth, count + 1)
   }
-  return text
 }
+
+export const aspectRatios = {
+  LANDSCAPE: 0,
+  PORTRAIT: 1,
+  ANY: 2
+}
+
+const getAspectRatio = (width, height) => {
+  return width / height > 1 ? aspectRatios.LANDSCAPE : aspectRatios.PORTRAIT
+}
+
+export const isAspectRatio = (width, height, aspectRatio) => getAspectRatio(width, height) === aspectRatio
+
+/**
+ * initRef - React ref used to target and trim Legend labels
+ * @param { number } width - width of chart container
+ * @param { number } height - height of chart container
+ * @param { html } node - Legend html node
+ */
+export const trimLegendLabel = legendLabelContainerWidth => node => {
+  if (node !== null) {
+    const text = Array.from(node.parentNode.children).find(tag => tag.tagName === 'text')
+    if (text) {
+      // set its original value as attribute, so that we don't keep repeating
+      if (!text.getAttribute('og-key')) {
+        text.setAttribute('og-key', text.innerHTML)
+      }
+      let original = text.getAttribute('og-key') || text.innerHTML
+
+      let label = original
+      if (legendLabelContainerWidth) {
+        label = trimText(original, legendLabelContainerWidth)
+      }
+      text.innerHTML = label
+    }
+  }
+}
+
+const getCommonAxisProps = (dimension, showAxisLegend, showAxisTicks, axisLegendLabel, legendOffset, displayFn = d => d) => ({
+  tickSize: 8,
+  legendHeight: LEGEND_HEIGHT,
+  legendPosition: 'middle',
+  legend: showAxisLegend ? axisLegendLabel : '',
+  // we hide tick labels up to a certain height
+  // TODO calculate a max width for each tick and trim
+  // e.g. number of width / number of ticks
+  format: (d) => showAxisTicks ? displayFn(d) : null,
+  // legendOffset to position around the axis
+  legendOffset,
+})
 
 /**
  * setLegendItemWidth - sets the itemWidth of the row / bottom legend
@@ -149,112 +270,78 @@ const setLegendItemWidth = (width) => {
   return itemWidth
 }
 
-export const aspectRatios = {
-  LANDSCAPE: 0,
-  PORTRAIT: 1,
-  ANY: 2
-}
-
-const getAspectRatio = (width, height) => {
-  return width / height > 1 ? aspectRatios.LANDSCAPE : aspectRatios.PORTRAIT
-}
-
-export const isAspectRatio = (width, height, aspectRatio) => {
-  const componentAspectRatio = getAspectRatio(width, height)
-
-  return componentAspectRatio === aspectRatio
-}
-
-const isLess = (a, b) => {
-  return a < b
-}
-
-/**
- * initRef - React ref used to target and trim Legend labels
- * @param { number } width - width of chart container
- * @param { number } height - height of chart container
- * @param { html } node - Legend html node
- */
-export const trimLegendLabel = ({ width, height }) => node => {
-  if ((node !== null) && (width >= WIDTH_BREAKPOINT_0)) {
-    const text = Array.from(node.parentNode.children).find(tag => tag.tagName === 'text')
-    if (text) {
-      // set its original value as attribute, so that we don't keep repeating
-      if (!text.getAttribute('og-key')) {
-        text.setAttribute('og-key', text.innerHTML)
-      }
-      let original = text.getAttribute('og-key') || text.innerHTML
-      // need to only measure length of the key without the '..'
-      if (original.endsWith('..')) {
-        original = original.split('..')[0]
-      }
-      let labelWidth = getTextSize(original, '12px noto sans')
-      // MY SOLUTION
-      // let labelContainer = isAspectRatio(width, height, aspectRatios.LANDSCAPE) ?
-      // // we only want to start trimming for column legend when width >= WIDTH_BREAKPOINT_3
-      //   ((width >= WIDTH_BREAKPOINT_3) ?
-      //     width - WIDTH_BREAKPOINT_3 + TRIMMED_LEGEND_WIDTH :
-      //     0):
-      //   setLegendItemWidth(width, height) - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
-
-      // Do's design
-      let labelContainer = isAspectRatio(width, height, aspectRatios.LANDSCAPE) ?
-      // we only want to start trimming for column legend when width >= WIDTH_BREAKPOINT_3
-        ((width >= WIDTH_BREAKPOINT_3) ?
-          width - WIDTH_BREAKPOINT_3 + TRIMMED_LEGEND_WIDTH :
-          0):
-        ((width >= WIDTH_BREAKPOINT_3) ?
-          setLegendItemWidth(width, height) - LEGEND_ROW_FIXED_ELEMENTS_WIDTH :
-          72 - LEGEND_ROW_FIXED_ELEMENTS_WIDTH)
-      let label = original
-      if (labelContainer && (labelWidth > labelContainer)) {
-        label = trimText(original, labelContainer)
-      }
-      text.innerHTML = label
+const getLabelContainerWidth = ({ width, height }) => {
+  let labelContainer
+  if (isAspectRatio(width, height, aspectRatios.LANDSCAPE)) {
+    labelContainer = TRIMMED_LEGEND_WIDTH
+    // MY
+    // if (width >= WIDTH_BREAKPOINT_3) {
+    //   labelContainer = width - WIDTH_BREAKPOINT_3 + TRIMMED_LEGEND_WIDTH
+    // } else {
+    //   labelContainer = 0
+    // }
+  } else {
+    if (width >= WIDTH_BREAKPOINT_3) {
+      labelContainer = setLegendItemWidth(width) - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
+    } else {
+      labelContainer = 72 - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
     }
+    // MY
+    // labelContainer = setLegendItemWidth(width) - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
   }
+  return labelContainer
 }
-
-const getCommonAxisProps = (dimension, breakpointOne, breakpointTwo, axisLegendLabel, offsets) => ({
-  tickSize: 8,
-  legendHeight: LEGEND_HEIGHT,
-  legendPosition: 'middle',
-  // hide axis legend until a certain width
-  legend: isLess(dimension, breakpointOne) ? '' : axisLegendLabel,
-  // we hide tick labels up to a certain height
-  format: (d) => isLess(dimension, breakpointTwo) ? null : `${d}`,
-  // legendOffset -15 places label by the ticks
-  legendOffset: isLess(dimension, breakpointTwo) ? offsets[0] : offsets[1],
-})
 
 export const getCommonProps = ({
-  data,
+  keys,
   height,
   width,
   axisBottomLegendLabel, // not for pie
   axisLeftLegendLabel, // not for pie
   dash, // not for pie?
-  tickValues, // not for pie
   legendProps = {},
 }) => {
-  const legendLabelWidth = getLegendLabelMaxWidth(data)
-  const legendItemCount = data.length
+  const maxLegendLabelWidth = getLegendLabelMaxWidth(keys)
+  const legendItemCount = keys.length
+  const {
+    showLegend,
+    rightHandLegend,
+    legendLabelContainerWidth,
+    showBottomLegendLabel,
+    showLeftLegendLabel,
+    showBottomAxisTicks,
+    showLeftAxisTicks,
+    bottomLegendOffset,
+    leftLegendOffset,
+    ...margin
+  } = setChartMargin(width, height, maxLegendLabelWidth, legendItemCount)
 
-  const aspectRatioProps = (isAspectRatio(width, height, aspectRatios.LANDSCAPE) || legendItemCount > 3) ? ({
+  const chartWidth = width - margin.right
+  const legendItemWidth = setLegendItemWidth(width)
+  // TODO tinker with max number of row legend elements
+  // split based on the number and trim accordingly
+  // const itemWidth = width < WIDTH_BREAKPOINT_3 ? (WIDTH_BREAKPOINT_0 - BUFFER) / 3 : legendItemWidth
+  const itemWidth = width / 5 // size of label or whole item?
+  console.log('---> width:', itemWidth, width, 5)
+  // also trim to match
+  // also
+  const translateX = 0
+  const aspectRatioProps = rightHandLegend ? ({
     anchor: 'right',
     direction: 'column',
+    // TODO how are below set?
     itemWidth: 0,
     translateX: 14,
     translateY: 0,
   }) : ({
     anchor: 'bottom',
     direction: 'row',
-    itemWidth: width < WIDTH_BREAKPOINT_3 ? (WIDTH_BREAKPOINT_0 - BUFFER) / 3 : setLegendItemWidth(width),
-    translateX: BUFFER,
+    itemWidth,
+    // translateX: BUFFER,
+    translateX,
     translateY: 74,
   })
-
-  const symbolShape = nivoProps => <LegendCircle {...nivoProps} width={width} height={height} />
+  const symbolShape = nivoProps => <LegendCircle {...nivoProps} trimLegendLabel={trimLegendLabel(rightHandLegend ? legendLabelContainerWidth : itemWidth - 14)} />
   const legend = {
     itemHeight: LEGEND_HEIGHT,
     symbolSize: 8,
@@ -263,21 +350,18 @@ export const getCommonProps = ({
     ...aspectRatioProps,
     ...legendProps,
   }
+  // isLess(dimension, breakpointTwo) ? offsets[0] : offsets[1]
 
   return {
-    data,
-    margin: setChartMargin(width, height, legendLabelWidth, legendItemCount),
+    margin,
     axisBottom: {
-      tickValues,
-      ...getCommonAxisProps(height, HEIGHT_BREAKPOINT_1, HEIGHT_BREAKPOINT_2, axisBottomLegendLabel, [23, 39]),
+      ...getCommonAxisProps(height, showBottomLegendLabel, showBottomAxisTicks, axisBottomLegendLabel, bottomLegendOffset, d => trimText(d+'', chartWidth / legendItemCount)),
     },
     axisLeft: {
       orient: 'left',
-      ...getCommonAxisProps(width, WIDTH_BREAKPOINT_1, WIDTH_BREAKPOINT_2, axisLeftLegendLabel, [-15, -48]),
+      ...getCommonAxisProps(width, showLeftLegendLabel, showLeftAxisTicks, axisLeftLegendLabel, leftLegendOffset, d => Math.round(d * 100000 / 1000) + 'k'),
     },
-    legends: (isAspectRatio(width, height, aspectRatios.LANDSCAPE) && legendItemCount > 3)
-      ? (height > 100 ? [legend] : [])
-      : (width >= WIDTH_BREAKPOINT_0 ? [legend] : []),
+    legends: showLegend ? [legend] : [],
     theme: {
       fontSize: 12,
       // axis definition needed to display on top of the grid lines
@@ -298,3 +382,59 @@ export const getCommonProps = ({
     }
   }
 }
+
+export const processDataKeys = ({ indexBy, keys, data }) => {
+  // remove indexBy from keys
+  const finalIndexBy = indexBy.length ? indexBy : Object.keys(data[0])[0]
+  const finalKeys = keys.length ? keys : Object.keys(omit(data[0], finalIndexBy))
+  return {
+    finalKeys,
+    finalIndexBy,
+  }
+}
+
+export const processSeriesDataKeys = ({ indexBy, xKey, yKey, data }) => {
+  // remove indexBy and assign colors
+  const finalIndexBy = indexBy.length ? indexBy : Object.keys(data[0])[0]
+  const finalXKey = xKey.length ? xKey : Object.keys(data[0])[1]
+  const finalYKey = yKey.length ? yKey : Object.keys(data[0])[2]
+
+  return {
+    finalIndexBy,
+    finalXKey,
+    finalYKey,
+  }
+}
+
+// convert flat array { indexBy: 'value', ...rest }
+// to grouped by unique indexBy value
+// i.e. [{ id: 'value1', data: [{ ...rest }] }]
+export const convertDataToNivo = ({ data, indexBy, xKey, yKey }) => Object.values(data.reduce((ret, ele) => {
+  const id = ele[indexBy]
+  if (!ret[id]) {
+    ret[id] = { id, data: [] }
+  }
+  ret[id].data.push({ x: ele[xKey], y: ele[yKey] })
+  return ret
+}, {}))
+
+const COLOR_METHODS = {
+  'random': num => {
+    const colors = Object.values(designSystemColors)
+    return new Array(num).fill(0).map(() => colors[Math.floor(Math.random() * colors.length)])
+  },
+  'monochromatic': (num, hue) => {
+    // return all values for keys that have `${hue}xx`
+    // repeat if necessary
+    const colors = Object.keys(designSystemColors).filter(o => o.indexOf(hue) >= 0)
+    return new Array(num).fill(0).map((_, i) => designSystemColors[colors[i % colors.length]])
+  },
+  'palette': (num, lightness) => {
+    // return all values for keys that have `hue${lightness}`
+    // repeat if necessary
+    const colors = Object.keys(designSystemColors).filter(o => o.indexOf(lightness) >= 0)
+    return new Array(num).fill(0).map((_, i) => designSystemColors[colors[i % colors.length]])
+  },
+}
+
+export const processColors = (numberOfColors, type, param) => COLOR_METHODS[type](numberOfColors, param)
