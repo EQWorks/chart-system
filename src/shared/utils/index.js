@@ -16,6 +16,7 @@ import {
   BUFFER,
   SYMBOL_SIZE,
   SYMBOL_SPACING,
+  LEGEND_MARGIN,
   TRIMMED_LEGEND_WIDTH,
   LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH,
   LEGEND_ROW_FIXED_ELEMENTS_WIDTH,
@@ -108,12 +109,11 @@ const setChartMargin = (width, height, maxLegendLabelWidth, legendItemCount, max
       // default is difference between current and required space
       // enforce a minimum
       // increase the right margin until it fits the longest label
-      legendLabelContainerWidth = Math.max(width - WIDTH_BREAKPOINT_3, TRIMMED_LEGEND_WIDTH)
+      legendTranslate = LEGEND_MARGIN
+      legendLabelContainerWidth = Math.max(width - WIDTH_BREAKPOINT_3 - LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH, TRIMMED_LEGEND_WIDTH)
       if (width - WIDTH_BREAKPOINT_3 >= LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH + maxLegendLabelWidth) {
         legendLabelContainerWidth = maxLegendLabelWidth
       }
-      // TODO: account for legendTranslate in constants as well as this calculation
-      legendTranslate = SYMBOL_SIZE + SYMBOL_SPACING
       right = legendLabelContainerWidth + LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH
     } else {
       legendItemWidth = (width - right - left) / legendItemCount

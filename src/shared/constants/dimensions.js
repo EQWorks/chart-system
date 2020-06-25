@@ -27,9 +27,9 @@ export const SYMBOL_SPACING = 6
 export const FONT_SIZE = 12
 // minimum width in pixels of the legend keys when we start trimming if necessary
 export const TRIMMED_LEGEND_WIDTH = 42
-// 26 = 8(symbol-circle) + 6(space) + 12(space to margin)
+export const LEGEND_MARGIN = 12
 // all spaces around and elements of the column legend, everything minus key length in pixels
-export const LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH = SYMBOL_SIZE + SYMBOL_SPACING + 12
+export const LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH = SYMBOL_SIZE + SYMBOL_SPACING + LEGEND_MARGIN
 // 31 = 8(symbol-circle) + 6(buffer to key) + 17(margin right)
 // all spaces of an item of the row legend, everything minus key length in pixels
 export const LEGEND_ROW_FIXED_ELEMENTS_WIDTH = SYMBOL_SIZE + SYMBOL_SPACING + BUFFER
