@@ -143,13 +143,20 @@ const setChartMargin = (width, height, maxLegendLabelWidth, legendItemCount, max
  * @param { array } data - data array
  * @returns { number } - the width of the last (rightmost) x-axis tick value width in pixels
  */
-const getLastXAxisTickLabelWidth = (data) => {
-  // TO DO: replace .data with .x for new data structure
-  if (data[0].data) {
-    return getTextSize(data[0].data[data.length - 1].x, '12px noto sans')
+const getLastXAxisTickLabelWidth = ({ data, xKey, isNumeric }) => {
+  const sorted = [...data]
+  sorted.sort((a, b) => {
+    if (isNumeric) return a[xKey] - b[xKey]
+    if (a[xKey] < b[xKey]) {
+      return -1
+    } else if (a[xKey] > b[xKey]) {
+      return 1
+    }
+    return 0
+  })
   // TO DO: below whould be the place to deal with bar-chart long labels but I feel now it is too
   // complex, it works fine for the examples we have, need to test more
-  } else return 0
+  return getTextSize(sorted[sorted.length - 1][xKey], '12px noto sans')
 }
 
 /**
@@ -157,20 +164,11 @@ const getLastXAxisTickLabelWidth = (data) => {
  * @param { array } data - data array
  * @returns { number } - the width in pixels of the highest y value in the array
  */
-const getMaxYAxisTickLabelWidth = (data) => {
-  if (data[0].data) {
-    return getTextSize(
-      // TO DO: remove a reduce layer for the new data structure
-      data.reduce((max, dataSet) =>
-        dataSet.data.reduce((max, dataSet1) =>
-          Math.max(max, dataSet1.y), 0), 0), '12px noto sans')
-  } else if (!data[0].value) {
-    return getTextSize(
-      data.reduce((max, dataSet) =>
-        Math.max(max, ...Object.values(dataSet).filter(value => typeof(value) === 'number'))
-      ,0), '12px noto sans')
-  } else return 0
-}
+const getMaxYAxisTickLabelWidth = ({ data, yKeys }) => getTextSize(
+  data.reduce((max, row) => Math.max(max, ...yKeys.map(yKey => row[yKey])), 0),
+  '12px noto sans'
+)
+
 
 /**
  * getLegendLabelMaxWidth - calculates the width of the longest label text in the legend
@@ -266,7 +264,13 @@ const getCommonAxisProps = (dimension, showAxisLegend, showAxisTicks, axisLegend
 })
 
 export const getCommonProps = ({
+  data,
   keys,
+  yKeys,
+  xKey,
+  // NOTE: switch to sort xAxis labels
+  // to get the furthest right
+  isNumeric,
   height,
   width,
   axisBottomLegendLabel, // not for pie
@@ -277,9 +281,9 @@ export const getCommonProps = ({
   const maxLegendLabelWidth = getLegendLabelMaxWidth(keys)
   const legendItemCount = keys.length
   // calculate the last x-axis tick label with in pixels
-  const lastXAxisTickLabelWidth = getLastXAxisTickLabelWidth(keys)
+  const lastXAxisTickLabelWidth = getLastXAxisTickLabelWidth({ data, xKey, isNumeric })
   // calculate the longest y-axis tick label width in pixels
-  const maxYAxisTickLabelWidth = getMaxYAxisTickLabelWidth(keys)
+  const maxYAxisTickLabelWidth = getMaxYAxisTickLabelWidth({ data, yKeys })
 
   const {
     showLegend,

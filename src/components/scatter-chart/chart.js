@@ -61,7 +61,11 @@ const ScatterChart = ({
         />
       )}
       {...getCommonProps({
+        data,
         keys: finalData.map(o => o.id),
+        yKeys: [finalYKey],
+        xKey: finalXKey,
+        isNumeric: true,
         height,
         width,
         axisBottomLegendLabel,
