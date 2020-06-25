@@ -4,11 +4,6 @@ const designSystemColors = {
   blue50: '#0084ff',
   blue70: '#0062d9',
   blue90: '#0039ac',
-  gray10: '#fbfbfb',
-  gray30: '#f1f1f1',
-  gray50: '#dbdbdb',
-  gray70: '#a8a8a8',
-  gray90: '#6c6c6c',
   coral10: '#fceceb',
   coral30: '#ffb49c',
   coral50: '#ff7b4c',
@@ -33,7 +28,12 @@ const designSystemColors = {
   teal30: '#8be3ed',
   teal50: '#2acddf',
   teal70: '#00b5c8',
-  teal90: '#008e9a'
+  teal90: '#008e9a',
+  gray10: '#fbfbfb',
+  gray30: '#f1f1f1',
+  gray50: '#dbdbdb',
+  gray70: '#a8a8a8',
+  gray90: '#6c6c6c',
 }
 
 export default designSystemColors

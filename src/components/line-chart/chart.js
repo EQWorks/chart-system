@@ -1,169 +1,82 @@
-import React, { useState, useMemo } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
 import styled from 'styled-components'
 
 import { ResponsiveLine } from '@nivo/line'
 
 import Tooltip from '../tooltip'
 
-import designSystemColors from '../../shared/constants/design-system-colors'
-import { getCommonProps } from '../../shared/utils'
+import { getCommonProps, processSeriesDataKeys, convertDataToNivo, processColors } from '../../shared/utils'
+import { chartPropTypes, chartDefaultProps, seriesPropTypes, seriesDefaultProps } from '../../shared/constants/chart-props'
 
 
 const Container = styled.div`
   height: 100%;
-  width: 100%
+  width: 100%;
 `
-// sets common props for Nivo ResponsiveLine component
-const setCommonProps = (width, height, data, axisBottomLegendLabel, axisLeftLegendLabel) => ({
-  xScale: { type: 'point' },
-  yScale: { type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false },
-  pointColor: { theme: 'background' },
-  pointBorderWidth: 0,
-  pointBorderColor: { from: 'serieColor' },
-  useMesh: true,
-  enableCrosshair: true,
-  crosshairType: 'bottom',
-  layers: [
-    'grid',
-    'markers',
-    'axes',
-    'areas',
-    'crosshair',
-    'lines',
-    'points',
-    'slices',
-    'mesh',
-    'legends'
-  ],
-  ...getCommonProps({
-    data,
-    height,
-    width,
-    axisBottomLegendLabel,
-    axisLeftLegendLabel,
-    dash: true,
-    tickValues: data[0].data.length,
-  })
-})
-
 const propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  axisBottomLegendLabel: PropTypes.string,
-  axisLeftLegendLabel: PropTypes.string,
-  width: PropTypes.number,
-  height: PropTypes.number,
+  ...seriesPropTypes,
+  ...chartPropTypes,
 }
-
 const defaultProps = {
-  axisBottomLegendLabel: '',
-  axisLeftLegendLabel: '',
-  width: 100,
-  height: 100,
+  ...seriesDefaultProps,
+  ...chartDefaultProps,
 }
 
-const colors = [
-  designSystemColors.blue70,
-  designSystemColors.yellow70,
-  designSystemColors.pink70,
-  designSystemColors.purple70,
-  designSystemColors.teal70
-]
-const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)]
+const mouseOut = (event) => {
+  const container = event.target
+  // event target changes depending on what the cursor leaves from
+  if (container.tagName === 'rect') {
+    container.parentNode.parentNode.getElementsByTagName('path').forEach(p => p.style.opacity = 1.0)
+  } else if (container.tagName === 'svg') {
+    container.children[1].getElementsByTagName('path').forEach(p => p.style.opacity = 1.0)
+  }
+}
 
 // LineChart - creates a line chart
 const ResponsiveLineChart = ({
-  data: baseData,
+  data,
+  indexBy,
+  xKey,
+  yKey,
+  colors,
+  colorType,
+  colorParam,
   axisBottomLegendLabel,
   axisLeftLegendLabel,
   width,
   height,
+  ...nivoProps
 }) => {
-  // TODO properly handle arbitrary amount of data without randomizing colors
-  const data = useMemo(() => baseData.map(datum => ({
-    ...datum,
-    color: getRandomColor()
-  })), [baseData])
-  const customLines = ({ series, lineGenerator }) => {
-    return series.map(datum => (
-      <path
-        key={datum.id}
-        d={lineGenerator(datum.data.map(d => {
-          return {
-            x: d.position.x,
-            y: d.position.y
-          }
-        }))}
-        fill='none'
-        stroke={datum.color}
-        strokeWidth='2px'
-      />
-    ))
-  }
 
-  const [color, setColor] = useState({})
-  const [layers, setLayers] = useState([
-    'grid',
-    'markers',
-    'axes',
-    'areas',
-    'crosshair',
-    'lines',
-    'points',
-    'slices',
-    'mesh',
-    'legends'
-  ])
-
-  const mouseLeave = () => {
-    setColor({})
-    setLayers([
-      'grid',
-      'markers',
-      'axes',
-      'areas',
-      'crosshair',
-      'lines',
-      'points',
-      'slices',
-      'mesh',
-      'legends'
-    ])
-  }
-
-  const mouseMove = (p) => {
-    const newLayer = [
-      'grid',
-      'markers',
-      'axes',
-      'areas',
-      'crosshair',
-      customLines,
-      'points',
-      'slices',
-      'mesh',
-      'legends'
-    ]
-    setColor(p)
-    setLayers(newLayer)
-  }
-
-  const getColor = line => {
-    if (line.id === color.serieId) {
-      return line.color
-    } else {
-      return '#d4d4d4'
-    }
-  }
+  const { finalIndexBy, finalXKey, finalYKey } = processSeriesDataKeys({ data, indexBy, xKey, yKey })
+  const finalData = convertDataToNivo({ data, indexBy: finalIndexBy, xKey: finalXKey, yKey: finalYKey })
+  const finalColors = colors.length ? colors : processColors(finalData.length, colorType, colorParam)
 
   return (
-    // NOTE: ResponsiveLine doesn't work when directly receiving onMouseLeave
-    <Container onMouseLeave={mouseLeave}>
+    // NOTE: onMouseLeave and onMouseEnter events not firing correctly
+    // https://github.com/plouc/nivo/issues/756
+    <Container onMouseOut={mouseOut}>
       <ResponsiveLine
-        {...setCommonProps(width, height, data, axisBottomLegendLabel, axisLeftLegendLabel)}
-        colors={Object.keys(color).length === 0 ? { datum: 'color' } : getColor}
-        layers={layers}
-        onMouseMove={(p, e) => mouseMove(p, e)}
+        {...nivoProps}
+        data={finalData}
+        colors={finalColors}
+        xScale={{ type: 'point' }}
+        yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
+        pointColor={{ theme: 'background' }}
+        pointBorderWidth={0}
+        pointBorderColor={{ from: 'serieColor' }}
+        useMesh={true}
+        enableCrosshair={true}
+        crosshairType='bottom'
+        onMouseMove={(d, event) => {
+          let dataPoints = Array.from(event.target.parentNode.parentNode.getElementsByTagName('path'))
+          let hoverItemIndex = data.findIndex(o => d.serieId === o.id)
+          let hovered = dataPoints.splice(hoverItemIndex, 1)
+          hovered[0].style.opacity = 1.0
+          dataPoints.forEach(point => {
+            point.style.opacity = 0.1
+          })
+        }}
         tooltip={({ point }) => (
           <Tooltip
             color={point.borderColor}
@@ -174,6 +87,14 @@ const ResponsiveLineChart = ({
             ]}
           />
         )}
+        {...getCommonProps({
+          keys: finalData.map(o => o.id),
+          height,
+          width,
+          axisBottomLegendLabel,
+          axisLeftLegendLabel,
+          dash: true,
+        })}
       >
       </ResponsiveLine>
     </Container>
