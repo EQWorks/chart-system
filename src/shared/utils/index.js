@@ -273,6 +273,8 @@ export const getCommonProps = ({
   isNumeric,
   height,
   width,
+  // NOTE pie chart has diverged significantly
+  hasAxis = true,
   axisBottomLegendLabel, // not for pie
   axisLeftLegendLabel, // not for pie
   dash, // not for pie?
@@ -281,9 +283,9 @@ export const getCommonProps = ({
   const maxLegendLabelWidth = getLegendLabelMaxWidth(keys)
   const legendItemCount = keys.length
   // calculate the last x-axis tick label with in pixels
-  const lastXAxisTickLabelWidth = getLastXAxisTickLabelWidth({ data, xKey, isNumeric })
+  const lastXAxisTickLabelWidth = hasAxis ? getLastXAxisTickLabelWidth({ data, xKey, isNumeric }) : 0
   // calculate the longest y-axis tick label width in pixels
-  const maxYAxisTickLabelWidth = getMaxYAxisTickLabelWidth({ data, yKeys })
+  const maxYAxisTickLabelWidth = hasAxis ? getMaxYAxisTickLabelWidth({ data, yKeys }) : 0
 
   const {
     showLegend,
