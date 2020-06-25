@@ -80,6 +80,7 @@ const setChartMargin = (width, height, maxLegendLabelWidth, legendItemCount, max
   }
   let legendLabelContainerWidth
   let legendItemWidth
+  let legendTranslate
 
   if (showLegend) {
     // adjust right or bottom margin accordingly
@@ -91,8 +92,10 @@ const setChartMargin = (width, height, maxLegendLabelWidth, legendItemCount, max
       if (width - WIDTH_BREAKPOINT_3 >= LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH + maxLegendLabelWidth) {
         legendLabelContainerWidth = maxLegendLabelWidth
       }
+      legendTranslate = 14
       right = legendLabelContainerWidth + LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH
     } else {
+      legendTranslate = LEGEND_HEIGHT + AXIS_TICK_WIDTH + 2 * TEXT_HEIGHT + 3 * BUFFER
       // adjust bottom to include legend and a buffer
       bottom += LEGEND_HEIGHT + BUFFER
     }
@@ -131,6 +134,7 @@ const setChartMargin = (width, height, maxLegendLabelWidth, legendItemCount, max
     showLeftAxisTicks,
     bottomLegendOffset,
     leftLegendOffset,
+    legendTranslate
   }
 }
 
@@ -287,6 +291,7 @@ export const getCommonProps = ({
     showLeftAxisTicks,
     bottomLegendOffset,
     leftLegendOffset,
+    legendTranslate,
     ...margin
   } = setChartMargin(width, height, maxLegendLabelWidth, legendItemCount, maxYAxisTickLabelWidth, lastXAxisTickLabelWidth)
 
@@ -296,20 +301,21 @@ export const getCommonProps = ({
   // const itemWidth = width < WIDTH_BREAKPOINT_3 ? (WIDTH_BREAKPOINT_0 - BUFFER) / 3 : legendItemWidth
   const itemWidth = width / 5 // size of label or whole item?
   const translateX = 0
+  const translateY = 0
   const aspectRatioProps = rightHandLegend ? ({
     anchor: 'right',
     direction: 'column',
     // TODO how are below set?
     itemWidth: 0,
-    translateX: 14,
-    translateY: 0,
+    translateX: legendTranslate,
+    translateY,
   }) : ({
     anchor: 'bottom',
     direction: 'row',
     itemWidth,
     // translateX: BUFFER,
     translateX,
-    translateY: LEGEND_HEIGHT + AXIS_TICK_WIDTH + 2 * TEXT_HEIGHT + 3 * BUFFER,
+    translateY: legendTranslate,
   })
   const symbolShape = nivoProps => <LegendCircle {...nivoProps} trimLegendLabel={trimLegendLabel(rightHandLegend ? legendLabelContainerWidth : itemWidth - 14)} />
   const legend = {
