@@ -8,6 +8,8 @@ import { onMouseEnter, onMouseLeave } from './events'
 import designSystemColors from '../../shared/constants/design-system-colors'
 import { getCommonProps } from '../../shared/utils'
 
+import { SYMBOL_SIZE } from '../../shared/constants/dimensions'
+
 
 // sets common props for Nivo ResponsiveScatterPlot component
 const setCommonProps = (width, height, data, axisBottomLegendLabel, axisLeftLegendLabel) => ({
@@ -18,7 +20,7 @@ const setCommonProps = (width, height, data, axisBottomLegendLabel, axisLeftLege
     designSystemColors.pink70,
     designSystemColors.teal70
   ],
-  nodeSize: 8,
+  nodeSize: SYMBOL_SIZE,
   onMouseEnter,
   onMouseLeave,
   useMesh: false,
