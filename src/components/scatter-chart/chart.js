@@ -7,6 +7,7 @@ import { onMouseEnter, onMouseLeave } from './events'
 
 import { getCommonProps, processSeriesDataKeys, convertDataToNivo, processColors } from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps, seriesPropTypes, seriesDefaultProps } from '../../shared/constants/chart-props'
+import { SYMBOL_SIZE } from '../../shared/constants/dimensions'
 
 
 const propTypes = {
@@ -45,7 +46,7 @@ const ScatterChart = ({
       colors={finalColors}
       xScale={{ type: 'linear' }}
       yScale={{ type: 'linear' }}
-      nodeSize={8}
+      nodeSize={SYMBOL_SIZE}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       useMesh={false}
@@ -60,7 +61,11 @@ const ScatterChart = ({
         />
       )}
       {...getCommonProps({
+        data,
         keys: finalData.map(o => o.id),
+        yKeys: [finalYKey],
+        xKey: finalXKey,
+        isNumeric: true,
         height,
         width,
         axisBottomLegendLabel,

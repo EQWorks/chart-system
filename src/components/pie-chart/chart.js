@@ -105,6 +105,7 @@ const PieChart = ({
       onMouseEnter={mouseOverHandler}
       onMouseLeave={mouseLeaveHandler}
       {...getCommonProps({
+        hasAxis: false,
         keys: data.map(o => o.id),
         height,
         width,
