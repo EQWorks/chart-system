@@ -209,6 +209,7 @@ const getTextSize = (text, font) => {
  */
 const TRIM = '..'
 const trimText = (text, containerWidth, count = 0) => {
+  if (text === '') return text
   let font = '12px noto sans'
   let n = text.length
   const suffix = count ? TRIM : ''
