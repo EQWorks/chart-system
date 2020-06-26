@@ -16,7 +16,7 @@ const TooltipHeader = styled.div``
 const TooltipBody = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 16px;
+  margin-left: 10px;
 `
 
 const TooltipNode = styled.div`
