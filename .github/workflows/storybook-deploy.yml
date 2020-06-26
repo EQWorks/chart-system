@@ -31,3 +31,4 @@ jobs:
         run: yarn storybook-to-ghpages --ci
         env:
           GH_TOKEN: EQWorks:${{ secrets.GITHUB_TOKEN }}
+          
