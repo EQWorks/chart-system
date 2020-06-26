@@ -110,12 +110,12 @@ const setChartMargin = (width, height, maxLegendLabelWidth, legendItemCount, max
       // enforce a minimum
       // increase the right margin until it fits the longest label
       legendTranslate = LEGEND_TRANSLATE_X
-      const expandingLabelContainer = width - WIDTH_BREAKPOINT_3 - LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH
+      const expandingLabelContainer = width - WIDTH_BREAKPOINT_3 - LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH - legendTranslate
       legendLabelContainerWidth = Math.max(expandingLabelContainer, TRIMMED_LEGEND_WIDTH)
       if (expandingLabelContainer >= maxLegendLabelWidth) {
         legendLabelContainerWidth = maxLegendLabelWidth
       }
-      right = legendLabelContainerWidth + LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH
+      right = legendLabelContainerWidth + legendTranslate + LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH
     } else {
       legendItemWidth = (width - right - left) / legendItemCount
       legendLabelContainerWidth = legendItemWidth - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
