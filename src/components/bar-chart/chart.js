@@ -25,6 +25,7 @@ const BarChart = ({
   height,
   axisBottomTrim,
   axisBottomLabelDisplayFn,
+  axisBottomOrder,
   axisLeftLabelDisplayFn,
   ...nivoProps
 }) => {
@@ -33,11 +34,33 @@ const BarChart = ({
   // indexBy cannot be present in keys[]
   const { finalKeys, finalIndexBy } = processDataKeys({ data, keys, indexBy })
   const finalColors = colors.length ? colors : processColors(finalKeys.length, colorType, colorParam)
+
+  // axisBottomOrder = [string keys] | 'asc' | 'desc' | false (none)
+  const processAxisOrder = ({ data, axisBottomOrder, chartType }) => {
+    if (!axisBottomOrder.length) return data
+    if (chartType === 'bar') {
+      if (Array.isArray(axisBottomOrder)) {
+        return axisBottomOrder.map(label => data.find(row => row[finalIndexBy] === label))
+      }
+      const dir = axisBottomOrder === 'asc' ? 1 : -1
+      return [...data].sort((a, b) => {
+        if (a[finalIndexBy] < b[finalIndexBy]) {
+          return -1 * dir
+        } else if (a[finalIndexBy] > b[finalIndexBy]) {
+          return 1 * dir
+        }
+        return 0
+      })
+    }
+  }
+  const finalData = processAxisOrder({ data, axisBottomOrder, chartType: 'bar' })
+
   return (
     <ResponsiveBar
       // TODO right now, our props override, but need to see if there are any that should take precedent
       {...nivoProps}
-      data={data}
+      data={finalData}
+      // NOTE yScale, xScale, yFormat, xFormat are not exposed in Bar
       indexBy={finalIndexBy}
       keys={finalKeys}
       colors={finalColors}
@@ -72,7 +95,7 @@ const BarChart = ({
         }
       }}
       {...getCommonProps({
-        data,
+        data: finalData,
         keys: finalKeys,
         yKeys: [finalKeys],
         xKey: finalIndexBy,

@@ -28,7 +28,7 @@ const barChartData = [
     'multi_visitors': 0,
     'repeat_visitor_rate': 0.538461538461538,
     'multi_visitor_rate': 0
-  }
+  },
 ]
 
 export default barChartData

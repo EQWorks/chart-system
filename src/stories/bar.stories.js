@@ -53,6 +53,30 @@ storiesOf('Bar Chart', module)
       />
     </ResponsiveChartWrapper>
   ))
+  .add('Bottom Axis Order - Descending', () => (
+    <ResponsiveChartWrapper>
+      <BarChart
+        title='My Title'
+        data={barChartData}
+        axisBottomLegendLabel='Address City'
+        axisLeftLegendLabel='Visitors'
+        groupMode='grouped'
+        axisBottomOrder='desc'
+      />
+    </ResponsiveChartWrapper>
+  ))
+  .add('Bottom Axis Order - Exact', () => (
+    <ResponsiveChartWrapper>
+      <BarChart
+        title='My Title'
+        data={barChartData}
+        axisBottomLegendLabel='Address City'
+        axisLeftLegendLabel='Visitors'
+        groupMode='grouped'
+        axisBottomOrder={['Airdrie', 'Brandon', 'Abbotsford']}
+      />
+    </ResponsiveChartWrapper>
+  ))
   .add('Grouped', () => (
     <ResponsiveChartWrapper>
       <BarChart
