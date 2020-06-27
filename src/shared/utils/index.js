@@ -258,7 +258,7 @@ export const trimLegendLabel = legendLabelContainerWidth => node => {
   }
 }
 
-const getCommonAxisProps = (dimension, showAxisLegend, showAxisTicks, axisLegendLabel, legendOffset, displayFn = d => d) => ({
+const getCommonAxisProps = (showAxisLegend, showAxisTicks, axisLegendLabel, legendOffset, displayFn = d => d) => ({
   tickSize: AXIS_TICK_WIDTH,
   tickPadding: AXIS_TICK_PADDING,
   legendHeight: LEGEND_HEIGHT,
@@ -283,8 +283,11 @@ export const getCommonProps = ({
   width,
   // NOTE pie chart has diverged significantly
   hasAxis = true,
+  axisBottomTrim = true,
+  axisBottomLabelDisplayFn = d => d,
   axisBottomLegendLabel, // not for pie
   axisLeftLegendLabel, // not for pie
+  axisLeftLabelDisplayFn = d => d,
   dash, // not for pie?
   legendProps = {},
 }) => {
@@ -343,11 +346,18 @@ export const getCommonProps = ({
   return {
     margin,
     axisBottom: {
-      ...getCommonAxisProps(height, showBottomLegendLabel, showBottomAxisTicks, axisBottomLegendLabel, bottomLegendOffset, d => trimText(d+'', chartWidth / xAxisLabelCount)),
+      tickValues: ['Brandon', 'Abbotsford', 'Airdrie'],
+      ...getCommonAxisProps(
+        showBottomLegendLabel,
+        showBottomAxisTicks,
+        axisBottomLegendLabel,
+        bottomLegendOffset,
+        d => axisBottomTrim ? trimText(axisBottomLabelDisplayFn(d)+'', chartWidth / xAxisLabelCount) : axisBottomLabelDisplayFn(d),
+      ),
     },
     axisLeft: {
       orient: 'left',
-      ...getCommonAxisProps(width, showLeftLegendLabel, showLeftAxisTicks, axisLeftLegendLabel, leftLegendOffset, d => d),
+      ...getCommonAxisProps(showLeftLegendLabel, showLeftAxisTicks, axisLeftLegendLabel, leftLegendOffset, axisLeftLabelDisplayFn),
     },
     legends: showLegend ? [legend] : [],
     theme: {

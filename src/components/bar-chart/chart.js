@@ -23,6 +23,9 @@ const BarChart = ({
   axisLeftLegendLabel,
   width,
   height,
+  axisBottomTrim,
+  axisBottomLabelDisplayFn,
+  axisLeftLabelDisplayFn,
   ...nivoProps
 }) => {
   // a single key is required for the X axis scale
@@ -78,6 +81,9 @@ const BarChart = ({
         axisBottomLegendLabel,
         axisLeftLegendLabel,
         legendProps: { dataFrom: 'keys' },
+        axisBottomTrim,
+        axisBottomLabelDisplayFn,
+        axisLeftLabelDisplayFn,
       })}
     />
   )
