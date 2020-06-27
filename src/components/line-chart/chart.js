@@ -70,7 +70,7 @@ const ResponsiveLineChart = ({
         crosshairType='bottom'
         onMouseMove={(d, event) => {
           let dataPoints = Array.from(event.target.parentNode.parentNode.getElementsByTagName('path'))
-          let hoverItemIndex = data.findIndex(o => d.serieId === o.id)
+          let hoverItemIndex = finalData.findIndex(o => d.serieId === o.id)
           let hovered = dataPoints.splice(hoverItemIndex, 1)
           hovered[0].style.opacity = 1.0
           dataPoints.forEach(point => {
