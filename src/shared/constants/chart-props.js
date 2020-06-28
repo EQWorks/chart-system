@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 
 export const chartPropTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  keys: PropTypes.array,
+  keys: PropTypes.array, // TODO not used outside of bar
   indexBy: PropTypes.string,
   colors: PropTypes.array,
   colorType: PropTypes.string, // TODO oneOf(['random', 'palette', 'monochromatic'])
-  colorParam: PropTypes.string, // whatever value matches the requirement of colorType, currently the hue (mono) or lightness (palette)
+  colorParam: PropTypes.string, // value to configure the colorType, currently the hue (mono) or lightness (palette)
   axisBottomLegendLabel: PropTypes.string,
   axisBottomTrim: PropTypes.bool,
   axisBottomLabelDisplayFn: PropTypes.func,

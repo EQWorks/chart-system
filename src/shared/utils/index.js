@@ -346,7 +346,6 @@ export const getCommonProps = ({
   return {
     margin,
     axisBottom: {
-      tickValues: ['Brandon', 'Abbotsford', 'Airdrie'],
       ...getCommonAxisProps(
         showBottomLegendLabel,
         showBottomAxisTicks,
@@ -403,6 +402,9 @@ export const processSeriesDataKeys = ({ indexBy, xKey, yKey, data }) => {
     finalYKey,
   }
 }
+
+// TODO: function for summing together values e.g. duplicate x/y combinations
+// export const processUniqueData
 
 // convert flat array { indexBy: 'value', ...rest }
 // to grouped by unique indexBy value

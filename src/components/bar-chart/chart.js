@@ -35,6 +35,9 @@ const BarChart = ({
   const { finalKeys, finalIndexBy } = processDataKeys({ data, keys, indexBy })
   const finalColors = colors.length ? colors : processColors(finalKeys.length, colorType, colorParam)
 
+  // TODO: common x-axis type processing for String, Date, Number
+  // manual for bar chart
+  // xScale for line & scatter
   // axisBottomOrder = [string keys] | 'asc' | 'desc' | false (none)
   const processAxisOrder = ({ data, axisBottomOrder, chartType }) => {
     if (!axisBottomOrder.length) return data
