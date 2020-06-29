@@ -169,12 +169,19 @@ const getLastXAxisTickLabelWidth = ({ data, xKey, isNumeric }) => {
 /**
  * getMaxYAxisTickLabelWidth - gets the width in pixels of the highest y value in the array
  * @param { array } data - data array
+ * @param { array } yKeys - array of string keys representing y-axis data
+ * @param { boolean } stacked - whether or not the y-axis value is additive
  * @returns { number } - the width in pixels of the highest y value in the array
  */
-// TODO handle stacked case
-// max of sum of all keys
-const getMaxYAxisTickLabelWidth = ({ data, yKeys }) => getTextSize(
-  data.reduce((max, row) => Math.max(max, ...yKeys.map(yKey => row[yKey])), 0),
+const getMaxYAxisTickLabelWidth = ({ data, yKeys, stacked }) => getTextSize(
+  Math.round(
+    data.reduce((max, row) => Math.max(
+      max,
+      ...(stacked ?
+        [yKeys.reduce((sum, yKey) => sum + row[yKey], 0)]
+        : yKeys.map(yKey => row[yKey])),
+    ), 0)
+  ),
   '12px noto sans'
 )
 
@@ -287,13 +294,14 @@ export const getCommonProps = ({
   axisLeftLegendLabel, // not for pie
   dash, // not for pie?
   legendProps = {},
+  stacked,
 }) => {
   const maxLegendLabelWidth = getLegendLabelMaxWidth(keys)
   const legendItemCount = keys.length
   // calculate the last x-axis tick label width in pixels
   const lastXAxisTickLabelWidth = hasAxis ? getLastXAxisTickLabelWidth({ data, xKey, isNumeric }) : 0
   // calculate the longest y-axis tick label width in pixels
-  const maxYAxisTickLabelWidth = hasAxis ? getMaxYAxisTickLabelWidth({ data, yKeys }) : 0
+  const maxYAxisTickLabelWidth = hasAxis ? getMaxYAxisTickLabelWidth({ data, yKeys, stacked }) : 0
 
   const {
     showLegend,

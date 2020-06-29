@@ -71,6 +71,7 @@ const ScatterChart = ({
         axisBottomLegendLabel,
         axisLeftLegendLabel,
         dash: true,
+        stacked: false,
       })}
     />
   )

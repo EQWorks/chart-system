@@ -71,12 +71,13 @@ const BarChart = ({
       {...getCommonProps({
         data,
         keys: finalKeys,
-        yKeys: [finalKeys],
+        yKeys: finalKeys,
         xKey: finalIndexBy,
         height,
         width,
         axisBottomLegendLabel,
         axisLeftLegendLabel,
+        stacked: nivoProps.groupMode !== 'grouped',
         legendProps: { dataFrom: 'keys' },
       })}
     />

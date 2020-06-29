@@ -97,6 +97,7 @@ const ResponsiveLineChart = ({
           axisBottomLegendLabel,
           axisLeftLegendLabel,
           dash: true,
+          stacked: true,
         })}
       >
       </ResponsiveLine>
