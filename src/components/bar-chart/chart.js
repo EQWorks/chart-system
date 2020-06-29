@@ -35,7 +35,7 @@ const BarChart = ({
   // indexBy cannot be present in keys[]
   const { finalKeys, finalIndexBy } = processDataKeys({ data, keys, indexBy })
   const finalColors = colors.length ? colors : processColors(finalKeys.length, colorType, colorParam)
-  const finalData = processAxisOrder({ data, axisBottomOrder, valueKey: finalIndexBy })
+  const finalData = processAxisOrder({ data, axisBottomOrder, finalIndexBy })
 
   return (
     <ResponsiveBar
@@ -89,6 +89,9 @@ const BarChart = ({
         axisBottomTickValues: Array.isArray(axisBottomOrder) && axisBottomOrder.length ? axisBottomOrder : axisBottomLabelValues,
         axisBottomTrim,
         axisBottomLabelDisplayFn,
+        lastXAxisTickLabelWidth: 0,
+        axisBottomLabelCount: finalData.length,
+        xScale: { type: 'point' },
         axisLeftLabelDisplayFn,
       })}
     />

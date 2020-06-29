@@ -1,11 +1,17 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { ResponsiveScatterPlot } from '@nivo/scatterplot'
 
 import Tooltip from '../tooltip'
 import { onMouseEnter, onMouseLeave } from './events'
 
-
-import { getCommonProps, processSeriesDataKeys, convertDataToNivo, processColors, processAxisOrderNivo } from '../../shared/utils'
+import {
+  getCommonProps,
+  processSeriesDataKeys,
+  convertDataToNivo,
+  processColors,
+  processAxisOrderNivo,
+  getXAxisLabels,
+} from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps, seriesPropTypes, seriesDefaultProps } from '../../shared/constants/chart-props'
 import { SYMBOL_SIZE } from '../../shared/constants/dimensions'
 
@@ -47,13 +53,25 @@ const ScatterChart = ({
   const finalData = processAxisOrderNivo({ unsortedData, axisBottomOrder })
   const finalColors = colors.length ? colors : processColors(finalData.length, colorType, colorParam)
 
+  const finalXScale = { type: 'linear', ...xScale }
+  const finalYScale = { type: 'linear', ...yScale }
+
+  const axisBottomTickValues = axisBottomLabelValues
+  // TODO: use a similar approach to find out if the last label actually overflows
+  const { labelCount: axisBottomLabelCount, lastLabelWidth: lastXAxisTickLabelWidth } = useMemo(
+    () => getXAxisLabels({
+      data: finalData, xScale: finalXScale, yScale: finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn
+    }),
+    [finalData, finalXScale, finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn],
+  )
+
   return (
     <ResponsiveScatterPlot
       {...nivoProps}
       data={finalData}
       colors={finalColors}
-      xScale={{ type: 'point', ...xScale }}
-      yScale={{ type: 'linear', ...yScale }}
+      xScale={finalXScale}
+      yScale={finalYScale}
       nodeSize={SYMBOL_SIZE}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -73,7 +91,6 @@ const ScatterChart = ({
         keys: finalData.map(o => o.id),
         yKeys: [finalYKey],
         xKey: finalXKey,
-        isNumeric: true,
         height,
         width,
         axisBottomLegendLabel,
@@ -81,7 +98,9 @@ const ScatterChart = ({
         dash: true,
         axisBottomTrim,
         axisBottomLabelDisplayFn,
-        axisBottomTickValues: Array.isArray(axisBottomOrder) && axisBottomOrder.length ? axisBottomOrder : axisBottomLabelValues,
+        axisBottomTickValues,
+        axisBottomLabelCount,
+        lastXAxisTickLabelWidth,
         axisLeftLabelDisplayFn,
       })}
     />

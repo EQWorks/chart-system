@@ -35,7 +35,7 @@ export const chartDefaultProps = {
   axisBottomTrim: true,
   axisBottomLabelDisplayFn: d => d,
   axisBottomOrder: [],
-  axisBottomLabelValues: null,
+  axisBottomLabelValues: undefined,
   axisLeftLegendLabel: '',
   axisLeftLabelDisplayFn: d => d,
   width: 100,

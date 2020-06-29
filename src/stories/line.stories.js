@@ -15,6 +15,7 @@ storiesOf('Line Chart', module)
         indexBy='country'
         xKey='vehicle'
         yKey='amount'
+        xScale={{ type: 'point' }}
         axisBottomLegendLabel={'axisBottomLegend'}
         axisLeftLegendLabel={'axisLeftLegend'}
       />

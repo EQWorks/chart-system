@@ -1,5 +1,6 @@
 import React from 'react'
 import { omit } from 'lodash'
+import { computeXYScalesForSeries } from '@nivo/scales'
 import {
   WIDTH_BREAKPOINT_1,
   WIDTH_BREAKPOINT_2,
@@ -23,6 +24,7 @@ import {
 } from '../constants/dimensions'
 import designSystemColors from '../constants/design-system-colors'
 
+import { getScaleTicks } from './nivo'
 import LegendCircle from '../../components/legend-symbol'
 
 // threshold for forcing a righthand legend
@@ -144,28 +146,15 @@ const setChartMargin = (width, height, maxLegendLabelWidth, legendItemCount, max
   }
 }
 
-/**
- * getLastXAxisTickLabelWidth - gets the last (rightmost) x-axis tick value width in pixels
- * @param { array } data - data array
- * @returns { number } - the width of the last (rightmost) x-axis tick value width in pixels
- */
-const getLastXAxisTickLabelWidth = ({ data, xKey, isNumeric }) => {
-  // for 'point' values, it's the last value in the data => just check last key
-  // for 'linear' it's the largest or smallest number => data MAX or data MIN
-  // for date it's the most recent or oldest date (formatted) => can just use the format length
-  const sorted = [...data]
-  sorted.sort((a, b) => {
-    if (isNumeric) return a[xKey] - b[xKey]
-    if (a[xKey] < b[xKey]) {
-      return -1
-    } else if (a[xKey] > b[xKey]) {
-      return 1
-    }
-    return 0
-  })
-
-  // TODO ~number of x-axis labels!
-  return getTextSize(sorted[sorted.length - 1][xKey], '12px noto sans')
+export const getXAxisLabels = ({
+  data, xScale: xScaleSpec, yScale: yScaleSpec, width, height, axisBottomLabelValues, axisBottomLabelDisplayFn
+}) => {
+  const { xScale } = computeXYScalesForSeries(data, xScaleSpec, yScaleSpec, width, height)
+  const labels = getScaleTicks(xScale, axisBottomLabelValues)
+  return {
+    labelCount: labels.length,
+    lastLabelWidth: getTextSize(axisBottomLabelDisplayFn(labels[labels.length - 1]))
+  }
 }
 
 /**
@@ -177,7 +166,6 @@ const getLastXAxisTickLabelWidth = ({ data, xKey, isNumeric }) => {
 // max of sum of all keys
 const getMaxYAxisTickLabelWidth = ({ data, yKeys }) => getTextSize(
   data.reduce((max, row) => Math.max(max, ...yKeys.map(yKey => row[yKey])), 0),
-  '12px noto sans'
 )
 
 /**
@@ -186,7 +174,7 @@ const getMaxYAxisTickLabelWidth = ({ data, yKeys }) => getTextSize(
  * @returns { number } - the width of the longest label text in the legend
  */
 const getLegendLabelMaxWidth = (keys) => keys.reduce((max, key) =>
-  Math.max(max, getTextSize(key, '12px noto sans')), 0)
+  Math.max(max, getTextSize(key)), 0)
 
 /**
  * getTextSize - calculates a rendered text width in pixels
@@ -194,7 +182,7 @@ const getLegendLabelMaxWidth = (keys) => keys.reduce((max, key) =>
  * @param { string } font - a string with the font included ex: '12px noto sans'
  * @returns { number } - the width of the rendered text in pixels
  */
-const getTextSize = (text, font) => {
+export const getTextSize = (text, font = '12px noto sans') => {
   let canvas = document.createElement('canvas')
   let context = canvas.getContext('2d')
   context.font = font
@@ -212,10 +200,9 @@ const getTextSize = (text, font) => {
 const TRIM = '..'
 const trimText = (text, containerWidth, count = 0) => {
   if (text === '') return text
-  let font = '12px noto sans'
   let n = text.length
   const suffix = count ? TRIM : ''
-  let textWidth = getTextSize(text.substr(0, n) + suffix, font)
+  let textWidth = getTextSize(text.substr(0, n) + suffix)
   if (textWidth <= containerWidth) {
     return text.substr(0, n) + suffix
   } else {
@@ -261,7 +248,7 @@ export const trimLegendLabel = legendLabelContainerWidth => node => {
 }
 
 // not object params to re-use in x/y axis
-const getCommonAxisProps = (showAxisLegend, showAxisTicks, axisLegendLabel, legendOffset, displayFn = d => d, tickValues) => ({
+const getCommonAxisProps = (showAxisLegend, showAxisTicks, axisLegendLabel, legendOffset, displayFn = d => d) => ({
   tickSize: AXIS_TICK_WIDTH,
   tickPadding: AXIS_TICK_PADDING,
   legendHeight: LEGEND_HEIGHT,
@@ -274,23 +261,10 @@ const getCommonAxisProps = (showAxisLegend, showAxisTicks, axisLegendLabel, lege
   legendOffset,
 })
 
-// trim props that aren't handled properly when null
-// e.g. tickValues
-const getConditionalProps = props => Object.entries(props).reduce((ret, [key, value]) => {
-  if (value === null) return ret
-  ret[key] = value
-  return ret
-}, {})
-
-
 export const getCommonProps = ({
   data,
   keys,
   yKeys,
-  xKey,
-  // NOTE: switch to sort xAxis labels
-  // to get the furthest right
-  isNumeric,
   height,
   width,
   // NOTE pie chart has diverged significantly
@@ -298,6 +272,8 @@ export const getCommonProps = ({
   axisBottomTrim = true,
   axisBottomLabelDisplayFn = d => d,
   axisBottomTickValues,
+  axisBottomLabelCount,
+  lastXAxisTickLabelWidth,
   axisBottomLegendLabel, // not for pie
   axisLeftLegendLabel, // not for pie
   axisLeftLabelDisplayFn = d => d,
@@ -306,8 +282,6 @@ export const getCommonProps = ({
 }) => {
   const maxLegendLabelWidth = getLegendLabelMaxWidth(keys)
   const legendItemCount = keys.length
-  // calculate the last x-axis tick label width in pixels
-  const lastXAxisTickLabelWidth = hasAxis ? getLastXAxisTickLabelWidth({ data, xKey, isNumeric }) : 0
   // calculate the longest y-axis tick label width in pixels
   const maxYAxisTickLabelWidth = hasAxis ? getMaxYAxisTickLabelWidth({ data, yKeys }) : 0
 
@@ -327,10 +301,6 @@ export const getCommonProps = ({
   } = setChartMargin(width, height, maxLegendLabelWidth, legendItemCount, maxYAxisTickLabelWidth, lastXAxisTickLabelWidth)
 
   const chartWidth = width - margin.right - margin.left
-  const xAxisLabelCount = 3 // TODO: how to configure this? Right now it is automatic
-  // bar chart is unique values of indexBy
-  // any non-numeric uses unique values, otherwise you specify tickValues
-  // what about continous axes?
 
   const aspectRatioProps = rightHandLegend ? ({
     anchor: 'right',
@@ -355,18 +325,17 @@ export const getCommonProps = ({
     ...aspectRatioProps,
     ...legendProps,
   }
-  const condProps = getConditionalProps({ tickValues: axisBottomTickValues })
 
   return {
     margin,
     axisBottom: {
-      ...condProps,
+      tickValues: axisBottomTickValues,
       ...getCommonAxisProps(
         showBottomLegendLabel,
         showBottomAxisTicks,
         axisBottomLegendLabel,
         bottomLegendOffset,
-        d => axisBottomTrim ? trimText(axisBottomLabelDisplayFn(d)+'', chartWidth / xAxisLabelCount) : axisBottomLabelDisplayFn(d),
+        d => axisBottomTrim ? trimText(axisBottomLabelDisplayFn(d)+'', chartWidth / axisBottomLabelCount) : axisBottomLabelDisplayFn(d),
       ),
     },
     axisLeft: {
@@ -456,16 +425,16 @@ export const processColors = (numberOfColors, type, param) => COLOR_METHODS[type
 
 // enforce and order for string axis (Bar or xScale.type === 'point')
 // Nivo uses the order of keys in data, so we have to sort
-export const processAxisOrder = ({ data, axisBottomOrder, valueKey }) => {
+export const processAxisOrder = ({ data, axisBottomOrder, finalIndexBy }) => {
   if (!axisBottomOrder.length) return data
   if (Array.isArray(axisBottomOrder)) {
-    return axisBottomOrder.map(label => data.find(row => row[valueKey] === label))
+    return axisBottomOrder.map(label => data.find(row => row[finalIndexBy] === label))
   }
   const dir = axisBottomOrder === 'asc' ? 1 : -1
   return [...data].sort((a, b) => {
-    if (a[valueKey] < b[valueKey]) {
+    if (a[finalIndexBy] < b[finalIndexBy]) {
       return -1 * dir
-    } else if (a[valueKey] > b[valueKey]) {
+    } else if (a[finalIndexBy] > b[finalIndexBy]) {
       return 1 * dir
     }
     return 0

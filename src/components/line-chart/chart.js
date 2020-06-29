@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
 
 import { ResponsiveLine } from '@nivo/line'
 
 import Tooltip from '../tooltip'
 
-import { getCommonProps, processSeriesDataKeys, convertDataToNivo, processColors, processAxisOrderNivo } from '../../shared/utils'
+import { getCommonProps, processSeriesDataKeys, convertDataToNivo, processColors, processAxisOrderNivo, getXAxisLabels } from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps, seriesPropTypes, seriesDefaultProps } from '../../shared/constants/chart-props'
 
 
@@ -60,6 +60,17 @@ const ResponsiveLineChart = ({
   const finalData = processAxisOrderNivo({ unsortedData, axisBottomOrder })
   const finalColors = colors.length ? colors : processColors(finalData.length, colorType, colorParam)
 
+  const finalXScale = { type: 'linear', ...xScale }
+  const finalYScale = { type: 'linear', ...yScale }
+  const axisBottomTickValues = axisBottomLabelValues
+  // TODO: use a similar approach to find out if the last label actually overflows
+  const { labelCount: axisBottomLabelCount, lastLabelWidth: lastXAxisTickLabelWidth } = useMemo(
+    () => getXAxisLabels({
+      data: finalData, xScale: finalXScale, yScale: finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn
+    }),
+    [finalData, finalXScale, finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn],
+  )
+
   return (
     // NOTE: onMouseLeave and onMouseEnter events not firing correctly
     // https://github.com/plouc/nivo/issues/756
@@ -68,8 +79,8 @@ const ResponsiveLineChart = ({
         {...nivoProps}
         data={finalData}
         colors={finalColors}
-        xScale={{ type: 'point', ...xScale }}
-        yScale={{ type: 'linear', ...yScale }}
+        xScale={finalXScale}
+        yScale={finalYScale}
         pointColor={{ theme: 'background' }}
         pointBorderWidth={0}
         pointBorderColor={{ from: 'serieColor' }}
@@ -107,7 +118,9 @@ const ResponsiveLineChart = ({
           dash: true,
           axisBottomTrim,
           axisBottomLabelDisplayFn,
-          axisBottomTickValues: Array.isArray(axisBottomOrder) && axisBottomOrder.length ? axisBottomOrder : axisBottomLabelValues,
+          axisBottomTickValues,
+          axisBottomLabelCount,
+          lastXAxisTickLabelWidth,
           axisLeftLabelDisplayFn,
         })}
       >
