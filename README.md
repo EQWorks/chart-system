@@ -29,7 +29,8 @@ Width and height are auto-detected through `react-virtualized` AutoSizer. Curren
 
 Bar, Line and Scatter (i.e. NOT Pie):
 - **indexBy** - the key to use for grouping the data. Results in primary x-axis value in Bar Chart or data series grouping in Line or Scatter. Should NOT be included in value keys for chart. Defaults to first item of `Object.keys(data)`.
-- **axisBottomOrder** - how to define the order of bottom axis labels. Either `[]` of specific values or `asc`/`desc` to sort the array
+- **axisBottomOrder** - how to define the order of bottom axis labels for a Bar Chart or 'point' scale. Either `[]` of specific values or `asc`/`desc` to sort the array
+- **axisBottomLabelValues** - what label values to show on the bottom axis. Either `[]` of specific values, a `number` of how many ticks should appear or a string describing the time interval. More details (here | https://nivo.rocks/guides/axes)
 
 
 Bar Chart Only:

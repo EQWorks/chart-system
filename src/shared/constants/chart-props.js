@@ -15,6 +15,10 @@ export const chartPropTypes = {
     PropTypes.array,
     PropTypes.oneOf(['asc', 'desc']),
   ]),
+  axisBottomLabelValues: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.number,
+  ]),
   axisLeftLegendLabel: PropTypes.string,
   axisLeftLabelDisplayFn: PropTypes.func,
   width: PropTypes.number,
@@ -31,6 +35,7 @@ export const chartDefaultProps = {
   axisBottomTrim: true,
   axisBottomLabelDisplayFn: d => d,
   axisBottomOrder: [],
+  axisBottomLabelValues: null,
   axisLeftLegendLabel: '',
   axisLeftLabelDisplayFn: d => d,
   width: 100,

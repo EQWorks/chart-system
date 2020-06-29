@@ -5,7 +5,7 @@ import { ResponsiveBar } from '@nivo/bar'
 
 import Tooltip from '../tooltip'
 
-import { getCommonProps, processDataKeys, processColors } from '../../shared/utils'
+import { getCommonProps, processDataKeys, processColors, processAxisOrder } from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps } from '../../shared/constants/chart-props'
 
 
@@ -26,6 +26,7 @@ const BarChart = ({
   axisBottomTrim,
   axisBottomLabelDisplayFn,
   axisBottomOrder,
+  axisBottomLabelValues,
   axisLeftLabelDisplayFn,
   ...nivoProps
 }) => {
@@ -34,29 +35,7 @@ const BarChart = ({
   // indexBy cannot be present in keys[]
   const { finalKeys, finalIndexBy } = processDataKeys({ data, keys, indexBy })
   const finalColors = colors.length ? colors : processColors(finalKeys.length, colorType, colorParam)
-
-  // TODO: common x-axis type processing for String, Date, Number
-  // manual for bar chart
-  // xScale for line & scatter
-  // axisBottomOrder = [string keys] | 'asc' | 'desc' | false (none)
-  const processAxisOrder = ({ data, axisBottomOrder, chartType }) => {
-    if (!axisBottomOrder.length) return data
-    if (chartType === 'bar') {
-      if (Array.isArray(axisBottomOrder)) {
-        return axisBottomOrder.map(label => data.find(row => row[finalIndexBy] === label))
-      }
-      const dir = axisBottomOrder === 'asc' ? 1 : -1
-      return [...data].sort((a, b) => {
-        if (a[finalIndexBy] < b[finalIndexBy]) {
-          return -1 * dir
-        } else if (a[finalIndexBy] > b[finalIndexBy]) {
-          return 1 * dir
-        }
-        return 0
-      })
-    }
-  }
-  const finalData = processAxisOrder({ data, axisBottomOrder, chartType: 'bar' })
+  const finalData = processAxisOrder({ data, axisBottomOrder, valueKey: finalIndexBy })
 
   return (
     <ResponsiveBar
@@ -107,6 +86,7 @@ const BarChart = ({
         axisBottomLegendLabel,
         axisLeftLegendLabel,
         legendProps: { dataFrom: 'keys' },
+        axisBottomTickValues: Array.isArray(axisBottomOrder) && axisBottomOrder.length ? axisBottomOrder : axisBottomLabelValues,
         axisBottomTrim,
         axisBottomLabelDisplayFn,
         axisLeftLabelDisplayFn,

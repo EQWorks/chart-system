@@ -5,7 +5,7 @@ import { ResponsiveLine } from '@nivo/line'
 
 import Tooltip from '../tooltip'
 
-import { getCommonProps, processSeriesDataKeys, convertDataToNivo, processColors } from '../../shared/utils'
+import { getCommonProps, processSeriesDataKeys, convertDataToNivo, processColors, processAxisOrderNivo } from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps, seriesPropTypes, seriesDefaultProps } from '../../shared/constants/chart-props'
 
 
@@ -44,6 +44,8 @@ const ResponsiveLineChart = ({
   axisBottomLegendLabel,
   axisBottomTrim,
   axisBottomLabelDisplayFn,
+  axisBottomOrder,
+  axisBottomLabelValues,
   axisLeftLabelDisplayFn,
   xScale,
   axisLeftLegendLabel,
@@ -53,7 +55,8 @@ const ResponsiveLineChart = ({
 }) => {
 
   const { finalIndexBy, finalXKey, finalYKey } = processSeriesDataKeys({ data, indexBy, xKey, yKey })
-  const finalData = convertDataToNivo({ data, indexBy: finalIndexBy, xKey: finalXKey, yKey: finalYKey })
+  const unsortedData = convertDataToNivo({ data, indexBy: finalIndexBy, xKey: finalXKey, yKey: finalYKey })
+  const finalData = processAxisOrderNivo({ unsortedData, axisBottomOrder })
   const finalColors = colors.length ? colors : processColors(finalData.length, colorType, colorParam)
 
   return (
@@ -103,6 +106,7 @@ const ResponsiveLineChart = ({
           dash: true,
           axisBottomTrim,
           axisBottomLabelDisplayFn,
+          axisBottomTickValues: Array.isArray(axisBottomOrder) && axisBottomOrder.length ? axisBottomOrder : axisBottomLabelValues,
           axisLeftLabelDisplayFn,
         })}
       >

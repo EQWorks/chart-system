@@ -5,7 +5,7 @@ import Tooltip from '../tooltip'
 import { onMouseEnter, onMouseLeave } from './events'
 
 
-import { getCommonProps, processSeriesDataKeys, convertDataToNivo, processColors } from '../../shared/utils'
+import { getCommonProps, processSeriesDataKeys, convertDataToNivo, processColors, processAxisOrderNivo } from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps, seriesPropTypes, seriesDefaultProps } from '../../shared/constants/chart-props'
 import { SYMBOL_SIZE } from '../../shared/constants/dimensions'
 
@@ -31,6 +31,8 @@ const ScatterChart = ({
   axisBottomLegendLabel,
   axisBottomTrim,
   axisBottomLabelDisplayFn,
+  axisBottomOrder,
+  axisBottomLabelValues,
   axisLeftLabelDisplayFn,
   xScale,
   axisLeftLegendLabel,
@@ -40,7 +42,8 @@ const ScatterChart = ({
 }) => {
 
   const { finalIndexBy, finalXKey, finalYKey } = processSeriesDataKeys({ data, indexBy, xKey, yKey })
-  const finalData = convertDataToNivo({ data, indexBy: finalIndexBy, xKey: finalXKey, yKey: finalYKey })
+  const unsortedData = convertDataToNivo({ data, indexBy: finalIndexBy, xKey: finalXKey, yKey: finalYKey })
+  const finalData = processAxisOrderNivo({ unsortedData, axisBottomOrder })
   const finalColors = colors.length ? colors : processColors(finalData.length, colorType, colorParam)
 
   return (
@@ -77,6 +80,7 @@ const ScatterChart = ({
         dash: true,
         axisBottomTrim,
         axisBottomLabelDisplayFn,
+        axisBottomTickValues: Array.isArray(axisBottomOrder) && axisBottomOrder.length ? axisBottomOrder : axisBottomLabelValues,
         axisLeftLabelDisplayFn,
       })}
     />

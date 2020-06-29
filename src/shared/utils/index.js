@@ -150,8 +150,10 @@ const setChartMargin = (width, height, maxLegendLabelWidth, legendItemCount, max
  * @returns { number } - the width of the last (rightmost) x-axis tick value width in pixels
  */
 const getLastXAxisTickLabelWidth = ({ data, xKey, isNumeric }) => {
+  // for 'point' values, it's the last value in the data => just check last key
+  // for 'linear' it's the largest or smallest number => data MAX or data MIN
+  // for date it's the most recent or oldest date (formatted) => can just use the format length
   const sorted = [...data]
-  // TODO: no longer need string trimming, handled by axis label trimming
   sorted.sort((a, b) => {
     if (isNumeric) return a[xKey] - b[xKey]
     if (a[xKey] < b[xKey]) {
@@ -161,8 +163,8 @@ const getLastXAxisTickLabelWidth = ({ data, xKey, isNumeric }) => {
     }
     return 0
   })
-  // TO DO: below whould be the place to deal with bar-chart long labels but I feel now it is too
-  // complex, it works fine for the examples we have, need to test more
+
+  // TODO ~number of x-axis labels!
   return getTextSize(sorted[sorted.length - 1][xKey], '12px noto sans')
 }
 
@@ -258,7 +260,8 @@ export const trimLegendLabel = legendLabelContainerWidth => node => {
   }
 }
 
-const getCommonAxisProps = (showAxisLegend, showAxisTicks, axisLegendLabel, legendOffset, displayFn = d => d) => ({
+// not object params to re-use in x/y axis
+const getCommonAxisProps = (showAxisLegend, showAxisTicks, axisLegendLabel, legendOffset, displayFn = d => d, tickValues) => ({
   tickSize: AXIS_TICK_WIDTH,
   tickPadding: AXIS_TICK_PADDING,
   legendHeight: LEGEND_HEIGHT,
@@ -270,6 +273,15 @@ const getCommonAxisProps = (showAxisLegend, showAxisTicks, axisLegendLabel, lege
   // legendOffset to position around the axis
   legendOffset,
 })
+
+// trim props that aren't handled properly when null
+// e.g. tickValues
+const getConditionalProps = props => Object.entries(props).reduce((ret, [key, value]) => {
+  if (value === null) return ret
+  ret[key] = value
+  return ret
+}, {})
+
 
 export const getCommonProps = ({
   data,
@@ -285,6 +297,7 @@ export const getCommonProps = ({
   hasAxis = true,
   axisBottomTrim = true,
   axisBottomLabelDisplayFn = d => d,
+  axisBottomTickValues,
   axisBottomLegendLabel, // not for pie
   axisLeftLegendLabel, // not for pie
   axisLeftLabelDisplayFn = d => d,
@@ -342,11 +355,12 @@ export const getCommonProps = ({
     ...aspectRatioProps,
     ...legendProps,
   }
+  const condProps = getConditionalProps({ tickValues: axisBottomTickValues })
 
   return {
     margin,
     axisBottom: {
-      // TODO: tickValues can decide what to show, but not the order
+      ...condProps,
       ...getCommonAxisProps(
         showBottomLegendLabel,
         showBottomAxisTicks,
@@ -409,7 +423,7 @@ export const processSeriesDataKeys = ({ indexBy, xKey, yKey, data }) => {
 
 // convert flat array { indexBy: 'value', ...rest }
 // to grouped by unique indexBy value
-// i.e. [{ id: 'value1', data: [{ ...rest }] }]
+// i.e. [{ id: 'value1', data: [{ x, y }] }]
 export const convertDataToNivo = ({ data, indexBy, xKey, yKey }) => Object.values(data.reduce((ret, ele) => {
   const id = ele[indexBy]
   if (!ret[id]) {
@@ -439,3 +453,27 @@ const COLOR_METHODS = {
 }
 
 export const processColors = (numberOfColors, type, param) => COLOR_METHODS[type](numberOfColors, param)
+
+// enforce and order for string axis (Bar or xScale.type === 'point')
+// Nivo uses the order of keys in data, so we have to sort
+export const processAxisOrder = ({ data, axisBottomOrder, valueKey }) => {
+  if (!axisBottomOrder.length) return data
+  if (Array.isArray(axisBottomOrder)) {
+    return axisBottomOrder.map(label => data.find(row => row[valueKey] === label))
+  }
+  const dir = axisBottomOrder === 'asc' ? 1 : -1
+  return [...data].sort((a, b) => {
+    if (a[valueKey] < b[valueKey]) {
+      return -1 * dir
+    } else if (a[valueKey] > b[valueKey]) {
+      return 1 * dir
+    }
+    return 0
+  })
+}
+
+// data structure of "Nivo" { id, data } requires different sorting
+export const processAxisOrderNivo = ({ unsortedData, axisBottomOrder }) => unsortedData.map(({ data, id }) => ({
+  id,
+  data: processAxisOrder({ data, axisBottomOrder, valueKey: 'x' }),
+}))
