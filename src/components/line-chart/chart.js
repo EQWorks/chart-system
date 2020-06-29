@@ -42,6 +42,10 @@ const ResponsiveLineChart = ({
   colorType,
   colorParam,
   axisBottomLegendLabel,
+  axisBottomTrim,
+  axisBottomLabelDisplayFn,
+  axisLeftLabelDisplayFn,
+  xScale,
   axisLeftLegendLabel,
   width,
   height,
@@ -60,7 +64,7 @@ const ResponsiveLineChart = ({
         {...nivoProps}
         data={finalData}
         colors={finalColors}
-        xScale={{ type: 'point' }}
+        xScale={{ type: 'point', ...xScale }}
         yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
         pointColor={{ theme: 'background' }}
         pointBorderWidth={0}
@@ -97,6 +101,9 @@ const ResponsiveLineChart = ({
           axisBottomLegendLabel,
           axisLeftLegendLabel,
           dash: true,
+          axisBottomTrim,
+          axisBottomLabelDisplayFn,
+          axisLeftLabelDisplayFn,
         })}
       >
       </ResponsiveLine>

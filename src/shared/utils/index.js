@@ -346,6 +346,7 @@ export const getCommonProps = ({
   return {
     margin,
     axisBottom: {
+      // TODO: tickValues can decide what to show, but not the order
       ...getCommonAxisProps(
         showBottomLegendLabel,
         showBottomAxisTicks,

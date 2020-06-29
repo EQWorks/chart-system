@@ -38,8 +38,46 @@ Bar Chart Only:
 Line and Scatter:
 - **yAxisKey** - key to determine y-axis value. Defaults to second key of data.
 - **xAxisKey** - key to determine x-axis value. Defaults to third key of data.
+- **xScale** - object to configure the x-axis scale. (Nivo Docs | https://github.com/plouc/nivo/blob/f967380e2900d893f5174c5070743a9b4dffa9ec/packages/scales/src/compute.js#L25). Configuration parameters (such as **min**/**max** values) are not well documented, but are implemented here | https://github.com/plouc/nivo/tree/f967380e2900d893f5174c5070743a9b4dffa9ec/packages/scales/src
+```
+{
+  type: 'point' (default) | 'linear' | 'log' | 'time'
+  ...configuration parameters
+}
+```
+For example:
+- basic numeric axis
+```
+xScale={{
+  type: 'linear',
+  min: 0,
+  max: 'auto',
+}}
+```
+- logarithmic axis
+```
+xScale={{
+  type: 'log',
+  base: 2,
+  max: 'auto',
+}}
+```
+- time axis
+```
+xScale={{
+  type: 'time',
+  format: '%Y-%m-%d',
+  useUTC: false,
+  precision: 'day',
+}}
+```
+
+
+
 
 Data:
 - Bar Chart data does not support duplicate entries for a single x-axis value, because only one bar is drawn. e.g. `[{ indexKey: 'test', value: 1 }, { indexKey: 'test', value: 2 }]
 - Line Chart `point` x-axis does not support duplicate entries for a single x-axis value within a data series, because only one line is drawn. e.g. if 'country' indexes a data series and 'vehicle' is the `xKey` then, `[{ country: 'france', vehicle: 'plane', amount: 31 }, { country: 'france', vehicle: 'plane', amount: 1000 }]` will throw an error.
 - Scatter Chart supports duplicates due to the way it is drawn. i.e. subsequent dots don't need to connect.
+
+All other props are forwarded to the base nivo components, though some may be overriden by this implementation.

@@ -29,6 +29,10 @@ const ScatterChart = ({
   colorType,
   colorParam,
   axisBottomLegendLabel,
+  axisBottomTrim,
+  axisBottomLabelDisplayFn,
+  axisLeftLabelDisplayFn,
+  xScale,
   axisLeftLegendLabel,
   width,
   height,
@@ -44,7 +48,7 @@ const ScatterChart = ({
       {...nivoProps}
       data={finalData}
       colors={finalColors}
-      xScale={{ type: 'linear' }}
+      xScale={{ type: 'point', ...xScale }}
       yScale={{ type: 'linear' }}
       nodeSize={SYMBOL_SIZE}
       onMouseEnter={onMouseEnter}
@@ -71,6 +75,9 @@ const ScatterChart = ({
         axisBottomLegendLabel,
         axisLeftLegendLabel,
         dash: true,
+        axisBottomTrim,
+        axisBottomLabelDisplayFn,
+        axisLeftLabelDisplayFn,
       })}
     />
   )

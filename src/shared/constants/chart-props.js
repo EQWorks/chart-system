@@ -40,9 +40,11 @@ export const chartDefaultProps = {
 export const seriesPropTypes = {
   xKey: PropTypes.string,
   yKey: PropTypes.string,
+  xScale: PropTypes.object,
 }
 
 export const seriesDefaultProps = {
   xKey: '',
   yKey: '',
+  xScale: {},
 }
