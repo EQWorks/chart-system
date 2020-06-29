@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import { ResponsiveBar } from '@nivo/bar'
 
 
 import Tooltip from '../tooltip'
 
-import { getCommonProps, processDataKeys, processColors, processAxisOrder } from '../../shared/utils'
+import { getCommonProps, processDataKeys, processColors, processAxisOrder, getAxisLabels } from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps } from '../../shared/constants/chart-props'
 
 
@@ -36,6 +36,21 @@ const BarChart = ({
   const { finalKeys, finalIndexBy } = processDataKeys({ data, keys, indexBy })
   const finalColors = colors.length ? colors : processColors(finalKeys.length, colorType, colorParam)
   const finalData = processAxisOrder({ data, axisBottomOrder, finalIndexBy })
+
+  const finalXScale = { type: 'point' }
+  const finalYScale = { type: 'linear' }
+  const axisBottomTickValues = axisBottomLabelValues
+  // TODO: use a similar approach to find out if the last label actually overflows
+  const {
+    xLabelCount: axisBottomLabelCount,
+    lastXLabelWidth: lastXAxisTickLabelWidth,
+    lastYLabelWidth: maxYAxisTickLabelWidth,
+  } = useMemo(
+    () => getAxisLabels({
+      data: finalData, xScale: finalXScale, yScale: finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn
+    }),
+    [finalData, finalXScale, finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn],
+  )
 
   return (
     <ResponsiveBar
@@ -86,7 +101,7 @@ const BarChart = ({
         axisBottomLegendLabel,
         axisLeftLegendLabel,
         legendProps: { dataFrom: 'keys' },
-        axisBottomTickValues: Array.isArray(axisBottomOrder) && axisBottomOrder.length ? axisBottomOrder : axisBottomLabelValues,
+        axisBottomTickValues,
         axisBottomTrim,
         axisBottomLabelDisplayFn,
         lastXAxisTickLabelWidth: 0,

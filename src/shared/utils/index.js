@@ -146,14 +146,18 @@ const setChartMargin = (width, height, maxLegendLabelWidth, legendItemCount, max
   }
 }
 
-export const getXAxisLabels = ({
+export const getAxisLabels = ({
   data, xScale: xScaleSpec, yScale: yScaleSpec, width, height, axisBottomLabelValues, axisBottomLabelDisplayFn
 }) => {
-  const { xScale } = computeXYScalesForSeries(data, xScaleSpec, yScaleSpec, width, height)
-  const labels = getScaleTicks(xScale, axisBottomLabelValues)
+  const { xScale, yScale } = computeXYScalesForSeries(data, xScaleSpec, yScaleSpec, width, height)
+  const xLabels = getScaleTicks(xScale, axisBottomLabelValues)
+  const yLabels = getScaleTicks(yScale)
+  console.log('-----> LABELS', xLabels, yLabels)
   return {
-    labelCount: labels.length,
-    lastLabelWidth: getTextSize(axisBottomLabelDisplayFn(labels[labels.length - 1]))
+    xLabelCount: xLabels.length,
+    lastXLabelWidth: getTextSize(axisBottomLabelDisplayFn(xLabels[xLabels.length - 1])),
+    yLabelCount: yLabels.length,
+    lastYLabelWidth: getTextSize(axisBottomLabelDisplayFn(yLabels[yLabels.length - 1])),
   }
 }
 
@@ -262,13 +266,9 @@ const getCommonAxisProps = (showAxisLegend, showAxisTicks, axisLegendLabel, lege
 })
 
 export const getCommonProps = ({
-  data,
   keys,
-  yKeys,
   height,
   width,
-  // NOTE pie chart has diverged significantly
-  hasAxis = true,
   axisBottomTrim = true,
   axisBottomLabelDisplayFn = d => d,
   axisBottomTickValues,
@@ -277,13 +277,12 @@ export const getCommonProps = ({
   axisBottomLegendLabel, // not for pie
   axisLeftLegendLabel, // not for pie
   axisLeftLabelDisplayFn = d => d,
+  maxYAxisTickLabelWidth = 0,
   dash, // not for pie?
   legendProps = {},
 }) => {
   const maxLegendLabelWidth = getLegendLabelMaxWidth(keys)
   const legendItemCount = keys.length
-  // calculate the longest y-axis tick label width in pixels
-  const maxYAxisTickLabelWidth = hasAxis ? getMaxYAxisTickLabelWidth({ data, yKeys }) : 0
 
   const {
     showLegend,

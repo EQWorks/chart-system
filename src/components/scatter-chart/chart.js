@@ -10,7 +10,7 @@ import {
   convertDataToNivo,
   processColors,
   processAxisOrderNivo,
-  getXAxisLabels,
+  getAxisLabels,
 } from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps, seriesPropTypes, seriesDefaultProps } from '../../shared/constants/chart-props'
 import { SYMBOL_SIZE } from '../../shared/constants/dimensions'
@@ -57,14 +57,16 @@ const ScatterChart = ({
   const finalYScale = { type: 'linear', ...yScale }
 
   const axisBottomTickValues = axisBottomLabelValues
-  // TODO: use a similar approach to find out if the last label actually overflows
-  const { labelCount: axisBottomLabelCount, lastLabelWidth: lastXAxisTickLabelWidth } = useMemo(
-    () => getXAxisLabels({
+  const {
+    xLabelCount: axisBottomLabelCount,
+    lastXLabelWidth: lastXAxisTickLabelWidth,
+    lastYLabelWidth: maxYAxisTickLabelWidth,
+  } = useMemo(
+    () => getAxisLabels({
       data: finalData, xScale: finalXScale, yScale: finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn
     }),
     [finalData, finalXScale, finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn],
   )
-
   return (
     <ResponsiveScatterPlot
       {...nivoProps}
@@ -102,6 +104,7 @@ const ScatterChart = ({
         axisBottomLabelCount,
         lastXAxisTickLabelWidth,
         axisLeftLabelDisplayFn,
+        maxYAxisTickLabelWidth,
       })}
     />
   )

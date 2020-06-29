@@ -5,7 +5,7 @@ import { ResponsiveLine } from '@nivo/line'
 
 import Tooltip from '../tooltip'
 
-import { getCommonProps, processSeriesDataKeys, convertDataToNivo, processColors, processAxisOrderNivo, getXAxisLabels } from '../../shared/utils'
+import { getCommonProps, processSeriesDataKeys, convertDataToNivo, processColors, processAxisOrderNivo, getAxisLabels } from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps, seriesPropTypes, seriesDefaultProps } from '../../shared/constants/chart-props'
 
 
@@ -64,8 +64,12 @@ const ResponsiveLineChart = ({
   const finalYScale = { type: 'linear', ...yScale }
   const axisBottomTickValues = axisBottomLabelValues
   // TODO: use a similar approach to find out if the last label actually overflows
-  const { labelCount: axisBottomLabelCount, lastLabelWidth: lastXAxisTickLabelWidth } = useMemo(
-    () => getXAxisLabels({
+  const {
+    xLabelCount: axisBottomLabelCount,
+    lastXLabelWidth: lastXAxisTickLabelWidth,
+    lastYLabelWidth: maxYAxisTickLabelWidth,
+  } = useMemo(
+    () => getAxisLabels({
       data: finalData, xScale: finalXScale, yScale: finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn
     }),
     [finalData, finalXScale, finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn],
@@ -122,6 +126,7 @@ const ResponsiveLineChart = ({
           axisBottomLabelCount,
           lastXAxisTickLabelWidth,
           axisLeftLabelDisplayFn,
+          maxYAxisTickLabelWidth,
         })}
       >
       </ResponsiveLine>
