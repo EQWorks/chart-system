@@ -46,7 +46,7 @@ const setChartMargin = (width, height, maxLegendLabelWidth, legendItemCount, max
    * of the chart
    * same with the right margin, when no other elements are present to the right of the chart
    */
-  const top = SYMBOL_SIZE / 2 + 1
+  const top = TEXT_HEIGHT / 2 + 1
   let right = SYMBOL_SIZE / 2 + 1
   let bottom = AXIS_TICK_WIDTH + BUFFER
   // left - we need to have the minimum space to fit the axis tick labels
