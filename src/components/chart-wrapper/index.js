@@ -8,9 +8,9 @@ import { AutoSizer } from 'react-virtualized'
 
 
 const Title = styled.div`
-  margin: 16px 16px 0 16px;
-  height: 24px;
+  margin: 16px 16px 8px 16px;
   font-size: 18px;
+  overflow-wrap: anywhere;
 `
 
 const ChartContainer = styled.div`
@@ -18,12 +18,13 @@ const ChartContainer = styled.div`
   flex: 1;
   height: 100%;
   margin: 0px 16px 16px 16px;
+  margin-top: ${ props => props.title.length ? 0 : 16 }px;
 `
 
 const ChartInner = styled.div`
   position: relative;
-  width: ${ props => props.width}px;
-  height: ${ props => props.height}px;
+  width: ${ props => props.width }px;
+  height: ${ props => props.height }px;
 `
 
 const propTypes = {
@@ -39,8 +40,8 @@ const ChartWrapper = ({
   children,
 }) => (
   <>
-    {title.length && <Title>{title}</Title>}
-    <ChartContainer>
+    {title.length !==0 && <Title>{title}</Title>}
+    <ChartContainer title={title}>
       <AutoSizer>
         {({ height, width }) => (
           <ChartInner height={height} width={width}>
