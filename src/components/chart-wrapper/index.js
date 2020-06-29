@@ -17,8 +17,7 @@ const ChartContainer = styled.div`
   display: flex;
   flex: 1;
   height: 100%;
-  margin: 0px 16px 16px 16px;
-  margin-top: ${ props => props.title.length ? 0 : 16 }px;
+  margin: ${ props => props.title.length ? 0 : 16 }px 16px 16px 16px;
 `
 
 const ChartInner = styled.div`
