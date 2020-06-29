@@ -36,6 +36,7 @@ const ScatterChart = ({
   axisLeftLabelDisplayFn,
   xScale,
   axisLeftLegendLabel,
+  yScale,
   width,
   height,
   ...nivoProps
@@ -52,7 +53,7 @@ const ScatterChart = ({
       data={finalData}
       colors={finalColors}
       xScale={{ type: 'point', ...xScale }}
-      yScale={{ type: 'linear' }}
+      yScale={{ type: 'linear', ...yScale }}
       nodeSize={SYMBOL_SIZE}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}

@@ -46,10 +46,12 @@ export const seriesPropTypes = {
   xKey: PropTypes.string,
   yKey: PropTypes.string,
   xScale: PropTypes.object,
+  yScale: PropTypes.object,
 }
 
 export const seriesDefaultProps = {
   xKey: '',
   yKey: '',
   xScale: {},
+  yScale: {},
 }
