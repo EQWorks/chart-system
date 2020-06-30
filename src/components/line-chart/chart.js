@@ -70,16 +70,23 @@ const ResponsiveLineChart = ({
   const finalXScale = { type: 'linear', ...xScale }
   const finalYScale = { type: 'linear', ...yScale }
   const axisBottomTickValues = axisBottomLabelValues
-  // TODO: use a similar approach to find out if the last label actually overflows
+
   const {
     xLabelCount: axisBottomLabelCount,
     lastXLabelWidth: lastXAxisTickLabelWidth,
     lastYLabelWidth: maxYAxisTickLabelWidth,
   } = useMemo(
     () => getAxisLabelsSeries({
-      data: finalData, xScale: finalXScale, yScale: finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn
+      data: finalData,
+      xScale: finalXScale,
+      yScale: finalYScale,
+      width,
+      height,
+      axisBottomTickValues,
+      axisBottomLabelDisplayFn,
+      axisLeftLabelDisplayFn
     }),
-    [finalData, finalXScale, finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn],
+    [finalData, finalXScale, finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn, axisLeftLabelDisplayFn],
   )
 
   return (

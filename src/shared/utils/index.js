@@ -146,7 +146,8 @@ const setChartMargin = (width, height, maxLegendLabelWidth, legendItemCount, max
   }
 }
 
-
+// NOTE: the below two functions implement axis scale calculations pulled from nivo (./nivo)
+// in order to get the exact final axis labels, after d3 processing
 export const getAxisLabelsBar = ({
   axisLeftLabelDisplayFn,
   axisBottomLabelDisplayFn,
@@ -186,17 +187,6 @@ export const getAxisLabelsSeries = ({
     lastYLabelWidth: getTextSize(axisLeftLabelDisplayFn(yLabels[yLabels.length - 1])),
   }
 }
-
-/**
- * getMaxYAxisTickLabelWidth - gets the width in pixels of the highest y value in the array
- * @param { array } data - data array
- * @returns { number } - the width in pixels of the highest y value in the array
- */
-// TODO handle stacked case
-// max of sum of all keys
-const getMaxYAxisTickLabelWidth = ({ data, yKeys }) => getTextSize(
-  data.reduce((max, row) => Math.max(max, ...yKeys.map(yKey => row[yKey])), 0),
-)
 
 /**
  * getLegendLabelMaxWidth - calculates the width of the longest label text in the legend

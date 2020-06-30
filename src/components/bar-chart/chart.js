@@ -43,7 +43,7 @@ const BarChart = ({
     xLabelCount: axisBottomLabelCount,
     lastXLabelWidth: lastXAxisTickLabelWidth,
     lastYLabelWidth: maxYAxisTickLabelWidth,
-  } = getAxisLabelsBar({
+  } = useMemo(() => getAxisLabelsBar({
     width,
     height,
     data: finalData,
@@ -52,13 +52,8 @@ const BarChart = ({
     axisBottomLabelValues,
     axisBottomLabelDisplayFn,
     axisLeftLabelDisplayFn,
-    ...nivoProps,
-    // minValue,
-    // maxValue,
-    // padding,
-    // reverse,
-    // groupMode,
-  })
+    ...nivoProps, // relies on: minValue, maxValue, padding, reverse, groupMode
+  }), [width, height, finalData, finalIndexBy, finalKeys, axisBottomLabelValues, axisBottomLabelDisplayFn, axisLeftLabelDisplayFn, nivoProps])
 
   return (
     <ResponsiveBar

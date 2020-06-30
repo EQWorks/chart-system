@@ -106,7 +106,7 @@ export const getScaleTicks = (scale, spec) => {
 // https://github.com/plouc/nivo/blob/f967380e2900d893f5174c5070743a9b4dffa9ec/packages/bar/src/compute/grouped.js#L25
 const getGroupedScale = (data, keys, _minValue, _maxValue, range) => {
   const allValues = data.reduce((acc, entry) => [...acc, ...keys.map(k => entry[k])], [])
-  console.log(data, keys, allValues)
+
   let maxValue = _maxValue
   if (maxValue === 'auto') {
     maxValue = max(allValues)
@@ -117,7 +117,7 @@ const getGroupedScale = (data, keys, _minValue, _maxValue, range) => {
     minValue = min(allValues)
     if (minValue > 0) minValue = 0
   }
-  console.log('--->', range, minValue, maxValue)
+
   return scaleLinear().rangeRound(range).domain([minValue, maxValue])
 }
 
@@ -145,7 +145,7 @@ const getIndexedScale = (data, getIndex, range, padding) =>
 export const getBarChartScales = ({ width, height, data, finalIndexBy, keys, minValue = 'auto', maxValue = 'auto', padding, reverse, groupMode }) => {
   const xScale = getIndexedScale(data, row => row[finalIndexBy], [0, width], padding)
   const yRange = reverse ? [0, height] : [height, 0]
-  console.log('------>', minValue, maxValue)
+
   let yScale
   if (groupMode === 'grouped') {
     yScale = getGroupedScale(data, keys, minValue, maxValue, yRange)

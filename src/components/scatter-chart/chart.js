@@ -63,9 +63,16 @@ const ScatterChart = ({
     lastYLabelWidth: maxYAxisTickLabelWidth,
   } = useMemo(
     () => getAxisLabelsSeries({
-      data: finalData, xScale: finalXScale, yScale: finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn
+      data: finalData,
+      xScale: finalXScale,
+      yScale: finalYScale,
+      width,
+      height,
+      axisBottomTickValues,
+      axisBottomLabelDisplayFn,
+      axisLeftLabelDisplayFn
     }),
-    [finalData, finalXScale, finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn],
+    [finalData, finalXScale, finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn, axisLeftLabelDisplayFn],
   )
   return (
     <ResponsiveScatterPlot
