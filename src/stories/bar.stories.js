@@ -3,6 +3,8 @@ import { storiesOf } from '@storybook/react'
 
 import BarChart from '../components/bar-chart/'
 import barChartData from '../shared/data/bar-chart-data'
+import scatterChartData from '../shared/data/scatter-chart-data'
+import lineChartData from '../shared/data/line-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
@@ -82,6 +84,40 @@ storiesOf('Bar Chart', module)
       <BarChart
         title='My Title'
         data={barChartData}
+        axisBottomLegendLabel='Address City'
+        axisLeftLegendLabel='Visitors'
+        groupMode='grouped'
+      />
+    </ResponsiveChartWrapper>
+  ))
+  .add('Scatter Chart Data', () => (
+    <ResponsiveChartWrapper>
+      <BarChart
+        data={scatterChartData}
+        axisBottomLegendLabel='Address City'
+        axisLeftLegendLabel='Visitors'
+        groupMode='grouped'
+      />
+    </ResponsiveChartWrapper>
+  ))
+  .add('Line Chart Data - Vehicle', () => (
+    <ResponsiveChartWrapper>
+      <BarChart
+        data={lineChartData}
+        indexBy='vehicle'
+        keys={['amount']}
+        axisBottomLegendLabel='Address City'
+        axisLeftLegendLabel='Visitors'
+        groupMode='grouped'
+      />
+    </ResponsiveChartWrapper>
+  ))
+  .add('Line Chart Data - Country', () => (
+    <ResponsiveChartWrapper>
+      <BarChart
+        data={lineChartData}
+        indexBy='country'
+        keys={['amount']}
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
         groupMode='grouped'

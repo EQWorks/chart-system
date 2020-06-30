@@ -379,6 +379,30 @@ export const getCommonProps = ({
   }
 }
 
+const AGGREGATE_FN = {
+  sum: (curr, val) => (curr || 0) + val,
+  avg: (curr, val) => (curr || 0) + val,
+  max: (curr, val) => Math.max(curr, val),
+  min: (curr, val) => Math.min(curr, val),
+}
+
+export const aggregateDataByIndex = ({ indexBy, keys, data, type }) => Object.values(data.reduce((agg, ele, i) => {
+  const id = ele[indexBy]
+  if (!agg[id]) {
+    agg[id] = {
+      [indexBy]: id
+    }
+  }
+  keys.forEach(key => {
+    agg[id][key] = AGGREGATE_FN[type](agg[id][key] || null, ele[key])
+    if (i === data.length - 1 && type === 'avg') {
+      // compute average for last item
+      agg[id][key] /= data.length
+    }
+  })
+  return agg
+}, {}))
+
 export const processDataKeys = ({ indexBy, keys, data }) => {
   // remove indexBy from keys
   const finalIndexBy = indexBy.length ? indexBy : Object.keys(data[0])[0]

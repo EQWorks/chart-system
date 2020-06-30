@@ -5,7 +5,7 @@ import { ResponsiveBar } from '@nivo/bar'
 
 import Tooltip from '../tooltip'
 
-import { getCommonProps, processDataKeys, processColors, processAxisOrder, getAxisLabelsBar } from '../../shared/utils'
+import { getCommonProps, processDataKeys, processColors, processAxisOrder, getAxisLabelsBar, aggregateDataByIndex } from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps } from '../../shared/constants/chart-props'
 
 
@@ -34,8 +34,10 @@ const BarChart = ({
   // the rest are used as values
   // indexBy cannot be present in keys[]
   const { finalKeys, finalIndexBy } = processDataKeys({ data, keys, indexBy })
+  // TODO: props for type (sum, max, min, avg)
+  const aggregatedData = aggregateDataByIndex({ data, keys: finalKeys, indexBy: finalIndexBy, type: 'sum' })
   const finalColors = colors.length ? colors : processColors(finalKeys.length, colorType, colorParam)
-  const finalData = processAxisOrder({ data, axisBottomOrder, finalIndexBy })
+  const finalData = processAxisOrder({ data: aggregatedData, axisBottomOrder, finalIndexBy })
 
   const axisBottomTickValues = axisBottomLabelValues
 
