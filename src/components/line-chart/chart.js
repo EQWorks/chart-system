@@ -42,9 +42,10 @@ const mouseOut = (event) => {
 // LineChart - creates a line chart
 const ResponsiveLineChart = ({
   data,
+  indexByValue,
   indexBy,
   xKey,
-  yKey,
+  yKeys,
   colors,
   colorType,
   colorParam,
@@ -61,9 +62,8 @@ const ResponsiveLineChart = ({
   height,
   ...nivoProps
 }) => {
-
-  const { finalIndexBy, finalXKey, finalYKey } = processSeriesDataKeys({ data, indexBy, xKey, yKey })
-  const unsortedData = convertDataToNivo({ data, indexBy: finalIndexBy, xKey: finalXKey, yKey: finalYKey })
+  const { finalIndexBy, finalXKey, finalYKeys } = processSeriesDataKeys({ data, indexBy, xKey, yKeys, indexByValue })
+  const unsortedData = convertDataToNivo({ data, indexBy: finalIndexBy, xKey: finalXKey, yKeys: finalYKeys, indexByValue })
   const finalData = processAxisOrderNivo({ unsortedData, axisBottomOrder })
   const finalColors = colors.length ? colors : processColors(finalData.length, colorType, colorParam)
 
@@ -126,7 +126,7 @@ const ResponsiveLineChart = ({
         )}
         {...getCommonProps({
           data,
-          yKeys: [finalYKey],
+          yKeys: finalYKeys,
           xKey: finalXKey,
           keys: finalData.map(o => o.id),
           height,

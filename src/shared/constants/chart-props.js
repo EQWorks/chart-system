@@ -43,15 +43,17 @@ export const chartDefaultProps = {
 }
 
 export const seriesPropTypes = {
+  indexByValue: PropTypes.bool,
   xKey: PropTypes.string,
-  yKey: PropTypes.string,
   xScale: PropTypes.object,
   yScale: PropTypes.object,
+  yKeys: PropTypes.array,
 }
 
 export const seriesDefaultProps = {
+  indexByValue: true,
   xKey: '',
-  yKey: '',
   xScale: {},
   yScale: {},
+  yKeys: [],
 }
