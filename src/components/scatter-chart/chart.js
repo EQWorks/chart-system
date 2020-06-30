@@ -28,9 +28,10 @@ const defaultProps = {
 // ScatterChart - creates a scatter chart
 const ScatterChart = ({
   data,
+  indexByValue,
   indexBy,
   xKey,
-  yKey,
+  yKeys,
   colors,
   colorType,
   colorParam,
@@ -47,9 +48,8 @@ const ScatterChart = ({
   height,
   ...nivoProps
 }) => {
-
-  const { finalIndexBy, finalXKey, finalYKey } = processSeriesDataKeys({ data, indexBy, xKey, yKey })
-  const unsortedData = convertDataToNivo({ data, indexBy: finalIndexBy, xKey: finalXKey, yKey: finalYKey })
+  const { finalIndexBy, finalXKey, finalYKeys } = processSeriesDataKeys({ data, indexBy, xKey, yKeys, indexByValue })
+  const unsortedData = convertDataToNivo({ data, indexBy: finalIndexBy, xKey: finalXKey, yKeys: finalYKeys, indexByValue })
   const finalData = processAxisOrderNivo({ unsortedData, axisBottomOrder })
   const finalColors = colors.length ? colors : processColors(finalData.length, colorType, colorParam)
 
@@ -98,7 +98,7 @@ const ScatterChart = ({
       {...getCommonProps({
         data,
         keys: finalData.map(o => o.id),
-        yKeys: [finalYKey],
+        yKeys: finalYKeys,
         xKey: finalXKey,
         height,
         width,

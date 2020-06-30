@@ -389,16 +389,26 @@ export const processDataKeys = ({ indexBy, keys, data }) => {
   }
 }
 
-export const processSeriesDataKeys = ({ indexBy, xKey, yKey, data }) => {
-  // remove indexBy and assign colors
-  const finalIndexBy = indexBy.length ? indexBy : Object.keys(data[0])[0]
-  const finalXKey = xKey.length ? xKey : Object.keys(data[0])[1]
-  const finalYKey = yKey.length ? yKey : Object.keys(data[0])[2]
+export const processSeriesDataKeys = ({ indexBy, xKey, yKeys, data, indexByValue }) => {
+  let finalIndexBy
+  let finalXKey
+  let finalYKeys
+
+  if (indexByValue) {
+    // requries an indexBy and only 1 yKey
+    finalIndexBy = indexBy.length ? indexBy : Object.keys(data[0])[0]
+    finalXKey = xKey.length ? xKey : Object.keys(data[0])[1]
+    finalYKeys = yKeys.length ? yKeys : [Object.keys(data[0])[2]]
+  } else {
+    // one xKey and use the rest as yKeys
+    finalXKey = xKey.length ? xKey : Object.keys(data[0])[0]
+    finalYKeys = yKeys.length ? yKeys : Object.keys(data[0]).slice(1)
+  }
 
   return {
     finalIndexBy,
     finalXKey,
-    finalYKey,
+    finalYKeys,
   }
 }
 
@@ -407,8 +417,8 @@ export const processSeriesDataKeys = ({ indexBy, xKey, yKey, data }) => {
 
 // convert flat array { indexBy: 'value', ...rest }
 // to grouped by unique indexBy value
-// i.e. [{ id: 'value1', data: [{ x, y }] }]
-export const convertDataToNivo = ({ data, indexBy, xKey, yKey }) => Object.values(data.reduce((ret, ele) => {
+// i.e. [{ id: 'value1', data: [{ ...rest }] }]
+const convertDataToNivoByValue = ({ data, xKey, yKey, indexBy }) => Object.values(data.reduce((ret, ele) => {
   const id = ele[indexBy]
   if (!ret[id]) {
     ret[id] = { id, data: [] }
@@ -416,6 +426,27 @@ export const convertDataToNivo = ({ data, indexBy, xKey, yKey }) => Object.value
   ret[id].data.push({ x: ele[xKey], y: ele[yKey] })
   return ret
 }, {}))
+
+// convert flat array { yKey1: value, yKey2: value, ...rest }
+// to grouped by unique yKeys
+// i.e. [{ id: yKey1, data: [] }, { id: yKey2, data: [] }]
+const convertDataToNivoByKeys = ({ data, xKey, yKeys }) => Object.values(data.reduce((ret, ele) => {
+  // generate an entry for each yKey
+  yKeys.forEach(yKey => {
+    const id = yKey
+    if (!ret[id]) {
+      ret[id] = { id, data: [] }
+    }
+    ret[id].data.push({ x: ele[xKey], y: ele[yKey] })
+  })
+
+  return ret
+}, {}))
+
+export const convertDataToNivo = ({ data, xKey, yKeys, indexBy, indexByValue }) => {
+  if (indexByValue) return convertDataToNivoByValue({ data, xKey, yKey: yKeys[0], indexBy })
+  return convertDataToNivoByKeys({ data, xKey, yKeys })
+}
 
 const COLOR_METHODS = {
   'random': num => {
