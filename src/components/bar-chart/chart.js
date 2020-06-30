@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import { ResponsiveBar } from '@nivo/bar'
 
 
 import Tooltip from '../tooltip'
 
-import { getCommonProps, processDataKeys, processColors } from '../../shared/utils'
+import { getCommonProps, processDataKeys, processColors, processAxisOrder, getAxisLabelsBar } from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps } from '../../shared/constants/chart-props'
 
 
@@ -23,6 +23,11 @@ const BarChart = ({
   axisLeftLegendLabel,
   width,
   height,
+  axisBottomTrim,
+  axisBottomLabelDisplayFn,
+  axisBottomOrder,
+  axisBottomLabelValues,
+  axisLeftLabelDisplayFn,
   ...nivoProps
 }) => {
   // a single key is required for the X axis scale
@@ -30,11 +35,32 @@ const BarChart = ({
   // indexBy cannot be present in keys[]
   const { finalKeys, finalIndexBy } = processDataKeys({ data, keys, indexBy })
   const finalColors = colors.length ? colors : processColors(finalKeys.length, colorType, colorParam)
+  const finalData = processAxisOrder({ data, axisBottomOrder, finalIndexBy })
+
+  const axisBottomTickValues = axisBottomLabelValues
+
+  const {
+    xLabelCount: axisBottomLabelCount,
+    lastXLabelWidth: lastXAxisTickLabelWidth,
+    lastYLabelWidth: maxYAxisTickLabelWidth,
+  } = useMemo(() => getAxisLabelsBar({
+    width,
+    height,
+    data: finalData,
+    finalIndexBy,
+    keys: finalKeys,
+    axisBottomLabelValues,
+    axisBottomLabelDisplayFn,
+    axisLeftLabelDisplayFn,
+    ...nivoProps, // relies on: minValue, maxValue, padding, reverse, groupMode
+  }), [width, height, finalData, finalIndexBy, finalKeys, axisBottomLabelValues, axisBottomLabelDisplayFn, axisLeftLabelDisplayFn, nivoProps])
+
   return (
     <ResponsiveBar
       // TODO right now, our props override, but need to see if there are any that should take precedent
       {...nivoProps}
-      data={data}
+      data={finalData}
+      // NOTE yScale, xScale, yFormat, xFormat are not exposed in Bar
       indexBy={finalIndexBy}
       keys={finalKeys}
       colors={finalColors}
@@ -69,7 +95,7 @@ const BarChart = ({
         }
       }}
       {...getCommonProps({
-        data,
+        data: finalData,
         keys: finalKeys,
         yKeys: [finalKeys],
         xKey: finalIndexBy,
@@ -78,6 +104,13 @@ const BarChart = ({
         axisBottomLegendLabel,
         axisLeftLegendLabel,
         legendProps: { dataFrom: 'keys' },
+        axisBottomTickValues,
+        axisBottomTrim,
+        axisBottomLabelDisplayFn,
+        axisLeftLabelDisplayFn,
+        axisBottomLabelCount,
+        lastXAxisTickLabelWidth,
+        maxYAxisTickLabelWidth,
       })}
     />
   )

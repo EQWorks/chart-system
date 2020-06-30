@@ -1,11 +1,17 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { ResponsiveScatterPlot } from '@nivo/scatterplot'
 
 import Tooltip from '../tooltip'
 import { onMouseEnter, onMouseLeave } from './events'
 
-
-import { getCommonProps, processSeriesDataKeys, convertDataToNivo, processColors } from '../../shared/utils'
+import {
+  getCommonProps,
+  processSeriesDataKeys,
+  convertDataToNivo,
+  processColors,
+  processAxisOrderNivo,
+  getAxisLabelsSeries,
+} from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps, seriesPropTypes, seriesDefaultProps } from '../../shared/constants/chart-props'
 import { SYMBOL_SIZE } from '../../shared/constants/dimensions'
 
@@ -29,23 +35,52 @@ const ScatterChart = ({
   colorType,
   colorParam,
   axisBottomLegendLabel,
+  axisBottomTrim,
+  axisBottomLabelDisplayFn,
+  axisBottomOrder,
+  axisBottomLabelValues,
+  axisLeftLabelDisplayFn,
+  xScale,
   axisLeftLegendLabel,
+  yScale,
   width,
   height,
   ...nivoProps
 }) => {
 
   const { finalIndexBy, finalXKey, finalYKey } = processSeriesDataKeys({ data, indexBy, xKey, yKey })
-  const finalData = convertDataToNivo({ data, indexBy: finalIndexBy, xKey: finalXKey, yKey: finalYKey })
+  const unsortedData = convertDataToNivo({ data, indexBy: finalIndexBy, xKey: finalXKey, yKey: finalYKey })
+  const finalData = processAxisOrderNivo({ unsortedData, axisBottomOrder })
   const finalColors = colors.length ? colors : processColors(finalData.length, colorType, colorParam)
 
+  const finalXScale = { type: 'linear', ...xScale }
+  const finalYScale = { type: 'linear', ...yScale }
+
+  const axisBottomTickValues = axisBottomLabelValues
+  const {
+    xLabelCount: axisBottomLabelCount,
+    lastXLabelWidth: lastXAxisTickLabelWidth,
+    lastYLabelWidth: maxYAxisTickLabelWidth,
+  } = useMemo(
+    () => getAxisLabelsSeries({
+      data: finalData,
+      xScale: finalXScale,
+      yScale: finalYScale,
+      width,
+      height,
+      axisBottomTickValues,
+      axisBottomLabelDisplayFn,
+      axisLeftLabelDisplayFn
+    }),
+    [finalData, finalXScale, finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn, axisLeftLabelDisplayFn],
+  )
   return (
     <ResponsiveScatterPlot
       {...nivoProps}
       data={finalData}
       colors={finalColors}
-      xScale={{ type: 'linear' }}
-      yScale={{ type: 'linear' }}
+      xScale={finalXScale}
+      yScale={finalYScale}
       nodeSize={SYMBOL_SIZE}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -65,12 +100,18 @@ const ScatterChart = ({
         keys: finalData.map(o => o.id),
         yKeys: [finalYKey],
         xKey: finalXKey,
-        isNumeric: true,
         height,
         width,
         axisBottomLegendLabel,
         axisLeftLegendLabel,
         dash: true,
+        axisBottomTrim,
+        axisBottomLabelDisplayFn,
+        axisBottomTickValues,
+        axisBottomLabelCount,
+        lastXAxisTickLabelWidth,
+        axisLeftLabelDisplayFn,
+        maxYAxisTickLabelWidth,
       })}
     />
   )

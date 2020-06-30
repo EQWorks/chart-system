@@ -1,11 +1,18 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
 
 import { ResponsiveLine } from '@nivo/line'
 
 import Tooltip from '../tooltip'
 
-import { getCommonProps, processSeriesDataKeys, convertDataToNivo, processColors } from '../../shared/utils'
+import {
+  getCommonProps,
+  processSeriesDataKeys,
+  convertDataToNivo,
+  processColors,
+  processAxisOrderNivo,
+  getAxisLabelsSeries,
+} from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps, seriesPropTypes, seriesDefaultProps } from '../../shared/constants/chart-props'
 
 
@@ -42,15 +49,45 @@ const ResponsiveLineChart = ({
   colorType,
   colorParam,
   axisBottomLegendLabel,
+  axisBottomTrim,
+  axisBottomLabelDisplayFn,
+  axisBottomOrder,
+  axisBottomLabelValues,
+  axisLeftLabelDisplayFn,
+  xScale,
   axisLeftLegendLabel,
+  yScale,
   width,
   height,
   ...nivoProps
 }) => {
 
   const { finalIndexBy, finalXKey, finalYKey } = processSeriesDataKeys({ data, indexBy, xKey, yKey })
-  const finalData = convertDataToNivo({ data, indexBy: finalIndexBy, xKey: finalXKey, yKey: finalYKey })
+  const unsortedData = convertDataToNivo({ data, indexBy: finalIndexBy, xKey: finalXKey, yKey: finalYKey })
+  const finalData = processAxisOrderNivo({ unsortedData, axisBottomOrder })
   const finalColors = colors.length ? colors : processColors(finalData.length, colorType, colorParam)
+
+  const finalXScale = { type: 'linear', ...xScale }
+  const finalYScale = { type: 'linear', ...yScale }
+  const axisBottomTickValues = axisBottomLabelValues
+
+  const {
+    xLabelCount: axisBottomLabelCount,
+    lastXLabelWidth: lastXAxisTickLabelWidth,
+    lastYLabelWidth: maxYAxisTickLabelWidth,
+  } = useMemo(
+    () => getAxisLabelsSeries({
+      data: finalData,
+      xScale: finalXScale,
+      yScale: finalYScale,
+      width,
+      height,
+      axisBottomTickValues,
+      axisBottomLabelDisplayFn,
+      axisLeftLabelDisplayFn
+    }),
+    [finalData, finalXScale, finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn, axisLeftLabelDisplayFn],
+  )
 
   return (
     // NOTE: onMouseLeave and onMouseEnter events not firing correctly
@@ -60,8 +97,8 @@ const ResponsiveLineChart = ({
         {...nivoProps}
         data={finalData}
         colors={finalColors}
-        xScale={{ type: 'point' }}
-        yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
+        xScale={finalXScale}
+        yScale={finalYScale}
         pointColor={{ theme: 'background' }}
         pointBorderWidth={0}
         pointBorderColor={{ from: 'serieColor' }}
@@ -70,7 +107,7 @@ const ResponsiveLineChart = ({
         crosshairType='bottom'
         onMouseMove={(d, event) => {
           let dataPoints = Array.from(event.target.parentNode.parentNode.getElementsByTagName('path'))
-          let hoverItemIndex = data.findIndex(o => d.serieId === o.id)
+          let hoverItemIndex = finalData.findIndex(o => d.serieId === o.id)
           let hovered = dataPoints.splice(hoverItemIndex, 1)
           hovered[0].style.opacity = 1.0
           dataPoints.forEach(point => {
@@ -97,6 +134,13 @@ const ResponsiveLineChart = ({
           axisBottomLegendLabel,
           axisLeftLegendLabel,
           dash: true,
+          axisBottomTrim,
+          axisBottomLabelDisplayFn,
+          axisBottomTickValues,
+          axisBottomLabelCount,
+          lastXAxisTickLabelWidth,
+          axisLeftLabelDisplayFn,
+          maxYAxisTickLabelWidth,
         })}
       >
       </ResponsiveLine>
