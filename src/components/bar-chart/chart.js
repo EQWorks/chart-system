@@ -5,7 +5,7 @@ import { ResponsiveBar } from '@nivo/bar'
 
 import Tooltip from '../tooltip'
 
-import { getCommonProps, processDataKeys, processColors, processAxisOrder, getAxisLabels } from '../../shared/utils'
+import { getCommonProps, processDataKeys, processColors, processAxisOrder, getAxisLabelsBar } from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps } from '../../shared/constants/chart-props'
 
 
@@ -37,20 +37,29 @@ const BarChart = ({
   const finalColors = colors.length ? colors : processColors(finalKeys.length, colorType, colorParam)
   const finalData = processAxisOrder({ data, axisBottomOrder, finalIndexBy })
 
-  const finalXScale = { type: 'point' }
-  const finalYScale = { type: 'linear' }
   const axisBottomTickValues = axisBottomLabelValues
-  // TODO: use a similar approach to find out if the last label actually overflows
+
   const {
-    xLabelCount: axisBottomLabelCount,
-    lastXLabelWidth: lastXAxisTickLabelWidth,
-    lastYLabelWidth: maxYAxisTickLabelWidth,
-  } = useMemo(
-    () => getAxisLabels({
-      data: finalData, xScale: finalXScale, yScale: finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn
-    }),
-    [finalData, finalXScale, finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn],
-  )
+    xLabelCount,
+    lastXLabelWidth,
+    yLabelCount,
+    lastYLabelWidth,
+  } = getAxisLabelsBar({
+    width,
+    height,
+    data: finalData,
+    finalIndexBy,
+    keys: finalKeys,
+    axisBottomLabelValues,
+    axisBottomLabelDisplayFn,
+    axisLeftLabelDisplayFn,
+    ...nivoProps,
+    // minValue,
+    // maxValue,
+    // padding,
+    // reverse,
+    // groupMode,
+  })
 
   return (
     <ResponsiveBar
@@ -104,10 +113,11 @@ const BarChart = ({
         axisBottomTickValues,
         axisBottomTrim,
         axisBottomLabelDisplayFn,
-        lastXAxisTickLabelWidth: 0,
-        axisBottomLabelCount: finalData.length,
-        xScale: { type: 'point' },
         axisLeftLabelDisplayFn,
+        xLabelCount,
+        lastXLabelWidth,
+        yLabelCount,
+        lastYLabelWidth,
       })}
     />
   )

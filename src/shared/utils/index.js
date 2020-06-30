@@ -24,7 +24,7 @@ import {
 } from '../constants/dimensions'
 import designSystemColors from '../constants/design-system-colors'
 
-import { getScaleTicks } from './nivo'
+import { getScaleTicks, getBarChartScales } from './nivo'
 import LegendCircle from '../../components/legend-symbol'
 
 // threshold for forcing a righthand legend
@@ -146,18 +146,44 @@ const setChartMargin = (width, height, maxLegendLabelWidth, legendItemCount, max
   }
 }
 
-export const getAxisLabels = ({
-  data, xScale: xScaleSpec, yScale: yScaleSpec, width, height, axisBottomLabelValues, axisBottomLabelDisplayFn
+
+export const getAxisLabelsBar = ({
+  axisLeftLabelDisplayFn,
+  axisBottomLabelDisplayFn,
+  axisBottomLabelValues,
+  ...options
 }) => {
-  const { xScale, yScale } = computeXYScalesForSeries(data, xScaleSpec, yScaleSpec, width, height)
+  const { xScale, yScale } = getBarChartScales(options)
   const xLabels = getScaleTicks(xScale, axisBottomLabelValues)
   const yLabels = getScaleTicks(yScale)
-  console.log('-----> LABELS', xLabels, yLabels)
+
   return {
     xLabelCount: xLabels.length,
     lastXLabelWidth: getTextSize(axisBottomLabelDisplayFn(xLabels[xLabels.length - 1])),
     yLabelCount: yLabels.length,
-    lastYLabelWidth: getTextSize(axisBottomLabelDisplayFn(yLabels[yLabels.length - 1])),
+    lastYLabelWidth: getTextSize(axisLeftLabelDisplayFn(yLabels[yLabels.length - 1])),
+  }
+}
+
+export const getAxisLabelsSeries = ({
+  data,
+  xScale: xScaleSpec,
+  yScale: yScaleSpec,
+  width,
+  height,
+  axisBottomLabelValues,
+  axisBottomLabelDisplayFn,
+  axisLeftLabelDisplayFn,
+}) => {
+  const { xScale, yScale } = computeXYScalesForSeries(data, xScaleSpec, yScaleSpec, width, height)
+  const xLabels = getScaleTicks(xScale, axisBottomLabelValues)
+  const yLabels = getScaleTicks(yScale)
+
+  return {
+    xLabelCount: xLabels.length,
+    lastXLabelWidth: getTextSize(axisBottomLabelDisplayFn(xLabels[xLabels.length - 1])),
+    yLabelCount: yLabels.length,
+    lastYLabelWidth: getTextSize(axisLeftLabelDisplayFn(yLabels[yLabels.length - 1])),
   }
 }
 
