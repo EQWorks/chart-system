@@ -5,7 +5,14 @@ import { ResponsiveLine } from '@nivo/line'
 
 import Tooltip from '../tooltip'
 
-import { getCommonProps, processSeriesDataKeys, convertDataToNivo, processColors, processAxisOrderNivo, getAxisLabels } from '../../shared/utils'
+import {
+  getCommonProps,
+  processSeriesDataKeys,
+  convertDataToNivo,
+  processColors,
+  processAxisOrderNivo,
+  getAxisLabelsSeries,
+} from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps, seriesPropTypes, seriesDefaultProps } from '../../shared/constants/chart-props'
 
 
@@ -69,7 +76,7 @@ const ResponsiveLineChart = ({
     lastXLabelWidth: lastXAxisTickLabelWidth,
     lastYLabelWidth: maxYAxisTickLabelWidth,
   } = useMemo(
-    () => getAxisLabels({
+    () => getAxisLabelsSeries({
       data: finalData, xScale: finalXScale, yScale: finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn
     }),
     [finalData, finalXScale, finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn],

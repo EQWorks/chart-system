@@ -10,7 +10,7 @@ import {
   convertDataToNivo,
   processColors,
   processAxisOrderNivo,
-  getAxisLabels,
+  getAxisLabelsSeries,
 } from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps, seriesPropTypes, seriesDefaultProps } from '../../shared/constants/chart-props'
 import { SYMBOL_SIZE } from '../../shared/constants/dimensions'
@@ -62,7 +62,7 @@ const ScatterChart = ({
     lastXLabelWidth: lastXAxisTickLabelWidth,
     lastYLabelWidth: maxYAxisTickLabelWidth,
   } = useMemo(
-    () => getAxisLabels({
+    () => getAxisLabelsSeries({
       data: finalData, xScale: finalXScale, yScale: finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn
     }),
     [finalData, finalXScale, finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn],

@@ -40,10 +40,9 @@ const BarChart = ({
   const axisBottomTickValues = axisBottomLabelValues
 
   const {
-    xLabelCount,
-    lastXLabelWidth,
-    yLabelCount,
-    lastYLabelWidth,
+    xLabelCount: axisBottomLabelCount,
+    lastXLabelWidth: lastXAxisTickLabelWidth,
+    lastYLabelWidth: maxYAxisTickLabelWidth,
   } = getAxisLabelsBar({
     width,
     height,
@@ -114,10 +113,9 @@ const BarChart = ({
         axisBottomTrim,
         axisBottomLabelDisplayFn,
         axisLeftLabelDisplayFn,
-        xLabelCount,
-        lastXLabelWidth,
-        yLabelCount,
-        lastYLabelWidth,
+        axisBottomLabelCount,
+        lastXAxisTickLabelWidth,
+        maxYAxisTickLabelWidth,
       })}
     />
   )
