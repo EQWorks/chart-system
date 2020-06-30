@@ -386,7 +386,7 @@ const AGGREGATE_FN = {
   min: (curr, val) => Math.min(curr, val),
 }
 
-export const aggregateDataByIndex = ({ indexBy, keys, data, type }) => Object.values(data.reduce((agg, ele, i) => {
+const aggregateDataByIndex = ({ indexBy, keys, data, type }) => Object.values(data.reduce((agg, ele, i) => {
   const id = ele[indexBy]
   if (!agg[id]) {
     agg[id] = {
@@ -403,10 +403,43 @@ export const aggregateDataByIndex = ({ indexBy, keys, data, type }) => Object.va
   return agg
 }, {}))
 
-export const processDataKeys = ({ indexBy, keys, data }) => {
-  // remove indexBy from keys
-  const finalIndexBy = indexBy.length ? indexBy : Object.keys(data[0])[0]
-  const finalKeys = keys.length ? keys : Object.keys(omit(data[0], finalIndexBy))
+const aggregateDataByIndexGrouped = ({ indexBy, data, valueKey, groupByKey, type }) => Object.values(data.reduce((agg, ele, i) => {
+  const id = ele[indexBy]
+  if (!agg[id]) {
+    agg[id] = {
+      [indexBy]: id
+    }
+  }
+  const finalKey = ele[groupByKey]
+  agg[id][finalKey] = AGGREGATE_FN[type](agg[id][finalKey] || null, ele[valueKey])
+  if (i === data.length - 1 && type === 'avg') {
+    // compute average for last item
+    agg[id][finalKey] /= data.length
+  }
+  return agg
+}, {}))
+
+export const aggregateData = ({ indexBy, data, keys, valueKey, groupByKey, type }) => {
+  if (groupByKey.length) return aggregateDataByIndexGrouped({ indexBy, data, valueKey, groupByKey, type })
+  return aggregateDataByIndex({ indexBy, keys, data, type })
+}
+
+export const processDataKeys = ({ indexBy, keys, data, groupByKey }) => {
+  let finalIndexBy
+  let finalKeys
+
+  finalIndexBy = indexBy.length ? indexBy : Object.keys(data[0])[0]
+  if (!groupByKey.length) {
+    // remove indexBy from keys
+    finalKeys = keys.length ? keys : Object.keys(omit(data[0], finalIndexBy))
+  } else {
+    // unique values of groupByKey
+    finalKeys = Object.keys(data.reduce((agg, ele) => {
+      agg[ele[groupByKey]] = true
+      return agg
+    }, {}))
+  }
+
   return {
     finalKeys,
     finalIndexBy,

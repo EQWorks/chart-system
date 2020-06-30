@@ -5,12 +5,19 @@ import { ResponsiveBar } from '@nivo/bar'
 
 import Tooltip from '../tooltip'
 
-import { getCommonProps, processDataKeys, processColors, processAxisOrder, getAxisLabelsBar, aggregateDataByIndex } from '../../shared/utils'
-import { chartPropTypes, chartDefaultProps } from '../../shared/constants/chart-props'
+import { getCommonProps, processDataKeys, processColors, processAxisOrder, getAxisLabelsBar, aggregateData } from '../../shared/utils'
+import { chartPropTypes, chartDefaultProps, barChartPropTypes, barChartDefaultProps } from '../../shared/constants/chart-props'
 
 
-const propTypes = chartPropTypes
-const defaultProps = chartDefaultProps
+const propTypes = {
+  ...chartPropTypes,
+  ...barChartPropTypes,
+}
+
+const defaultProps = {
+  ...chartDefaultProps,
+  ...barChartDefaultProps,
+}
 
 const BarChart = ({
   keys,
@@ -28,14 +35,17 @@ const BarChart = ({
   axisBottomOrder,
   axisBottomLabelValues,
   axisLeftLabelDisplayFn,
+  // must be supplied together
+  groupByKey,
+  valueKey,
   ...nivoProps
 }) => {
   // a single key is required for the X axis scale
   // the rest are used as values
   // indexBy cannot be present in keys[]
-  const { finalKeys, finalIndexBy } = processDataKeys({ data, keys, indexBy })
+  const { finalKeys, finalIndexBy } = processDataKeys({ data, keys, indexBy, groupByKey })
   // TODO: props for type (sum, max, min, avg)
-  const aggregatedData = aggregateDataByIndex({ data, keys: finalKeys, indexBy: finalIndexBy, type: 'sum' })
+  const aggregatedData = aggregateData({ data, keys: finalKeys, indexBy: finalIndexBy, groupByKey, valueKey, type: 'sum' })
   const finalColors = colors.length ? colors : processColors(finalKeys.length, colorType, colorParam)
   const finalData = processAxisOrder({ data: aggregatedData, axisBottomOrder, finalIndexBy })
 

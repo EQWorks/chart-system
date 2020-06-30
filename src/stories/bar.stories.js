@@ -124,3 +124,16 @@ storiesOf('Bar Chart', module)
       />
     </ResponsiveChartWrapper>
   ))
+  .add('Line Chart Data - Grouped By Keys', () => (
+    <ResponsiveChartWrapper>
+      <BarChart
+        data={lineChartData}
+        groupByKey='vehicle'
+        valueKey='amount'
+        indexBy='country'
+        axisBottomLegendLabel='Address City'
+        axisLeftLegendLabel='Visitors'
+        groupMode='grouped'
+      />
+    </ResponsiveChartWrapper>
+  ))
