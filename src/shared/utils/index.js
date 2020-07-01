@@ -510,13 +510,13 @@ const COLOR_METHODS = {
     const colors = Object.values(designSystemColors)
     return new Array(num).fill(0).map(() => colors[Math.floor(Math.random() * colors.length)])
   },
-  'monochromatic': (num, hue) => {
+  'monochromatic': (num, hue = 'blue') => {
     // return all values for keys that have `${hue}xx`
     // repeat if necessary
     const colors = Object.keys(designSystemColors).filter(o => o.indexOf(hue) >= 0)
     return new Array(num).fill(0).map((_, i) => designSystemColors[colors[i % colors.length]])
   },
-  'palette': (num, lightness) => {
+  'palette': (num, lightness = '30') => {
     // return all values for keys that have `hue${lightness}`
     // repeat if necessary
     const colors = Object.keys(designSystemColors).filter(o => o.indexOf(lightness) >= 0)

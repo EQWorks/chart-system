@@ -36,4 +36,7 @@ const designSystemColors = {
   gray90: '#6c6c6c',
 }
 
+export const hues = ['blue', 'coral', 'yellow', 'pink', 'purple', 'teal', 'gray']
+export const lightness = [10, 30, 50, 70, 90]
+
 export default designSystemColors
