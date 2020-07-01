@@ -22,7 +22,7 @@ import {
   LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH,
   LEGEND_ROW_FIXED_ELEMENTS_WIDTH,
 } from '../constants/dimensions'
-import designSystemColors from '../constants/design-system-colors'
+import designSystemColors, { hues, lightnesses } from '../constants/design-system-colors'
 
 import { getScaleTicks, getBarChartScales } from './nivo'
 import LegendCircle from '../../components/legend-symbol'
@@ -513,18 +513,26 @@ const COLOR_METHODS = {
   'monochromatic': (num, hue = 'blue') => {
     // return all values for keys that have `${hue}xx`
     // repeat if necessary
-    const colors = Object.keys(designSystemColors).filter(o => o.indexOf(hue) >= 0)
+    let finalHue = hues.includes(hue) ? hue : 'blue'
+    const colors = Object.keys(designSystemColors).filter(o => o.indexOf(finalHue) >= 0)
     return new Array(num).fill(0).map((_, i) => designSystemColors[colors[i % colors.length]])
   },
-  'palette': (num, lightness = '30') => {
+  'palette': (num, lightness = 30) => {
     // return all values for keys that have `hue${lightness}`
     // repeat if necessary
-    const colors = Object.keys(designSystemColors).filter(o => o.indexOf(lightness) >= 0)
+    let finalLightness = lightnesses.includes(lightness) ? lightness : 30
+    const colors = Object.keys(designSystemColors).filter(o => o.indexOf(finalLightness) >= 0)
     return new Array(num).fill(0).map((_, i) => designSystemColors[colors[i % colors.length]])
   },
 }
 
-export const processColors = (numberOfColors, type, param) => COLOR_METHODS[type](numberOfColors, param)
+export const processColors = (numberOfColors, type, param) => {
+  let finalType = type
+  if (!COLOR_METHODS[type]) {
+    finalType = 'palette'
+  }
+  return COLOR_METHODS[finalType](numberOfColors, param)
+}
 
 // enforce and order for string axis (Bar or xScale.type === 'point')
 // Nivo uses the order of keys in data, so we have to sort

@@ -1,8 +1,15 @@
 import { processColors } from '../../src/shared/utils'
-import designSystemColors, { hues, lightness } from '../../src/shared/constants/design-system-colors'
+import designSystemColors, { hues, lightnesses } from '../../src/shared/constants/design-system-colors'
 
 
 describe('Color Processing', () => {
+  it('should default to palette', () =>{
+    const num = 5
+    const colors = processColors(num)
+    expect(colors.length).toEqual(num)
+    expect(colors[0]).toBe(designSystemColors[hues[0]+'30'])
+    expect(colors[1]).toBe(designSystemColors[hues[1]+'30'])
+  })
   it('should return random colors', () =>{
     const num = 5
     const colors = processColors(num, 'random')
@@ -14,7 +21,7 @@ describe('Color Processing', () => {
     const hue = hues[0]
     const colors = processColors(num, 'monochromatic', hue)
     expect(colors.length).toEqual(num)
-    lightness.slice(0, num).forEach((l, i) => {
+    lightnesses.slice(0, num).forEach((l, i) => {
       expect(colors[i]).toBe(designSystemColors[hue+l])
     })
   })
@@ -22,13 +29,21 @@ describe('Color Processing', () => {
     const num = 4
     const colors = processColors(num, 'monochromatic')
     expect(colors.length).toEqual(num)
-    lightness.slice(0, num).forEach((l, i) => {
+    lightnesses.slice(0, num).forEach((l, i) => {
+      expect(colors[i]).toBe(designSystemColors['blue'+l])
+    })
+  })
+  it('should default to blue for invalid hue for monochromatic', () =>{
+    const num = 4
+    const colors = processColors(num, 'monochromatic', 'orange')
+    expect(colors.length).toEqual(num)
+    lightnesses.slice(0, num).forEach((l, i) => {
       expect(colors[i]).toBe(designSystemColors['blue'+l])
     })
   })
   it('should return palette colors', () =>{
     const num = 4
-    const lightness = '10'
+    const lightness = 10
     const colors = processColors(num, 'palette', lightness)
     expect(colors.length).toEqual(num)
     hues.slice(0, num).forEach((h, i) => {
@@ -38,6 +53,14 @@ describe('Color Processing', () => {
   it('should default to 30 for palette', () =>{
     const num = 4
     const colors = processColors(num, 'palette')
+    expect(colors.length).toEqual(num)
+    hues.slice(0, num).forEach((h, i) => {
+      expect(colors[i]).toBe(designSystemColors[h+'30'])
+    })
+  })
+  it('should default to 30 for invalid lightnesses for palette', () =>{
+    const num = 4
+    const colors = processColors(num, 'palette', 1000)
     expect(colors.length).toEqual(num)
     hues.slice(0, num).forEach((h, i) => {
       expect(colors[i]).toBe(designSystemColors[h+'30'])
