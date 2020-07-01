@@ -1,8 +1,6 @@
 import {
   processDataKeys,
   processSeriesDataKeys,
-  convertDataToNivoByValue,
-  convertDataToNivoByKeys,
   convertDataToNivo,
 } from '../../src/shared/utils'
 import barChartData from '../../src/shared/data/bar-chart-data'
@@ -56,5 +54,27 @@ describe('Process Series Data Keys', () => {
     expect(finalIndexBy).toEqual(undefined)
     expect(finalXKey).toEqual(xKey)
     expect(finalYKeys).toEqual(yKeys)
+  })
+})
+
+describe('Convert Data to Nivo', () => {
+  it('should use indexBy value to generate data series', () =>{
+    const indexByValue = true
+    const xKey = 'visits'
+    const yKeys = ['repeat_visits']
+    const indexBy = 'address_city'
+    const data = convertDataToNivo({ data: barChartData, xKey, yKeys, indexBy, indexByValue })
+    expect(data[0].id).toEqual(barChartData[0][indexBy])
+    expect(data[0].data[0].x).toEqual(barChartData[0][xKey])
+    expect(data[0].data[0].y).toEqual(barChartData[0][yKeys[0]])
+  })
+  it('should use yKey to generate data series', () =>{
+    const xKey = 'address_city'
+    const yKeys = ['visits', 'repeat_visits']
+    const data = convertDataToNivo({ data: barChartData, xKey, yKeys })
+    expect(data[0].id).toEqual(yKeys[0])
+    expect(data[0].data[0].x).toEqual(barChartData[0][xKey])
+    expect(data[1].id).toEqual(yKeys[1])
+    expect(data[0].data[0].y).toEqual(barChartData[0][yKeys[0]])
   })
 })
