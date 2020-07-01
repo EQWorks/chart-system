@@ -424,7 +424,7 @@ export const aggregateData = ({ indexBy, data, keys, valueKey, groupByKey, type 
   return aggregateDataByIndex({ indexBy, keys, data, type })
 }
 
-export const processDataKeys = ({ indexBy, keys, data, groupByKey }) => {
+export const processDataKeys = ({ indexBy = '', keys = [], data, groupByKey }) => {
   let finalIndexBy
   let finalKeys
 
