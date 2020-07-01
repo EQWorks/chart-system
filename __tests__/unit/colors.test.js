@@ -41,9 +41,18 @@ describe('Color Processing', () => {
       expect(colors[i]).toBe(designSystemColors['blue'+l])
     })
   })
+  it('should fill with repeated monochromatic colors', () =>{
+    const num = 8
+    const hue = hues[0]
+    const colors = processColors(num, 'monochromatic', hue)
+    expect(colors.length).toEqual(num)
+    lightnesses.slice(0, num - lightnesses.length).forEach((l, i) => {
+      expect(colors[i + lightnesses.length]).toBe(designSystemColors[hue+l])
+    })
+  })
   it('should return palette colors', () =>{
     const num = 4
-    const lightness = 10
+    const lightness = lightnesses[0]
     const colors = processColors(num, 'palette', lightness)
     expect(colors.length).toEqual(num)
     hues.slice(0, num).forEach((h, i) => {
@@ -64,6 +73,15 @@ describe('Color Processing', () => {
     expect(colors.length).toEqual(num)
     hues.slice(0, num).forEach((h, i) => {
       expect(colors[i]).toBe(designSystemColors[h+'30'])
+    })
+  })
+  it('should fill with repeated palette colors', () =>{
+    const num = 10
+    const lightness = lightnesses[0]
+    const colors = processColors(num, 'palette', lightness)
+    expect(colors.length).toEqual(num)
+    hues.slice(0, num - hues.length).forEach((h, i) => {
+      expect(colors[i + hues.length]).toBe(designSystemColors[h+lightness])
     })
   })
 })
