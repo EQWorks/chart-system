@@ -446,20 +446,21 @@ export const processDataKeys = ({ indexBy = '', keys = [], data, groupByKey }) =
   }
 }
 
-export const processSeriesDataKeys = ({ indexBy, xKey, yKeys, data, indexByValue }) => {
+// TODO: enforce validity of key combinations, e.g. providing no xKey and setting indexBy to keys[1]
+export const processSeriesDataKeys = ({ indexBy = '', xKey = '', yKeys = [], data, indexByValue }) => {
   let finalIndexBy
   let finalXKey
   let finalYKeys
-
+  const keys = Object.keys(data[0])
   if (indexByValue) {
     // requries an indexBy and only 1 yKey
-    finalIndexBy = indexBy.length ? indexBy : Object.keys(data[0])[0]
-    finalXKey = xKey.length ? xKey : Object.keys(data[0])[1]
-    finalYKeys = yKeys.length ? yKeys : [Object.keys(data[0])[2]]
+    finalIndexBy = indexBy.length ? indexBy : keys[0]
+    finalXKey = xKey.length ? xKey : keys[1]
+    finalYKeys = yKeys.length ? yKeys : [keys[2]]
   } else {
     // one xKey and use the rest as yKeys
-    finalXKey = xKey.length ? xKey : Object.keys(data[0])[0]
-    finalYKeys = yKeys.length ? yKeys : Object.keys(data[0]).slice(1)
+    finalXKey = xKey.length ? xKey : keys[0]
+    finalYKeys = yKeys.length ? yKeys : keys.slice(1)
   }
 
   return {

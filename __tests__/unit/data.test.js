@@ -29,3 +29,32 @@ describe('Process Data Keys', () => {
     expect(finalKeys).toEqual(keys)
   })
 })
+
+describe('Process Series Data Keys', () => {
+  it('should default to first 3 keys - indexByValue', () =>{
+    const indexByValue = true
+    const { finalIndexBy, finalXKey, finalYKeys } = processSeriesDataKeys({ data: barChartData, indexByValue })
+    const keys = Object.keys(barChartData[0])
+    expect(finalIndexBy).toEqual(keys[0])
+    expect(finalXKey).toEqual(keys[1])
+    expect(finalYKeys).toEqual([keys[2]])
+  })
+  it('should return provided values - indexByValue', () =>{
+    const indexByValue = true
+    const indexBy = 'address_city'
+    const xKey = 'visits'
+    const yKeys = ['repeat_visitors']
+    const { finalIndexBy, finalXKey, finalYKeys } = processSeriesDataKeys({ data: barChartData, indexByValue, indexBy, xKey, yKeys })
+    expect(finalIndexBy).toEqual(indexBy)
+    expect(finalXKey).toEqual(xKey)
+    expect(finalYKeys).toEqual(yKeys)
+  })
+  it('should return provided values - indexByKey', () =>{
+    const xKey = 'visits'
+    const yKeys = ['repeat_visitors']
+    const { finalIndexBy, finalXKey, finalYKeys } = processSeriesDataKeys({ data: barChartData, xKey, yKeys })
+    expect(finalIndexBy).toEqual(undefined)
+    expect(finalXKey).toEqual(xKey)
+    expect(finalYKeys).toEqual(yKeys)
+  })
+})
