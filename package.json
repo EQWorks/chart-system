@@ -1,7 +1,16 @@
 {
-  "name": "chart-system",
+  "name": "@eqworks/chart-system",
+  "private": false,
   "version": "0.1.0",
-  "private": true,
+  "main": "dist/index.js",
+  "source": "src/index.js",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "author": "EQ Devs <dev@eqworks.com>",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/EQWorks/chart-system.git"

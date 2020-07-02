@@ -2,14 +2,15 @@
 
 A collection of chart implementations using breakpoint-based responsive designs.
 
-Currently using:
+### Import
 
-- Nivo Charts (https://nivo.rocks/)
-- Recharts (http://recharts.org/en-US/)
-
-### Install and Run:
-Run `yarn install` and `yarn start`. Open a browser at `http://localhost:9009/` to see demos of implemented charts.
-
+```
+import {
+  BarChart,
+  LineChart,
+  ScatterChart,
+} from '@eqworks/chart-system'
+```
 
 ### Usage
 
@@ -27,7 +28,7 @@ Width and height are auto-detected through `react-virtualized` AutoSizer. Curren
 - **axisLeftLegendLabel** - the label for the left axis
 - **axisBottomDisplayFn** - `labelValue => { ...return displayValue }` - function to customize the left axis tick labels. Default is `d => d`
 
-Bar, Line and Scatter (i.e. NOT Pie):
+Bar, Line and Scatter:
 - **indexBy** - the key to use for grouping the data. Results in primary x-axis value in Bar Chart or data series grouping in Line or Scatter. Should NOT be included in value keys for chart. Defaults to first item of `Object.keys(data)`.
 - **axisBottomOrder** - how to define the order of bottom axis labels for a Bar Chart or 'point' scale. Either `[]` of specific values or `asc`/`desc` to sort the data. If an array is provided, data will be filtered based on the provided keys. 
 - **axisBottomLabelValues** - what label values to show on the bottom axis. Either `[]` of specific values, a `number` of how many ticks should appear or a string describing the time interval. More details (here | https://nivo.rocks/guides/axes)
@@ -74,12 +75,12 @@ xScale={{
 }}
 ```
 
-
-
-
 Data:
 - Bar Chart data does not support duplicate entries for a single x-axis value, because only one bar is drawn. e.g. `[{ indexKey: 'test', value: 1 }, { indexKey: 'test', value: 2 }]
 - Line Chart `point` x-axis does not support duplicate entries for a single x-axis value within a data series, because only one line is drawn. e.g. if 'country' indexes a data series and 'vehicle' is the `xKey` then, `[{ country: 'france', vehicle: 'plane', amount: 31 }, { country: 'france', vehicle: 'plane', amount: 1000 }]` will throw an error.
 - Scatter Chart supports duplicates due to the way it is drawn. i.e. subsequent dots don't need to connect.
 
 All other props are forwarded to the base nivo components, though some may be overriden by this implementation.
+
+### Development:
+Run `yarn install` and `yarn start`. Open a browser at `http://localhost:9009/` to see demos of implemented charts.
