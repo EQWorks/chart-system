@@ -69,6 +69,7 @@ const setChartMargin = (width, height, useAxis, maxLegendLabelWidth, legendItemC
   let bottomLegendOffset = TEXT_HEIGHT / 2 + AXIS_TICK_WIDTH + BUFFER
   let leftLegendOffset = -(TEXT_HEIGHT / 2 + AXIS_TICK_WIDTH + BUFFER)
 
+  // useAxis is the case when we have axis in a chart, for ex: bar, line, scatter charts
   if (useAxis) {
     // at HEIGHT_BREAKPOINT_2 we have both axis tick labels and x-axis legend visible
     if (height >= HEIGHT_BREAKPOINT_2) {
@@ -100,6 +101,7 @@ const setChartMargin = (width, height, useAxis, maxLegendLabelWidth, legendItemC
       left = TEXT_HEIGHT + 2 * BUFFER + AXIS_TICK_WIDTH
     }
   } else {
+    // case for the charts without axis / pie chart
     if ((width >= WIDTH_BREAKPOINT_2) && (height >= HEIGHT_BREAKPOINT_2)) {
       showLabels = true
     }
