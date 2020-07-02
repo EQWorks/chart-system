@@ -20,9 +20,6 @@
     "@nivo/line": "^0.61.1",
     "@nivo/pie": "^0.61.1",
     "@nivo/scatterplot": "^0.61.1",
-    "@testing-library/jest-dom": "^5.1.1",
-    "@testing-library/react": "^10.0.1",
-    "@testing-library/user-event": "^10.0.0",
     "lodash": "^4.17.15",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -41,7 +38,8 @@
     "storybook": "start-storybook -p 9009",
     "deploy-storybook": "storybook-to-ghpages",
     "prepublishOnly": "yarn lint && yarn test && yarn transpile",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "build": "babel src --out-dir dist --copy-files"
   },
   "storybook-deployer": {
     "gitUsername": "Deployer",
@@ -90,6 +88,9 @@
     "@storybook/preset-create-react-app": "^2.1.1",
     "@storybook/react": "^5.3.17",
     "@storybook/storybook-deployer": "^2.8.6",
+    "@testing-library/jest-dom": "^5.11.0",
+    "@testing-library/react": "^10.4.3",
+    "@testing-library/user-event": "^12.0.11",
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^25.1.0",
