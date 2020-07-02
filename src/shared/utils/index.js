@@ -381,27 +381,40 @@ export const getCommonProps = ({
 
 const AGGREGATE_FN = {
   sum: (curr, val) => (curr || 0) + val,
-  avg: (curr, val) => (curr || 0) + val,
-  max: (curr, val) => Math.max(curr, val),
-  min: (curr, val) => Math.min(curr, val),
+  avg: (curr, val) => ({
+    sum: (curr ? curr.sum : 0) + val,
+    count: (curr ? curr.count : 0) + 1,
+  }),
+  max: (curr, val) => Math.max(curr === undefined ? val : curr, val),
+  min: (curr, val) => Math.min(curr === undefined ? val : curr, val),
 }
 
-const aggregateDataByIndex = ({ indexBy, keys, data, type }) => Object.values(data.reduce((agg, ele, i) => {
-  const id = ele[indexBy]
-  if (!agg[id]) {
-    agg[id] = {
-      [indexBy]: id
+const aggregateDataByIndex = ({ indexBy, keys, data, type }) => {
+  const aggregation = Object.values(data.reduce((agg, ele) => ({
+    ...agg,
+    [ele[indexBy]]: {
+      [indexBy]: ele[indexBy],
+      ...keys.reduce((ret, key) => {
+        const curr = agg[ele[indexBy]] || {}
+        ret[key] = AGGREGATE_FN[type](curr[key], ele[key])
+        return ret
+      }, {})
     }
+  }), {}))
+  if (type === 'avg') {
+    // { [indexBy]: id, [key]: { sum, count } }
+    // compute averages for each grouped result
+    return aggregation.map(ele => ({
+      ...ele,
+      ...keys.reduce((ret, key) => {
+        ret[key] = ele[key].sum / ele[key].count
+        return ret
+      }, {})
+    }))
   }
-  keys.forEach(key => {
-    agg[id][key] = AGGREGATE_FN[type](agg[id][key] || null, ele[key])
-    if (i === data.length - 1 && type === 'avg') {
-      // compute average for last item
-      agg[id][key] /= data.length
-    }
-  })
-  return agg
-}, {}))
+
+  return aggregation
+}
 
 const aggregateDataByIndexGrouped = ({ indexBy, data, valueKey, groupByKey, type }) => Object.values(data.reduce((agg, ele, i) => {
   const id = ele[indexBy]
@@ -419,7 +432,7 @@ const aggregateDataByIndexGrouped = ({ indexBy, data, valueKey, groupByKey, type
   return agg
 }, {}))
 
-export const aggregateData = ({ indexBy, data, keys, valueKey, groupByKey, type }) => {
+export const aggregateData = ({ indexBy, data, keys, valueKey, groupByKey = '', type }) => {
   if (groupByKey.length) return aggregateDataByIndexGrouped({ indexBy, data, valueKey, groupByKey, type })
   return aggregateDataByIndex({ indexBy, keys, data, type })
 }
