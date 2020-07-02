@@ -6,9 +6,7 @@ import styled from 'styled-components'
 const TooltipWrapper = styled.div`
   border-radius: 4px;
   background-color: #ffffff;
-  min-width: 161px;
-  min-height: 73px;
-  padding-left: 6px;
+  padding: 5px;
 `
 
 const TooltipHeader = styled.div``
@@ -16,7 +14,7 @@ const TooltipHeader = styled.div``
 const TooltipBody = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 10px;
+  margin-left: 14px;
 `
 
 const TooltipNode = styled.div`
@@ -35,7 +33,6 @@ const TooltipLabel = styled.strong`
 
 const TooltipData = styled.span`
   font-size: 12px;
-  margin: 0 5px;
 `
 
 const propTypes = {
