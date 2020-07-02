@@ -4,6 +4,7 @@ import {
   convertDataToNivo,
 } from '../../src/shared/utils'
 import barChartData from '../../src/shared/data/bar-chart-data'
+import lineChartData from '../../src/shared/data/line-chart-data'
 
 
 describe('Process Data Keys', () => {
@@ -25,6 +26,13 @@ describe('Process Data Keys', () => {
     const { finalIndexBy, finalKeys } = processDataKeys({ indexBy, keys, data: barChartData })
     expect(finalIndexBy).toEqual(indexBy)
     expect(finalKeys).toEqual(keys)
+  })
+  it('should return keys based on value of groupByKey', () =>{
+    const indexBy = 'country'
+    const groupByKey = 'vehicle'
+    const { finalIndexBy, finalKeys } = processDataKeys({ indexBy, groupByKey, data: lineChartData })
+    expect(finalIndexBy).toEqual(indexBy)
+    expect(finalKeys[0]).toEqual(lineChartData[0][groupByKey])
   })
 })
 
