@@ -7,13 +7,13 @@ import Tooltip from '../tooltip'
 import { isAspectRatio, aspectRatios, getCommonProps, processColors } from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps } from '../../shared/constants/chart-props'
 
-
-const arcLabel = e => (
-  <>
-    <tspan x="0" y="0">{e.percent}</tspan>
-    <tspan x="0" y="15">{e.label} </tspan>
-  </>
-)
+// TO DO: maybe remove, not used
+// const arcLabel = e => (
+//   <>
+//     <tspan x="0" y="0">{e.percent}</tspan>
+//     <tspan x="0" y="15">{e.label} </tspan>
+//   </>
+// )
 
 const propTypes = {
   isDonut: PropTypes.bool,
@@ -61,7 +61,7 @@ const PieChart = ({
     }))
   }
 
-  function percentData() {
+  const percentData = () => {
     let sum = 0
 
     for (let d of data) {
@@ -85,8 +85,7 @@ const PieChart = ({
       cornerRadius={3}
       sortByValue={true}
       enableRadialLabels={false}
-      sliceLabel={isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? arcLabel : 'percent'}
-      slicesLabelsSkipAngle={isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 20 : 10}
+      // slicesLabelsSkipAngle={isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 20 : 10}
       slicesLabelsTextColor='#fff'
       innerRadius={isDonut ? 0.6 : 0}
       animate={true}
@@ -105,7 +104,7 @@ const PieChart = ({
       onMouseEnter={mouseOverHandler}
       onMouseLeave={mouseLeaveHandler}
       {...getCommonProps({
-        hasAxis: false,
+        useAxis: false,
         keys: data.map(o => o.id),
         height,
         width,
