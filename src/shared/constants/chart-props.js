@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 export const chartPropTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  keys: PropTypes.array, // TODO not used outside of bar
   indexBy: PropTypes.string,
   colors: PropTypes.array,
   colorType: PropTypes.string, // TODO oneOf(['random', 'palette', 'monochromatic'])
@@ -26,7 +25,6 @@ export const chartPropTypes = {
 }
 
 export const chartDefaultProps = {
-  keys: [],
   indexBy: '',
   colors: [],
   colorType: 'palette',
@@ -56,4 +54,16 @@ export const seriesDefaultProps = {
   xScale: {},
   yScale: {},
   yKeys: [],
+}
+
+export const barChartPropTypes = {
+  keys: PropTypes.array,
+  groupByKey: PropTypes.string,
+  valueKey: PropTypes.string,
+}
+
+export const barChartDefaultProps = {
+  keys: [],
+  groupByKey: '',
+  valueKey: '',
 }
