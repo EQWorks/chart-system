@@ -113,6 +113,53 @@ describe('Aggregate Data', () => {
   })
 })
 
+describe('Aggregate Data - groupByKey', () => {
+  it('should use indexBy value to aggregate data', () =>{
+    const valueKey = 'amount'
+    const groupByKey = 'vehicle'
+    const indexBy = 'country'
+    const data = aggregateData({ data: lineChartData, indexBy, valueKey, groupByKey, type: 'sum' })
+    expect(data[0][indexBy]).toEqual(lineChartData[0][indexBy])
+  })
+  // it('should use aggregate using sum', () =>{
+  //   const keys = ['amount']
+  //   const indexBy = 'country'
+  //   const data = aggregateData({ data: lineChartData, indexBy, keys, type: 'sum' })
+  //   const countrySum = lineChartData.filter(o => o.country === data[0][indexBy]).reduce((sum, ele) => sum + ele[keys[0]], 0)
+  //   expect(data[0][keys[0]]).toEqual(countrySum)
+  // })
+  // it('should use aggregate using min', () =>{
+  //   const keys = ['amount']
+  //   const indexBy = 'country'
+  //   const data = aggregateData({ data: lineChartData, indexBy, keys, type: 'min' })
+  //   const countryMin = lineChartData
+  //     .filter(o => o.country === data[0][indexBy])
+  //     .reduce((min, ele) => Math.min(min === null ? ele[keys[0]] : min, ele[keys[0]]), null)
+  //   expect(data[0][keys[0]]).toEqual(countryMin)
+  // })
+  // it('should use aggregate using max', () =>{
+  //   const keys = ['amount']
+  //   const indexBy = 'country'
+  //   const data = aggregateData({ data: lineChartData, indexBy, keys, type: 'max' })
+  //   const countryMax = lineChartData
+  //     .filter(o => o.country === data[0][indexBy])
+  //     .reduce((max, ele) => Math.max(max === null ? ele[keys[0]] : max, ele[keys[0]]), null)
+  //   expect(data[0][keys[0]]).toEqual(countryMax)
+  // })
+  // it('should use aggregate using avg', () =>{
+  //   const keys = ['amount']
+  //   const indexBy = 'country'
+  //   const data = aggregateData({ data: lineChartData, indexBy, keys, type: 'avg' })
+  //   const countryData = lineChartData.filter(o => o.country === data[0][indexBy])
+  //   const countryAvg = countryData.reduce((sum, ele, i) => {
+  //     let ret = sum + ele[keys[0]]
+  //     if (i === countryData.length - 1) ret /= countryData.length
+  //     return ret
+  //   }, 0)
+  //   expect(data[0][keys[0]]).toEqual(countryAvg)
+  // })
+})
+
 describe('Convert Data to Nivo', () => {
   it('should use indexBy value to generate data series', () =>{
     const indexByValue = true

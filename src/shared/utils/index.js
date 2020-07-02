@@ -389,52 +389,41 @@ const AGGREGATE_FN = {
   min: (curr, val) => Math.min(curr === undefined ? val : curr, val),
 }
 
-const aggregateDataByIndex = ({ indexBy, keys, data, type }) => {
-  const aggregation = Object.values(data.reduce((agg, ele) => ({
-    ...agg,
-    [ele[indexBy]]: {
-      [indexBy]: ele[indexBy],
-      ...keys.reduce((ret, key) => {
-        const curr = agg[ele[indexBy]] || {}
-        ret[key] = AGGREGATE_FN[type](curr[key], ele[key])
-        return ret
-      }, {})
-    }
-  }), {}))
+const aggregateReducer = ({ indexBy, genIndexKeys, genValueKey, type }) => (agg, ele) => ({
+  ...agg,
+  [ele[indexBy]]: {
+    [indexBy]: ele[indexBy],
+    ...genIndexKeys(ele).reduce((ret, key) => {
+      const curr = agg[ele[indexBy]] || {}
+      ret[key] = AGGREGATE_FN[type](curr[key], ele[genValueKey(key)])
+      return ret
+    }, {})
+  }
+})
+
+// TODO handle incongruent objects
+const avgMap = genIndexKeys => ele => ({
+  ...ele,
+  ...genIndexKeys(ele).reduce((ret, key) => {
+    ret[key] = ele[key].sum / ele[key].count
+    return ret
+  }, {})
+})
+
+export const aggregateData = ({ indexBy, data, keys, valueKey, groupByKey = '', type }) => {
+  let genIndexKeys = () => keys
+  let genValueKey = key => key
+  if (groupByKey.length) {
+    genIndexKeys = ele => [ele[groupByKey]]
+    genValueKey = () => valueKey
+  }
+  const aggregation = Object.values(data.reduce(aggregateReducer({ indexBy, genIndexKeys, genValueKey, type }), {}))
   if (type === 'avg') {
     // { [indexBy]: id, [key]: { sum, count } }
     // compute averages for each grouped result
-    return aggregation.map(ele => ({
-      ...ele,
-      ...keys.reduce((ret, key) => {
-        ret[key] = ele[key].sum / ele[key].count
-        return ret
-      }, {})
-    }))
+    return aggregation.map(avgMap(genIndexKeys))
   }
-
   return aggregation
-}
-
-const aggregateDataByIndexGrouped = ({ indexBy, data, valueKey, groupByKey, type }) => Object.values(data.reduce((agg, ele, i) => {
-  const id = ele[indexBy]
-  if (!agg[id]) {
-    agg[id] = {
-      [indexBy]: id
-    }
-  }
-  const finalKey = ele[groupByKey]
-  agg[id][finalKey] = AGGREGATE_FN[type](agg[id][finalKey] || null, ele[valueKey])
-  if (i === data.length - 1 && type === 'avg') {
-    // compute average for last item
-    agg[id][finalKey] /= data.length
-  }
-  return agg
-}, {}))
-
-export const aggregateData = ({ indexBy, data, keys, valueKey, groupByKey = '', type }) => {
-  if (groupByKey.length) return aggregateDataByIndexGrouped({ indexBy, data, valueKey, groupByKey, type })
-  return aggregateDataByIndex({ indexBy, keys, data, type })
 }
 
 export const processDataKeys = ({ indexBy = '', keys = [], groupByKey = '', data }) => {
