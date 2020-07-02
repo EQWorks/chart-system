@@ -108,6 +108,7 @@ const BarChart = ({
       }}
       {...getCommonProps({
         data: finalData,
+        useAxis: true,
         keys: finalKeys,
         yKeys: [finalKeys],
         xKey: finalIndexBy,

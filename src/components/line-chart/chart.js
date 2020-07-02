@@ -126,6 +126,7 @@ const ResponsiveLineChart = ({
         )}
         {...getCommonProps({
           data,
+          useAxis: true,
           yKeys: finalYKeys,
           xKey: finalXKey,
           keys: finalData.map(o => o.id),
