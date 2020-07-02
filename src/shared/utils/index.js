@@ -393,6 +393,7 @@ const aggregateReducer = ({ indexBy, genIndexKeys, genValueKey, type }) => (agg,
   ...agg,
   [ele[indexBy]]: {
     [indexBy]: ele[indexBy],
+    ...(agg[ele[indexBy]] || {}),
     ...genIndexKeys(ele).reduce((ret, key) => {
       const curr = agg[ele[indexBy]] || {}
       ret[key] = AGGREGATE_FN[type](curr[key], ele[genValueKey(key)])
@@ -401,10 +402,10 @@ const aggregateReducer = ({ indexBy, genIndexKeys, genValueKey, type }) => (agg,
   }
 })
 
-// TODO handle incongruent objects
-const avgMap = genIndexKeys => ele => ({
+const avgMap = indexBy => ele => ({
   ...ele,
-  ...genIndexKeys(ele).reduce((ret, key) => {
+  // remove index key and calc average
+  ...Object.keys(omit(ele, indexBy)).reduce((ret, key) => {
     ret[key] = ele[key].sum / ele[key].count
     return ret
   }, {})
@@ -420,8 +421,7 @@ export const aggregateData = ({ indexBy, data, keys, valueKey, groupByKey = '', 
   const aggregation = Object.values(data.reduce(aggregateReducer({ indexBy, genIndexKeys, genValueKey, type }), {}))
   if (type === 'avg') {
     // { [indexBy]: id, [key]: { sum, count } }
-    // compute averages for each grouped result
-    return aggregation.map(avgMap(genIndexKeys))
+    return aggregation.map(avgMap(indexBy))
   }
   return aggregation
 }
