@@ -9,6 +9,11 @@ import ResponsiveChartWrapper from './responsive-chart-wrapper'
 storiesOf('Pie Chart', module)
   .add('Widget Pie Chart', () => (
     <ResponsiveChartWrapper>
+      <PieChart title='My Title' data={pieChartData} isDonut={false} />
+    </ResponsiveChartWrapper>
+  ))
+  .add('Widget Pie Chart Donut', () => (
+    <ResponsiveChartWrapper>
       <PieChart title='My Title' data={pieChartData} isDonut={true} />
     </ResponsiveChartWrapper>
   ))
