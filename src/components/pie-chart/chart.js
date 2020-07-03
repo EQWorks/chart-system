@@ -4,7 +4,7 @@ import { ResponsivePie } from '@nivo/pie'
 
 import Tooltip from '../tooltip'
 
-import { isAspectRatio, aspectRatios, getCommonProps, processColors } from '../../shared/utils'
+import { getCommonProps, processColors } from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps } from '../../shared/constants/chart-props'
 
 // TO DO: maybe remove, not used
@@ -43,8 +43,7 @@ const PieChart = ({
 
   const mouseLeaveHandler = () => {
     return (path.forEach((tag, i) => {
-      tag.setAttribute('fill', finalColors[i])
-      tag.setAttribute('stroke', finalColors[i])
+      tag.style.opacity = 1
     }
     ))
   }
@@ -55,23 +54,18 @@ const PieChart = ({
     path = Array.from(arc.parentNode.children).filter(tag => tag.tagName === 'path')
 
     return (path.forEach(tag => {
-      return arcColor !== tag.getAttribute('fill')
-        ? (tag.setAttribute('stroke', 'lightgray'), tag.setAttribute('fill', 'lightgray'))
-        : null
+      return arcColor == tag.getAttribute('fill')
+        ? tag.style.opacity = 1
+        : tag.style.opacity = 0.2
     }))
   }
 
   const percentData = () => {
-    let sum = 0
-
-    for (let d of data) {
-      sum = sum + d.value
-    }
-
+    let total = data.reduce((sum, dataSet) => sum += dataSet.value, 0)
     data.forEach(arc => {
-      arc.percent = `${(arc.value * 100 / sum).toFixed(2)}%`
+      arc.percent = `${(arc.value * 100 / total).toFixed(2)}%`
     })
-    return sum
+    return total
   }
 
   percentData()
@@ -83,14 +77,11 @@ const PieChart = ({
       colors={finalColors}
       padAngle={0.7}
       cornerRadius={3}
-      sortByValue={true}
       enableRadialLabels={false}
-      // slicesLabelsSkipAngle={isAspectRatio(width, height, aspectRatios.LANDSCAPE) ? 20 : 10}
+      fit={true}
+      slicesLabelsSkipAngle={ 30 }
       slicesLabelsTextColor='#fff'
       innerRadius={isDonut ? 0.6 : 0}
-      animate={true}
-      motionStiffness={90}
-      motionDamping={15}
       tooltip={({ id, value, percent, color }) => (
         <Tooltip
           label={id}
