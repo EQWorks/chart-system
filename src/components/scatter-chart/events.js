@@ -33,7 +33,5 @@ export const onMouseEnter = (data, event) => {
 export const onMouseLeave = (data, event) => {
   const parentNode = event.target.parentNode
   const dataPoints = parentNode.getElementsByTagName('circle')
-  for (let i = 0; i < dataPoints.length; i++ ) {
-    dataPoints[i].style.opacity = 1
-  }
+  dataPoints.forEach(point => point.style.opacity = 1)
 }

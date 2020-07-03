@@ -41,15 +41,10 @@ const PieChart = ({
   }
 
   const mouseOverHandler = (_data, event) => {
-    console.log('event.target: ', event.target)
     arc = event.target
-    let arcColor = arc.getAttribute('fill')
-    path = Array.from(arc.parentNode.children).filter(tag => tag.tagName === 'path')
-
+    path = Array.from(arc.parentNode.children).filter(ele => ele.tagName === 'path' && ele !== arc)
     return (path.forEach(tag => {
-      return arcColor == tag.getAttribute('fill')
-        ? tag.style.opacity = 1
-        : tag.style.opacity = DATA_HOVER_OPACITY
+      return tag.style.opacity = DATA_HOVER_OPACITY
     }))
   }
 
