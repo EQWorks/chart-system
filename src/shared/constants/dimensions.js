@@ -35,3 +35,5 @@ export const LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH = SYMBOL_SIZE + SYMBOL_SPACING +
 // 31 = 8(symbol-circle) + 6(buffer to key) + 17(margin right)
 // all spaces of an item of the row legend, everything minus key length in pixels
 export const LEGEND_ROW_FIXED_ELEMENTS_WIDTH = SYMBOL_SIZE + SYMBOL_SPACING + BUFFER
+// threshold for forcing a righthand legend
+export const MAX_LEGEND_ITEMS_ROW = 3
