@@ -34,36 +34,41 @@ const WBP1 = 'w-bp1'
 const WBP2 = 'w-bp2'
 const WBP3 = 'w-bp3'
 const WBP4 = 'w-bp4'
-const HBP1 = 'H-bp1'
-const HBP2 = 'H-bp2'
-const HBP3 = 'H-bp3'
-const HBP4 = 'H-bp4'
+const HBP1 = 'h-bp1'
+const HBP2 = 'h-bp2'
+const HBP3 = 'h-bp3'
+const HBP4 = 'h-bp4'
 
 const getBreakpoint = ({ width, height }) => ({
-  widthBP: width >= WIDTH_BREAKPOINT_2 ? WBP3 : (width >= WIDTH_BREAKPOINT_2 ? WBP2 : WBP1),
-  heightBP: height >= HEIGHT_BREAKPOINT_2 ? HBP3 : (height >= HEIGHT_BREAKPOINT_2 ? HBP2 : HBP1)
+  widthBP: width >= WIDTH_BREAKPOINT_3 ? WBP4 : (width >= WIDTH_BREAKPOINT_2 ? WBP3 : (width >= WIDTH_BREAKPOINT_2 ? WBP2 : WBP1)),
+  heightBP: height >= HEIGHT_BREAKPOINT_3 ? HBP4 : (height >= HEIGHT_BREAKPOINT_2 ? HBP3 : (height >= HEIGHT_BREAKPOINT_2 ? HBP2 : HBP1))
 })
 
+// TODO elements become functions to remove the showLegend override
 const BOTTOM_ELEMENTS = {
   [HBP1]: {
+    showAxis: true,
     showAxisTicks: false,
     showLegendLabel: false,
     showLegend: () => false,
   },
   [HBP2]: {
+    showAxis: true,
     showAxisTicks: false,
     showLegendLabel: true,
     showLegend: () => false,
   },
   [HBP3]: {
+    showAxis: true,
     showAxisTicks: true,
     showLegendLabel: true,
     showLegend: () => false,
   },
   [HBP4]: {
+    showAxis: true,
     showAxisTicks: true,
     showLegendLabel: true,
-    showLegend: ({ isLandscape, legendItemCount }) => !isLandscape && legendItemCount <= MAX_LEGEND_ITEMS_ROW,
+    showLegend: ({ isLandscape, legendItemCount }) => !isLandscape && (legendItemCount <= MAX_LEGEND_ITEMS_ROW),
   },
 }
 
@@ -122,6 +127,27 @@ const getLeftMarginValues = ({ showAxis, showAxisTicks, showLegendLabel, maxYAxi
   return { left, leftLegendOffset }
 }
 
+const getBottomMarginValues = ({ showAxis, showAxisTicks, showLegendLabel, showLegend, ...rest }) => {
+  let bottom = 0
+  let bottomLegendOffset = TEXT_HEIGHT / 2
+  if (showAxis) {
+    bottom += AXIS_TICK_WIDTH + BUFFER
+    bottomLegendOffset += AXIS_TICK_WIDTH + BUFFER
+  }
+  if (showAxisTicks) {
+    const axisLabelHeight = TEXT_HEIGHT + BUFFER
+    bottom += axisLabelHeight
+    bottomLegendOffset += axisLabelHeight - BOTTOM_LEGEND_ADJUSTMENT // TODO: explain this value
+  }
+  if (showLegendLabel) {
+    bottom += TEXT_HEIGHT + BUFFER
+  }
+  if (showLegend) {
+    bottom += LEGEND_HEIGHT + BUFFER
+  }
+  return { bottom, bottomLegendOffset }
+}
+
 // given a font size, we want to calculate the dimensions of the chart
 // the margin is the amount of space that the left axis ticks/legend, right legend or bottom axis ticks/legend AND legend have
 // the margins should be the size of these elements + spacing
@@ -150,9 +176,18 @@ const setChartMargin = (width, height, maxLegendLabelWidth, legendItemCount, max
 
 
   const isLandscape = isAspectRatio(width, height, aspectRatios.LANDSCAPE)
+
+  const rightHandLegend = isLandscape || legendItemCount > MAX_LEGEND_ITEMS_ROW
+  let showLegend = width >= WIDTH_BREAKPOINT_3
+  if (!rightHandLegend) {
+    // row/bottom legend appears only after chart height >= HEIGHT_BREAKPOINT_3
+    showLegend = height >= HEIGHT_BREAKPOINT_3
+  }
+
   const { widthBP, heightBP } = getBreakpoint({ width, height, isLandscape, legendItemCount })
-  const elements = getElements({ widthBP, heightBP })
+  const elements = getElements({ widthBP, heightBP,isLandscape, legendItemCount })
   const leftElements = getLeftMarginValues({ ...elements.left, maxYAxisTickLabelWidth })
+  const bottomElements = getBottomMarginValues(elements.bottom)
 
 
   // we only show x-axis tick labels and legend when chart width is large enough
@@ -194,12 +229,6 @@ const setChartMargin = (width, height, maxLegendLabelWidth, legendItemCount, max
     left = TEXT_HEIGHT + 2 * BUFFER + AXIS_TICK_WIDTH
   }
 
-  const rightHandLegend = isLandscape || legendItemCount > MAX_LEGEND_ITEMS_ROW
-  let showLegend = width >= WIDTH_BREAKPOINT_3
-  if (!rightHandLegend) {
-    // row/bottom legend appears only after chart height >= HEIGHT_BREAKPOINT_3
-    showLegend = height >= HEIGHT_BREAKPOINT_3
-  }
   let legendLabelContainerWidth
   let legendItemWidth
   let legendTranslate
@@ -236,6 +265,8 @@ const setChartMargin = (width, height, maxLegendLabelWidth, legendItemCount, max
 
   console.log("----> CURRENT LEFT", left, leftLegendOffset)
   console.log("----> NEW LEFT", leftElements)
+  console.log("----> CURRENT BOTTOM", bottom, bottomLegendOffset)
+  console.log("----> NEW BOTTOM", bottomElements)
   return {
     top,
     right,
