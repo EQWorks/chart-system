@@ -42,13 +42,13 @@ const PieChart = ({
   let arc
 
   const mouseLeaveHandler = () => {
-    return (path.forEach((tag, i) => {
+    return (path.forEach((tag) => {
       tag.style.opacity = 1
-    }
-    ))
+    }))
   }
 
   const mouseOverHandler = (_data, event) => {
+    console.log('event.target: ', event.target)
     arc = event.target
     let arcColor = arc.getAttribute('fill')
     path = Array.from(arc.parentNode.children).filter(tag => tag.tagName === 'path')
@@ -63,7 +63,7 @@ const PieChart = ({
   const percentData = () => {
     let total = data.reduce((sum, dataSet) => sum += dataSet.value, 0)
     data.forEach(arc => {
-      arc.percent = `${(arc.value * 100 / total).toFixed(2)}%`
+      arc.percent = `${(arc.value * 100 / total).toFixed(1)}%`
     })
     return total
   }
