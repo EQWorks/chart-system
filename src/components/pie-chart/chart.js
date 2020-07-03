@@ -6,7 +6,7 @@ import Tooltip from '../tooltip'
 
 import { getCommonProps, processColors } from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps } from '../../shared/constants/chart-props'
-import { 
+import {
   WIDTH_BREAKPOINT_2,
   HEIGHT_BREAKPOINT_2,
   DATA_HOVER_OPACITY
