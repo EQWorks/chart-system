@@ -6,7 +6,11 @@ import Tooltip from '../tooltip'
 
 import { getCommonProps, processColors } from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps } from '../../shared/constants/chart-props'
-import { DATA_HOVER_OPACITY } from '../../shared/constants/dimensions'
+import { 
+  WIDTH_BREAKPOINT_2,
+  HEIGHT_BREAKPOINT_2,
+  DATA_HOVER_OPACITY
+} from '../../shared/constants/dimensions'
 
 const propTypes = {
   isDonut: PropTypes.bool,
@@ -58,6 +62,13 @@ const PieChart = ({
 
   percentData()
 
+  // we don't show slice labels unless chart width and chart height are large enough
+  let showLabels = false
+  // case for the charts without axes / pie chart
+  if ((width >= WIDTH_BREAKPOINT_2) && (height >= HEIGHT_BREAKPOINT_2)) {
+    showLabels = true
+  }
+
   return (
     <ResponsivePie
       {...nivoProps}
@@ -67,6 +78,7 @@ const PieChart = ({
       cornerRadius={3}
       enableRadialLabels={false}
       fit={true}
+      sliceLabel={ showLabels ? 'percent' : '' }
       slicesLabelsSkipAngle={ 30 }
       slicesLabelsTextColor='#fff'
       innerRadius={isDonut ? 0.6 : 0}
