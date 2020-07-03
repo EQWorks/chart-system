@@ -22,43 +22,74 @@ import {
   TRIMMED_LEGEND_WIDTH,
   LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH,
   LEGEND_ROW_FIXED_ELEMENTS_WIDTH,
-  WIDTH_BREAKPOINT_0,
+  MAX_LEGEND_ITEMS_ROW
 } from '../constants/dimensions'
 import designSystemColors from '../constants/design-system-colors'
 
 import { getScaleTicks, getBarChartScales } from './nivo'
 import LegendCircle from '../../components/legend-symbol'
 
-// threshold for forcing a righthand legend
-const MAX_LEGEND_ITEMS_ROW = 3
-
-// given a font size, we want to calculate the dimensions of the chart
-// the margin is the amount of space that the left axis ticks/legend, right legend or bottom axis ticks/legend AND legend have
-// the margins should be the size of these elements + spacing
+/**
+ * Given a font size, we want to calculate the dimensions of the chart
+ * The margin is the amount of space that the left axis ticks/legend, right legend or
+ * bottom axis ticks/legend AND legend have
+ * The margins should be the size of these elements + spacing
+ */
 /**
  * setChartMargin - sets the values of the chart margins
  * @param { number } width - width of the chart conatiner (ChartInner)
  * @param { number } heigth - height of the chart conatiner (ChartInner)
+ * @param { boolean } useAxis - to decide on margin logic for charts with axis
  * @param { number } maxLegendLabelWidth - maximum length of a label/key text in the legend
  * @param { number } legendItemCount - number of items in the legend
+ * @param { number } maxYAxisTickLabelWidth - the length of the maximum y-axis label value
+ * @param { number } lastXAxisTickLabelWidth - the length of the highest x-axis label value
  * @returns { object } - top, right, bottom, left margin values
  */
-const setChartMargin = (width, height, useAxis, maxLegendLabelWidth, legendItemCount, maxYAxisTickLabelWidth, lastXAxisTickLabelWidth) => {
+const setChartMargin = (
+  width,
+  height,
+  useAxis,
+  maxLegendLabelWidth,
+  legendItemCount,
+  maxYAxisTickLabelWidth,
+  lastXAxisTickLabelWidth
+) => {
   // default values
   /**
-   * the top margin has to fit at least the half height of possible symbols sitting on the border
+   * The top margin has to fit at least the half height of possible symbols sitting on the border
    * of the chart
-   * same with the right margin, when no other elements are present to the right of the chart
+   * Same with the right margin, when no other elements are present to the right of the chart
    */
-  const top = useAxis ? TEXT_HEIGHT / 2 + 1 : 2 * BUFFER
-  let right = useAxis ? SYMBOL_SIZE / 2 + 1 : 2 * BUFFER
-  let bottom = useAxis ? AXIS_TICK_WIDTH + BUFFER : 2 * BUFFER
-  // left - we need to have the minimum space to fit the axis tick labels
-  let left = useAxis ? AXIS_TICK_WIDTH : 2 * BUFFER
 
-  // for pie chart
+  let [
+    top,
+    right,
+    bottom,
+    left
+  ] = useAxis
+    ? [
+      TEXT_HEIGHT / 2 + 1,
+      TEXT_HEIGHT / 2 + 1,
+      AXIS_TICK_WIDTH + BUFFER,
+      AXIS_TICK_WIDTH
+    ]
+    : [
+      2 * BUFFER,
+      2 * BUFFER,
+      2 * BUFFER,
+      2 * BUFFER
+    ]
+
+  // TO DELETE
+  // const top = useAxis ? TEXT_HEIGHT / 2 + 1 : 2 * BUFFER
+  // let right = useAxis ? SYMBOL_SIZE / 2 + 1 : 2 * BUFFER
+  // let bottom = useAxis ? AXIS_TICK_WIDTH + BUFFER : 2 * BUFFER
+  // // left - we need to have the minimum space to fit the axis tick labels
+  // let left = useAxis ? AXIS_TICK_WIDTH : 2 * BUFFER
+
+  // for pie chart we show slice labels only when chart width is large enough
   let showLabels = false
-
   // we only show x-axis tick labels and legend when chart width is large enough
   let showBottomLegendLabel = false
   let showBottomAxisTicks = false
@@ -101,13 +132,14 @@ const setChartMargin = (width, height, useAxis, maxLegendLabelWidth, legendItemC
       left = TEXT_HEIGHT + 2 * BUFFER + AXIS_TICK_WIDTH
     }
   } else {
-    // case for the charts without axis / pie chart
+    // case for the charts without axes / pie chart
     if ((width >= WIDTH_BREAKPOINT_2) && (height >= HEIGHT_BREAKPOINT_2)) {
       showLabels = true
     }
   }
 
-  const rightHandLegend = isAspectRatio(width, height, aspectRatios.LANDSCAPE) || legendItemCount > MAX_LEGEND_ITEMS_ROW
+  const rightHandLegend = isAspectRatio(width, height, aspectRatios.LANDSCAPE)
+                          || legendItemCount > MAX_LEGEND_ITEMS_ROW
   let showLegend = width >= WIDTH_BREAKPOINT_3
   if (!rightHandLegend) {
     // row/bottom legend appears only after chart height >= HEIGHT_BREAKPOINT_3
@@ -205,7 +237,7 @@ export const getAxisLabelsSeries = ({
 
 /**
  * getLegendLabelMaxWidth - calculates the width of the longest label text in the legend
- * @param { array } key - array of keys that will be in the legend
+ * @param { array } keys - array of keys that will be in the legend
  * @returns { number } - the width of the longest label text in the legend
  */
 const getLegendLabelMaxWidth = (keys) => keys.reduce((max, key) =>
@@ -230,6 +262,7 @@ export const getTextSize = (text, font = '12px noto sans') => {
  * trimText - trims a text and adds '..' at the end
  * @param { string } text - a text string
  * @param { number } containerWidth - width of the text container in pixels
+ * @param { number } count - used to add or not a suffix
  * @returns { string } - a trimmed text with '..' added at the end
  */
 const TRIM = '..'
@@ -258,9 +291,8 @@ const getAspectRatio = (width, height) => {
 export const isAspectRatio = (width, height, aspectRatio) => getAspectRatio(width, height) === aspectRatio
 
 /**
- * initRef - React ref used to target and trim Legend labels
- * @param { number } width - width of chart container
- * @param { number } height - height of chart container
+ * trimLegendLabel - trims the labels of the leged
+ * @param { number } legendLabelContainerWidth - the width that the label needs to fit in
  * @param { html } node - Legend html node
  */
 export const trimLegendLabel = legendLabelContainerWidth => node => {
@@ -330,7 +362,15 @@ export const getCommonProps = ({
     leftLegendOffset,
     legendTranslate,
     ...margin
-  } = setChartMargin(width, height, useAxis, maxLegendLabelWidth, legendItemCount, maxYAxisTickLabelWidth, lastXAxisTickLabelWidth)
+  } = setChartMargin(
+    width,
+    height,
+    useAxis,
+    maxLegendLabelWidth,
+    legendItemCount,
+    maxYAxisTickLabelWidth,
+    lastXAxisTickLabelWidth
+  )
 
   const chartWidth = width - margin.right - margin.left
 
@@ -360,6 +400,7 @@ export const getCommonProps = ({
 
   return {
     margin,
+    // only for pie chart
     sliceLabel: showLabels ? 'percent' : '',
     axisBottom: {
       tickValues: axisBottomTickValues,
@@ -368,14 +409,24 @@ export const getCommonProps = ({
         showBottomAxisTicks,
         axisBottomLegendLabel,
         bottomLegendOffset,
-        d => axisBottomTrim ? trimText(axisBottomLabelDisplayFn(d)+'', chartWidth / axisBottomLabelCount) : axisBottomLabelDisplayFn(d),
+        d => axisBottomTrim
+          ? trimText(axisBottomLabelDisplayFn(d)+'', chartWidth / axisBottomLabelCount)
+          : axisBottomLabelDisplayFn(d)
       ),
     },
     axisLeft: {
       orient: 'left',
-      ...getCommonAxisProps(showLeftLegendLabel, showLeftAxisTicks, axisLeftLegendLabel, leftLegendOffset, axisLeftLabelDisplayFn),
+      ...getCommonAxisProps(
+        showLeftLegendLabel,
+        showLeftAxisTicks,
+        axisLeftLegendLabel,
+        leftLegendOffset,
+        axisLeftLabelDisplayFn),
     },
     legends: showLegend ? [legend] : [],
+    animate: true,
+    motionStiffness: 90,
+    motionDamping: 15,
     theme: {
       fontSize: FONT_SIZE,
       // axis definition needed to display on top of the grid lines
