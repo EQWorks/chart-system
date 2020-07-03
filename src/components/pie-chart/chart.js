@@ -6,14 +6,7 @@ import Tooltip from '../tooltip'
 
 import { getCommonProps, processColors } from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps } from '../../shared/constants/chart-props'
-
-// TO DO: maybe remove, not used
-// const arcLabel = e => (
-//   <>
-//     <tspan x="0" y="0">{e.percent}</tspan>
-//     <tspan x="0" y="15">{e.label} </tspan>
-//   </>
-// )
+import { DATA_HOVER_OPACITY } from '../../shared/constants/dimensions'
 
 const propTypes = {
   isDonut: PropTypes.bool,
@@ -56,7 +49,7 @@ const PieChart = ({
     return (path.forEach(tag => {
       return arcColor == tag.getAttribute('fill')
         ? tag.style.opacity = 1
-        : tag.style.opacity = 0.2
+        : tag.style.opacity = DATA_HOVER_OPACITY
     }))
   }
 

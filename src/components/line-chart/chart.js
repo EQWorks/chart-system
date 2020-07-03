@@ -15,6 +15,8 @@ import {
 } from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps, seriesPropTypes, seriesDefaultProps } from '../../shared/constants/chart-props'
 
+import { DATA_HOVER_OPACITY } from '../../shared/constants/dimensions'
+
 
 const Container = styled.div`
   height: 100%;
@@ -111,7 +113,7 @@ const ResponsiveLineChart = ({
           let hovered = dataPoints.splice(hoverItemIndex, 1)
           hovered[0].style.opacity = 1.0
           dataPoints.forEach(point => {
-            point.style.opacity = 0.2
+            point.style.opacity = DATA_HOVER_OPACITY
           })
         }}
         tooltip={({ point }) => (
