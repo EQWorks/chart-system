@@ -81,15 +81,6 @@ const setChartMargin = (
       2 * BUFFER
     ]
 
-  // TO DELETE
-  // const top = useAxis ? TEXT_HEIGHT / 2 + 1 : 2 * BUFFER
-  // let right = useAxis ? SYMBOL_SIZE / 2 + 1 : 2 * BUFFER
-  // let bottom = useAxis ? AXIS_TICK_WIDTH + BUFFER : 2 * BUFFER
-  // // left - we need to have the minimum space to fit the axis tick labels
-  // let left = useAxis ? AXIS_TICK_WIDTH : 2 * BUFFER
-
-  // for pie chart we show slice labels only when chart width is large enough
-  let showLabels = false
   // we only show x-axis tick labels and legend when chart width is large enough
   let showBottomLegendLabel = false
   let showBottomAxisTicks = false
@@ -130,11 +121,6 @@ const setChartMargin = (
       showLeftLegendLabel = true
       // TEXT_HEIGHT = axis legend height
       left = TEXT_HEIGHT + 2 * BUFFER + AXIS_TICK_WIDTH
-    }
-  } else {
-    // case for the charts without axes / pie chart
-    if ((width >= WIDTH_BREAKPOINT_2) && (height >= HEIGHT_BREAKPOINT_2)) {
-      showLabels = true
     }
   }
 
@@ -182,7 +168,6 @@ const setChartMargin = (
     rightHandLegend,
     legendItemWidth,
     legendLabelContainerWidth,
-    showLabels,
     showBottomLegendLabel,
     showLeftLegendLabel,
     showBottomAxisTicks,
@@ -353,7 +338,6 @@ export const getCommonProps = ({
     rightHandLegend,
     legendItemWidth,
     legendLabelContainerWidth,
-    showLabels,
     showBottomLegendLabel,
     showLeftLegendLabel,
     showBottomAxisTicks,
@@ -400,8 +384,6 @@ export const getCommonProps = ({
 
   return {
     margin,
-    // only for pie chart
-    sliceLabel: showLabels ? 'percent' : '',
     axisBottom: {
       tickValues: axisBottomTickValues,
       ...getCommonAxisProps(
