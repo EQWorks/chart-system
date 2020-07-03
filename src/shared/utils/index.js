@@ -82,14 +82,14 @@ const setChartMargin = (
     ]
 
   // we only show x-axis tick labels and legend when chart width is large enough
-  let showBottomLegendLabel = false
+  let showBottomAxisLegendLabel = false
   let showBottomAxisTicks = false
   // we only show y-axis tick labels and legend when chart height is large enough
-  let showLeftLegendLabel = false
+  let showLeftAxisLegendLabel = false
   let showLeftAxisTicks = false
 
-  let bottomLegendOffset = TEXT_HEIGHT / 2 + AXIS_TICK_WIDTH + BUFFER
-  let leftLegendOffset = -(TEXT_HEIGHT / 2 + AXIS_TICK_WIDTH + BUFFER)
+  let bottomAxisLegendOffset = TEXT_HEIGHT / 2 + AXIS_TICK_WIDTH + BUFFER
+  let leftAxisLegendOffset = -(TEXT_HEIGHT / 2 + AXIS_TICK_WIDTH + BUFFER)
 
   // useAxis is the case when we have axis in a chart, for ex: bar, line, scatter charts
   if (useAxis) {
@@ -100,25 +100,25 @@ const setChartMargin = (
        * has to adjust to include just over half of the last x-axis tick lable width
        */
       right = Math.max(right, lastXAxisTickLabelWidth * 0.6)
-      showBottomLegendLabel = true
+      showBottomAxisLegendLabel = true
       showBottomAxisTicks = true
-      bottomLegendOffset = bottomLegendOffset + TEXT_HEIGHT + BUFFER - BOTTOM_LEGEND_ADJUSTMENT
+      bottomAxisLegendOffset = bottomAxisLegendOffset + TEXT_HEIGHT + BUFFER - BOTTOM_LEGEND_ADJUSTMENT
       bottom = AXIS_TICK_WIDTH + 3 * BUFFER + 2 * TEXT_HEIGHT
     // at HEIGHT_BREAKPOINT_1 we show only x-axis legend
     } else if (height >= HEIGHT_BREAKPOINT_1) {
-      showBottomLegendLabel = true
+      showBottomAxisLegendLabel = true
       bottom = AXIS_TICK_WIDTH + 2 * BUFFER + TEXT_HEIGHT
     }
 
     // when chart width >= WIDTH_BREAKPOINT_2 we show both y-axis tick and legend labels
     if (width >= WIDTH_BREAKPOINT_2) {
-      showLeftLegendLabel = true
+      showLeftAxisLegendLabel = true
       showLeftAxisTicks = true
       left = TEXT_HEIGHT + 3 * BUFFER + AXIS_TICK_WIDTH + maxYAxisTickLabelWidth
-      leftLegendOffset= leftLegendOffset - BUFFER - maxYAxisTickLabelWidth
+      leftAxisLegendOffset= leftAxisLegendOffset - BUFFER - maxYAxisTickLabelWidth
     // when chart width >= WIDTH_BREAKPOINT_1 we only show y-axis legend label
     } else if (width >= WIDTH_BREAKPOINT_1) {
-      showLeftLegendLabel = true
+      showLeftAxisLegendLabel = true
       // TEXT_HEIGHT = axis legend height
       left = TEXT_HEIGHT + 2 * BUFFER + AXIS_TICK_WIDTH
     }
@@ -168,12 +168,12 @@ const setChartMargin = (
     rightHandLegend,
     legendItemWidth,
     legendLabelContainerWidth,
-    showBottomLegendLabel,
-    showLeftLegendLabel,
+    showBottomAxisLegendLabel,
+    showLeftAxisLegendLabel,
     showBottomAxisTicks,
     showLeftAxisTicks,
-    bottomLegendOffset,
-    leftLegendOffset,
+    bottomAxisLegendOffset,
+    leftAxisLegendOffset,
     legendTranslate
   }
 }
@@ -338,12 +338,12 @@ export const getCommonProps = ({
     rightHandLegend,
     legendItemWidth,
     legendLabelContainerWidth,
-    showBottomLegendLabel,
-    showLeftLegendLabel,
+    showBottomAxisLegendLabel,
+    showLeftAxisLegendLabel,
     showBottomAxisTicks,
     showLeftAxisTicks,
-    bottomLegendOffset,
-    leftLegendOffset,
+    bottomAxisLegendOffset,
+    leftAxisLegendOffset,
     legendTranslate,
     ...margin
   } = setChartMargin(
@@ -387,10 +387,10 @@ export const getCommonProps = ({
     axisBottom: {
       tickValues: axisBottomTickValues,
       ...getCommonAxisProps(
-        showBottomLegendLabel,
+        showBottomAxisLegendLabel,
         showBottomAxisTicks,
         axisBottomLegendLabel,
-        bottomLegendOffset,
+        bottomAxisLegendOffset,
         d => axisBottomTrim
           ? trimText(axisBottomLabelDisplayFn(d)+'', chartWidth / axisBottomLabelCount)
           : axisBottomLabelDisplayFn(d)
@@ -399,10 +399,10 @@ export const getCommonProps = ({
     axisLeft: {
       orient: 'left',
       ...getCommonAxisProps(
-        showLeftLegendLabel,
+        showLeftAxisLegendLabel,
         showLeftAxisTicks,
         axisLeftLegendLabel,
-        leftLegendOffset,
+        leftAxisLegendOffset,
         axisLeftLabelDisplayFn),
     },
     legends: showLegend ? [legend] : [],
