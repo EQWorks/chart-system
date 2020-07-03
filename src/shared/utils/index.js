@@ -30,6 +30,98 @@ import LegendCircle from '../../components/legend-symbol'
 // threshold for forcing a righthand legend
 const MAX_LEGEND_ITEMS_ROW = 3
 
+const WBP1 = 'w-bp1'
+const WBP2 = 'w-bp2'
+const WBP3 = 'w-bp3'
+const WBP4 = 'w-bp4'
+const HBP1 = 'H-bp1'
+const HBP2 = 'H-bp2'
+const HBP3 = 'H-bp3'
+const HBP4 = 'H-bp4'
+
+const getBreakpoint = ({ width, height }) => ({
+  widthBP: width >= WIDTH_BREAKPOINT_2 ? WBP3 : (width >= WIDTH_BREAKPOINT_2 ? WBP2 : WBP1),
+  heightBP: height >= HEIGHT_BREAKPOINT_2 ? HBP3 : (height >= HEIGHT_BREAKPOINT_2 ? HBP2 : HBP1)
+})
+
+const BOTTOM_ELEMENTS = {
+  [HBP1]: {
+    showAxisTicks: false,
+    showLegendLabel: false,
+    showLegend: () => false,
+  },
+  [HBP2]: {
+    showAxisTicks: false,
+    showLegendLabel: true,
+    showLegend: () => false,
+  },
+  [HBP3]: {
+    showAxisTicks: true,
+    showLegendLabel: true,
+    showLegend: () => false,
+  },
+  [HBP4]: {
+    showAxisTicks: true,
+    showLegendLabel: true,
+    showLegend: ({ isLandscape, legendItemCount }) => !isLandscape && legendItemCount <= MAX_LEGEND_ITEMS_ROW,
+  },
+}
+
+const LEFT_ELEMENTS = {
+  [WBP1]: {
+    showAxis: true,
+    showAxisTicks: false,
+    showLegendLabel: false,
+  },
+  [WBP2]: {
+    showAxis: true,
+    showAxisTicks: false,
+    showLegendLabel: true,
+  },
+  [WBP3]: {
+    showAxis: true,
+    showAxisTicks: true,
+    showLegendLabel: true,
+  },
+  [WBP4]: {
+    showAxis: true,
+    showAxisTicks: true,
+    showLegendLabel: true,
+  },
+}
+
+const RIGHT_ELEMENTS = {
+  [WBP1]: { showLegend: () => false },
+  [WBP2]: { showLegend: () => false },
+  [WBP3]: { showLegend: () => false },
+  [WBP4]: { showLegend: ({ isLandscape, legendItemCount }) => isLandscape || (legendItemCount > MAX_LEGEND_ITEMS_ROW) },
+}
+
+const getElements = ({ widthBP, heightBP, isLandscape, legendItemCount }) => ({
+  // override showLegend with its function
+  left: LEFT_ELEMENTS[widthBP],
+  bottom: { ...BOTTOM_ELEMENTS[heightBP], showLegend: BOTTOM_ELEMENTS[heightBP].showLegend({ isLandscape, legendItemCount }) },
+  right: { ...RIGHT_ELEMENTS[widthBP], showLegend: RIGHT_ELEMENTS[widthBP].showLegend({ isLandscape, legendItemCount }) },
+})
+
+const getLeftMarginValues = ({ showAxis, showAxisTicks, showLegendLabel, maxYAxisTickLabelWidth }) => {
+  let left = 0
+  let leftLegendOffset = -TEXT_HEIGHT / 2
+  if (showAxis) {
+    left += AXIS_TICK_WIDTH
+    leftLegendOffset -= AXIS_TICK_WIDTH + BUFFER
+  }
+  if (showAxisTicks) {
+    const axisLabelWidth = BUFFER + maxYAxisTickLabelWidth
+    left += axisLabelWidth
+    leftLegendOffset -= axisLabelWidth
+  }
+  if (showLegendLabel) {
+    left += TEXT_HEIGHT + 2 * BUFFER
+  }
+  return { left, leftLegendOffset }
+}
+
 // given a font size, we want to calculate the dimensions of the chart
 // the margin is the amount of space that the left axis ticks/legend, right legend or bottom axis ticks/legend AND legend have
 // the margins should be the size of these elements + spacing
@@ -51,14 +143,21 @@ const setChartMargin = (width, height, maxLegendLabelWidth, legendItemCount, max
   const top = TEXT_HEIGHT / 2 + 1
   let right = SYMBOL_SIZE / 2 + 1
   let bottom = AXIS_TICK_WIDTH + BUFFER
+  let bottomLegendOffset = TEXT_HEIGHT / 2 + AXIS_TICK_WIDTH + BUFFER
+
   // left - we need to have the minimum space to fit the axis tick labels
   let left = AXIS_TICK_WIDTH
+
+
+  const isLandscape = isAspectRatio(width, height, aspectRatios.LANDSCAPE)
+  const { widthBP, heightBP } = getBreakpoint({ width, height, isLandscape, legendItemCount })
+  const elements = getElements({ widthBP, heightBP })
+  const leftElements = getLeftMarginValues({ ...elements.left, maxYAxisTickLabelWidth })
+
 
   // we only show x-axis tick labels and legend when chart width is large enough
   let showBottomLegendLabel = false
   let showBottomAxisTicks = false
-
-  let bottomLegendOffset = TEXT_HEIGHT / 2 + AXIS_TICK_WIDTH + BUFFER
 
   // at HEIGHT_BREAKPOINT_2 we have both axis tick labels and x-axis legend visible
   if (height >= HEIGHT_BREAKPOINT_2) {
@@ -71,8 +170,8 @@ const setChartMargin = (width, height, maxLegendLabelWidth, legendItemCount, max
     showBottomAxisTicks = true
     bottomLegendOffset = bottomLegendOffset + TEXT_HEIGHT + BUFFER - BOTTOM_LEGEND_ADJUSTMENT
     bottom = AXIS_TICK_WIDTH + 3 * BUFFER + 2 * TEXT_HEIGHT
-  // at HEIGHT_BREAKPOINT_1 we show only x-axis legend
   } else if (height >= HEIGHT_BREAKPOINT_1) {
+    // at HEIGHT_BREAKPOINT_1 we show only x-axis legend
     showBottomLegendLabel = true
     bottom = AXIS_TICK_WIDTH + 2 * BUFFER + TEXT_HEIGHT
   }
@@ -95,7 +194,7 @@ const setChartMargin = (width, height, maxLegendLabelWidth, legendItemCount, max
     left = TEXT_HEIGHT + 2 * BUFFER + AXIS_TICK_WIDTH
   }
 
-  const rightHandLegend = isAspectRatio(width, height, aspectRatios.LANDSCAPE) || legendItemCount > MAX_LEGEND_ITEMS_ROW
+  const rightHandLegend = isLandscape || legendItemCount > MAX_LEGEND_ITEMS_ROW
   let showLegend = width >= WIDTH_BREAKPOINT_3
   if (!rightHandLegend) {
     // row/bottom legend appears only after chart height >= HEIGHT_BREAKPOINT_3
@@ -127,6 +226,16 @@ const setChartMargin = (width, height, maxLegendLabelWidth, legendItemCount, max
     }
   }
 
+  // outliers:
+  /*
+    right = Math.max(...) at height breakpoint - because of bottom axis ticks
+    BOTTOM_LEGEND_ADJUSTMENT
+    legend affects RIGHT
+    legend affects bottom
+  */
+
+  console.log("----> CURRENT LEFT", left, leftLegendOffset)
+  console.log("----> NEW LEFT", leftElements)
   return {
     top,
     right,
