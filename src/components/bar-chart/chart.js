@@ -8,6 +8,8 @@ import Tooltip from '../tooltip'
 import { getCommonProps, processDataKeys, processColors, processAxisOrder, getAxisLabelsBar, aggregateData } from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps, barChartPropTypes, barChartDefaultProps } from '../../shared/constants/chart-props'
 
+import { DATA_HOVER_OPACITY } from '../../shared/constants/dimensions'
+
 
 const propTypes = {
   ...chartPropTypes,
@@ -94,7 +96,7 @@ const BarChart = ({
         let hoverItemIndex = dataPoints.indexOf(event.target)
         dataPoints.splice(hoverItemIndex, 1)
         dataPoints.forEach(point => {
-          point.style.opacity = 0.2
+          point.style.opacity = DATA_HOVER_OPACITY
         })
       }}
       onMouseLeave={(_data, event) => {

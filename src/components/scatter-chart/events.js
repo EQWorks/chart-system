@@ -1,3 +1,5 @@
+import { DATA_HOVER_OPACITY } from '../../shared/constants/dimensions'
+
 /**
  * onMouseEnter - defines action on mouse enter, highlighting the data set on which the cursor sets on
  * @param { object } data - data object
@@ -17,7 +19,7 @@ export const onMouseEnter = (data, event) => {
     dataPoints.splice(nrCirclesTotal-nrCirclesToRemove, nrCirclesToRemove)
     dataPoints.forEach( point => {
       if (point.getAttributeNode('fill').value !== selectedPointColor) {
-        point.style.opacity = 0.2
+        point.style.opacity = DATA_HOVER_OPACITY
       }
     })
   }
