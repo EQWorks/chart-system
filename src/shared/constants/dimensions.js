@@ -37,3 +37,4 @@ export const LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH = SYMBOL_SIZE + SYMBOL_SPACING +
 export const LEGEND_ROW_FIXED_ELEMENTS_WIDTH = SYMBOL_SIZE + SYMBOL_SPACING + BUFFER
 // threshold for forcing a righthand legend
 export const MAX_LEGEND_ITEMS_ROW = 3
+export const DATA_HOVER_OPACITY = 0.2
