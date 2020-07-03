@@ -111,7 +111,7 @@ const ResponsiveLineChart = ({
           let hovered = dataPoints.splice(hoverItemIndex, 1)
           hovered[0].style.opacity = 1.0
           dataPoints.forEach(point => {
-            point.style.opacity = 0.1
+            point.style.opacity = 0.2
           })
         }}
         tooltip={({ point }) => (

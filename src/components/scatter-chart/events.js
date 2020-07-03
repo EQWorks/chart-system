@@ -17,7 +17,7 @@ export const onMouseEnter = (data, event) => {
     dataPoints.splice(nrCirclesTotal-nrCirclesToRemove, nrCirclesToRemove)
     dataPoints.forEach( point => {
       if (point.getAttributeNode('fill').value !== selectedPointColor) {
-        point.style.opacity = 0.1
+        point.style.opacity = 0.2
       }
     })
   }

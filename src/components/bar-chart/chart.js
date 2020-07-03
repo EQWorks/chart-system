@@ -79,9 +79,6 @@ const BarChart = ({
       enableRadialLabels={false}
       enableGridY={true}
       enableLabel={false}
-      animate={true}
-      motionStiffness={90}
-      motionDamping={15}
       tooltip={({ id, value, color, indexValue }) => ( // also ({ data, index, theme })
         <Tooltip
           label={id}
@@ -97,7 +94,7 @@ const BarChart = ({
         let hoverItemIndex = dataPoints.indexOf(event.target)
         dataPoints.splice(hoverItemIndex, 1)
         dataPoints.forEach(point => {
-          point.style.opacity = 0.1
+          point.style.opacity = 0.2
         })
       }}
       onMouseLeave={(_data, event) => {
