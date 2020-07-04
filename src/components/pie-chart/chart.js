@@ -31,6 +31,8 @@ const PieChart = ({
   colorParam,
   width,
   height,
+  disableSlicesLabels,
+  slicesLabelsSkipAngle,
   ...nivoProps
 }) => {
   const finalColors = colors.length ? colors : processColors(data.length, colorType, colorParam)
@@ -78,8 +80,9 @@ const PieChart = ({
       cornerRadius={3}
       enableRadialLabels={false}
       fit={true}
+      enableSlicesLabels={ disableSlicesLabels ? false : true }
       sliceLabel={ showLabels ? 'percent' : '' }
-      slicesLabelsSkipAngle={ 30 }
+      slicesLabelsSkipAngle={ slicesLabelsSkipAngle ? slicesLabelsSkipAngle : 30 }
       slicesLabelsTextColor='#fff'
       innerRadius={isDonut ? 0.6 : 0}
       tooltip={({ id, value, percent, color }) => (
