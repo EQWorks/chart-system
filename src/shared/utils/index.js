@@ -90,9 +90,12 @@ const setChartMargin = (
 
   let bottomAxisLegendOffset = TEXT_HEIGHT / 2 + AXIS_TICK_WIDTH + BUFFER
   let leftAxisLegendOffset = -(TEXT_HEIGHT / 2 + AXIS_TICK_WIDTH + BUFFER)
+  // variable to set chart Legend offset
+  let legendTranslate = LEGEND_TRANSLATE_Y
 
   // useAxis is the case when we have axis in a chart, for ex: bar, line, scatter charts
   if (useAxis) {
+    // legendTranslate = LEGEND_HEIGHT + AXIS_TICK_WIDTH + 2 * TEXT_HEIGHT + 3 * BUFFER
     // at HEIGHT_BREAKPOINT_2 we have both axis tick labels and x-axis legend visible
     if (height >= HEIGHT_BREAKPOINT_2) {
       /**
@@ -122,6 +125,7 @@ const setChartMargin = (
       // TEXT_HEIGHT = axis legend height
       left = TEXT_HEIGHT + 2 * BUFFER + AXIS_TICK_WIDTH
     }
+    legendTranslate = bottomAxisLegendOffset + 4.5 * BUFFER
   }
 
   const rightHandLegend = isAspectRatio(width, height, aspectRatios.LANDSCAPE)
@@ -133,7 +137,6 @@ const setChartMargin = (
   }
   let legendLabelContainerWidth
   let legendItemWidth
-  let legendTranslate
 
   if (showLegend) {
     // adjust right or bottom margin accordingly
@@ -151,9 +154,6 @@ const setChartMargin = (
     } else {
       legendItemWidth = (width - right - left) / legendItemCount
       legendLabelContainerWidth = legendItemWidth - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
-      legendTranslate = useAxis
-        ? LEGEND_HEIGHT + AXIS_TICK_WIDTH + 2 * TEXT_HEIGHT + 3 * BUFFER
-        : LEGEND_TRANSLATE_Y
       // adjust bottom to include legend and a buffer
       bottom += LEGEND_HEIGHT + BUFFER
     }
