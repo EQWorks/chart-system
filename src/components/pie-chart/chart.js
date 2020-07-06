@@ -14,11 +14,15 @@ import {
 
 const propTypes = {
   isDonut: PropTypes.bool,
+  enableSlicesLabels: PropTypes.bool,
+  slicesLabelsSkipAngle: PropTypes.number,
   ...chartPropTypes,
 }
 
 const defaultProps = {
   isDonut: false,
+  enableSlicesLabels: true,
+  slicesLabelsSkipAngle: 30,
   ...chartDefaultProps,
 }
 
@@ -31,7 +35,7 @@ const PieChart = ({
   colorParam,
   width,
   height,
-  disableSlicesLabels,
+  enableSlicesLabels,
   slicesLabelsSkipAngle,
   ...nivoProps
 }) => {
@@ -80,9 +84,9 @@ const PieChart = ({
       cornerRadius={3}
       enableRadialLabels={false}
       fit={true}
-      enableSlicesLabels={ disableSlicesLabels ? false : true }
+      enableSlicesLabels={ enableSlicesLabels }
       sliceLabel={ showLabels ? 'percent' : '' }
-      slicesLabelsSkipAngle={ slicesLabelsSkipAngle ? slicesLabelsSkipAngle : 30 }
+      slicesLabelsSkipAngle={ slicesLabelsSkipAngle }
       slicesLabelsTextColor='#fff'
       innerRadius={isDonut ? 0.6 : 0}
       tooltip={({ id, value, percent, color }) => (
