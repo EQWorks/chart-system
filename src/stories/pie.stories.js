@@ -19,7 +19,7 @@ storiesOf('Pie Chart', module)
   ))
   .add('Widget Pie Chart with Slice Labels Disabled', () => (
     <ResponsiveChartWrapper>
-      <PieChart title='My Title' data={pieChartData} isDonut={false} disableSlicesLabels={true} />
+      <PieChart title='My Title' data={pieChartData} isDonut={false} enableSlicesLabels={false} />
     </ResponsiveChartWrapper>
   ))
   .add('Widget Pie Chart with Slice Labels Disabled at Custom Value', () => (
