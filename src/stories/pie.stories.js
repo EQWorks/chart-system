@@ -4,6 +4,7 @@ import { storiesOf } from '@storybook/react'
 import PieChart from '../components/pie-chart'
 import pieChartData from '../shared/data/pie-chart-data'
 import barChartData from '../shared/data/bar-chart-data'
+import lineChartData from '../shared/data/line-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
@@ -31,5 +32,10 @@ storiesOf('Pie Chart', module)
   .add('Visit Data', () => (
     <ResponsiveChartWrapper>
       <PieChart title='Visits' data={barChartData} isDonut={false} />
+    </ResponsiveChartWrapper>
+  ))
+  .add('Vehicle Data', () => (
+    <ResponsiveChartWrapper>
+      <PieChart title='Vehicles by Country' data={lineChartData} dataKey='amount' isDonut={false} />
     </ResponsiveChartWrapper>
   ))

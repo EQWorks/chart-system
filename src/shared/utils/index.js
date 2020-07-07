@@ -462,6 +462,8 @@ const avgMap = indexBy => ele => ({
   }, {})
 })
 
+// aggregate data based on unique value of indexBy and [keys]
+// or, use groupByKey to map data into { [ele[groupByKey]]: valueKey }
 export const aggregateData = ({ indexBy, data, keys, valueKey, groupByKey = '', type }) => {
   let genIndexKeys = () => keys
   let genValueKey = key => key
@@ -523,19 +525,19 @@ export const processSeriesDataKeys = ({ indexBy = '', xKey = '', yKeys = [], dat
   }
 }
 
-export const processPieDataKeys = ({ data, indexBy, valueKey }) => {
+export const processPieDataKeys = ({ data, indexBy, dataKey }) => {
   const keys = Object.keys(data[0])
   const finalIndexBy = indexBy.length ? indexBy : keys[0]
-  const finalValueKey = valueKey.length ? valueKey : keys[1]
-  return { finalIndexBy, finalValueKey }
+  const finalDataKey = dataKey.length ? dataKey : keys[1]
+  return { finalIndexBy, finalDataKey }
 }
 
-export const convertPieDataToNivo = ({ data, indexBy, valueKey }) => {
-  const total = data.reduce((sum, row) => sum + row[valueKey], 0)
+export const convertPieDataToNivo = ({ data, indexBy, dataKey }) => {
+  const total = data.reduce((sum, row) => sum + row[dataKey], 0)
   const finalData = data.map(o => ({
     id: o[indexBy],
-    value: o[valueKey],
-    percent: `${(o[valueKey] * 100 / total).toFixed(1)}%`
+    value: o[dataKey],
+    percent: `${(o[dataKey] * 100 / total).toFixed(1)}%`
   }))
   return finalData
 }
