@@ -1,7 +1,9 @@
 import {
   processDataKeys,
   processSeriesDataKeys,
+  processPieDataKeys,
   convertDataToNivo,
+  convertPieDataToNivo,
   aggregateData,
 } from '../../src/shared/utils'
 import barChartData from '../../src/shared/data/bar-chart-data'
@@ -63,6 +65,22 @@ describe('Process Series Data Keys', () => {
     expect(finalIndexBy).toEqual(undefined)
     expect(finalXKey).toEqual(xKey)
     expect(finalYKeys).toEqual(yKeys)
+  })
+})
+
+describe('Process Pie Data Keys', () => {
+  it('should default to first 2 keys', () =>{
+    const { finalIndexBy, finalDataKey } = processPieDataKeys({ data: barChartData, indexBy: '', dataKey: '' })
+    const keys = Object.keys(barChartData[0])
+    expect(finalIndexBy).toEqual(keys[0])
+    expect(finalDataKey).toEqual(keys[1])
+  })
+  it('should return provided values', () =>{
+    const indexBy = 'address_city'
+    const dataKey = 'visits'
+    const { finalIndexBy, finalDataKey } = processPieDataKeys({ data: barChartData, indexBy, dataKey })
+    expect(finalIndexBy).toEqual(indexBy)
+    expect(finalDataKey).toEqual(dataKey)
   })
 })
 
@@ -190,5 +208,24 @@ describe('Convert Data to Nivo', () => {
     expect(data[0].data[0].x).toEqual(barChartData[0][xKey])
     expect(data[1].id).toEqual(yKeys[1])
     expect(data[0].data[0].y).toEqual(barChartData[0][yKeys[0]])
+  })
+})
+
+describe('Convert Pie Data to Nivo', () => {
+  it('should use indexBy and dataKey to remap data', () =>{
+    const dataKey = 'visits'
+    const indexBy = 'address_city'
+    const data = convertPieDataToNivo({ data: barChartData, indexBy, dataKey })
+    expect(data[0].id).toEqual(barChartData[0][indexBy])
+    expect(data[0].value).toEqual(barChartData[0][dataKey])
+  })
+  it('should calculate the .percent field', () =>{
+    const dataKey = 'visits'
+    const indexBy = 'address_city'
+    const total = barChartData.reduce((sum, row) => sum + row[dataKey], 0)
+    const data = convertPieDataToNivo({ data: barChartData, indexBy, dataKey })
+    expect(data[0].id).toEqual(barChartData[0][indexBy])
+    expect(data[0].value).toEqual(barChartData[0][dataKey])
+    expect(data[0].percent).toEqual(`${(barChartData[0][dataKey] * 100 / total).toFixed(1)}%`)
   })
 })

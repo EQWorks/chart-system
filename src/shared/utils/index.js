@@ -462,6 +462,8 @@ const avgMap = indexBy => ele => ({
   }, {})
 })
 
+// aggregate data based on unique value of indexBy and [keys]
+// or, use groupByKey to map data into { [ele[groupByKey]]: valueKey }
 export const aggregateData = ({ indexBy, data, keys, valueKey, groupByKey = '', type }) => {
   let genIndexKeys = () => keys
   let genValueKey = key => key
@@ -523,6 +525,23 @@ export const processSeriesDataKeys = ({ indexBy = '', xKey = '', yKeys = [], dat
   }
 }
 
+export const processPieDataKeys = ({ data, indexBy, dataKey }) => {
+  const keys = Object.keys(data[0])
+  const finalIndexBy = indexBy.length ? indexBy : keys[0]
+  const finalDataKey = dataKey.length ? dataKey : keys[1]
+  return { finalIndexBy, finalDataKey }
+}
+
+export const convertPieDataToNivo = ({ data, indexBy, dataKey }) => {
+  const total = data.reduce((sum, row) => sum + row[dataKey], 0)
+  const finalData = data.map(o => ({
+    id: o[indexBy],
+    value: o[dataKey],
+    percent: `${(o[dataKey] * 100 / total).toFixed(1)}%`
+  }))
+  return finalData
+}
+
 // TODO: function for summing together values e.g. duplicate x/y combinations
 // export const processUniqueData
 
@@ -574,7 +593,7 @@ const COLOR_METHODS = {
   'palette': (num, lightness = 30) => {
     // return all values for keys that have `hue${lightness}`
     // repeat if necessary
-    let finalLightness = lightnesses.includes(lightness) ? lightness : 30
+    let finalLightness = lightnesses.includes(parseInt(lightness)) ? lightness : 30
     const colors = Object.keys(designSystemColors).filter(o => o.indexOf(finalLightness) >= 0)
     return new Array(num).fill(0).map((_, i) => designSystemColors[colors[i % colors.length]])
   },

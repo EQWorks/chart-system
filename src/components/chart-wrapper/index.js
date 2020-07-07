@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import styled from 'styled-components'
 
@@ -26,17 +25,11 @@ const ChartInner = styled.div`
   height: ${ props => props.height }px;
 `
 
-const propTypes = {
-  title: PropTypes.string,
-  children: PropTypes.element.isRequired,
-}
-
-const defaultProps = { title: '' }
-
 // TODO export each chart with this already in index.js
-const ChartWrapper = ({
-  title,
-  children,
+const ChartWrapper = Chart => ({
+  // NOTE: default prop is not supplied at this stage
+  title = '',
+  ...chartProps
 }) => (
   <>
     {title.length !==0 && <Title>{title}</Title>}
@@ -44,15 +37,16 @@ const ChartWrapper = ({
       <AutoSizer>
         {({ height, width }) => (
           <ChartInner height={height} width={width}>
-            {React.cloneElement(children, { height, width })}
+            <Chart
+              height={height}
+              width={width}
+              {...chartProps}
+            />
           </ChartInner>
         )}
       </AutoSizer>
     </ChartContainer>
   </>
 )
-
-ChartWrapper.defaultProps = defaultProps
-ChartWrapper.propTypes = propTypes
 
 export default ChartWrapper
