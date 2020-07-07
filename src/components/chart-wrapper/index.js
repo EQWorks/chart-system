@@ -34,9 +34,9 @@ const propTypes = {
 const defaultProps = { title: '' }
 
 // TODO export each chart with this already in index.js
-const ChartWrapper = ({
+const ChartWrapper = Chart => ({
   title,
-  children,
+  ...chartProps
 }) => (
   <>
     {title.length !==0 && <Title>{title}</Title>}
@@ -44,7 +44,11 @@ const ChartWrapper = ({
       <AutoSizer>
         {({ height, width }) => (
           <ChartInner height={height} width={width}>
-            {React.cloneElement(children, { height, width })}
+            <Chart
+              height={height}
+              width={width}
+              {...chartProps }
+            />
           </ChartInner>
         )}
       </AutoSizer>

@@ -574,7 +574,7 @@ const COLOR_METHODS = {
   'palette': (num, lightness = 30) => {
     // return all values for keys that have `hue${lightness}`
     // repeat if necessary
-    let finalLightness = lightnesses.includes(lightness) ? lightness : 30
+    let finalLightness = lightnesses.includes(parseInt(lightness)) ? lightness : 30
     const colors = Object.keys(designSystemColors).filter(o => o.indexOf(finalLightness) >= 0)
     return new Array(num).fill(0).map((_, i) => designSystemColors[colors[i % colors.length]])
   },
