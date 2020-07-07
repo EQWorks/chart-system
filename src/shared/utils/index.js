@@ -24,7 +24,7 @@ import {
   LEGEND_ROW_FIXED_ELEMENTS_WIDTH,
   MAX_LEGEND_ITEMS_ROW
 } from '../constants/dimensions'
-import designSystemColors from '../constants/design-system-colors'
+import designSystemColors, { hues, lightnesses } from '../constants/design-system-colors'
 
 import { getScaleTicks, getBarChartScales } from './nivo'
 import LegendCircle from '../../components/legend-symbol'
@@ -432,50 +432,52 @@ export const getCommonProps = ({
 
 const AGGREGATE_FN = {
   sum: (curr, val) => (curr || 0) + val,
-  avg: (curr, val) => (curr || 0) + val,
-  max: (curr, val) => Math.max(curr, val),
-  min: (curr, val) => Math.min(curr, val),
+  avg: (curr, val) => ({
+    sum: (curr ? curr.sum : 0) + val,
+    count: (curr ? curr.count : 0) + 1,
+  }),
+  max: (curr, val) => Math.max(curr === undefined ? val : curr, val),
+  min: (curr, val) => Math.min(curr === undefined ? val : curr, val),
 }
 
-const aggregateDataByIndex = ({ indexBy, keys, data, type }) => Object.values(data.reduce((agg, ele, i) => {
-  const id = ele[indexBy]
-  if (!agg[id]) {
-    agg[id] = {
-      [indexBy]: id
-    }
+const aggregateReducer = ({ indexBy, genIndexKeys, genValueKey, type }) => (agg, ele) => ({
+  ...agg,
+  [ele[indexBy]]: {
+    [indexBy]: ele[indexBy],
+    ...(agg[ele[indexBy]] || {}),
+    ...genIndexKeys(ele).reduce((ret, key) => {
+      const curr = agg[ele[indexBy]] || {}
+      ret[key] = AGGREGATE_FN[type](curr[key], ele[genValueKey(key)])
+      return ret
+    }, {})
   }
-  keys.forEach(key => {
-    agg[id][key] = AGGREGATE_FN[type](agg[id][key] || null, ele[key])
-    if (i === data.length - 1 && type === 'avg') {
-      // compute average for last item
-      agg[id][key] /= data.length
-    }
-  })
-  return agg
-}, {}))
+})
 
-const aggregateDataByIndexGrouped = ({ indexBy, data, valueKey, groupByKey, type }) => Object.values(data.reduce((agg, ele, i) => {
-  const id = ele[indexBy]
-  if (!agg[id]) {
-    agg[id] = {
-      [indexBy]: id
-    }
-  }
-  const finalKey = ele[groupByKey]
-  agg[id][finalKey] = AGGREGATE_FN[type](agg[id][finalKey] || null, ele[valueKey])
-  if (i === data.length - 1 && type === 'avg') {
-    // compute average for last item
-    agg[id][finalKey] /= data.length
-  }
-  return agg
-}, {}))
+const avgMap = indexBy => ele => ({
+  ...ele,
+  // remove index key and calc average
+  ...Object.keys(omit(ele, indexBy)).reduce((ret, key) => {
+    ret[key] = ele[key].sum / ele[key].count
+    return ret
+  }, {})
+})
 
-export const aggregateData = ({ indexBy, data, keys, valueKey, groupByKey, type }) => {
-  if (groupByKey.length) return aggregateDataByIndexGrouped({ indexBy, data, valueKey, groupByKey, type })
-  return aggregateDataByIndex({ indexBy, keys, data, type })
+export const aggregateData = ({ indexBy, data, keys, valueKey, groupByKey = '', type }) => {
+  let genIndexKeys = () => keys
+  let genValueKey = key => key
+  if (groupByKey.length) {
+    genIndexKeys = ele => [ele[groupByKey]]
+    genValueKey = () => valueKey
+  }
+  const aggregation = Object.values(data.reduce(aggregateReducer({ indexBy, genIndexKeys, genValueKey, type }), {}))
+  if (type === 'avg') {
+    // { [indexBy]: id, [key]: { sum, count } }
+    return aggregation.map(avgMap(indexBy))
+  }
+  return aggregation
 }
 
-export const processDataKeys = ({ indexBy, keys, data, groupByKey }) => {
+export const processDataKeys = ({ indexBy = '', keys = [], groupByKey = '', data }) => {
   let finalIndexBy
   let finalKeys
 
@@ -497,20 +499,21 @@ export const processDataKeys = ({ indexBy, keys, data, groupByKey }) => {
   }
 }
 
-export const processSeriesDataKeys = ({ indexBy, xKey, yKeys, data, indexByValue }) => {
+// TODO: enforce validity of key combinations, e.g. providing no xKey and setting indexBy to keys[1]
+export const processSeriesDataKeys = ({ indexBy = '', xKey = '', yKeys = [], data, indexByValue }) => {
   let finalIndexBy
   let finalXKey
   let finalYKeys
-
+  const keys = Object.keys(data[0])
   if (indexByValue) {
     // requries an indexBy and only 1 yKey
-    finalIndexBy = indexBy.length ? indexBy : Object.keys(data[0])[0]
-    finalXKey = xKey.length ? xKey : Object.keys(data[0])[1]
-    finalYKeys = yKeys.length ? yKeys : [Object.keys(data[0])[2]]
+    finalIndexBy = indexBy.length ? indexBy : keys[0]
+    finalXKey = xKey.length ? xKey : keys[1]
+    finalYKeys = yKeys.length ? yKeys : [keys[2]]
   } else {
     // one xKey and use the rest as yKeys
-    finalXKey = xKey.length ? xKey : Object.keys(data[0])[0]
-    finalYKeys = yKeys.length ? yKeys : Object.keys(data[0]).slice(1)
+    finalXKey = xKey.length ? xKey : keys[0]
+    finalYKeys = yKeys.length ? yKeys : keys.slice(1)
   }
 
   return {
@@ -561,21 +564,29 @@ const COLOR_METHODS = {
     const colors = Object.values(designSystemColors)
     return new Array(num).fill(0).map(() => colors[Math.floor(Math.random() * colors.length)])
   },
-  'monochromatic': (num, hue) => {
+  'monochromatic': (num, hue = 'blue') => {
     // return all values for keys that have `${hue}xx`
     // repeat if necessary
-    const colors = Object.keys(designSystemColors).filter(o => o.indexOf(hue) >= 0)
+    let finalHue = hues.includes(hue) ? hue : 'blue'
+    const colors = Object.keys(designSystemColors).filter(o => o.indexOf(finalHue) >= 0)
     return new Array(num).fill(0).map((_, i) => designSystemColors[colors[i % colors.length]])
   },
-  'palette': (num, lightness) => {
+  'palette': (num, lightness = 30) => {
     // return all values for keys that have `hue${lightness}`
     // repeat if necessary
-    const colors = Object.keys(designSystemColors).filter(o => o.indexOf(lightness) >= 0)
+    let finalLightness = lightnesses.includes(lightness) ? lightness : 30
+    const colors = Object.keys(designSystemColors).filter(o => o.indexOf(finalLightness) >= 0)
     return new Array(num).fill(0).map((_, i) => designSystemColors[colors[i % colors.length]])
   },
 }
 
-export const processColors = (numberOfColors, type, param) => COLOR_METHODS[type](numberOfColors, param)
+export const processColors = (numberOfColors, type, param) => {
+  let finalType = type
+  if (!COLOR_METHODS[type]) {
+    finalType = 'palette'
+  }
+  return COLOR_METHODS[finalType](numberOfColors, param)
+}
 
 // enforce and order for string axis (Bar or xScale.type === 'point')
 // Nivo uses the order of keys in data, so we have to sort
