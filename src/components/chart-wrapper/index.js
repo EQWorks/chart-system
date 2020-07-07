@@ -26,16 +26,10 @@ const ChartInner = styled.div`
   height: ${ props => props.height }px;
 `
 
-const propTypes = {
-  title: PropTypes.string,
-  children: PropTypes.element.isRequired,
-}
-
-const defaultProps = { title: '' }
-
 // TODO export each chart with this already in index.js
 const ChartWrapper = Chart => ({
-  title,
+  // NOTE: default prop is not supplied at this stage
+  title = '',
   ...chartProps
 }) => (
   <>
@@ -47,7 +41,7 @@ const ChartWrapper = Chart => ({
             <Chart
               height={height}
               width={width}
-              {...chartProps }
+              {...chartProps}
             />
           </ChartInner>
         )}
@@ -55,8 +49,5 @@ const ChartWrapper = Chart => ({
     </ChartContainer>
   </>
 )
-
-ChartWrapper.defaultProps = defaultProps
-ChartWrapper.propTypes = propTypes
 
 export default ChartWrapper
