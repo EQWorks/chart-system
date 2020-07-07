@@ -5,7 +5,7 @@ import { ResponsivePie } from '@nivo/pie'
 import ChartWrapper from '../chart-wrapper'
 import Tooltip from '../tooltip'
 
-import { getCommonProps, processColors } from '../../shared/utils'
+import { getCommonProps, processColors, processPieDataKeys, convertPieDataToNivo } from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps } from '../../shared/constants/chart-props'
 import {
   WIDTH_BREAKPOINT_2,
@@ -17,6 +17,7 @@ const propTypes = {
   isDonut: PropTypes.bool,
   enableSlicesLabels: PropTypes.bool,
   slicesLabelsSkipAngle: PropTypes.number,
+  valueKey: PropTypes.string,
   ...chartPropTypes,
 }
 
@@ -24,12 +25,15 @@ const defaultProps = {
   isDonut: false,
   enableSlicesLabels: true,
   slicesLabelsSkipAngle: 30,
+  valueKey: '',
   ...chartDefaultProps,
 }
 
 // PieChart - creates a pie chart
 const PieChart = ({
   isDonut,
+  valueKey,
+  indexBy,
   data,
   colors,
   colorType,
@@ -40,8 +44,10 @@ const PieChart = ({
   slicesLabelsSkipAngle,
   ...nivoProps
 }) => {
-  const total = data.reduce((sum, row) => sum + row.value, 0)
-  const finalData = data.map(o => ({ ...o, percent: `${(o.value * 100 / total).toFixed(1)}%` }))
+  // indexBy => id
+  // valueKey => value
+  const { finalIndexBy, finalValueKey } = processPieDataKeys({ data, indexBy, valueKey })
+  const finalData = convertPieDataToNivo({ data, indexBy: finalIndexBy, valueKey: finalValueKey })
   const finalColors = colors.length ? colors : processColors(data.length, colorType, colorParam)
 
   const mouseLeaveHandler = (_data, event) => {

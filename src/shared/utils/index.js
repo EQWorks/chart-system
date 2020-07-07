@@ -523,6 +523,23 @@ export const processSeriesDataKeys = ({ indexBy = '', xKey = '', yKeys = [], dat
   }
 }
 
+export const processPieDataKeys = ({ data, indexBy, valueKey }) => {
+  const keys = Object.keys(data[0])
+  const finalIndexBy = indexBy.length ? indexBy : keys[0]
+  const finalValueKey = valueKey.length ? valueKey : keys[1]
+  return { finalIndexBy, finalValueKey }
+}
+
+export const convertPieDataToNivo = ({ data, indexBy, valueKey }) => {
+  const total = data.reduce((sum, row) => sum + row[valueKey], 0)
+  const finalData = data.map(o => ({
+    id: o[indexBy],
+    value: o[valueKey],
+    percent: `${(o[valueKey] * 100 / total).toFixed(1)}%`
+  }))
+  return finalData
+}
+
 // TODO: function for summing together values e.g. duplicate x/y combinations
 // export const processUniqueData
 
