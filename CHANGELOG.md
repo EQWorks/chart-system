@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2020-07-07
+
+### Added
+- export `<PieChart />` component
+- update `README.md` with proper data processing usage
+
 ## [0.1.0] - 2020-07-02
 
 ### Added
