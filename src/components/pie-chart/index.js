@@ -40,6 +40,8 @@ const PieChart = ({
   slicesLabelsSkipAngle,
   ...nivoProps
 }) => {
+  const total = data.reduce((sum, row) => sum + row.value, 0)
+  const finalData = data.map(o => ({ ...o, percent: `${(o.value * 100 / total).toFixed(1)}%` }))
   const finalColors = colors.length ? colors : processColors(data.length, colorType, colorParam)
 
   let path
@@ -59,16 +61,6 @@ const PieChart = ({
     }))
   }
 
-  const percentData = () => {
-    let total = data.reduce((sum, dataSet) => sum += dataSet.value, 0)
-    data.forEach(arc => {
-      arc.percent = `${(arc.value * 100 / total).toFixed(1)}%`
-    })
-    return total
-  }
-
-  percentData()
-
   // we don't show slice labels unless chart width and chart height are large enough
   let showLabels = false
   // case for the charts without axes / pie chart
@@ -79,7 +71,7 @@ const PieChart = ({
   return (
     <ResponsivePie
       {...nivoProps}
-      data={data}
+      data={finalData}
       colors={finalColors}
       padAngle={0.7}
       cornerRadius={3}
@@ -104,7 +96,7 @@ const PieChart = ({
       onMouseLeave={mouseLeaveHandler}
       {...getCommonProps({
         useAxis: false,
-        keys: data.map(o => o.id),
+        keys: finalData.map(o => o.id),
         height,
         width,
         dash: true,
