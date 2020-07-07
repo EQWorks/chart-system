@@ -44,21 +44,24 @@ const PieChart = ({
   const finalData = data.map(o => ({ ...o, percent: `${(o.value * 100 / total).toFixed(1)}%` }))
   const finalColors = colors.length ? colors : processColors(data.length, colorType, colorParam)
 
-  let path
-  let arc
-
-  const mouseLeaveHandler = () => {
-    return (path.forEach((tag) => {
-      tag.style.opacity = 1
-    }))
+  const mouseLeaveHandler = (_data, event) => {
+    const arc = event.target
+    Array.from(arc.parentNode.children)
+      .filter(ele => ele.tagName === 'path' && ele !== arc)
+      // reset all other slices
+      .forEach((tag) => {
+        tag.style.opacity = 1
+      })
   }
 
   const mouseOverHandler = (_data, event) => {
-    arc = event.target
-    path = Array.from(arc.parentNode.children).filter(ele => ele.tagName === 'path' && ele !== arc)
-    return (path.forEach(tag => {
-      return tag.style.opacity = DATA_HOVER_OPACITY
-    }))
+    const arc = event.target
+    Array.from(arc.parentNode.children)
+      .filter(ele => ele.tagName === 'path' && ele !== arc)
+      // lighten all other slices
+      .forEach(tag => {
+        tag.style.opacity = DATA_HOVER_OPACITY
+      })
   }
 
   // we don't show slice labels unless chart width and chart height are large enough
