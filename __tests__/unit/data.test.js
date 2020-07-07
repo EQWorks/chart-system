@@ -1,6 +1,7 @@
 import {
   processDataKeys,
   processSeriesDataKeys,
+  processPieDataKeys,
   convertDataToNivo,
   aggregateData,
 } from '../../src/shared/utils'
@@ -63,6 +64,22 @@ describe('Process Series Data Keys', () => {
     expect(finalIndexBy).toEqual(undefined)
     expect(finalXKey).toEqual(xKey)
     expect(finalYKeys).toEqual(yKeys)
+  })
+})
+
+describe('Process Pie Data Keys', () => {
+  it('should default to first 2 keys', () =>{
+    const { finalIndexBy, finalDataKey } = processPieDataKeys({ data: barChartData, indexBy: '', dataKey: '' })
+    const keys = Object.keys(barChartData[0])
+    expect(finalIndexBy).toEqual(keys[0])
+    expect(finalDataKey).toEqual(keys[1])
+  })
+  it('should return provided values', () =>{
+    const indexBy = 'address_city'
+    const dataKey = 'visits'
+    const { finalIndexBy, finalDataKey } = processPieDataKeys({ data: barChartData, indexBy, dataKey })
+    expect(finalIndexBy).toEqual(indexBy)
+    expect(finalDataKey).toEqual(dataKey)
   })
 })
 
