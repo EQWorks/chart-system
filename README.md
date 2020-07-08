@@ -20,7 +20,7 @@ Width and height are auto-detected through `react-virtualized` AutoSizer. Curren
 ### Props
 A catch-all `{...nivoProps}` is passed along to each chart, though the values might be overriden.
 - **data** - an array of objects with the same structure, i.e. tabular data,
-- **indexBy** - the key to use for grouping the data. Results in primary x-axis value in Bar Chart, data series grouping in Line and Scatter as well as how to define the slices in PieChart. Should NOT be included in value keys for chart. Defaults to first item of `Object.keys(data)`.
+- **indexBy** - the key to use for grouping the data. Results in primary x-axis value in Bar Chart, data series grouping in Line and Scatter as well as how to define the slices in PieChart. Should NOT be included in value keys for chart. Defaults to first item of `Object.keys(data[0])`.
 - **colorType** - use design system colors through three methods and a given colorParam. Default is `palette`
   - 'palette': assign a different hue for each data series; colorParam = lightness value of 10,30,50,70 or 90
   - 'monochromatic:' assign a different lightness for each data series; colorParam = hue value of blue, color, yellow, pink, purple, teal or gray
@@ -38,10 +38,10 @@ A catch-all `{...nivoProps}` is passed along to each chart, though the values mi
 - **axisBottomLabelValues** - what label values to show on the bottom axis. Either `[]` of specific values, a `number` of how many ticks should appear or a string describing the time interval. More details (here | https://nivo.rocks/guides/axes)
 
 #### BarChart Only:
-- **keys** - an array of keys to use as y-axis values. End up as legend items. Defaults to `Object.keys(data)` excluding the `indexBy` value.
+- **keys** - an array of keys to use as y-axis values. End up as legend items. Defaults to `Object.keys(data[0])` excluding the `indexBy` value.
 
 #### PieChart Only:
-- **dataKey**: the key to use for pie chart **values**. Defaults to 
+- **dataKey**: the key to use for pie chart **values**. Defaults to second item of `Object.keys(data[0])`.
 - **isDonut** - whether to include `innerRadius={0.6}` Nivo prop. Default is `false`
 - **enableSlicesLabels** - to include % values in the pie chart itself. Defaults is `true`
 - **slicesLabelsSkipAngle** - the angle (i.e. width) of a pie slice at which the label is not displayed. Defaults is `30`
@@ -74,8 +74,8 @@ To include a **data series** for each vehicle, we can set `groupByKey='vehicle'`
 Each unique value of the `groupByKey` is converted into a key, whose value is the sum of `valueKey`.
 
 #### Line and Scatter Only:
-- **yAxisKey** - key to determine y-axis value. Defaults to second key of data.
-- **xAxisKey** - key to determine x-axis value. Defaults to third key of data.
+- **yAxisKey** - key to determine y-axis value. Defaults to second item of `Object.keys(data[0])`.
+- **xAxisKey** - key to determine x-axis value. Defaults to third item of `Object.keys(data[0])`.
 - **indexByValue** - defines whether to generate a **data series** based on the _value_ of `indexBy` or the _actual keys_. Default is `true`,
 - **xScale** - object to configure the x-axis scale. (Nivo Docs | https://github.com/plouc/nivo/blob/f967380e2900d893f5174c5070743a9b4dffa9ec/packages/scales/src/compute.js#L25). Configuration parameters (such as **min**/**max** values) are not well documented, but are implemented (here | https://github.com/plouc/nivo/tree/f967380e2900d893f5174c5070743a9b4dffa9ec/packages/scales/src).
 - **yScale** - object to configure the y-axis scale.
