@@ -128,9 +128,21 @@ const setChartMargin = (
     legendTranslate = bottomAxisLegendOffset + 4.5 * BUFFER
   }
 
+  // show right column legend when in landscape mode and number of legend items surpass MAX_LEGEND_ITEMS_ROW
   const rightHandLegend = isAspectRatio(width, height, aspectRatios.LANDSCAPE)
                           || legendItemCount > MAX_LEGEND_ITEMS_ROW
+  // calculate height of column legend to hide it if it is larger than chart height
+  const columnLegendHeight = legendItemCount * LEGEND_HEIGHT
+  /**
+   * we hide legend when chart width is below WIDTH_BREAKPOINT_3 and legend height is greater than
+   * the chart height and bottom margin
+   */
   let showLegend = width >= WIDTH_BREAKPOINT_3
+                   && columnLegendHeight <= height - top
+  let rightHandLegendAnchor = columnLegendHeight <= height - top - bottom
+    ? 'right'
+    : 'top-right'
+
   if (!rightHandLegend) {
     // row/bottom legend appears only after chart height >= HEIGHT_BREAKPOINT_3
     showLegend = height >= HEIGHT_BREAKPOINT_3
@@ -166,6 +178,7 @@ const setChartMargin = (
     left,
     showLegend,
     rightHandLegend,
+    rightHandLegendAnchor,
     legendItemWidth,
     legendLabelContainerWidth,
     showBottomAxisLegendLabel,
@@ -336,6 +349,7 @@ export const getCommonProps = ({
   const {
     showLegend,
     rightHandLegend,
+    rightHandLegendAnchor,
     legendItemWidth,
     legendLabelContainerWidth,
     showBottomAxisLegendLabel,
@@ -359,7 +373,7 @@ export const getCommonProps = ({
   const chartWidth = width - margin.right - margin.left
 
   const aspectRatioProps = rightHandLegend ? ({
-    anchor: 'right',
+    anchor: rightHandLegendAnchor,
     direction: 'column',
     // NOTE: itemWidth doesn't affect right legend
     itemWidth: 0,

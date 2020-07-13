@@ -4,11 +4,6 @@ export const WIDTH_BREAKPOINT_2 = 256
 export const WIDTH_BREAKPOINT_3 = 336
 export const HEIGHT_BREAKPOINT_1 = 206
 export const HEIGHT_BREAKPOINT_2 = 230
-// TO REMOVE:
-// I would change the HEIGHT_BREAKPOINT_3 to 285 value, down from a value of 310. Initial design
-// included a second legend row and a buffer = 25px, which we don't have in the version of the chart
-// we are creating, whcih includes only one row of legend items.
-// export const HEIGHT_BREAKPOINT_3 = 310
 export const HEIGHT_BREAKPOINT_3 = 285
 export const AXIS_TICK_WIDTH = 8
 export const AXIS_TICK_PADDING = 8
