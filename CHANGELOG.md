@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Legend - right / column legend hides when chart width exceeds legend heigth
+
+### Added
+- Legend - custom number of labels allowed on the bottom / row chart Legend
+
 ## [0.2.0] - 2020-07-07
 
 ### Added

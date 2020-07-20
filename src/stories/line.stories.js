@@ -22,6 +22,21 @@ storiesOf('Line Chart', module)
       />
     </ResponsiveChartWrapper>
   ))
+  .add('Widget Line Chart with custom bottom legend label numbers', () => (
+    <ResponsiveChartWrapper>
+      <LineChart
+        title='Test'
+        data={lineChartData}
+        indexBy='country'
+        xKey='vehicle'
+        yKey='amount'
+        xScale={{ type: 'point' }}
+        axisBottomLegendLabel={'axisBottomLegend'}
+        axisLeftLegendLabel={'axisLeftLegend'}
+        maxRowLegendItems={ 4 }
+      />
+    </ResponsiveChartWrapper>
+  ))
   .add('Index By Keys', () => (
     <ResponsiveChartWrapper>
       <LineChart

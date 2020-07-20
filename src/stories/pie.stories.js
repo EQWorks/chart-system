@@ -29,6 +29,16 @@ storiesOf('Pie Chart', module)
       <PieChart title='My Title' data={pieChartData} isDonut={false} slicesLabelsSkipAngle={ 200 } />
     </ResponsiveChartWrapper>
   ))
+  .add('Widget Pie Chart with custom bottom legend label numbers', () => (
+    <ResponsiveChartWrapper>
+      <PieChart
+        title='My Title'
+        data={pieChartData}
+        isDonut={false}
+        maxRowLegendItems={ 4 }
+      />
+    </ResponsiveChartWrapper>
+  ))
   .add('Visit Data', () => (
     <ResponsiveChartWrapper>
       <PieChart title='Visits' data={barChartData} isDonut={false} />

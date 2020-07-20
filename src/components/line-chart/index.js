@@ -63,6 +63,7 @@ const ResponsiveLineChart = ({
   yScale,
   width,
   height,
+  maxRowLegendItems,
   ...nivoProps
 }) => {
   const { finalIndexBy, finalXKey, finalYKeys } = processSeriesDataKeys({ data, indexBy, xKey, yKeys, indexByValue })
@@ -145,6 +146,7 @@ const ResponsiveLineChart = ({
           lastXAxisTickLabelWidth,
           axisLeftLabelDisplayFn,
           maxYAxisTickLabelWidth,
+          maxRowLegendItems
         })}
       >
       </ResponsiveLine>

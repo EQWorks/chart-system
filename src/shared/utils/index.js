@@ -21,8 +21,7 @@ import {
   LEGEND_TRANSLATE_Y,
   TRIMMED_LEGEND_WIDTH,
   LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH,
-  LEGEND_ROW_FIXED_ELEMENTS_WIDTH,
-  MAX_LEGEND_ITEMS_ROW
+  LEGEND_ROW_FIXED_ELEMENTS_WIDTH
 } from '../constants/dimensions'
 import designSystemColors, { hues, lightnesses } from '../constants/design-system-colors'
 
@@ -53,7 +52,8 @@ const setChartMargin = (
   maxLegendLabelWidth,
   legendItemCount,
   maxYAxisTickLabelWidth,
-  lastXAxisTickLabelWidth
+  lastXAxisTickLabelWidth,
+  maxRowLegendItems
 ) => {
   // default values
   /**
@@ -130,7 +130,7 @@ const setChartMargin = (
 
   // show right column legend when in landscape mode and number of legend items surpass MAX_LEGEND_ITEMS_ROW
   const rightHandLegend = isAspectRatio(width, height, aspectRatios.LANDSCAPE)
-                          || legendItemCount > MAX_LEGEND_ITEMS_ROW
+                          || legendItemCount > maxRowLegendItems
   // calculate height of column legend to hide it if it is larger than chart height
   const columnLegendHeight = legendItemCount * LEGEND_HEIGHT
   /**
@@ -341,7 +341,8 @@ export const getCommonProps = ({
   axisLeftLabelDisplayFn = d => d,
   maxYAxisTickLabelWidth = 0,
   dash, // not for pie?
-  legendProps = {},
+  legendProps={},
+  maxRowLegendItems
 }) => {
   const maxLegendLabelWidth = getLegendLabelMaxWidth(keys)
   const legendItemCount = keys.length
@@ -367,7 +368,8 @@ export const getCommonProps = ({
     maxLegendLabelWidth,
     legendItemCount,
     maxYAxisTickLabelWidth,
-    lastXAxisTickLabelWidth
+    lastXAxisTickLabelWidth,
+    maxRowLegendItems
   )
 
   const chartWidth = width - margin.right - margin.left

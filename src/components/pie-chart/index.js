@@ -54,6 +54,7 @@ const PieChart = ({
   height,
   enableSlicesLabels,
   slicesLabelsSkipAngle,
+  maxRowLegendItems,
   ...nivoProps
 }) => {
   // indexBy => id
@@ -122,6 +123,7 @@ const PieChart = ({
         height,
         width,
         dash: true,
+        maxRowLegendItems
       })}
     >
     </ResponsivePie>
