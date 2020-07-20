@@ -45,6 +45,7 @@ const ScatterChart = ({
   xScale,
   axisLeftLegendLabel,
   yScale,
+  maxRowLegendItems,
   width,
   height,
   ...nivoProps
@@ -114,6 +115,7 @@ const ScatterChart = ({
         lastXAxisTickLabelWidth,
         axisLeftLabelDisplayFn,
         maxYAxisTickLabelWidth,
+        maxRowLegendItems
       })}
     />
   )

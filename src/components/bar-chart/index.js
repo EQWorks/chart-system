@@ -40,6 +40,7 @@ const BarChart = ({
   // must be supplied together
   groupByKey,
   valueKey,
+  maxRowLegendItems,
   ...nivoProps
 }) => {
   // a single key is required for the X axis scale
@@ -123,6 +124,7 @@ const BarChart = ({
         axisBottomLabelCount,
         lastXAxisTickLabelWidth,
         maxYAxisTickLabelWidth,
+        maxRowLegendItems
       })}
     />
   )

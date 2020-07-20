@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types'
 
+import { MAX_LEGEND_ITEMS_ROW } from './dimensions'
+
 
 export const chartPropTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -22,6 +24,7 @@ export const chartPropTypes = {
   axisLeftLabelDisplayFn: PropTypes.func,
   width: PropTypes.number,
   height: PropTypes.number,
+  maxRowLegendItems: PropTypes.number
 }
 
 export const chartDefaultProps = {
@@ -38,6 +41,7 @@ export const chartDefaultProps = {
   axisLeftLabelDisplayFn: d => d,
   width: 100,
   height: 100,
+  maxRowLegendItems: MAX_LEGEND_ITEMS_ROW
 }
 
 export const seriesPropTypes = {
