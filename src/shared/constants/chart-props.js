@@ -24,7 +24,8 @@ export const chartPropTypes = {
   axisLeftLabelDisplayFn: PropTypes.func,
   width: PropTypes.number,
   height: PropTypes.number,
-  maxRowLegendItems: PropTypes.number
+  maxRowLegendItems: PropTypes.number,
+  trimLegend: PropTypes.bool
 }
 
 export const chartDefaultProps = {
@@ -41,7 +42,8 @@ export const chartDefaultProps = {
   axisLeftLabelDisplayFn: d => d,
   width: 100,
   height: 100,
-  maxRowLegendItems: MAX_LEGEND_ITEMS_ROW
+  maxRowLegendItems: MAX_LEGEND_ITEMS_ROW,
+  trimLegend: true
 }
 
 export const seriesPropTypes = {
