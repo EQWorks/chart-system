@@ -10,7 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Legend - right / column legend hides when chart width exceeds legend heigth
 
 ### Added
-- Legend - custom number of labels allowed on the bottom / row chart Legend
+- Legend - custom number of labels allowed on the bottom / row chart legend
+- Legend - custom trimLegend prop to allow trimming or not of chart legend labels
 
 ## [0.2.0] - 2020-07-07
 

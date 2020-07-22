@@ -32,6 +32,8 @@ A catch-all `{...nivoProps}` is passed along to each chart, though the values mi
 - **axisBottomDisplayFn** - `labelValue => { ...return displayValue }` - function to customize the bottom axis tick labels. Default is `d => d`
 - **axisLeftLegendLabel** - the label for the left axis
 - **axisBottomDisplayFn** - `labelValue => { ...return displayValue }` - function to customize the left axis tick labels. Default is `d => d`
+- **maxRowLegendItems** - maximum labels on the bottom / row chart legend. Default is MAX_LEGEND_ITEMS_ROW (3)
+- **trimLegend** - whether or not to trim chart legend labels. Default is `true` 
 
 #### Bar, Line and Scatter:
 - **axisBottomOrder** - how to define the order of bottom axis labels for a Bar Chart or 'point' scale. Either `[]` of specific values or `asc`/`desc` to sort the data. If an array is provided, data will be filtered based on the provided keys. 

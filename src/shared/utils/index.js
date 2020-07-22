@@ -53,7 +53,8 @@ const setChartMargin = (
   legendItemCount,
   maxYAxisTickLabelWidth,
   lastXAxisTickLabelWidth,
-  maxRowLegendItems
+  maxRowLegendItems,
+  trimLegend
 ) => {
   // default values
   /**
@@ -159,13 +160,15 @@ const setChartMargin = (
       legendTranslate = LEGEND_TRANSLATE_X
       const expandingLabelContainer = width - WIDTH_BREAKPOINT_3 - LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH - legendTranslate
       legendLabelContainerWidth = Math.max(expandingLabelContainer, TRIMMED_LEGEND_WIDTH)
-      if (expandingLabelContainer >= maxLegendLabelWidth) {
+      if (expandingLabelContainer >= maxLegendLabelWidth || !trimLegend) {
         legendLabelContainerWidth = maxLegendLabelWidth
       }
       right = legendLabelContainerWidth + legendTranslate + LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH
     } else {
       legendItemWidth = (width - right - left) / legendItemCount
-      legendLabelContainerWidth = legendItemWidth - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
+      legendLabelContainerWidth = trimLegend
+        ? legendItemWidth - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
+        : maxLegendLabelWidth
       // adjust bottom to include legend and a buffer
       bottom += LEGEND_HEIGHT + BUFFER
     }
@@ -342,7 +345,8 @@ export const getCommonProps = ({
   maxYAxisTickLabelWidth = 0,
   dash, // not for pie?
   legendProps={},
-  maxRowLegendItems
+  maxRowLegendItems,
+  trimLegend
 }) => {
   const maxLegendLabelWidth = getLegendLabelMaxWidth(keys)
   const legendItemCount = keys.length
@@ -369,7 +373,8 @@ export const getCommonProps = ({
     legendItemCount,
     maxYAxisTickLabelWidth,
     lastXAxisTickLabelWidth,
-    maxRowLegendItems
+    maxRowLegendItems,
+    trimLegend
   )
 
   const chartWidth = width - margin.right - margin.left

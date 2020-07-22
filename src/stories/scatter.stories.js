@@ -20,7 +20,6 @@ storiesOf('ScatterChart', module)
   .add('Widget Scatter Chart with no title', () => (
     <ResponsiveChartWrapper>
       <ScatterChart
-        title=''
         data={scatterChartData}
         axisBottomLegendLabel={'axisBottomLegend'}
         axisLeftLegendLabel={'axisLeftLegend'}
@@ -37,3 +36,15 @@ storiesOf('ScatterChart', module)
       />
     </ResponsiveChartWrapper>
   ))
+  .add('Widget Scatter Chart with no trimming of Legend', () => (
+    <ResponsiveChartWrapper>
+      <ScatterChart
+        title='My Title'
+        data={scatterChartData}
+        axisBottomLegendLabel={'axisBottomLegend'}
+        axisLeftLegendLabel={'axisLeftLegend'}
+        trimLegend={false}
+      />
+    </ResponsiveChartWrapper>
+  ))
+
