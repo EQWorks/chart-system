@@ -2,36 +2,33 @@ import { DATA_HOVER_OPACITY } from '../../shared/constants/dimensions'
 
 /**
  * onMouseEnter - defines action on mouse enter, highlighting the data set on which the cursor sets on
- * @param { object } data - data object
- * @param { object } event - event object
+ * @param { HTMLElement } node - hovered node
  */
-export const onMouseEnter = (data, event) => {
-  const parentNode = event.target.parentNode
-  // lastChild contains legend circles for which we don't want to change opacity
-  const lastChildCircles = parentNode.lastChild.getElementsByTagName('circle')
-  if (event.target.tagName === 'circle') {
-    let selectedPointColor = event.target.getAttributeNode('fill').value
-    // gather all the circles in the parent node
-    let dataPoints = Array.from(parentNode.getElementsByTagName('circle'))
-    const nrCirclesToRemove = lastChildCircles.length
-    const nrCirclesTotal= dataPoints.length
-    // remove the legend circles so we don't change their style
-    dataPoints.splice(nrCirclesTotal-nrCirclesToRemove, nrCirclesToRemove)
-    dataPoints.forEach( point => {
-      if (point.getAttributeNode('fill').value !== selectedPointColor) {
-        point.style.opacity = DATA_HOVER_OPACITY
+export const onMouseEnter = (event, node) => {
+  const parentNode = node.target.parentNode.parentNode
+  let nodeId = node.target.id
+  // isolate circles from data sets that are not hovered and set their opacity
+  Array.from(parentNode.children)
+    // lighten all nonhovered data sets
+    .forEach(ele => {
+      if (ele.children[0].tagName === 'circle'
+          && ele.children[0].getAttributeNode('id').value !== nodeId) {
+        ele.children[0].style.opacity = DATA_HOVER_OPACITY
       }
     })
-  }
 }
 
 /**
- * onMouseLeave - defines action on mouse leave, resetting the scatter charts to default setting
- * @param { object } data - data object
- * @param { object } event - event object
+ * onMouseLeave - defines action on mouse leave, resetting the scatter chart data points to
+ * default setting (opacity: 1)
+ * @param { HTMLElement } node - hovered node
  */
-export const onMouseLeave = (data, event) => {
-  const parentNode = event.target.parentNode
-  const dataPoints = parentNode.getElementsByTagName('circle')
-  dataPoints.forEach(point => point.style.opacity = 1)
+export const onMouseLeave = (event, node) => {
+  const parentNode = node.target.parentNode.parentNode
+  Array.from(parentNode.children)
+    .forEach(ele => {
+      if (ele.children[0].tagName === 'circle') {
+        ele.children[0].style.opacity = 1
+      }
+    })
 }
