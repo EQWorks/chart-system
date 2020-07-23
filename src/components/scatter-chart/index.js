@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import { ResponsiveScatterPlot } from '@nivo/scatterplot'
 
 import ChartWrapper from '../chart-wrapper'
+import CustomNode from './custom-node'
 import Tooltip from '../tooltip'
 import { onMouseEnter, onMouseLeave } from './events'
 
@@ -85,9 +86,10 @@ const ScatterChart = ({
       xScale={finalXScale}
       yScale={finalYScale}
       nodeSize={SYMBOL_SIZE}
+      useMesh={false}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      useMesh={false}
+      renderNode={CustomNode}
       tooltip={({ node }) => (
         <Tooltip
           label={node.id.split('.')[0]}
