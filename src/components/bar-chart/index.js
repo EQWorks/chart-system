@@ -5,6 +5,7 @@ import { ResponsiveBar } from '@nivo/bar'
 import ChartWrapper from '../chart-wrapper'
 import Tooltip from '../tooltip'
 
+import { useLegendToggle } from '../hooks'
 import { getCommonProps, processDataKeys, processColors, processAxisOrder, getAxisLabelsBar, aggregateData } from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps, barChartPropTypes, barChartDefaultProps } from '../../shared/constants/chart-props'
 
@@ -72,6 +73,8 @@ const BarChart = ({
     ...nivoProps, // relies on: minValue, maxValue, padding, reverse, groupMode
   }), [width, height, finalData, finalIndexBy, finalKeys, axisBottomLabelValues, axisBottomLabelDisplayFn, axisLeftLabelDisplayFn, nivoProps])
 
+  const legendToggle = useLegendToggle(data)
+
   return (
     <ResponsiveBar
       // TODO right now, our props override, but need to see if there are any that should take precedent
@@ -129,6 +132,7 @@ const BarChart = ({
         maxRowLegendItems,
         trimLegend
       })}
+      {...legendToggle}
     />
   )
 }

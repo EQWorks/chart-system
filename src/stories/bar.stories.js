@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { storiesOf } from '@storybook/react'
 
 import BarChart from '../components/bar-chart/'
@@ -19,6 +19,31 @@ storiesOf('Bar Chart', module)
       />
     </ResponsiveChartWrapper>
   ))
+  .add('Dynamic Data - legend update', () => {
+    const [data, setData] = useState(barChartData)
+    return (
+      <ResponsiveChartWrapper>
+        <button
+          onClick={() => setData([{
+            address_city: 'Sauga',
+            dopeness: 1000,
+            awesomeness: 800,
+          },
+          {
+            address_city: 'T-Dot',
+            dopeness: 2000,
+            awesomeness: 2100,
+          }])}
+        >Change Data</button>
+        <br />
+        <BarChart
+          title='My Title'
+          data={data}
+          axisBottomLegendLabel='Address City'
+          axisLeftLegendLabel='Visitors'
+        />
+      </ResponsiveChartWrapper>
+    )})
   .add('No Label Trim', () => (
     <ResponsiveChartWrapper>
       <BarChart

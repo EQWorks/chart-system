@@ -6,6 +6,7 @@ import CustomNode from './custom-node'
 import Tooltip from '../tooltip'
 import { onMouseEnter, onMouseLeave } from './events'
 
+import { useLegendToggle } from '../hooks'
 import {
   getCommonProps,
   processSeriesDataKeys,
@@ -79,6 +80,7 @@ const ScatterChart = ({
     }),
     [finalData, finalXScale, finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn, axisLeftLabelDisplayFn],
   )
+  const legendToggle = useLegendToggle(data)
   return (
     <ResponsiveScatterPlot
       {...nivoProps}
@@ -122,6 +124,7 @@ const ScatterChart = ({
         maxRowLegendItems,
         trimLegend
       })}
+      {...legendToggle}
     />
   )
 }
