@@ -50,6 +50,7 @@ const ScatterChart = ({
   trimLegend,
   width,
   height,
+  tooltipFormat,
   ...nivoProps
 }) => {
   const { finalIndexBy, finalXKey, finalYKeys } = processSeriesDataKeys({ data, indexBy, xKey, yKeys, indexByValue })
@@ -96,7 +97,7 @@ const ScatterChart = ({
           color={node.style.color}
           display={[
             { label: axisBottomLegendLabel, value: node.data.formattedX },
-            { label: axisLeftLegendLabel, value: node.data.formattedY },
+            { label: axisLeftLegendLabel, value: tooltipFormat(node.data.formattedY) },
           ]}
         />
       )}

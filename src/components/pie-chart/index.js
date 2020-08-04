@@ -56,6 +56,7 @@ const PieChart = ({
   slicesLabelsSkipAngle,
   maxRowLegendItems,
   trimLegend,
+  tooltipFormat,
   ...nivoProps
 }) => {
   // indexBy => id
@@ -111,7 +112,7 @@ const PieChart = ({
           label={id}
           color={color}
           display={[
-            { label: 'Value', value },
+            { label: 'Value', value: tooltipFormat(value) },
             { label: 'Share', value: percent },
           ]}
         />

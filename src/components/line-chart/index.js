@@ -65,6 +65,7 @@ const ResponsiveLineChart = ({
   height,
   maxRowLegendItems,
   trimLegend,
+  tooltipFormat,
   ...nivoProps
 }) => {
   const { finalIndexBy, finalXKey, finalYKeys } = processSeriesDataKeys({ data, indexBy, xKey, yKeys, indexByValue })
@@ -125,7 +126,7 @@ const ResponsiveLineChart = ({
             label={point.serieId}
             display={[
               { label: axisBottomLegendLabel, value: point.data.x },
-              { label: axisLeftLegendLabel, value: point.data.y },
+              { label: axisLeftLegendLabel, value: tooltipFormat(point.data.y) },
             ]}
           />
         )}
