@@ -6,6 +6,7 @@ import { ResponsiveLine } from '@nivo/line'
 import ChartWrapper from '../chart-wrapper'
 import Tooltip from '../tooltip'
 
+import { useLegendToggle } from '../hooks'
 import {
   getCommonProps,
   processSeriesDataKeys,
@@ -65,6 +66,7 @@ const ResponsiveLineChart = ({
   height,
   maxRowLegendItems,
   trimLegend,
+  tooltipFormat,
   ...nivoProps
 }) => {
   const { finalIndexBy, finalXKey, finalYKeys } = processSeriesDataKeys({ data, indexBy, xKey, yKeys, indexByValue })
@@ -94,6 +96,7 @@ const ResponsiveLineChart = ({
     [finalData, finalXScale, finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn, axisLeftLabelDisplayFn],
   )
 
+  const legendToggle = useLegendToggle(data)
   return (
     // NOTE: onMouseLeave and onMouseEnter events not firing correctly
     // https://github.com/plouc/nivo/issues/756
@@ -125,7 +128,7 @@ const ResponsiveLineChart = ({
             label={point.serieId}
             display={[
               { label: axisBottomLegendLabel, value: point.data.x },
-              { label: axisLeftLegendLabel, value: point.data.y },
+              { label: axisLeftLegendLabel, value: tooltipFormat(point.data.y) },
             ]}
           />
         )}
@@ -150,6 +153,7 @@ const ResponsiveLineChart = ({
           maxRowLegendItems,
           trimLegend
         })}
+        {...legendToggle}
       >
       </ResponsiveLine>
     </Container>

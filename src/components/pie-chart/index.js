@@ -5,6 +5,7 @@ import { ResponsivePie } from '@nivo/pie'
 import ChartWrapper from '../chart-wrapper'
 import Tooltip from '../tooltip'
 
+import { useLegendToggle } from '../hooks'
 import {
   getCommonProps,
   processColors,
@@ -18,6 +19,7 @@ import {
   HEIGHT_BREAKPOINT_2,
   DATA_HOVER_OPACITY
 } from '../../shared/constants/dimensions'
+
 
 const propTypes = {
   isDonut: PropTypes.bool,
@@ -56,6 +58,7 @@ const PieChart = ({
   slicesLabelsSkipAngle,
   maxRowLegendItems,
   trimLegend,
+  tooltipFormat,
   ...nivoProps
 }) => {
   // indexBy => id
@@ -92,6 +95,7 @@ const PieChart = ({
     showLabels = true
   }
 
+  const legendToggle = useLegendToggle(data)
   return (
     <ResponsivePie
       {...nivoProps}
@@ -111,7 +115,7 @@ const PieChart = ({
           label={id}
           color={color}
           display={[
-            { label: 'Value', value },
+            { label: 'Value', value: tooltipFormat(value) },
             { label: 'Share', value: percent },
           ]}
         />
@@ -127,6 +131,7 @@ const PieChart = ({
         maxRowLegendItems,
         trimLegend
       })}
+      {...legendToggle}
     >
     </ResponsivePie>
   )

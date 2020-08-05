@@ -557,6 +557,7 @@ export const convertPieDataToNivo = ({ data, indexBy, dataKey }) => {
   const total = data.reduce((sum, row) => sum + row[dataKey], 0)
   const finalData = data.map(o => ({
     id: o[indexBy],
+    label: o[indexBy],
     value: o[dataKey],
     percent: `${(o[dataKey] * 100 / total).toFixed(1)}%`
   }))

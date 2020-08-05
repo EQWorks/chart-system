@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { storiesOf } from '@storybook/react'
 
 import PieChart from '../components/pie-chart'
@@ -9,12 +9,32 @@ import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
 storiesOf('Pie Chart', module)
-  .add('Widget Pie Chart', () => (
+  .add('Basic', () => (
     <ResponsiveChartWrapper>
       <PieChart title='My Title' data={pieChartData} isDonut={false} />
     </ResponsiveChartWrapper>
   ))
-  .add('Widget Pie Chart Donut', () => (
+  .add('Tooltip Format', () => (
+    <ResponsiveChartWrapper>
+      <PieChart title='My Title' data={pieChartData} isDonut={false} tooltipFormat={v => `$${v}`} />
+    </ResponsiveChartWrapper>
+  ))
+  .add('Dynamic Data - tooltip update', () => {
+    const [data, setData] = useState(pieChartData)
+    return (
+      <ResponsiveChartWrapper>
+        <button
+          onClick={() => setData([
+            { address_city: 'Sauga', awesomeness: 800 },
+            { address_city: 'T-Dot', awesomeness: 1000 },
+            { address_city: 'Markham', awesomeness: 1500 }
+          ])}
+        >Change Data</button>
+        <PieChart title='My Title' data={data} isDonut={false} />
+      </ResponsiveChartWrapper>
+    )
+  })
+  .add('Donut', () => (
     <ResponsiveChartWrapper>
       <PieChart title='My Title' data={pieChartData} isDonut={true} />
     </ResponsiveChartWrapper>
