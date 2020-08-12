@@ -76,9 +76,10 @@ To include a **data series** for each vehicle, we can set `groupByKey='vehicle'`
 Each unique value of the `groupByKey` is converted into a key, whose value is the sum of `valueKey`.
 
 #### Line and Scatter Only:
-- **yAxisKey** - key to determine y-axis value. Defaults to second item of `Object.keys(data[0])`.
-- **xAxisKey** - key to determine x-axis value. Defaults to third item of `Object.keys(data[0])`.
-- **indexByValue** - defines whether to generate a **data series** based on the _value_ of `indexBy` or the _actual keys_. Default is `true`,
+- **xKey** - key to determine x-axis value. Defaults to `Object.keys(data[0])[0]` when `indexByValue` is `false`, otherwise `Object.keys(data[0])[1]`.
+- **yKeys** - keys to determine y-axis value. Defaults to `Object.keys(data[0]).slice(1)` when `indexByValue` is `false`, otherwise a single element array: `[Object.keys(data[0])[2]]`.
+- **indexByValue** - defines whether to generate a **data series** based on the _value_ of `indexBy` or the _actual keys_. Default is `true`.
+- **indexBy** - key to determine which value to aggregate data by. Required when using `indexByValue`. Defaults to `Object.keys(data[0])[0]`.
 - **xScale** - object to configure the x-axis scale. (Nivo Docs | https://github.com/plouc/nivo/blob/f967380e2900d893f5174c5070743a9b4dffa9ec/packages/scales/src/compute.js#L25). Configuration parameters (such as **min**/**max** values) are not well documented, but are implemented (here | https://github.com/plouc/nivo/tree/f967380e2900d893f5174c5070743a9b4dffa9ec/packages/scales/src).
 - **yScale** - object to configure the y-axis scale.
 ```
