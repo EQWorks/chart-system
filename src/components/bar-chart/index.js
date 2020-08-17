@@ -60,7 +60,7 @@ const BarChart = ({
   const {
     xLabelCount: axisBottomLabelCount,
     lastXLabelWidth: lastXAxisTickLabelWidth,
-    lastYLabelWidth: maxYAxisTickLabelWidth,
+    maxYLabelWidth: maxYAxisTickLabelWidth,
   } = useMemo(() => getAxisLabelsBar({
     width,
     height,

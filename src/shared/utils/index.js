@@ -43,6 +43,8 @@ import LegendCircle from '../../components/legend-symbol'
  * @param { number } legendItemCount - number of items in the legend
  * @param { number } maxYAxisTickLabelWidth - the length of the maximum y-axis label value
  * @param { number } lastXAxisTickLabelWidth - the length of the highest x-axis label value
+ * @param { number } maxRowLegendItems - number of legend items to display on the bottom chart legend
+ * @param { boolean } trimLegend - to trim or not the legend items
  * @returns { object } - top, right, bottom, left margin values
  */
 const setChartMargin = (
@@ -210,7 +212,7 @@ export const getAxisLabelsBar = ({
     xLabelCount: xLabels.length,
     lastXLabelWidth: getTextSize(axisBottomLabelDisplayFn(xLabels[xLabels.length - 1])),
     yLabelCount: yLabels.length,
-    lastYLabelWidth: getTextSize(axisLeftLabelDisplayFn(yLabels[yLabels.length - 1])),
+    maxYLabelWidth: getLabelMaxWidth(yLabels,axisLeftLabelDisplayFn),
   }
 }
 
@@ -232,17 +234,18 @@ export const getAxisLabelsSeries = ({
     xLabelCount: xLabels.length,
     lastXLabelWidth: getTextSize(axisBottomLabelDisplayFn(xLabels[xLabels.length - 1])),
     yLabelCount: yLabels.length,
-    lastYLabelWidth: getTextSize(axisLeftLabelDisplayFn(yLabels[yLabels.length - 1])),
+    maxYLabelWidth: getLabelMaxWidth(yLabels,axisLeftLabelDisplayFn),
   }
 }
 
 /**
- * getLegendLabelMaxWidth - calculates the width of the longest label text in the legend
+ * getLabelMaxWidth - calculates the width of the longest label text in the legend
  * @param { array } keys - array of keys that will be in the legend
+ * @param { function } displayFn - function to apply on keys
  * @returns { number } - the width of the longest label text in the legend
  */
-const getLegendLabelMaxWidth = (keys) => keys.reduce((max, key) =>
-  Math.max(max, getTextSize(key)), 0)
+const getLabelMaxWidth = (keys, displayFn) => keys.reduce((max, key) =>
+  Math.max(max, getTextSize(displayFn(key))), 0)
 
 /**
  * getTextSize - calculates a rendered text width in pixels
@@ -348,7 +351,7 @@ export const getCommonProps = ({
   maxRowLegendItems,
   trimLegend
 }) => {
-  const maxLegendLabelWidth = getLegendLabelMaxWidth(keys)
+  const maxLegendLabelWidth = getLabelMaxWidth(keys, (x) => x)
   const legendItemCount = keys.length
 
   const {

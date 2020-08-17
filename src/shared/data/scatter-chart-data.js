@@ -19,7 +19,7 @@ const scatterChartData = [
   { id: 'Third Legend Longer', x: 50, y: 0.575 },
   { id: 'Third Legend Longer', x: 60, y: 0.6 },
   { id: 'Third Legend Longer', x: 70, y: 0.550 },
-  { id: 'Third Legend Longer', x: 80, y: 0.9 },
+  { id: 'Third Legend Longer', x: 80, y: 1 },
   // { id: 'Fourth Legend', x: 20, y: 0.2 },
   // { id: 'Fourth Legend', x: 30, y: 0.425 },
   // { id: 'Fourth Legend', x: 40, y: 0.375 },

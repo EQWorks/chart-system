@@ -66,7 +66,7 @@ const ScatterChart = ({
   const {
     xLabelCount: axisBottomLabelCount,
     lastXLabelWidth: lastXAxisTickLabelWidth,
-    lastYLabelWidth: maxYAxisTickLabelWidth,
+    maxYLabelWidth: maxYAxisTickLabelWidth,
   } = useMemo(
     () => getAxisLabelsSeries({
       data: finalData,
