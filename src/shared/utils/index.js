@@ -631,16 +631,17 @@ export const processColors = (numberOfColors, type, param) => {
 
 // enforce and order for string axis (Bar or xScale.type === 'point')
 // Nivo uses the order of keys in data, so we have to sort
-export const processAxisOrder = ({ data, axisBottomOrder, finalIndexBy }) => {
+export const processAxisOrder = ({ data, axisBottomOrder, finalIndexBy, valueKey }) => {
   if (!axisBottomOrder.length) return data
+
   if (Array.isArray(axisBottomOrder)) {
-    return axisBottomOrder.map(label => data.find(row => row[finalIndexBy] === label))
+    return axisBottomOrder.map(label => data.find(row => row[valueKey || finalIndexBy] === label))
   }
   const dir = axisBottomOrder === 'asc' ? 1 : -1
   return [...data].sort((a, b) => {
-    if (a[finalIndexBy] < b[finalIndexBy]) {
+    if (a[valueKey || finalIndexBy] < b[valueKey || finalIndexBy]) {
       return -1 * dir
-    } else if (a[finalIndexBy] > b[finalIndexBy]) {
+    } else if (a[valueKey || finalIndexBy] > b[valueKey || finalIndexBy]) {
       return 1 * dir
     }
     return 0
