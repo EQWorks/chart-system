@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Y axis legend - offset is calculated using the longest y axis tick value
+
 ## [0.3.0] - 2020-08-05
 
 ### Added
