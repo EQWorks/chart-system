@@ -8,7 +8,7 @@ module.exports = {
   settings: {
     react: {
       pragma: 'React',
-      version: '16.7',
+      version: 'detect',
     },
   },
   'extends': [
