@@ -24,6 +24,11 @@ import {
   LEGEND_ROW_FIXED_ELEMENTS_WIDTH
 } from '../constants/dimensions'
 import designSystemColors, { hues, lightnesses } from '../constants/design-system-colors'
+
+import { getScaleTicks, getBarChartScales } from './nivo'
+import { getBreakpoint, getElements } from './breakpoints'
+import { getLeftMarginValues, getBottomMarginValues, getRightMarginValues } from './margins'
+
 import LegendCircle from '../../components/legend-symbol'
 
 import omit from 'lodash.omit'
@@ -138,6 +143,7 @@ const setChartMargin = (
        * at HEIGHT_BREAKPOINT_2 the x-axis ticks appear in the chart, therefore, the right margin
        * has to adjust to include just over half of the last x-axis tick lable width
        */
+      console.log('-----> add bottom tick')
       right = Math.max(right, lastXAxisTickLabelWidth * 0.6)
       showBottomAxisLegendLabel = true
       showBottomAxisTicks = true
@@ -208,6 +214,49 @@ const setChartMargin = (
       bottom += LEGEND_HEIGHT + BUFFER
     }
   }
+
+  const isLandscape = isAspectRatio(width, height, aspectRatios.LANDSCAPE)
+  const { widthBP, heightBP } = getBreakpoint({ width, height, isLandscape, legendItemCount })
+  const chartHeight = height - top - bottom
+  const chartWidth = height - left - right
+  // TODO right legend is disabled if total height is greater than above...
+  // I don't like it!
+  // would rather trim the legend!
+  // think about it...
+  const elements = getElements({ widthBP, heightBP, isLandscape, legendItemCount, chartHeight })
+  const leftValues = getLeftMarginValues({ ...elements.left, maxYAxisTickLabelWidth })
+  const bottomValues = getBottomMarginValues(elements.bottom)
+  // legend
+  const newShowLegend = elements.bottom.showLegend || elements.right.showLegend
+  const newRightHandLegend = elements.right.showLegend
+
+  // if legend is on the RIGHT, legend calculation needs final value for RIGHT
+  // getRightMarginValuesNoLegend
+  const legendValues = getLegendValues({
+    legendItemCount,
+    chartHeight,
+    chartWidth
+    rightHandLegend,
+    maxLegendLabelWidth,
+    bottomAxisLegendLabelOffset: bottomValues.legendLabelOffset,
+  })
+
+  const rightValues = getRightMarginValues({
+    showRightHandLegend: showLegend && rightHandLegend,
+    legendLabelContainerWidth,
+    legendTranslate,
+    showBottomAxisTickLabels: elements.bottom.showAxisTickLabels,
+    lastXAxisTickLabelWidth,
+  })
+
+  console.log('====> COMPARE')
+  console.log('---- LEFT', left, leftValues.margin)
+  console.log('--', leftAxisLegendOffset, leftValues.legendLabelOffset)
+  console.log('---- BOT', bottom, bottomValues.margin)
+  console.log('--', bottomAxisLegendOffset, bottomValues.legendLabelOffset)
+  console.log('---- RIGHT', right, rightValues.margin)
+  console.log('---- LEGEND', showLegend, newShowLegend)
+  console.log('--', rightHandLegend, newRightHandLegend)
 
   return {
     top,
