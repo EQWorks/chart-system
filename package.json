@@ -101,7 +101,6 @@
     "jest-cli": "^25.1.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-grid-layout": "^0.18.3",
-    "react-is": "^16.13.1"
+    "react-grid-layout": "^0.18.3"
   }
 }
