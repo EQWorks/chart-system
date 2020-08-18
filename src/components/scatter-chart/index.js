@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { ResponsiveScatterPlot } from '@nivo/scatterplot'
 
-import ChartWrapper from '../chart-wrapper'
+import { withWrapper } from '../chart-wrapper'
 import CustomNode from './custom-node'
 import Tooltip from '../tooltip'
 import { onMouseEnter, onMouseLeave } from './events'
@@ -132,4 +132,4 @@ const ScatterChart = ({
 ScatterChart.defaultProps = defaultProps
 ScatterChart.propTypes = propTypes
 
-export default ChartWrapper(ScatterChart)
+export default withWrapper(ScatterChart)

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { ResponsiveLine } from '@nivo/line'
 
-import ChartWrapper from '../chart-wrapper'
+import { withWrapper } from '../chart-wrapper'
 import Tooltip from '../tooltip'
 
 import { useLegendToggle } from '../hooks'
@@ -163,4 +163,4 @@ const ResponsiveLineChart = ({
 ResponsiveLineChart.defaultProps = defaultProps
 ResponsiveLineChart.propTypes = propTypes
 
-export default ChartWrapper(ResponsiveLineChart)
+export default withWrapper(ResponsiveLineChart)

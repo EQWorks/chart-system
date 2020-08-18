@@ -1,9 +1,9 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import LineChart from '../components/line-chart'
-import lineChartData from '../shared/data/line-chart-data'
-import barChartData from '../shared/data/bar-chart-data'
+import LineChart from '../src/components/line-chart'
+import lineChartData from '../src/shared/data/line-chart-data'
+import barChartData from '../src/shared/data/bar-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 

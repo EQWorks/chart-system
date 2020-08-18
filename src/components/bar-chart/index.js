@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 
 import { ResponsiveBar } from '@nivo/bar'
 
-import ChartWrapper from '../chart-wrapper'
+import { withWrapper } from '../chart-wrapper'
 import Tooltip from '../tooltip'
 
 import { useLegendToggle } from '../hooks'
@@ -140,4 +140,4 @@ const BarChart = ({
 BarChart.defaultProps = defaultProps
 BarChart.propTypes = propTypes
 
-export default ChartWrapper(BarChart)
+export default withWrapper(BarChart)
