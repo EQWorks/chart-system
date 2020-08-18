@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { ResponsivePie } from '@nivo/pie'
 
-import ChartWrapper from '../chart-wrapper'
+import { withWrapper } from '../chart-wrapper'
 import Tooltip from '../tooltip'
 
 import { useLegendToggle } from '../hooks'
@@ -140,4 +140,4 @@ const PieChart = ({
 PieChart.defaultProps = defaultProps
 PieChart.propTypes = propTypes
 
-export default ChartWrapper(PieChart)
+export default withWrapper(PieChart)
