@@ -33,10 +33,11 @@ A catch-all `{...nivoProps}` is passed along to each chart, though the values mi
 - **axisLeftLegendLabel** - the label for the left axis
 - **axisBottomDisplayFn** - `labelValue => { ...return displayValue }` - function to customize the left axis tick labels. Default is `d => d`
 - **maxRowLegendItems** - maximum labels on the bottom / row chart legend. Default is MAX_LEGEND_ITEMS_ROW (3)
-- **trimLegend** - whether or not to trim chart legend labels. Default is `true` 
+- **trimLegend** - whether or not to trim chart legend labels. Default is `true`
+- **tooltipFormat** - a function that exposes the final value of the tooltip for formatting. Receives the value as an argument. Default is `v => v`
 
 #### Bar, Line and Scatter:
-- **axisBottomOrder** - how to define the order of bottom axis labels for a Bar Chart or 'point' scale. Either `[]` of specific values or `asc`/`desc` to sort the data. If an array is provided, data will be filtered based on the provided keys. 
+- **axisBottomOrder** - how to define the order of bottom axis labels for a Bar Chart or 'point' scale. Either `[]` of specific values or `asc`/`desc` to sort the data. If an array is provided, data will be filtered based on the provided keys. Axis scale must be set to `{ type: 'point' }`.
 - **axisBottomLabelValues** - what label values to show on the bottom axis. Either `[]` of specific values, a `number` of how many ticks should appear or a string describing the time interval. More details (here | https://nivo.rocks/guides/axes)
 
 #### BarChart Only:

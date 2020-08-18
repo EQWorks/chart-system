@@ -49,3 +49,16 @@ storiesOf('Line Chart', module)
       />
     </ResponsiveChartWrapper>
   ))
+  .add('Bottom Axis Order', () => (
+    <ResponsiveChartWrapper>
+      <LineChart
+        title='Test'
+        indexByValue={false}
+        xScale={{ type: 'point' }}
+        data={barChartData}
+        axisBottomOrder='desc'
+        axisBottomLegendLabel={'axisBottomLegend'}
+        axisLeftLegendLabel={'axisLeftLegend'}
+      />
+    </ResponsiveChartWrapper>
+  ))
