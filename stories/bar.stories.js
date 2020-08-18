@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { storiesOf } from '@storybook/react'
 
-import BarChart from '../components/bar-chart/'
-import barChartData from '../shared/data/bar-chart-data'
-import scatterChartData from '../shared/data/scatter-chart-data'
-import lineChartData from '../shared/data/line-chart-data'
+import BarChart from '../src/components/bar-chart/'
+import barChartData from '../src/shared/data/bar-chart-data'
+import scatterChartData from '../src/shared/data/scatter-chart-data'
+import lineChartData from '../src/shared/data/line-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 

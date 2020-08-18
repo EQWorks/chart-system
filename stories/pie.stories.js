@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { storiesOf } from '@storybook/react'
 
-import PieChart from '../components/pie-chart'
-import pieChartData from '../shared/data/pie-chart-data'
-import barChartData from '../shared/data/bar-chart-data'
-import lineChartData from '../shared/data/line-chart-data'
+import PieChart from '../src/components/pie-chart'
+import pieChartData from '../src/shared/data/pie-chart-data'
+import barChartData from '../src/shared/data/bar-chart-data'
+import lineChartData from '../src/shared/data/line-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
