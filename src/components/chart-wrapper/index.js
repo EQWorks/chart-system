@@ -2,9 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import styled from 'styled-components'
-
-import 'react-virtualized/styles.css'
-import { AutoSizer } from 'react-virtualized'
+import AutoSizer from 'react-virtualized-auto-sizer'
 
 
 const Title = styled.div`
@@ -15,8 +13,7 @@ const Title = styled.div`
 
 const ChartContainer = styled.div`
   display: flex;
-  flex: 1;
-  height: 100%;
+  flex: 1 1 auto;
   margin: ${ props => props.title.length ? 0 : 16 }px 16px 16px 16px;
 `
 
