@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Legend - label trimming when special characters are present in the labels
+
 ## [0.3.2] - 2020-08-18
 ### Fixed
 - ReadMe - update scatter & line props usage
