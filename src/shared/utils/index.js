@@ -1,6 +1,6 @@
 import React from 'react'
-import { omit } from 'lodash'
 import { computeXYScalesForSeries } from '@nivo/scales'
+import { getScaleTicks, getBarChartScales } from './nivo'
 import {
   WIDTH_BREAKPOINT_1,
   WIDTH_BREAKPOINT_2,
@@ -24,9 +24,10 @@ import {
   LEGEND_ROW_FIXED_ELEMENTS_WIDTH
 } from '../constants/dimensions'
 import designSystemColors, { hues, lightnesses } from '../constants/design-system-colors'
-
-import { getScaleTicks, getBarChartScales } from './nivo'
 import LegendCircle from '../../components/legend-symbol'
+
+import { omit } from 'lodash'
+import { XmlEntities } from 'html-entities'
 
 /**
  * Given a font size, we want to calculate the dimensions of the chart
@@ -248,16 +249,20 @@ const getLabelMaxWidth = (keys, displayFn) => keys.reduce((max, key) =>
   Math.max(max, getTextSize(displayFn(key))), 0)
 
 /**
+ * https://stackoverflow.com/questions/118241/calculate-text-width-with-javascript/50813259#50813259
  * getTextSize - calculates a rendered text width in pixels
  * @param { string } text - a text string
  * @param { string } font - a string with the font included ex: '12px noto sans'
  * @returns { number } - the width of the rendered text in pixels
  */
 export const getTextSize = (text, font = '12px noto sans') => {
+  const entities = new XmlEntities()
   let canvas = document.createElement('canvas')
   let context = canvas.getContext('2d')
   context.font = font
-  let width = context.measureText(text).width
+  let width = typeof text === 'number'
+    ? context.measureText(text).width
+    : context.measureText(entities.decode(text)).width
   let textSize = Math.ceil(width)
   return textSize
 }
