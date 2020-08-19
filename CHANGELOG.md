@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Y axis legend - offset is calculated using the longest y axis tick value instead of the last value
 - chart-wrapper - revise ChartWrapper with propTypes def and named export withWrapper
+- deps - changed `react-virtualized` dependency to `react-virtualized-auto-sizer`, reducing package size
 - devops - `stories` directory moved out of `src`, reducing package size
 - devops - storybook updated to v6
 - devops - add depcheck file and updated deps
