@@ -6,10 +6,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.2] - 2020-08-18
 ### Fixed
-- Y axis legend - offset is calculated using the longest y axis tick value
+- ReadMe - update scatter & line props usage
+- Utils - update sort function props to be more flexible
 
-## [0.3.0] - 2020-08-05
+### Changed
+- Y axis legend - offset is calculated using the longest y axis tick value instead of the last value
+- chart-wrapper - revise ChartWrapper with propTypes def and named export withWrapper
+- devops - `stories` directory moved out of `src`, reducing package size
+- devops - storybook updated to v6
+- devops - add depcheck file and updated deps
+- devops - add node 12.x and 14.x to master CI matrix
+- devops - eslint react version auto detect
+
+## [0.3.0] & [0.3.1] - 2020-08-05
 
 ### Added
 - `tooltipFormat` function prop for value customization
