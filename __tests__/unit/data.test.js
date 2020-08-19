@@ -6,8 +6,8 @@ import {
   convertPieDataToNivo,
   aggregateData,
 } from '../../src/shared/utils'
-import barChartData from '../../src/shared/data/bar-chart-data'
-import lineChartData from '../../src/shared/data/line-chart-data'
+import barChartData from '../../stories/data/bar-chart-data'
+import lineChartData from '../../stories/data/line-chart-data'
 
 
 describe('Process Data Keys', () => {

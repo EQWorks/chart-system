@@ -8,8 +8,6 @@ import styled from 'styled-components'
 
 
 const Wrapper = styled.div`
-  width: ${ props => props.wrapperWidth}px;
-  height: ${ props => props.wrapperHeight}px;
   border-style: solid;
   border-width: 0.01px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);

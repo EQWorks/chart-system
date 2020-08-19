@@ -2,7 +2,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 
 import ScatterChart from '../src/components/scatter-chart'
-import scatterChartData from '../src/shared/data/scatter-chart-data'
+import scatterChartData from './data/scatter-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
