@@ -36,7 +36,6 @@ import { scaleLinear, scaleBand } from 'd3-scale'
 import { stack, stackOffsetDiverging } from 'd3-shape'
 import min from 'lodash.min'
 import max from 'lodash.max'
-import flattenDepth from 'lodash.flattendepth'
 
 const timeByType = {
   millisecond: [timeMillisecond, utcMillisecond],
@@ -123,7 +122,7 @@ const getGroupedScale = (data, keys, _minValue, _maxValue, range) => {
 
 // https://github.com/plouc/nivo/blob/f967380e2900d893f5174c5070743a9b4dffa9ec/packages/bar/src/compute/stacked.js#L25
 const getStackedScale = (data, _minValue, _maxValue, range) => {
-  const allValues = flattenDepth(data, 2)
+  const allValues = data.flat(2)
 
   let minValue = _minValue
   if (minValue === 'auto') {
