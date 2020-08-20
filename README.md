@@ -39,6 +39,7 @@ A catch-all `{...nivoProps}` is passed along to each chart, though the values mi
 #### Bar, Line and Scatter:
 - **axisBottomOrder** - how to define the order of bottom axis labels for a Bar Chart or 'point' scale. Either `[]` of specific values or `asc`/`desc` to sort the data. If an array is provided, data will be filtered based on the provided keys. Axis scale must be set to `{ type: 'point' }`.
 - **axisBottomLabelValues** - what label values to show on the bottom axis. Either `[]` of specific values, a `number` of how many ticks should appear or a string describing the time interval. More details (here | https://nivo.rocks/guides/axes)
+- **tooltipFormatX** - a function that exposes the final value of the tooltip for formatting the bottom axis since it could be used for dates with TimeSeries. Receives the value as an argument. Default is `v => v`
 
 #### BarChart Only:
 - **keys** - an array of keys to use as y-axis values. End up as legend items. Defaults to `Object.keys(data[0])` excluding the `indexBy` value.
