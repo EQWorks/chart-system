@@ -27,6 +27,7 @@ export const chartPropTypes = {
   maxRowLegendItems: PropTypes.number,
   trimLegend: PropTypes.bool,
   tooltipFormat: PropTypes.func,
+  tooltipFormatX: PropTypes.func,
 }
 
 export const chartDefaultProps = {
@@ -46,6 +47,7 @@ export const chartDefaultProps = {
   maxRowLegendItems: MAX_LEGEND_ITEMS_ROW,
   trimLegend: true,
   tooltipFormat: v => v,
+  tooltipFormatX: v => v,
 }
 
 export const seriesPropTypes = {
