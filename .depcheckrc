@@ -6,5 +6,7 @@ ignores: [
     "babel-*",
     "eslint-*",
     "@babel/*",
-    "@storybook/*"
+    "@storybook/*",
+    "size-limit",
+    "@size-limit/*"
 ]

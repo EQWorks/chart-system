@@ -34,9 +34,9 @@ import {
 } from 'd3-time'
 import { scaleLinear, scaleBand } from 'd3-scale'
 import { stack, stackOffsetDiverging } from 'd3-shape'
-import min from 'lodash/min'
-import max from 'lodash/max'
-import flattenDepth from 'lodash/flattenDepth'
+import min from 'lodash.min'
+import max from 'lodash.max'
+import flattenDepth from 'lodash.flattendepth'
 
 const timeByType = {
   millisecond: [timeMillisecond, utcMillisecond],

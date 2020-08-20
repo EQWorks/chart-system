@@ -26,7 +26,7 @@ import {
 import designSystemColors, { hues, lightnesses } from '../constants/design-system-colors'
 import LegendCircle from '../../components/legend-symbol'
 
-import { omit } from 'lodash'
+import omit from 'lodash.omit'
 import { XmlEntities } from 'html-entities'
 
 /**
