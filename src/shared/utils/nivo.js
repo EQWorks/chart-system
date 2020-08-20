@@ -34,8 +34,10 @@ import {
 } from 'd3-time'
 import { scaleLinear, scaleBand } from 'd3-scale'
 import { stack, stackOffsetDiverging } from 'd3-shape'
-import min from 'lodash.min'
-import max from 'lodash.max'
+
+const extreme = (method) => (arr) => (!arr || !arr.length) ? undefined : Math[method].apply(Math, arr)
+const min = extreme('min')
+const max = extreme('max')
 
 const timeByType = {
   millisecond: [timeMillisecond, utcMillisecond],
