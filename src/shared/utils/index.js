@@ -255,12 +255,12 @@ export const getAxisLabelsSeries = ({
   yScale: yScaleSpec,
   width,
   height,
-  axisBottomLabelValues,
+  axisBottomTickValues,
   axisBottomLabelDisplayFn,
   axisLeftLabelDisplayFn,
 }) => {
   const { xScale, yScale } = computeXYScalesForSeries(data, xScaleSpec, yScaleSpec, width, height)
-  const xLabels = getScaleTicks(xScale, axisBottomLabelValues)
+  const xLabels = getScaleTicks(xScale, axisBottomTickValues)
   const yLabels = getScaleTicks(yScale)
 
   return {
