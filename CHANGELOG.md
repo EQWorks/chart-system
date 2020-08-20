@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Legend - label trimming when special characters are present in the labels
 
+### Changed
+- `<ChartWrapper />` - move all necessary chart wrapper css in ChartWrapper component
+
 ## [0.3.2] - 2020-08-18
 ### Fixed
 - ReadMe - update scatter & line props usage
@@ -16,8 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Y axis legend - offset is calculated using the longest y axis tick value instead of the last value
-- chart-wrapper - revise ChartWrapper with propTypes def and named export withWrapper
-- deps - changed `react-virtualized` dependency to `react-virtualized-auto-sizer`, reducing package size
+- `<ChartWrapper />` - revise ChartWrapper with propTypes def and named export withWrapper
+- deps - change `react-virtualized` dependency to `react-virtualized-auto-sizer`, reducing package size
 - devops - `stories` directory moved out of `src`, reducing package size
 - devops - storybook updated to v6
 - devops - add depcheck file and updated deps

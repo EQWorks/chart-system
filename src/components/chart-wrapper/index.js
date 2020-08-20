@@ -4,6 +4,11 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import AutoSizer from 'react-virtualized-auto-sizer'
 
+const Wrapper = styled.div`
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+`
 
 const Title = styled.div`
   margin: 16px 16px 8px 16px;
@@ -25,7 +30,7 @@ const ChartInner = styled.div`
 
 export const withWrapper = Chart => {
   const ChartWrapper = ({ title, ...chartProps }) => (
-    <>
+    <Wrapper>
       {title.length !==0 && <Title>{title}</Title>}
       <ChartContainer title={title}>
         <AutoSizer>
@@ -40,7 +45,7 @@ export const withWrapper = Chart => {
           )}
         </AutoSizer>
       </ChartContainer>
-    </>
+    </Wrapper>
   )
   ChartWrapper.propTypes = { title: PropTypes.string }
   ChartWrapper.defaultProps = { title: '' }
