@@ -19,7 +19,7 @@ const Title = styled.div`
 const ChartContainer = styled.div`
   display: flex;
   flex: 1 1 auto;
-  margin: ${ props => props.title.length ? 0 : 16 }px 16px 16px 16px;
+  margin: ${ props => props.chartTitle.length ? 0 : 16 }px 16px 16px 16px;
 `
 
 const ChartInner = styled.div`
@@ -32,7 +32,7 @@ export const withWrapper = Chart => {
   const ChartWrapper = ({ title, ...chartProps }) => (
     <Wrapper>
       {title.length !==0 && <Title>{title}</Title>}
-      <ChartContainer title={title}>
+      <ChartContainer chartTitle={title}>
         <AutoSizer>
           {({ height, width }) => (
             <ChartInner height={height} width={width}>

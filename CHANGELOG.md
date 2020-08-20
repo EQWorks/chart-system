@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Legend - label trimming when special characters are present in the labels
+- Title - remove title text when pointer hovers
 
 ### Changed
 - `<ChartWrapper />` - move all necessary chart wrapper css in ChartWrapper component
