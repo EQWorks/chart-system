@@ -25,7 +25,7 @@ const TooltipNode = styled('div')`
   border-radius: 50%;
   display: inline-block;
   margin-right: 6px;
-  background-color: ${props => props.backgroundColor}
+  background-color: ${props => props['background-color']};
 `
 
 const TooltipLabel = styled('strong')`
@@ -56,7 +56,7 @@ const Tooltip = ({
 }) => (
   <TooltipWrapper>
     <TooltipHeader>
-      <TooltipNode backgroundColor={color} />
+      <TooltipNode background-color={color} />
       <TooltipLabel>
         {label}
       </TooltipLabel>
