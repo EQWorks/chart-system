@@ -1,28 +1,30 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import styled from 'styled-components'
+import { styled, setup } from 'goober'
 import AutoSizer from 'react-virtualized-auto-sizer'
 
-const Wrapper = styled.div`
+setup(React.createElement)
+
+const Wrapper = styled('div')`
   display: flex;
   height: 100%;
   flex-direction: column;
 `
 
-const Title = styled.div`
+const Title = styled('div')`
   margin: 16px 16px 8px 16px;
   font-size: 18px;
   overflow-wrap: anywhere;
 `
 
-const ChartContainer = styled.div`
+const ChartContainer = styled('div')`
   display: flex;
   flex: 1 1 auto;
   margin: ${ props => props.chartTitle.length ? 0 : 16 }px 16px 16px 16px;
 `
 
-const ChartInner = styled.div`
+const ChartInner = styled('div')`
   position: relative;
   width: ${ props => props.width }px;
   height: ${ props => props.height }px;

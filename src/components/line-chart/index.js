@@ -1,11 +1,10 @@
 import React, { useMemo } from 'react'
-import styled from 'styled-components'
 
+import { styled, setup } from 'goober'
 import { ResponsiveLine } from '@nivo/line'
 
 import { withWrapper } from '../chart-wrapper'
 import Tooltip from '../tooltip'
-
 import { useLegendToggle } from '../hooks'
 import {
   getCommonProps,
@@ -16,11 +15,11 @@ import {
   getAxisLabelsSeries,
 } from '../../shared/utils'
 import { chartPropTypes, chartDefaultProps, seriesPropTypes, seriesDefaultProps } from '../../shared/constants/chart-props'
-
 import { DATA_HOVER_OPACITY } from '../../shared/constants/dimensions'
 
+setup(React.createElement)
 
-const Container = styled.div`
+const Container = styled('div')`
   height: 100%;
   width: 100%;
 `
