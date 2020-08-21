@@ -44,6 +44,7 @@ const BarChart = ({
   maxRowLegendItems,
   trimLegend,
   tooltipFormat,
+  tooltipFormatX,
   ...nivoProps
 }) => {
   // a single key is required for the X axis scale
@@ -92,7 +93,7 @@ const BarChart = ({
           label={id}
           color={color}
           display={[
-            { label: axisBottomLegendLabel, value: indexValue },
+            { label: axisBottomLegendLabel, value: tooltipFormatX(indexValue) },
             { label: axisLeftLegendLabel, value: tooltipFormat(value) },
           ]}
         />
