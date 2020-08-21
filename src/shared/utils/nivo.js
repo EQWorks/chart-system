@@ -106,7 +106,7 @@ export const getScaleTicks = (scale, spec) => {
 
 // https://github.com/plouc/nivo/blob/f967380e2900d893f5174c5070743a9b4dffa9ec/packages/bar/src/compute/grouped.js#L25
 const getGroupedScale = (data, keys, _minValue, _maxValue, range) => {
-  const allValues = data.reduce((acc, entry) => [...acc, ...keys.map(k => entry[k])], [])
+  const allValues = data.reduce((acc, entry) => [...acc, ...keys.map(k => entry[k])], []).filter(val => val !== undefined)
 
   let maxValue = _maxValue
   if (maxValue === 'auto') {
@@ -124,7 +124,7 @@ const getGroupedScale = (data, keys, _minValue, _maxValue, range) => {
 
 // https://github.com/plouc/nivo/blob/f967380e2900d893f5174c5070743a9b4dffa9ec/packages/bar/src/compute/stacked.js#L25
 const getStackedScale = (data, _minValue, _maxValue, range) => {
-  const allValues = data.flat(2)
+  const allValues = data.flat(2).filter(val => val !== undefined)
 
   let minValue = _minValue
   if (minValue === 'auto') {
