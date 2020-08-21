@@ -26,8 +26,40 @@ import {
 import designSystemColors, { hues, lightnesses } from '../constants/design-system-colors'
 import LegendCircle from '../../components/legend-symbol'
 
-import { omit } from 'lodash'
-import { XmlEntities } from 'html-entities'
+import omit from 'lodash.omit'
+
+
+// "vendored" from https://github.com/mdevils/html-entities/blob/68a1a96/src/xml-entities.ts
+const decodeXML = (str) => {
+  const ALPHA_INDEX = {
+    '&lt': '<',
+    '&gt': '>',
+    '&quot': '"',
+    '&apos': '\'',
+    '&amp': '&',
+    '&lt;': '<',
+    '&gt;': '>',
+    '&quot;': '"',
+    '&apos;': '\'',
+    '&amp;': '&',
+  }
+  if (!str || !str.length) {
+    return ''
+  }
+  return str.replace(/&#?[0-9a-zA-Z]+;?/g, function (s) {
+    if (s.charAt(1) === '#') {
+      const code = s.charAt(2).toLowerCase() === 'x' ?
+        parseInt(s.substr(3), 16) :
+        parseInt(s.substr(2))
+
+      if (isNaN(code) || code < -32768 || code > 65535) {
+        return ''
+      }
+      return String.fromCharCode(code)
+    }
+    return ALPHA_INDEX[s] || s
+  })
+}
 
 /**
  * Given a font size, we want to calculate the dimensions of the chart
@@ -256,13 +288,12 @@ const getLabelMaxWidth = (keys, displayFn) => keys.reduce((max, key) =>
  * @returns { number } - the width of the rendered text in pixels
  */
 export const getTextSize = (text, font = '12px noto sans') => {
-  const entities = new XmlEntities()
   let canvas = document.createElement('canvas')
   let context = canvas.getContext('2d')
   context.font = font
   let width = typeof text === 'number'
     ? context.measureText(text).width
-    : context.measureText(entities.decode(text)).width
+    : context.measureText(decodeXML(text)).width
   let textSize = Math.ceil(width)
   return textSize
 }

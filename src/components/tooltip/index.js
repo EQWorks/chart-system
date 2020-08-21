@@ -1,37 +1,39 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import { styled, setup } from 'goober'
+
+setup(React.createElement)
 
 
-const TooltipWrapper = styled.div`
+const TooltipWrapper = styled('div')`
   border-radius: 4px;
   background-color: #ffffff;
   padding: 5px;
 `
 
-const TooltipHeader = styled.div``
+const TooltipHeader = styled('div')``
 
-const TooltipBody = styled.div`
+const TooltipBody = styled('div')`
   display: flex;
   flex-direction: column;
   margin-left: 14px;
 `
 
-const TooltipNode = styled.div`
+const TooltipNode = styled('div')`
   height: 8px;
   width: 8px;
   border-radius: 50%;
   display: inline-block;
   margin-right: 6px;
-  background-color: ${props => props.backgroundColor}
+  background-color: ${props => props['background-color']};
 `
 
-const TooltipLabel = styled.strong`
+const TooltipLabel = styled('strong')`
   height: 17px;
   font-size: 12px;
 `
 
-const TooltipData = styled.span`
+const TooltipData = styled('span')`
   font-size: 12px;
 `
 
@@ -54,7 +56,7 @@ const Tooltip = ({
 }) => (
   <TooltipWrapper>
     <TooltipHeader>
-      <TooltipNode backgroundColor={color} />
+      <TooltipNode background-color={color} />
       <TooltipLabel>
         {label}
       </TooltipLabel>

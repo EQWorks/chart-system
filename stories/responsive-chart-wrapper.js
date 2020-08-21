@@ -1,13 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+
 import GridLayout, { WidthProvider } from 'react-grid-layout'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
-import styled from 'styled-components'
+import { styled, setup } from 'goober'
+
+setup(React.createElement)
 
 const ResponsiveGridLayout = WidthProvider(GridLayout)
 
-const ChartDiv = styled.div`
+const ChartDiv = styled('div')`
   border-style: solid;
   border-width: 0.01px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
