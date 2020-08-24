@@ -31,8 +31,8 @@ legend
 // ---- what gets passed in the callback? ({ isLandscape })
 const BOTTOM_ELEMENTS = {
   [HBP1]: {
-    showAxis: true,
-    showAxisTicks: true,
+    showAxis: false,
+    showAxisTicks: false,
     showAxisTickLabels: false,
     showAxisLegendLabel: false,
     showLegend: () => false,
@@ -62,8 +62,8 @@ const BOTTOM_ELEMENTS = {
 
 const LEFT_ELEMENTS = {
   [WBP1]: {
-    showAxis: true,
-    showAxisTicks: true,
+    showAxis: false,
+    showAxisTicks: false,
     showAxisTickLabels: false,
     showAxisLegendLabel: false,
   },

@@ -2,26 +2,16 @@ import React from 'react'
 import { computeXYScalesForSeries } from '@nivo/scales'
 import { getScaleTicks, getBarChartScales } from './nivo'
 import {
-  WIDTH_BREAKPOINT_1,
-  WIDTH_BREAKPOINT_2,
-  WIDTH_BREAKPOINT_3,
-  HEIGHT_BREAKPOINT_1,
-  HEIGHT_BREAKPOINT_2,
-  HEIGHT_BREAKPOINT_3,
   LEGEND_HEIGHT,
   TEXT_HEIGHT,
   FONT_SIZE,
-  BOTTOM_LEGEND_ADJUSTMENT,
   AXIS_TICK_WIDTH,
   AXIS_TICK_PADDING,
   BUFFER,
   SYMBOL_SIZE,
   SYMBOL_SPACING,
-  LEGEND_TRANSLATE_X,
-  LEGEND_TRANSLATE_Y,
   TRIMMED_LEGEND_WIDTH,
-  LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH,
-  LEGEND_ROW_FIXED_ELEMENTS_WIDTH
+  WIDTH_BREAKPOINT_3
 } from '../constants/dimensions'
 import designSystemColors, { hues, lightnesses } from '../constants/design-system-colors'
 
@@ -112,7 +102,6 @@ const setChartMargin = (
 
   const isLandscape = isAspectRatio(width, height, aspectRatios.LANDSCAPE)
   const { widthBP, heightBP } = getBreakpoint({ width, height, isLandscape, legendItemCount })
-
   // ====[TODO] show legend condition based on height. Currently we hide it
   const elements = getElements({ widthBP, heightBP, isLandscape, legendItemCount, chartHeight })
   const leftValues = getLeftMarginValues({ ...elements.left, maxYAxisTickLabelWidth })
@@ -150,13 +139,12 @@ const setChartMargin = (
     useAxis,
   })
 
-  // ====[TODO] both legends
+  // ====[TODO] support multiple legends
   const legendValues = rightHandLegend ? rightLegendValues : bottomLegendValues
 
   // ====[TODO clean naming
   // ====[TODO] unify 'anchor'
-  // ====[TODO] change tickAxis downstream to be tick not labels
-  // ====[TODO] spark chart
+  // ====[TODO] spark chart styling
   // ====[TODO] review of useAxis
   return {
     top,
@@ -170,11 +158,15 @@ const setChartMargin = (
     legendLabelContainerWidth: legendValues.legendLabelContainerWidth,
     showBottomAxisLegendLabel: elements.bottom.showAxisLegendLabel,
     showLeftAxisLegendLabel: elements.left.showAxisLegendLabel,
-    showBottomAxisTicks: elements.bottom.showAxisTickLabels,
-    showLeftAxisTicks: elements.left.showAxisTickLabels,
+    showBottomAxisTicks: elements.bottom.showAxisTicks,
+    showLeftAxisTicks: elements.left.showAxisTicks,
+    showBottomAxisTickLabels: elements.bottom.showAxisTickLabels,
+    showLeftAxisTickLabels: elements.left.showAxisTickLabels,
     bottomAxisLegendOffset: bottomValues.legendLabelOffset,
     leftAxisLegendOffset: leftValues.legendLabelOffset,
     legendTranslate: legendValues.legendTranslate,
+    showBottomAxis: elements.bottom.showAxis,
+    showLeftAxis: elements.left.showAxis,
   }
 }
 
@@ -305,15 +297,15 @@ export const trimLegendLabel = legendLabelContainerWidth => node => {
 
 // not object params to re-use in x/y axis
 // ====[NOTE]: showAxisTicks here is actually the labels
-const getCommonAxisProps = (showAxisLegend, showAxisTicks, axisLegendLabel, legendOffset, displayFn = d => d) => ({
-  tickSize: AXIS_TICK_WIDTH,
-  tickPadding: AXIS_TICK_PADDING,
+const getCommonAxisProps = (showAxisLegend, showAxisTicks, showAxisTickLabels, axisLegendLabel, legendOffset, displayFn = d => d) => ({
+  tickSize: showAxisTicks ? AXIS_TICK_WIDTH : 0,
+  tickPadding: showAxisTicks ? AXIS_TICK_PADDING : 0,
   legendHeight: LEGEND_HEIGHT,
   legendPosition: 'middle',
   legend: showAxisLegend ? axisLegendLabel : '',
   // TODO calculate a max width for each tick and trim
   // e.g. number of width / number of ticks
-  format: (d) => showAxisTicks ? displayFn(d) : null,
+  format: (d) => showAxisTickLabels ? displayFn(d) : null,
   // legendOffset to position around the axis
   legendOffset,
 })
@@ -349,10 +341,14 @@ export const getCommonProps = ({
     showBottomAxisLegendLabel,
     showLeftAxisLegendLabel,
     showBottomAxisTicks,
+    showBottomAxisTickLabels,
     showLeftAxisTicks,
+    showLeftAxisTickLabels,
     bottomAxisLegendOffset,
     leftAxisLegendOffset,
     legendTranslate,
+    showBottomAxis,
+    showLeftAxis,
     ...margin
   } = setChartMargin(
     width,
@@ -392,29 +388,32 @@ export const getCommonProps = ({
     ...legendProps,
   }
 
+
   return {
     margin,
-    axisBottom: {
+    axisBottom: showBottomAxis ? {
       tickValues: axisBottomTickValues,
       ...getCommonAxisProps(
         showBottomAxisLegendLabel,
         showBottomAxisTicks,
+        showBottomAxisTickLabels,
         axisBottomLegendLabel,
         bottomAxisLegendOffset,
         d => axisBottomTrim
           ? trimText(axisBottomLabelDisplayFn(d)+'', chartWidth / axisBottomLabelCount)
           : axisBottomLabelDisplayFn(d)
       ),
-    },
-    axisLeft: {
+    } : null, // ====[NOTE] null hides the axis
+    axisLeft: showLeftAxis ? {
       orient: 'left',
       ...getCommonAxisProps(
         showLeftAxisLegendLabel,
         showLeftAxisTicks,
+        showLeftAxisTickLabels,
         axisLeftLegendLabel,
         leftAxisLegendOffset,
         axisLeftLabelDisplayFn),
-    },
+    } : null,
     legends: showLegend ? [legend] : [],
     animate: true,
     motionStiffness: 90,
