@@ -3,6 +3,7 @@ import { storiesOf } from '@storybook/react'
 
 import BarChart from '../src/components/bar-chart/'
 import barChartData from './data/bar-chart-data'
+import bannerData from './data/overlord-banner'
 import scatterChartData from './data/scatter-chart-data'
 import lineChartData from './data/line-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
@@ -43,7 +44,8 @@ storiesOf('Bar Chart', module)
           axisLeftLegendLabel='Visitors'
         />
       </ResponsiveChartWrapper>
-    )})
+    )
+  })
   .add('No Label Trim', () => (
     <ResponsiveChartWrapper>
       <BarChart
@@ -64,7 +66,7 @@ storiesOf('Bar Chart', module)
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
         groupMode='grouped'
-        axisBottomLabelDisplayFn={d => d.substring(0,2)}
+        axisBottomLabelDisplayFn={d => d.substring(0, 2)}
       />
     </ResponsiveChartWrapper>
   ))
@@ -159,6 +161,21 @@ storiesOf('Bar Chart', module)
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
         groupMode='grouped'
+      />
+    </ResponsiveChartWrapper>
+  ))
+  .add('overlord banner data', () => (
+    <ResponsiveChartWrapper>
+      <BarChart
+        data={bannerData}
+        groupByKey='Name'
+        valueKey='Imps'
+        indexBy='Date'
+        axisBottomLegendLabel='Date'
+        axisLeftLegendLabel='Impressions'
+        axisBottomOrder='asc'
+        groupMode='grouped'
+        maxRowLegendItems={6}
       />
     </ResponsiveChartWrapper>
   ))
