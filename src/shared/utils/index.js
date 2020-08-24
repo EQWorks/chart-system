@@ -108,117 +108,7 @@ const setChartMargin = (
    * Same with the right margin, when no other elements are present to the right of the chart
    */
 
-  let [
-    top,
-    right,
-    bottom,
-    left
-  ] = useAxis
-    ? [
-      TEXT_HEIGHT / 2 + 1,
-      TEXT_HEIGHT / 2 + 1,
-      AXIS_TICK_WIDTH + BUFFER,
-      AXIS_TICK_WIDTH
-    ]
-    : [
-      2 * BUFFER,
-      2 * BUFFER,
-      2 * BUFFER,
-      2 * BUFFER
-    ]
-
-  // we only show x-axis tick labels and legend when chart width is large enough
-  let showBottomAxisLegendLabel = false
-  let showBottomAxisTicks = false
-  // we only show y-axis tick labels and legend when chart height is large enough
-  let showLeftAxisLegendLabel = false
-  let showLeftAxisTicks = false
-
-  let bottomAxisLegendOffset = TEXT_HEIGHT / 2 + AXIS_TICK_WIDTH + BUFFER
-  let leftAxisLegendOffset = -(TEXT_HEIGHT / 2 + AXIS_TICK_WIDTH + BUFFER)
-  // variable to set chart Legend offset
-  let legendTranslate = LEGEND_TRANSLATE_Y
-
-  // useAxis is the case when we have axis in a chart, for ex: bar, line, scatter charts
-  if (useAxis) {
-    // legendTranslate = LEGEND_HEIGHT + AXIS_TICK_WIDTH + 2 * TEXT_HEIGHT + 3 * BUFFER
-    // at HEIGHT_BREAKPOINT_2 we have both axis tick labels and x-axis legend visible
-    if (height >= HEIGHT_BREAKPOINT_2) {
-      /**
-       * at HEIGHT_BREAKPOINT_2 the x-axis ticks appear in the chart, therefore, the right margin
-       * has to adjust to include just over half of the last x-axis tick lable width
-       */
-      right = Math.max(right, lastXAxisTickLabelWidth * 0.6)
-      showBottomAxisLegendLabel = true
-      showBottomAxisTicks = true
-      bottomAxisLegendOffset = bottomAxisLegendOffset + TEXT_HEIGHT + BUFFER - BOTTOM_LEGEND_ADJUSTMENT
-      bottom = AXIS_TICK_WIDTH + 3 * BUFFER + 2 * TEXT_HEIGHT
-    // at HEIGHT_BREAKPOINT_1 we show only x-axis legend
-    } else if (height >= HEIGHT_BREAKPOINT_1) {
-      showBottomAxisLegendLabel = true
-      bottom = AXIS_TICK_WIDTH + 2 * BUFFER + TEXT_HEIGHT
-    }
-
-    // when chart width >= WIDTH_BREAKPOINT_2 we show both y-axis tick and legend labels
-    if (width >= WIDTH_BREAKPOINT_2) {
-      showLeftAxisLegendLabel = true
-      showLeftAxisTicks = true
-      left = TEXT_HEIGHT + 3 * BUFFER + AXIS_TICK_WIDTH + maxYAxisTickLabelWidth
-      leftAxisLegendOffset= leftAxisLegendOffset - BUFFER - maxYAxisTickLabelWidth
-    // when chart width >= WIDTH_BREAKPOINT_1 we only show y-axis legend label
-    } else if (width >= WIDTH_BREAKPOINT_1) {
-      showLeftAxisLegendLabel = true
-      // TEXT_HEIGHT = axis legend height
-      left = TEXT_HEIGHT + 2 * BUFFER + AXIS_TICK_WIDTH
-    }
-    legendTranslate = bottomAxisLegendOffset + 4.5 * BUFFER
-  }
-
-  // show right column legend when in landscape mode and number of legend items surpass MAX_LEGEND_ITEMS_ROW
-  const rightHandLegend = isAspectRatio(width, height, aspectRatios.LANDSCAPE)
-                          || legendItemCount > maxRowLegendItems
-  // calculate height of column legend to hide it if it is larger than chart height
-  const columnLegendHeight = legendItemCount * LEGEND_HEIGHT
-  /**
-   * we hide legend when chart width is below WIDTH_BREAKPOINT_3 and legend height is greater than
-   * the chart height and bottom margin
-   */
-  let showLegend = width >= WIDTH_BREAKPOINT_3
-                   && columnLegendHeight <= height - top
-  let rightHandLegendAnchor = columnLegendHeight <= height - top - bottom
-    ? 'right'
-    : 'top-right'
-
-  if (!rightHandLegend) {
-    // row/bottom legend appears only after chart height >= HEIGHT_BREAKPOINT_3
-    showLegend = height >= HEIGHT_BREAKPOINT_3
-  }
-  let legendLabelContainerWidth
-  let legendItemWidth
-
-  if (showLegend) {
-    // adjust right or bottom margin accordingly
-    if (rightHandLegend) {
-      // default is difference between current and required space
-      // enforce a minimum
-      // increase the right margin until it fits the longest label
-      legendTranslate = LEGEND_TRANSLATE_X
-      const expandingLabelContainer = width - WIDTH_BREAKPOINT_3 - LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH - legendTranslate
-      legendLabelContainerWidth = Math.max(expandingLabelContainer, TRIMMED_LEGEND_WIDTH)
-      if (expandingLabelContainer >= maxLegendLabelWidth || !trimLegend) {
-        legendLabelContainerWidth = maxLegendLabelWidth
-      }
-      right = legendLabelContainerWidth + legendTranslate + LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH
-      console.log('---> on the right', legendLabelContainerWidth)
-    } else {
-      legendItemWidth = (width - right - left) / legendItemCount
-      legendLabelContainerWidth = trimLegend
-        ? legendItemWidth - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
-        : maxLegendLabelWidth
-      // adjust bottom to include legend and a buffer
-      bottom += LEGEND_HEIGHT + BUFFER
-    }
-  }
+  const top = useAxis ? TEXT_HEIGHT / 2 + 1 : 2 * BUFFER
 
   const isLandscape = isAspectRatio(width, height, aspectRatios.LANDSCAPE)
   const { widthBP, heightBP } = getBreakpoint({ width, height, isLandscape, legendItemCount })
@@ -228,16 +118,14 @@ const setChartMargin = (
   const leftValues = getLeftMarginValues({ ...elements.left, maxYAxisTickLabelWidth })
   const bottomValues = getBottomMarginValues(elements.bottom)
 
-  // legend
-  const newShowLegend = elements.bottom.showLegend || elements.right.showLegend
-  const newRightHandLegend = elements.right.showLegend
+  const chartHeight = height - top - bottomValues.margin
+  const showLegend = elements.bottom.showLegend || elements.right.showLegend
+  const rightHandLegend = elements.right.showLegend
 
   const rightValues = getRightMarginValues({
     showBottomAxisTickLabels: elements.bottom.showAxisTickLabels,
     lastXAxisTickLabelWidth,
   })
-
-  const chartHeight = height - top - bottomValues.margin
 
   const rightLegendValues = getRightLegendValues({
     legendItemCount,
@@ -249,7 +137,7 @@ const setChartMargin = (
     trimLegend,
   })
 
-  const finalRightMargin = showLegend && newRightHandLegend ? rightLegendValues.rightMarginOverride : rightValues.margin
+  const finalRightMargin = showLegend && rightHandLegend ? rightLegendValues.rightMarginOverride : rightValues.margin
 
   const chartWidth = width - leftValues.margin - finalRightMargin
 
@@ -263,72 +151,30 @@ const setChartMargin = (
   })
 
   // ====[TODO] both legends
-  const legendValues = newRightHandLegend ? rightLegendValues : bottomLegendValues
+  const legendValues = rightHandLegend ? rightLegendValues : bottomLegendValues
 
-
-  const oldLog = {
-    top,
-    right,
-    bottom,
-    left,
-    showLegend,
-    rightHandLegend,
-    rightHandLegendAnchor,
-    legendItemWidth,
-    legendLabelContainerWidth,
-    showBottomAxisLegendLabel,
-    showLeftAxisLegendLabel,
-    showBottomAxisTicks,
-    showLeftAxisTicks,
-    bottomAxisLegendOffset,
-    leftAxisLegendOffset,
-    legendTranslate,
-  }
-
-  const newLog = {
+  // ====[TODO clean naming
+  // ====[TODO] unify 'anchor'
+  // ====[TODO] change tickAxis downstream to be tick not labels
+  // ====[TODO] spark chart
+  // ====[TODO] review of useAxis
+  return {
     top,
     right: finalRightMargin,
     bottom: bottomValues.margin,
     left: leftValues.margin,
-    showLegend: newShowLegend,
-    rightHandLegend: newRightHandLegend,
+    showLegend,
+    rightHandLegend,
+    rightHandLegendAnchor: rightLegendValues.anchor,
     legendItemWidth: legendValues.legendItemWidth,
     legendLabelContainerWidth: legendValues.legendLabelContainerWidth,
     showBottomAxisLegendLabel: elements.bottom.showAxisLegendLabel,
     showLeftAxisLegendLabel: elements.left.showAxisLegendLabel,
-    // showBottomAxisTicks: elements.bottom.showAxisTicks,
-    // showLeftAxisTicks: elements.left.showAxisTicks,
     showBottomAxisTicks: elements.bottom.showAxisTickLabels,
     showLeftAxisTicks: elements.left.showAxisTickLabels,
     bottomAxisLegendOffset: bottomValues.legendLabelOffset,
     leftAxisLegendOffset: leftValues.legendLabelOffset,
     legendTranslate: legendValues.legendTranslate,
-  }
-
-  console.log('=============================')
-  for (let key in newLog) {
-    if (oldLog[key] !== newLog[key]) {
-      console.log('=====> ', key, oldLog[key], newLog[key])
-    }
-  }
-
-  return {
-    top,
-    right,
-    bottom,
-    left,
-    showLegend,
-    rightHandLegend,
-    rightHandLegendAnchor,
-    legendItemWidth,
-    legendLabelContainerWidth,
-    showBottomAxisLegendLabel,
-    showLeftAxisLegendLabel,
-    showBottomAxisTicks,
-    showLeftAxisTicks,
-    bottomAxisLegendOffset,
-    leftAxisLegendOffset,
-    legendTranslate
   }
 }
 
