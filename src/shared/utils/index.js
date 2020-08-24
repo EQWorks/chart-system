@@ -25,9 +25,14 @@ import {
 } from '../constants/dimensions'
 import designSystemColors, { hues, lightnesses } from '../constants/design-system-colors'
 
-import { getScaleTicks, getBarChartScales } from './nivo'
 import { getBreakpoint, getElements } from './breakpoints'
-import { getLeftMarginValues, getBottomMarginValues, getRightMarginValues } from './margins'
+import {
+  getLeftMarginValues,
+  getBottomMarginValues,
+  getRightMarginValues,
+  getRightLegendValues,
+  getBottomLegendValues,
+} from './margins'
 
 import LegendCircle from '../../components/legend-symbol'
 
@@ -143,7 +148,6 @@ const setChartMargin = (
        * at HEIGHT_BREAKPOINT_2 the x-axis ticks appear in the chart, therefore, the right margin
        * has to adjust to include just over half of the last x-axis tick lable width
        */
-      console.log('-----> add bottom tick')
       right = Math.max(right, lastXAxisTickLabelWidth * 0.6)
       showBottomAxisLegendLabel = true
       showBottomAxisTicks = true
@@ -205,6 +209,7 @@ const setChartMargin = (
         legendLabelContainerWidth = maxLegendLabelWidth
       }
       right = legendLabelContainerWidth + legendTranslate + LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH
+      console.log('---> on the right', legendLabelContainerWidth)
     } else {
       legendItemWidth = (width - right - left) / legendItemCount
       legendLabelContainerWidth = trimLegend
@@ -217,46 +222,95 @@ const setChartMargin = (
 
   const isLandscape = isAspectRatio(width, height, aspectRatios.LANDSCAPE)
   const { widthBP, heightBP } = getBreakpoint({ width, height, isLandscape, legendItemCount })
-  const chartHeight = height - top - bottom
-  const chartWidth = height - left - right
-  // TODO right legend is disabled if total height is greater than above...
-  // I don't like it!
-  // would rather trim the legend!
-  // think about it...
+
+  // ====[TODO] show legend condition based on height. Currently we hide it
   const elements = getElements({ widthBP, heightBP, isLandscape, legendItemCount, chartHeight })
   const leftValues = getLeftMarginValues({ ...elements.left, maxYAxisTickLabelWidth })
   const bottomValues = getBottomMarginValues(elements.bottom)
+
   // legend
   const newShowLegend = elements.bottom.showLegend || elements.right.showLegend
   const newRightHandLegend = elements.right.showLegend
 
-  // if legend is on the RIGHT, legend calculation needs final value for RIGHT
-  // getRightMarginValuesNoLegend
-  const legendValues = getLegendValues({
-    legendItemCount,
-    chartHeight,
-    chartWidth
-    rightHandLegend,
-    maxLegendLabelWidth,
-    bottomAxisLegendLabelOffset: bottomValues.legendLabelOffset,
-  })
-
   const rightValues = getRightMarginValues({
-    showRightHandLegend: showLegend && rightHandLegend,
-    legendLabelContainerWidth,
-    legendTranslate,
     showBottomAxisTickLabels: elements.bottom.showAxisTickLabels,
     lastXAxisTickLabelWidth,
   })
 
-  console.log('====> COMPARE')
-  console.log('---- LEFT', left, leftValues.margin)
-  console.log('--', leftAxisLegendOffset, leftValues.legendLabelOffset)
-  console.log('---- BOT', bottom, bottomValues.margin)
-  console.log('--', bottomAxisLegendOffset, bottomValues.legendLabelOffset)
-  console.log('---- RIGHT', right, rightValues.margin)
-  console.log('---- LEGEND', showLegend, newShowLegend)
-  console.log('--', rightHandLegend, newRightHandLegend)
+  const chartHeight = height - top - bottomValues.margin
+
+  const rightLegendValues = getRightLegendValues({
+    legendItemCount,
+    width,
+    chartHeight,
+    maxLegendLabelWidth,
+    minimumLegendWidth: TRIMMED_LEGEND_WIDTH,
+    legendShowWidth: WIDTH_BREAKPOINT_3,
+    trimLegend,
+  })
+
+  const finalRightMargin = showLegend && newRightHandLegend ? rightLegendValues.rightMarginOverride : rightValues.margin
+
+  const chartWidth = width - leftValues.margin - finalRightMargin
+
+  const bottomLegendValues = getBottomLegendValues({
+    chartWidth,
+    legendItemCount,
+    maxLegendLabelWidth,
+    trimLegend,
+    bottomAxisLegendLabelOffset: bottomValues.legendLabelOffset,
+    useAxis,
+  })
+
+  // ====[TODO] both legends
+  const legendValues = newRightHandLegend ? rightLegendValues : bottomLegendValues
+
+
+  const oldLog = {
+    top,
+    right,
+    bottom,
+    left,
+    showLegend,
+    rightHandLegend,
+    rightHandLegendAnchor,
+    legendItemWidth,
+    legendLabelContainerWidth,
+    showBottomAxisLegendLabel,
+    showLeftAxisLegendLabel,
+    showBottomAxisTicks,
+    showLeftAxisTicks,
+    bottomAxisLegendOffset,
+    leftAxisLegendOffset,
+    legendTranslate,
+  }
+
+  const newLog = {
+    top,
+    right: finalRightMargin,
+    bottom: bottomValues.margin,
+    left: leftValues.margin,
+    showLegend: newShowLegend,
+    rightHandLegend: newRightHandLegend,
+    legendItemWidth: legendValues.legendItemWidth,
+    legendLabelContainerWidth: legendValues.legendLabelContainerWidth,
+    showBottomAxisLegendLabel: elements.bottom.showAxisLegendLabel,
+    showLeftAxisLegendLabel: elements.left.showAxisLegendLabel,
+    // showBottomAxisTicks: elements.bottom.showAxisTicks,
+    // showLeftAxisTicks: elements.left.showAxisTicks,
+    showBottomAxisTicks: elements.bottom.showAxisTickLabels,
+    showLeftAxisTicks: elements.left.showAxisTickLabels,
+    bottomAxisLegendOffset: bottomValues.legendLabelOffset,
+    leftAxisLegendOffset: leftValues.legendLabelOffset,
+    legendTranslate: legendValues.legendTranslate,
+  }
+
+  console.log('=============================')
+  for (let key in newLog) {
+    if (oldLog[key] !== newLog[key]) {
+      console.log('=====> ', key, oldLog[key], newLog[key])
+    }
+  }
 
   return {
     top,
@@ -404,6 +458,7 @@ export const trimLegendLabel = legendLabelContainerWidth => node => {
 }
 
 // not object params to re-use in x/y axis
+// ====[NOTE]: showAxisTicks here is actually the labels
 const getCommonAxisProps = (showAxisLegend, showAxisTicks, axisLegendLabel, legendOffset, displayFn = d => d) => ({
   tickSize: AXIS_TICK_WIDTH,
   tickPadding: AXIS_TICK_PADDING,
