@@ -167,7 +167,7 @@ storiesOf('Bar Chart', module)
   .add('overlord banner data', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        data={bannerData}
+        data={bannerData.map((x) => ({...x, Date: new Date(x.Date)}))}
         groupByKey='Name'
         valueKey='Imps'
         indexBy='Date'
@@ -176,6 +176,9 @@ storiesOf('Bar Chart', module)
         axisBottomOrder='asc'
         groupMode='grouped'
         maxRowLegendItems={6}
+        tooltipFormatX={(value) => value.toDateString()}
+        // manipulate X labes as you'd like
+        axisBottomLabelDisplayFn={(value) => value.toDateString().slice(4,10)}
       />
     </ResponsiveChartWrapper>
   ))
