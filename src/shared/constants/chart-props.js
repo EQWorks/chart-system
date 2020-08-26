@@ -6,7 +6,10 @@ import { MAX_LEGEND_ITEMS_ROW } from './dimensions'
 export const chartPropTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   indexBy: PropTypes.string,
-  colors: PropTypes.array,
+  colors: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.func,
+  ]),
   colorType: PropTypes.string, // TODO oneOf(['random', 'palette', 'monochromatic'])
   colorParam: PropTypes.string, // value to configure the colorType, currently the hue (mono) or lightness (palette)
   axisBottomLegendLabel: PropTypes.string,
@@ -19,6 +22,7 @@ export const chartPropTypes = {
   axisBottomLabelValues: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.number,
+    PropTypes.string, //for time
   ]),
   axisLeftLegendLabel: PropTypes.string,
   axisLeftLabelDisplayFn: PropTypes.func,
