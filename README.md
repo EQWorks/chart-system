@@ -29,15 +29,15 @@ A catch-all `{...nivoProps}` is passed along to each chart, though the values mi
 - **colors** - array of color values to use for data, overrides colorType
 - **axisBottomLegendLabel** - the label for the bottom axis
 - **axisBottomTrim** - whether or not to trim the bottom axis **label** values based on chart width. Default is `true`
-- **axisBottomDisplayFn** - `labelValue => { ...return displayValue }` - function to customize the bottom axis tick labels. Default is `d => d`
+- **axisBottomLabelDisplayFn** - `labelValue => { ...return displayValue }` - function to customize the bottom axis tick labels. Default is `d => d`
 - **axisLeftLegendLabel** - the label for the left axis
-- **axisBottomDisplayFn** - `labelValue => { ...return displayValue }` - function to customize the left axis tick labels. Default is `d => d`
+- **axisLeftLabelDisplayFn** - `labelValue => { ...return displayValue }` - function to customize the left axis tick labels. Default is `d => d`
 - **maxRowLegendItems** - maximum labels on the bottom / row chart legend. Default is MAX_LEGEND_ITEMS_ROW (3)
 - **trimLegend** - whether or not to trim chart legend labels. Default is `true`
 - **tooltipFormat** - a function that exposes the final value of the tooltip for formatting. Receives the value as an argument. Default is `v => v`
 
 #### Bar, Line and Scatter:
-- **axisBottomOrder** - how to define the order of bottom axis labels for a Bar Chart or 'point' scale. Either `[]` of specific values or `asc`/`desc` to sort the data. If an array is provided, data will be filtered based on the provided keys. Axis scale must be set to `{ type: 'point' }`.
+- **axisBottomOrder** - how to define the order of bottom axis labels for a Bar Chart or 'point' scale. Either `[]` of specific values or `asc`/`desc` to sort the data. If an array is provided, data will be filtered based on the provided keys. Axis scale must be set to `{ type: 'point' }`. To sort dates properly, they need to be a javascript object instead of a string.
 - **axisBottomLabelValues** - what label values to show on the bottom axis. Either `[]` of specific values, a `number` of how many ticks should appear or a string describing the time interval. More details (here | https://nivo.rocks/guides/axes)
 - **tooltipFormatX** - a function that exposes the final value of the tooltip for formatting the bottom axis since it could be used for dates with TimeSeries. Receives the value as an argument. Default is `v => v`
 
@@ -122,6 +122,7 @@ xScale={{
 - Line Chart `point` x-axis does not support duplicate entries for a single x-axis value within a data series, because only one line is drawn. e.g. if 'country' indexes a data series and 'vehicle' is the `xKey` then, `[{ country: 'france', vehicle: 'plane', amount: 31 }, { country: 'france', vehicle: 'plane', amount: 1000 }]` will throw an error.
 - Scatter Chart supports duplicates due to the way it is drawn. i.e. subsequent dots don't need to connect.
 - Pie Chart does not support duplicate entries for its `indexBy` value. Data is aggregated by default.
+- If the key used in `indexBy` (or `groupByKey` for bar) has only numbers - even if it is in a string format like `'123'` - the order of the data cannot be guaranteed to be the same as original, which could affect the order of the legend and color assignment.
 
 ### Development:
 Run `yarn install` and `yarn start`. Open a browser at `http://localhost:9009/` to see demos of implemented charts.
