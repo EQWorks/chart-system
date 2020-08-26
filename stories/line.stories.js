@@ -17,7 +17,7 @@ storiesOf('Line Chart', module)
         data={lineChartData}
         indexBy='country'
         xKey='vehicle'
-        yKey='amount'
+        yKeys={['amount']}
         xScale={{ type: 'point' }}
         axisBottomLegendLabel={'axisBottomLegend'}
         axisLeftLegendLabel={'axisLeftLegend'}
@@ -31,7 +31,7 @@ storiesOf('Line Chart', module)
         data={lineChartData}
         indexBy='country'
         xKey='vehicle'
-        yKey='amount'
+        yKeys={['amount']}
         xScale={{ type: 'point' }}
         axisBottomLegendLabel={'axisBottomLegend'}
         axisLeftLegendLabel={'axisLeftLegend'}
