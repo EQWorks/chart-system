@@ -39,11 +39,11 @@ A catch-all `{...nivoProps}` is passed along to each chart, though the values mi
 - **titleStyle** - styling props for `<Title />` component. Default value is
 ```javascript
 titleStyle: {
-    color: 'black',
-    fontSize: '18px',
-    fontWeight: 'normal',
-    textAlign: 'left'
-  }
+  color: 'black',
+  fontSize: '18px',
+  fontWeight: 'normal',
+  textAlign: 'left'
+}
 ```  
 
 #### Bar, Line and Scatter:
