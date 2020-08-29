@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { ResponsiveScatterPlot } from '@nivo/scatterplot'
+import { ScatterPlot } from '@nivo/scatterplot'
 
 import { withWrapper } from '../chart-wrapper'
 import CustomNode from './custom-node'
@@ -83,8 +83,10 @@ const ScatterChart = ({
   )
   const legendToggle = useLegendToggle(data)
   return (
-    <ResponsiveScatterPlot
+    <ScatterPlot
       {...nivoProps}
+      height={height}
+      width={width}
       data={finalData}
       colors={finalColors}
       xScale={finalXScale}

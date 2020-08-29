@@ -174,7 +174,7 @@ const setChartMargin = (
    * the chart height and bottom margin
    */
   let showLegend = width >= WIDTH_BREAKPOINT_3
-                   && columnLegendHeight <= height - top
+                   && columnLegendHeight <= height - top - 2 * BUFFER
   let rightHandLegendAnchor = columnLegendHeight <= height - top - bottom
     ? 'right'
     : 'top-right'
