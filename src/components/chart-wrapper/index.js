@@ -1,56 +1,61 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { createRef, forwardRef } from 'react'
+
+import { titlePropTypes, titleDefaultProps } from '../../shared/constants/title-props'
 
 import { styled, setup } from 'goober'
-import AutoSizer from 'react-virtualized-auto-sizer'
+
+import { ResponsiveWrapper } from '@nivo/core'
+
 
 setup(React.createElement)
 
 const Wrapper = styled('div')`
-  display: flex;
   height: 100%;
-  flex-direction: column;
+  margin: 16px 16px 16px 16px;
 `
 
-const Title = styled('div')`
-  margin: 16px 16px 8px 16px;
-  font-size: 18px;
-  overflow-wrap: anywhere;
-`
-
-const ChartContainer = styled('div')`
-  display: flex;
-  flex: 1 1 auto;
-  margin: ${props => props['chart-title'].length ? 0 : 16}px 16px 16px 16px;
-`
-
-const ChartInner = styled('div')`
-  position: relative;
-  width: ${ props => props.width }px;
-  height: ${ props => props.height }px;
-`
+const Title = styled('div', forwardRef)(
+  (props) => `
+    margin: 0px 16px 8px 16px;
+    overflow-wrap: anywhere;
+    color: ${ props['title-props'].color };
+    font-size: ${ props['title-props'].fontSize };
+    font-weight: ${ props['title-props'].fontWeight };
+    text-align: ${ props['title-props'].textAlign };
+  `
+)
 
 export const withWrapper = Chart => {
-  const ChartWrapper = ({ title, ...chartProps }) => (
-    <Wrapper>
-      {title.length !==0 && <Title>{title}</Title>}
-      <ChartContainer chart-title={title}>
-        <AutoSizer>
-          {({ height, width }) => (
-            <ChartInner height={height} width={width}>
-              <Chart
-                height={height}
-                width={width}
-                {...chartProps}
-              />
-            </ChartInner>
-          )}
-        </AutoSizer>
-      </ChartContainer>
-    </Wrapper>
-  )
-  ChartWrapper.propTypes = { title: PropTypes.string }
-  ChartWrapper.defaultProps = { title: '' }
+  const ChartWrapper = ({ titleProps, ...chartProps }) => {
+    const titleRef = createRef(null)
+    return (<Wrapper>
+      {titleProps.title.length !== 0 &&
+      <Title
+        ref={ titleRef }
+        title-props={ titleProps }
+      >
+        {titleProps.title}
+      </Title>}
+      <ResponsiveWrapper>
+        {({ height, width }) =>
+          <Chart
+            /**
+             * we substract from chart height the title div height and its top and bottom margins (16 + 8 = 24)
+             * plus a bit more (8) to adjust bottom chart margin
+             */
+            height={ height - ( titleProps.title.length !== 0
+              ? titleRef.current.getBoundingClientRect().height + 24 + 8
+              : 24)
+            }
+            width={ width }
+            { ...chartProps }
+          />
+        }
+      </ResponsiveWrapper>
+    </Wrapper>)
+  }
+  ChartWrapper.propTypes = titlePropTypes
+  ChartWrapper.defaultProps = titleDefaultProps
   return ChartWrapper
 }
-export default withWrapper // backward compat
+export default withWrapper

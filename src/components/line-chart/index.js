@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 
 import { styled, setup } from 'goober'
-import { ResponsiveLine } from '@nivo/line'
+import { Line } from '@nivo/line'
 
 import { withWrapper } from '../chart-wrapper'
 import Tooltip from '../tooltip'
@@ -101,8 +101,10 @@ const ResponsiveLineChart = ({
     // NOTE: onMouseLeave and onMouseEnter events not firing correctly
     // https://github.com/plouc/nivo/issues/756
     <Container onMouseOut={mouseOut}>
-      <ResponsiveLine
+      <Line
         {...nivoProps}
+        height={height}
+        width={width}
         data={finalData}
         colors={finalColors}
         xScale={finalXScale}
@@ -155,7 +157,7 @@ const ResponsiveLineChart = ({
         })}
         {...legendToggle}
       >
-      </ResponsiveLine>
+      </Line>
     </Container>
   )
 }
