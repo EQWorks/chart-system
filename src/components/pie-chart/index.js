@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { ResponsivePie } from '@nivo/pie'
+import { Pie } from '@nivo/pie'
 
 import { withWrapper } from '../chart-wrapper'
 import Tooltip from '../tooltip'
@@ -97,8 +97,10 @@ const PieChart = ({
 
   const legendToggle = useLegendToggle(data)
   return (
-    <ResponsivePie
+    <Pie
       {...nivoProps}
+      height={height}
+      width={width}
       data={finalData}
       colors={finalColors}
       padAngle={0.7}
@@ -133,7 +135,7 @@ const PieChart = ({
       })}
       {...legendToggle}
     >
-    </ResponsivePie>
+    </Pie>
   )
 }
 

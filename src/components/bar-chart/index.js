@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 
-import { ResponsiveBar } from '@nivo/bar'
+import { Bar } from '@nivo/bar'
 
 import { withWrapper } from '../chart-wrapper'
 import Tooltip from '../tooltip'
@@ -77,9 +77,11 @@ const BarChart = ({
   const legendToggle = useLegendToggle(data)
 
   return (
-    <ResponsiveBar
+    <Bar
       // TODO right now, our props override, but need to see if there are any that should take precedent
       {...nivoProps}
+      width={width}
+      height={height}
       data={finalData}
       // NOTE yScale, xScale, yFormat, xFormat are not exposed in Bar
       indexBy={finalIndexBy}
