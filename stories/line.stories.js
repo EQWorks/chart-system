@@ -9,11 +9,15 @@ import barChartData from './data/bar-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
+const titleProps = {
+  title: 'My Title',
+}
+
 storiesOf('Line Chart', module)
   .add('Widget Line Chart', () => (
     <ResponsiveChartWrapper>
       <LineChart
-        title='Test'
+        titleProps={titleProps}
         data={lineChartData}
         indexBy='country'
         xKey='vehicle'
@@ -27,7 +31,7 @@ storiesOf('Line Chart', module)
   .add('Widget Line Chart with custom bottom legend label numbers', () => (
     <ResponsiveChartWrapper>
       <LineChart
-        title='Test'
+        titleProps={titleProps}
         data={lineChartData}
         indexBy='country'
         xKey='vehicle'
@@ -42,7 +46,7 @@ storiesOf('Line Chart', module)
   .add('Index By Keys', () => (
     <ResponsiveChartWrapper>
       <LineChart
-        title='Test'
+        titleProps={titleProps}
         indexByValue={false}
         xScale={{ type: 'point' }}
         data={barChartData}
@@ -54,7 +58,7 @@ storiesOf('Line Chart', module)
   .add('Bottom Axis Order', () => (
     <ResponsiveChartWrapper>
       <LineChart
-        title='Test'
+        titleProps={titleProps}
         indexByValue={false}
         xScale={{ type: 'point' }}
         data={barChartData}
