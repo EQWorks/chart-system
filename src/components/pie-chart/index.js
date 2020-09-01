@@ -98,33 +98,33 @@ const PieChart = ({
   const legendToggle = useLegendToggle(data)
   return (
     <Pie
-      {...nivoProps}
-      height={height}
-      width={width}
-      data={finalData}
-      colors={finalColors}
-      padAngle={0.7}
-      cornerRadius={3}
-      enableRadialLabels={false}
-      fit={true}
+      { ...nivoProps }
+      height={ height }
+      width={ width }
+      data={ finalData }
+      colors={ finalColors }
+      padAngle={ 0.7 }
+      cornerRadius={ 3 }
+      enableRadialLabels={ false }
+      fit={ true }
       enableSlicesLabels={ enableSlicesLabels }
       sliceLabel={ showLabels ? 'percent' : '' }
       slicesLabelsSkipAngle={ slicesLabelsSkipAngle }
       slicesLabelsTextColor='#fff'
-      innerRadius={isDonut ? 0.6 : 0}
-      tooltip={({ id, value, percent, color }) => (
+      innerRadius={ isDonut ? 0.6 : 0 }
+      tooltip={ ({ id, value, percent, color }) => (
         <Tooltip
-          label={id}
-          color={color}
-          display={[
+          label={ id }
+          color={ color }
+          display={ [
             { label: 'Value', value: tooltipFormat(value) },
             { label: 'Share', value: percent },
-          ]}
+          ] }
         />
-      )}
-      onMouseEnter={mouseOverHandler}
-      onMouseLeave={mouseLeaveHandler}
-      {...getCommonProps({
+      ) }
+      onMouseEnter={ mouseOverHandler }
+      onMouseLeave={ mouseLeaveHandler }
+      { ...getCommonProps({
         useAxis: false,
         keys: finalData.map(o => o.id),
         height,
@@ -132,8 +132,8 @@ const PieChart = ({
         dash: true,
         maxRowLegendItems,
         trimLegend
-      })}
-      {...legendToggle}
+      }) }
+      { ...legendToggle }
     >
     </Pie>
   )

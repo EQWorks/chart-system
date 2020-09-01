@@ -432,7 +432,7 @@ export const getCommonProps = ({
     translateX: 0,
     translateY: legendTranslate,
   })
-  const symbolShape = nivoProps => <LegendCircle {...nivoProps} trimLegendLabel={trimLegendLabel(legendLabelContainerWidth)} />
+  const symbolShape = nivoProps => <LegendCircle { ...nivoProps } trimLegendLabel={ trimLegendLabel(legendLabelContainerWidth) } />
   const legend = {
     itemHeight: LEGEND_HEIGHT,
     symbolSize: SYMBOL_SIZE,

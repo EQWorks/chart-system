@@ -84,29 +84,29 @@ const ScatterChart = ({
   const legendToggle = useLegendToggle(data)
   return (
     <ScatterPlot
-      {...nivoProps}
-      height={height}
-      width={width}
-      data={finalData}
-      colors={finalColors}
-      xScale={finalXScale}
-      yScale={finalYScale}
-      nodeSize={SYMBOL_SIZE}
-      useMesh={false}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      renderNode={CustomNode}
-      tooltip={({ node }) => (
+      { ...nivoProps }
+      height={ height }
+      width={ width }
+      data={ finalData }
+      colors={ finalColors }
+      xScale={ finalXScale }
+      yScale={ finalYScale }
+      nodeSize={ SYMBOL_SIZE }
+      useMesh={ false }
+      onMouseEnter={ onMouseEnter }
+      onMouseLeave={ onMouseLeave }
+      renderNode={ CustomNode }
+      tooltip={ ({ node }) => (
         <Tooltip
-          label={node.id.split('.')[0]}
-          color={node.style.color}
-          display={[
+          label={ node.id.split('.')[0] }
+          color={ node.style.color }
+          display={ [
             { label: axisBottomLegendLabel, value: tooltipFormatX(node.data.formattedX) },
             { label: axisLeftLegendLabel, value: tooltipFormat(node.data.formattedY) },
-          ]}
+          ] }
         />
-      )}
-      {...getCommonProps({
+      ) }
+      { ...getCommonProps({
         data,
         useAxis: true,
         keys: finalData.map(o => o.id),
@@ -126,8 +126,8 @@ const ScatterChart = ({
         maxYAxisTickLabelWidth,
         maxRowLegendItems,
         trimLegend
-      })}
-      {...legendToggle}
+      }) }
+      { ...legendToggle }
     />
   )
 }

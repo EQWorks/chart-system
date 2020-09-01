@@ -100,22 +100,22 @@ const ResponsiveLineChart = ({
   return (
     // NOTE: onMouseLeave and onMouseEnter events not firing correctly
     // https://github.com/plouc/nivo/issues/756
-    <Container onMouseOut={mouseOut}>
+    <Container onMouseOut={ mouseOut }>
       <Line
-        {...nivoProps}
-        height={height}
-        width={width}
-        data={finalData}
-        colors={finalColors}
-        xScale={finalXScale}
-        yScale={finalYScale}
+        { ...nivoProps }
+        height={ height }
+        width={ width }
+        data={ finalData }
+        colors={ finalColors }
+        xScale={ finalXScale }
+        yScale={ finalYScale }
         pointColor={{ theme: 'background' }}
-        pointBorderWidth={0}
+        pointBorderWidth={ 0 }
         pointBorderColor={{ from: 'serieColor' }}
-        useMesh={true}
-        enableCrosshair={true}
+        useMesh={ true }
+        enableCrosshair={ true }
         crosshairType='bottom'
-        onMouseMove={(d, event) => {
+        onMouseMove={ (d, event) => {
           let dataPoints = Array.from(event.target.parentNode.parentNode.getElementsByTagName('path'))
           let hoverItemIndex = finalData.findIndex(o => d.serieId === o.id)
           let hovered = dataPoints.splice(hoverItemIndex, 1)
@@ -123,18 +123,18 @@ const ResponsiveLineChart = ({
           dataPoints.forEach(point => {
             point.style.opacity = DATA_HOVER_OPACITY
           })
-        }}
-        tooltip={({ point }) => (
+        } }
+        tooltip={ ({ point }) => (
           <Tooltip
-            color={point.borderColor}
-            label={point.serieId}
-            display={[
+            color={ point.borderColor }
+            label={ point.serieId }
+            display={ [
               { label: axisBottomLegendLabel, value: tooltipFormatX(point.data.x) },
               { label: axisLeftLegendLabel, value: tooltipFormat(point.data.y) },
-            ]}
+            ] }
           />
-        )}
-        {...getCommonProps({
+        ) }
+        { ...getCommonProps({
           data,
           useAxis: true,
           yKeys: finalYKeys,
@@ -154,8 +154,8 @@ const ResponsiveLineChart = ({
           maxYAxisTickLabelWidth,
           maxRowLegendItems,
           trimLegend
-        })}
-        {...legendToggle}
+        }) }
+        { ...legendToggle }
       >
       </Line>
     </Container>
