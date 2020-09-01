@@ -25,6 +25,7 @@ import {
 } from '../constants/dimensions'
 import designSystemColors, { hues, lightnesses } from '../constants/design-system-colors'
 import LegendCircle from '../../components/legend-symbol'
+import { CHART_FONT_FAMILY } from '../global'
 
 import omit from 'lodash.omit'
 
@@ -284,10 +285,10 @@ const getLabelMaxWidth = (keys, displayFn) => keys.reduce((max, key) =>
  * https://stackoverflow.com/questions/118241/calculate-text-width-with-javascript/50813259#50813259
  * getTextSize - calculates a rendered text width in pixels
  * @param { string } text - a text string
- * @param { string } font - a string with the font included ex: '12px noto sans'
+ * @param { string } font - a string with the font included ex: '12px open sans'
  * @returns { number } - the width of the rendered text in pixels
  */
-export const getTextSize = (text, font = '12px noto sans') => {
+export const getTextSize = (text, font = `${FONT_SIZE}px ${CHART_FONT_FAMILY}`) => {
   let canvas = document.createElement('canvas')
   let context = canvas.getContext('2d')
   context.font = font
@@ -470,6 +471,7 @@ export const getCommonProps = ({
     motionStiffness: 90,
     motionDamping: 15,
     theme: {
+      fontFamily: CHART_FONT_FAMILY,
       fontSize: FONT_SIZE,
       // axis definition needed to display on top of the grid lines
       axis: {
