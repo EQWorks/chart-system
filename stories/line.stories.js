@@ -17,54 +17,54 @@ storiesOf('Line Chart', module)
   .add('Widget Line Chart', () => (
     <ResponsiveChartWrapper>
       <LineChart
-        titleProps={titleProps}
-        data={lineChartData}
+        titleProps={ titleProps }
+        data={ lineChartData }
         indexBy='country'
         xKey='vehicle'
-        yKeys={['amount']}
+        yKeys={ ['amount'] }
         xScale={{ type: 'point' }}
-        axisBottomLegendLabel={'axisBottomLegend'}
-        axisLeftLegendLabel={'axisLeftLegend'}
+        axisBottomLegendLabel={ 'axisBottomLegend' }
+        axisLeftLegendLabel={ 'axisLeftLegend' }
       />
     </ResponsiveChartWrapper>
   ))
   .add('Widget Line Chart with custom bottom legend label numbers', () => (
     <ResponsiveChartWrapper>
       <LineChart
-        titleProps={titleProps}
-        data={lineChartData}
+        titleProps={ titleProps }
+        data={ lineChartData }
         indexBy='country'
         xKey='vehicle'
-        yKeys={['amount']}
+        yKeys={ ['amount'] }
         xScale={{ type: 'point' }}
-        axisBottomLegendLabel={'axisBottomLegend'}
-        axisLeftLegendLabel={'axisLeftLegend'}
-        maxRowLegendItems={4}
+        axisBottomLegendLabel={ 'axisBottomLegend' }
+        axisLeftLegendLabel={ 'axisLeftLegend' }
+        maxRowLegendItems={ 4 }
       />
     </ResponsiveChartWrapper>
   ))
   .add('Index By Keys', () => (
     <ResponsiveChartWrapper>
       <LineChart
-        titleProps={titleProps}
-        indexByValue={false}
+        titleProps={ titleProps }
+        indexByValue={ false }
         xScale={{ type: 'point' }}
-        data={barChartData}
-        axisBottomLegendLabel={'axisBottomLegend'}
-        axisLeftLegendLabel={'axisLeftLegend'}
+        data={ barChartData }
+        axisBottomLegendLabel={ 'axisBottomLegend' }
+        axisLeftLegendLabel={ 'axisLeftLegend' }
       />
     </ResponsiveChartWrapper>
   ))
   .add('Bottom Axis Order', () => (
     <ResponsiveChartWrapper>
       <LineChart
-        titleProps={titleProps}
-        indexByValue={false}
+        titleProps={ titleProps }
+        indexByValue={ false }
         xScale={{ type: 'point' }}
-        data={barChartData}
+        data={ barChartData }
         axisBottomOrder='desc'
-        axisBottomLegendLabel={'axisBottomLegend'}
-        axisLeftLegendLabel={'axisLeftLegend'}
+        axisBottomLegendLabel={ 'axisBottomLegend' }
+        axisLeftLegendLabel={ 'axisLeftLegend' }
       />
     </ResponsiveChartWrapper>
   ))
@@ -75,12 +75,12 @@ storiesOf('Line Chart', module)
           title='Overlord adPosition'
           indexBy='Name'
           xKey='Date'
-          yKeys={['Imps']}
-          axisBottomLegendLabel={'Date'}
+          yKeys={ ['Imps'] }
+          axisBottomLegendLabel={ 'Date' }
           // parse dates into js objects so sort function works properly
-          data={d.adPosition.map((x) => ({ ...x, Date: new Date(x.Date) }))}
+          data={ d.adPosition.map((x) => ({ ...x, Date: new Date(x.Date) })) }
           axisBottomOrder='asc'
-          maxRowLegendItems={6}
+          maxRowLegendItems={ 6 }
           // if dates are objects, no need to format
           xScale={{
             type: 'time',
@@ -88,10 +88,10 @@ storiesOf('Line Chart', module)
             useUTC: false,
             // precision: 'day',
           }}
-          axisLeftLegendLabel={'impressions'}
+          axisLeftLegendLabel={ 'impressions' }
           // do date manipulation with your fav library
-          tooltipFormatX={(value) => value.toDateString()}
-          axisBottomLabelDisplayFn={(value) => value.toDateString().slice(4, 10)}
+          tooltipFormatX={ (value) => value.toDateString() }
+          axisBottomLabelDisplayFn={ (value) => value.toDateString().slice(4, 10) }
         />
       </ResponsiveChartWrapper>
     )
@@ -104,9 +104,9 @@ storiesOf('Line Chart', module)
           title='Overlord OS'
           indexBy='Name'
           xKey='Date'
-          yKeys={['Imps']}
-          axisBottomLegendLabel={'Date'}
-          maxRowLegendItems={6}
+          yKeys={ ['Imps'] }
+          axisBottomLegendLabel={ 'Date' }
+          maxRowLegendItems={ 6 }
           // comment next line  out to see relevance
           axisBottomOrder='asc'
           xScale={{
@@ -115,11 +115,11 @@ storiesOf('Line Chart', module)
             useUTC: false,
             // precision: 'day',
           }}
-          data={OS.map((x) => ({ ...x, Date: new Date(x.Date) }))}
-          axisLeftLegendLabel={'impressions'}
+          data={ OS.map((x) => ({ ...x, Date: new Date(x.Date) })) }
+          axisLeftLegendLabel={ 'impressions' }
           // do date manipulation with your fav library
-          tooltipFormatX={(value) => value.toDateString()}
-          axisBottomLabelDisplayFn={(value) => value.toDateString().slice(4, 10)}
+          tooltipFormatX={ (value) => value.toDateString() }
+          axisBottomLabelDisplayFn={ (value) => value.toDateString().slice(4, 10) }
         />
       </ResponsiveChartWrapper>
     )
@@ -132,21 +132,21 @@ storiesOf('Line Chart', module)
           title='Overlord adPosition'
           indexBy='Name'
           xKey='Date'
-          yKeys={['Imps']}
-          axisBottomLegendLabel={'Date'}
+          yKeys={ ['Imps'] }
+          axisBottomLegendLabel={ 'Date' }
           axisBottomOrder='asc'
-          maxRowLegendItems={6}
+          maxRowLegendItems={ 6 }
           xScale={{
             type: 'time',
             format: '%m-%d-%Y',
             useUTC: false,
           }}
           // if period of time is smaller than 9 days, ticks are duplicate, so need to do values `every day`
-          axisBottomLabelValues={'every day'}
-          data={d.smallAdPosition}
-          axisLeftLegendLabel={'Impressions'}
+          axisBottomLabelValues={ 'every day' }
+          data={ d.smallAdPosition }
+          axisLeftLegendLabel={ 'Impressions' }
           // do date manipulation with your fav library
-          tooltipFormatX={(value) => value.toDateString()}
+          tooltipFormatX={ (value) => value.toDateString() }
         />
       </ResponsiveChartWrapper>
     )

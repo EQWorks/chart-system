@@ -79,42 +79,42 @@ const BarChart = ({
   return (
     <Bar
       // TODO right now, our props override, but need to see if there are any that should take precedent
-      {...nivoProps}
-      width={width}
-      height={height}
-      data={finalData}
+      { ...nivoProps }
+      width={ width }
+      height={ height }
+      data={ finalData }
       // NOTE yScale, xScale, yFormat, xFormat are not exposed in Bar
-      indexBy={finalIndexBy}
-      keys={finalKeys}
-      colors={finalColors}
-      enableRadialLabels={false}
-      enableGridY={true}
-      enableLabel={false}
-      tooltip={({ id, value, color, indexValue }) => ( // also ({ data, index, theme })
+      indexBy={ finalIndexBy }
+      keys={ finalKeys }
+      colors={ finalColors }
+      enableRadialLabels={ false }
+      enableGridY={ true }
+      enableLabel={ false }
+      tooltip={ ({ id, value, color, indexValue }) => ( // also ({ data, index, theme })
         <Tooltip
-          label={id}
-          color={color}
-          display={[
+          label={ id }
+          color={ color }
+          display={ [
             { label: axisBottomLegendLabel, value: tooltipFormatX(indexValue) },
             { label: axisLeftLegendLabel, value: tooltipFormat(value) },
-          ]}
+          ] }
         />
-      )}
-      onMouseEnter={(_data, event) => {
+      ) }
+      onMouseEnter={ (_data, event) => {
         let dataPoints = Array.from(event.target.parentNode.parentElement.getElementsByTagName('rect'))
         let hoverItemIndex = dataPoints.indexOf(event.target)
         dataPoints.splice(hoverItemIndex, 1)
         dataPoints.forEach(point => {
           point.style.opacity = DATA_HOVER_OPACITY
         })
-      }}
-      onMouseLeave={(_data, event) => {
+      } }
+      onMouseLeave={ (_data, event) => {
         let dataPoints = Array.from(event.target.parentNode.parentElement.getElementsByTagName('rect'))
         for (let i = 0; i < dataPoints.length; i++) {
           dataPoints[i].style.opacity = 1
         }
-      }}
-      {...getCommonProps({
+      } }
+      { ...getCommonProps({
         data: finalData,
         useAxis: true,
         keys: finalKeys,
@@ -134,8 +134,8 @@ const BarChart = ({
         maxYAxisTickLabelWidth,
         maxRowLegendItems,
         trimLegend
-      })}
-      {...legendToggle}
+      }) }
+      { ...legendToggle }
     />
   )
 }

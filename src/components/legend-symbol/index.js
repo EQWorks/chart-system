@@ -20,16 +20,16 @@ const LegendCircle = ({
 
   return (
     <circle
-      r={size / 2}
-      cx={x + size / 2}
-      cy={y + size / 2}
-      fill={fill}
-      strokeWidth={borderWidth}
-      stroke={borderColor}
+      r={ size / 2 }
+      cx={ x + size / 2 }
+      cy={ y + size / 2 }
+      fill={ fill }
+      strokeWidth={ borderWidth }
+      stroke={ borderColor }
       style={{
         pointerEvents: 'none',
       }}
-      ref={initRef}
+      ref={ initRef }
     />
   )
 }

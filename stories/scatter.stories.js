@@ -15,18 +15,18 @@ storiesOf('ScatterChart', module)
     <ResponsiveChartWrapper>
       <ScatterChart
         titleProps={ titleProps }
-        data={scatterChartData}
-        axisBottomLegendLabel={'axisBottomLegend'}
-        axisLeftLegendLabel={'axisLeftLegend'}
+        data={ scatterChartData }
+        axisBottomLegendLabel={ 'axisBottomLegend' }
+        axisLeftLegendLabel={ 'axisLeftLegend' }
       />
     </ResponsiveChartWrapper>
   ))
   .add('Widget Scatter Chart with no title', () => (
     <ResponsiveChartWrapper>
       <ScatterChart
-        data={scatterChartData}
-        axisBottomLegendLabel={'axisBottomLegend'}
-        axisLeftLegendLabel={'axisLeftLegend'}
+        data={ scatterChartData }
+        axisBottomLegendLabel={ 'axisBottomLegend' }
+        axisLeftLegendLabel={ 'axisLeftLegend' }
       />
     </ResponsiveChartWrapper>
   ))
@@ -34,9 +34,9 @@ storiesOf('ScatterChart', module)
     <ResponsiveChartWrapper>
       <ScatterChart
         titleProps={{ title: 'My Title My Title My Title My Title' }}
-        data={scatterChartData}
-        axisBottomLegendLabel={'axisBottomLegend'}
-        axisLeftLegendLabel={'axisLeftLegend'}
+        data={ scatterChartData }
+        axisBottomLegendLabel={ 'axisBottomLegend' }
+        axisLeftLegendLabel={ 'axisLeftLegend' }
       />
     </ResponsiveChartWrapper>
   ))
@@ -49,10 +49,10 @@ storiesOf('ScatterChart', module)
           textAlign: 'center',
           ...titleProps,
         }}
-        data={scatterChartData}
-        axisBottomLegendLabel={'axisBottomLegend'}
-        axisLeftLegendLabel={'axisLeftLegend'}
-        trimLegend={false}
+        data={ scatterChartData }
+        axisBottomLegendLabel={ 'axisBottomLegend' }
+        axisLeftLegendLabel={ 'axisLeftLegend' }
+        trimLegend={ false }
       />
     </ResponsiveChartWrapper>
   ))
@@ -60,10 +60,10 @@ storiesOf('ScatterChart', module)
     <ResponsiveChartWrapper>
       <ScatterChart
         titleProps={ titleProps }
-        data={scatterChartData}
-        axisBottomLegendLabel={'axisBottomLegend'}
-        axisLeftLegendLabel={'axisLeftLegend'}
-        trimLegend={false}
+        data={ scatterChartData }
+        axisBottomLegendLabel={ 'axisBottomLegend' }
+        axisLeftLegendLabel={ 'axisLeftLegend' }
+        trimLegend={ false }
       />
     </ResponsiveChartWrapper>
   ))

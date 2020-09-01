@@ -56,14 +56,14 @@ const Tooltip = ({
 }) => (
   <TooltipWrapper>
     <TooltipHeader>
-      <TooltipNode background-color={color} />
+      <TooltipNode background-color={ color } />
       <TooltipLabel>
         {label}
       </TooltipLabel>
     </TooltipHeader>
     <TooltipBody>
       {display.map(({ label, value }) => (
-        <TooltipData key={label}>
+        <TooltipData key={ label }>
           {label}: {value}
         </TooltipData>
       ))}

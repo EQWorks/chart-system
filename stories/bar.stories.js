@@ -17,8 +17,8 @@ storiesOf('Bar Chart', module)
   .add('Stacked', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        titleProps={titleProps}
-        data={barChartData}
+        titleProps={ titleProps }
+        data={ barChartData }
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
       />
@@ -29,7 +29,7 @@ storiesOf('Bar Chart', module)
     return (
       <ResponsiveChartWrapper>
         <button
-          onClick={() => setData([{
+          onClick={ () => setData([{
             address_city: 'Sauga',
             dopeness: 1000,
             awesomeness: 800,
@@ -38,11 +38,11 @@ storiesOf('Bar Chart', module)
             address_city: 'T-Dot',
             dopeness: 2000,
             awesomeness: 2100,
-          }])}
+          }]) }
         >Change Data</button>
         <br />
         <BarChart
-          data={data}
+          data={ data }
           axisBottomLegendLabel='Address City'
           axisLeftLegendLabel='Visitors'
         />
@@ -52,44 +52,44 @@ storiesOf('Bar Chart', module)
   .add('No Label Trim', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        titleProps={titleProps}
-        data={barChartData}
+        titleProps={ titleProps }
+        data={ barChartData }
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
         groupMode='grouped'
-        axisBottomTrim={false}
+        axisBottomTrim={ false }
       />
     </ResponsiveChartWrapper>
   ))
   .add('Formatted X Label', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        titleProps={titleProps}
-        data={barChartData}
+        titleProps={ titleProps }
+        data={ barChartData }
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
         groupMode='grouped'
-        axisBottomLabelDisplayFn={d => d.substring(0, 2)}
+        axisBottomLabelDisplayFn={ d => d.substring(0, 2) }
       />
     </ResponsiveChartWrapper>
   ))
   .add('Formatted Y Label', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        titleProps={titleProps}
-        data={barChartData}
+        titleProps={ titleProps }
+        data={ barChartData }
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
         groupMode='grouped'
-        axisLeftLabelDisplayFn={d => d + 'k'}
+        axisLeftLabelDisplayFn={ d => d + 'k' }
       />
     </ResponsiveChartWrapper>
   ))
   .add('Bottom Axis Order - Descending', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        titleProps={titleProps}
-        data={barChartData}
+        titleProps={ titleProps }
+        data={ barChartData }
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
         groupMode='grouped'
@@ -100,20 +100,20 @@ storiesOf('Bar Chart', module)
   .add('Bottom Axis Order - Exact', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        titleProps={titleProps}
-        data={barChartData}
+        titleProps={ titleProps }
+        data={ barChartData }
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
         groupMode='grouped'
-        axisBottomOrder={['Airdrie', 'Brandon', 'Abbotsford']}
+        axisBottomOrder={ ['Airdrie', 'Brandon', 'Abbotsford'] }
       />
     </ResponsiveChartWrapper>
   ))
   .add('Grouped', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        titleProps={titleProps}
-        data={barChartData}
+        titleProps={ titleProps }
+        data={ barChartData }
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
         groupMode='grouped'
@@ -123,7 +123,7 @@ storiesOf('Bar Chart', module)
   .add('Scatter Chart Data', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        data={scatterChartData}
+        data={ scatterChartData }
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
         groupMode='grouped'
@@ -133,9 +133,9 @@ storiesOf('Bar Chart', module)
   .add('Line Chart Data - Vehicle', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        data={lineChartData}
+        data={ lineChartData }
         indexBy='vehicle'
-        keys={['amount']}
+        keys={ ['amount'] }
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
         groupMode='grouped'
@@ -145,9 +145,9 @@ storiesOf('Bar Chart', module)
   .add('Line Chart Data - Country', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        data={lineChartData}
+        data={ lineChartData }
         indexBy='country'
-        keys={['amount']}
+        keys={ ['amount'] }
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
         groupMode='grouped'
@@ -157,7 +157,7 @@ storiesOf('Bar Chart', module)
   .add('Line Chart Data - Grouped By Keys', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        data={lineChartData}
+        data={ lineChartData }
         groupByKey='vehicle'
         valueKey='amount'
         indexBy='country'
@@ -170,7 +170,7 @@ storiesOf('Bar Chart', module)
   .add('overlord banner data', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        data={bannerData.map((x) => ({...x, Date: new Date(x.Date)}))}
+        data={ bannerData.map((x) => ({ ...x, Date: new Date(x.Date) })) }
         groupByKey='Name'
         valueKey='Imps'
         indexBy='Date'
@@ -178,10 +178,10 @@ storiesOf('Bar Chart', module)
         axisLeftLegendLabel='Impressions'
         axisBottomOrder='asc'
         groupMode='grouped'
-        maxRowLegendItems={6}
-        tooltipFormatX={(value) => value.toDateString()}
+        maxRowLegendItems={ 6 }
+        tooltipFormatX={ (value) => value.toDateString() }
         // manipulate X labes as you'd like
-        axisBottomLabelDisplayFn={(value) => value.toDateString().slice(4,10)}
+        axisBottomLabelDisplayFn={ (value) => value.toDateString().slice(4,10) }
       />
     </ResponsiveChartWrapper>
   ))

@@ -23,7 +23,7 @@ const layout = [
 const propTypes = { children: PropTypes.element }
 
 const ResponsiveChartWrapper = ({ children }) => (
-  <ResponsiveGridLayout className='layout' layout={layout} cols={300} rowHeight={30}>
+  <ResponsiveGridLayout className='layout' layout={ layout } cols={ 300 } rowHeight={ 30 }>
     <ChartDiv key='a' >
       {children}
     </ChartDiv>

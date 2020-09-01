@@ -60,8 +60,20 @@ module.exports = {
     'keyword-spacing': [
       'error',
     ],
+    'object-curly-spacing': [
+      'error',
+      'always'
+    ],
     'react/jsx-tag-spacing': [
       'error',
+    ],
+    "react/jsx-curly-spacing": [
+      2, 
+      { "when": "always",
+        "spacing": {
+          "objectLiterals": "never"
+        }
+      }
     ]
   },
 }

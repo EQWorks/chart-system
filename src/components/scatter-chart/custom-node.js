@@ -33,16 +33,16 @@ const CustomNode = ({
   onClick
 }) => {
   return (
-    <g transform={`translate(${x},${y})`}>
+    <g transform={ `translate(${x},${y})` }>
       <circle
-        r={size / 2}
-        fill={color}
-        id={node.data.serieId}
-        style={{mixBlendMode: blendMode, opacity: 1}}
-        onMouseEnter={onMouseEnter}
-        onMouseMove={onMouseMove}
-        onMouseLeave={onMouseLeave}
-        onClick={onClick}
+        r={ size / 2 }
+        fill={ color }
+        id={ node.data.serieId }
+        style={{ mixBlendMode: blendMode, opacity: 1 }}
+        onMouseEnter={ onMouseEnter }
+        onMouseMove={ onMouseMove }
+        onMouseLeave={ onMouseLeave }
+        onClick={ onClick }
       />
     </g>
   )
