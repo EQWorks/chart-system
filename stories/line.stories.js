@@ -69,7 +69,7 @@ storiesOf('Line Chart', module)
   .add('Overlord adPosition', () => (
     <ResponsiveChartWrapper>
       <LineChart
-        title='Overlord adPosition'
+        titleProps={{ title: 'Overlord adPosition' }}
         indexBy='Name'
         xKey='Date'
         yKeys={ ['Imps'] }
