@@ -8,15 +8,19 @@ import lineChartData from './data/line-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
+const titleProps = {
+  title: 'My Title',
+}
+
 storiesOf('Pie Chart', module)
   .add('Basic', () => (
     <ResponsiveChartWrapper>
-      <PieChart title='My Title' data={pieChartData} isDonut={false} />
+      <PieChart titleProps={titleProps} data={pieChartData} isDonut={false} />
     </ResponsiveChartWrapper>
   ))
   .add('Tooltip Format', () => (
     <ResponsiveChartWrapper>
-      <PieChart title='My Title' data={pieChartData} isDonut={false} tooltipFormat={v => `$${v}`} />
+      <PieChart titleProps={titleProps} data={pieChartData} isDonut={false} tooltipFormat={v => `$${v}`} />
     </ResponsiveChartWrapper>
   ))
   .add('Dynamic Data - tooltip update', () => {
@@ -30,29 +34,29 @@ storiesOf('Pie Chart', module)
             { address_city: 'Markham', awesomeness: 1500 }
           ])}
         >Change Data</button>
-        <PieChart title='My Title' data={data} isDonut={false} />
+        <PieChart titleProps={titleProps} data={data} isDonut={false} />
       </ResponsiveChartWrapper>
     )
   })
   .add('Donut', () => (
     <ResponsiveChartWrapper>
-      <PieChart title='My Title' data={pieChartData} isDonut={true} />
+      <PieChart titleProps={titleProps} data={pieChartData} isDonut={true} />
     </ResponsiveChartWrapper>
   ))
   .add('Widget Pie Chart with Slice Labels Disabled', () => (
     <ResponsiveChartWrapper>
-      <PieChart title='My Title' data={pieChartData} isDonut={false} enableSlicesLabels={false} />
+      <PieChart titleProps={titleProps} data={pieChartData} isDonut={false} enableSlicesLabels={false} />
     </ResponsiveChartWrapper>
   ))
   .add('Widget Pie Chart with Slice Labels Disabled at Custom Value', () => (
     <ResponsiveChartWrapper>
-      <PieChart title='My Title' data={pieChartData} isDonut={false} slicesLabelsSkipAngle={ 200 } />
+      <PieChart titleProps={titleProps} data={pieChartData} isDonut={false} slicesLabelsSkipAngle={ 200 } />
     </ResponsiveChartWrapper>
   ))
   .add('Widget Pie Chart with custom bottom legend label numbers', () => (
     <ResponsiveChartWrapper>
       <PieChart
-        title='My Title'
+        titleProps={titleProps}
         data={pieChartData}
         isDonut={false}
         maxRowLegendItems={ 4 }
@@ -61,11 +65,11 @@ storiesOf('Pie Chart', module)
   ))
   .add('Visit Data', () => (
     <ResponsiveChartWrapper>
-      <PieChart title='Visits' data={barChartData} isDonut={false} />
+      <PieChart titleProps={{ title: 'Visits'}} data={barChartData} isDonut={false} />
     </ResponsiveChartWrapper>
   ))
   .add('Vehicle Data', () => (
     <ResponsiveChartWrapper>
-      <PieChart title='Vehicles by Country' data={lineChartData} dataKey='amount' isDonut={false} />
+      <PieChart titleProps={{ title: 'Vehicles by Country' }} data={lineChartData} dataKey='amount' isDonut={false} />
     </ResponsiveChartWrapper>
   ))
