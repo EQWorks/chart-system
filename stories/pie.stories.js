@@ -63,11 +63,11 @@ storiesOf('Pie Chart', module)
   ))
   .add('Visit Data', () => (
     <ResponsiveChartWrapper>
-      <PieChart title={ 'Visits' } data={ barChartData } isDonut={ false } />
+      <PieChart title='Visits' data={ barChartData } isDonut={ false } />
     </ResponsiveChartWrapper>
   ))
   .add('Vehicle Data', () => (
     <ResponsiveChartWrapper>
-      <PieChart title={ 'Vehicles by Country' } data={ lineChartData } dataKey='amount' isDonut={ false } />
+      <PieChart title='Vehicles by Country' data={ lineChartData } dataKey='amount' isDonut={ false } />
     </ResponsiveChartWrapper>
   ))

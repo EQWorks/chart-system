@@ -1,6 +1,7 @@
 import React, { createRef, forwardRef } from 'react'
 
 import { titlePropTypes, titleDefaultProps } from '../../shared/constants/title-props'
+import { typographyPropTypes, typographyDefaultProps } from '../../shared/constants/chart-props'
 
 import { styled, setup } from 'goober'
 
@@ -11,11 +12,11 @@ setup(React.createElement)
 
 const Wrapper = styled('div')`
   height: 100%;
-  margin: 16px 16px 16px 16px;
+  margin: 16px;
 `
 
 const Title = styled('div', forwardRef)`
-  margin: 0px 16px 8px 16px;
+  margin-bottom: 16px;
   overflow-wrap: anywhere;
 `
 
@@ -23,6 +24,7 @@ export const withWrapper = Chart => {
   const ChartWrapper = ({
     title,
     titleStyle,
+    typographyProps,
     ...chartProps
   }) => {
     const titleRef = createRef(null)
@@ -31,7 +33,10 @@ export const withWrapper = Chart => {
         { title.length !== 0 &&
         <Title
           ref={ titleRef }
-          style={ titleStyle }
+          style={{
+            fontFamily: typographyProps.fontFamily,
+            ...titleStyle
+          }}
         >
           { title }
         </Title> }
@@ -39,14 +44,15 @@ export const withWrapper = Chart => {
           {({ height, width }) =>
             <Chart
               /**
-               * we substract from chart height the title div height and its top and bottom margins (16 + 8 = 24)
-               * plus a bit more (8) to adjust bottom chart margin
+               * because we have 16px margin and height 100% for Wrapper, the height overflows the container with 32px
+               * for chart we have to substract the top and bottom Wrapper margins plus the bottom title margin (16px)
                */
               height={ height - (title.length !== 0
-                ? titleRef.current.getBoundingClientRect().height + 24 + 8
-                : 24)
+                ? titleRef.current.getBoundingClientRect().height + 32 + 16
+                : 32)
               }
               width={ width }
+              typographyProps={ typographyProps }
               { ...chartProps }
             />
           }
@@ -54,8 +60,8 @@ export const withWrapper = Chart => {
       </Wrapper>
     )
   }
-  ChartWrapper.propTypes = titlePropTypes
-  ChartWrapper.defaultProps = titleDefaultProps
+  ChartWrapper.propTypes = { ...titlePropTypes, ...typographyPropTypes }
+  ChartWrapper.defaultProps = { ...titleDefaultProps, ...typographyDefaultProps }
   return ChartWrapper
 }
 export default withWrapper

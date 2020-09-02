@@ -44,7 +44,15 @@ titleStyle: {
   fontWeight: 'normal',
   textAlign: 'left'
 }
-```  
+```
+- **typographyProps** - props object for styling chart font family, size, and color. Default values:
+```javascript
+typographyProps: {
+    fontFamily: ' \'Open Sans\', sans-serif',
+    fontSize: 12,
+    textColor: 'black'
+  }
+```
 
 #### Bar, Line and Scatter:
 - **axisBottomOrder** - how to define the order of bottom axis labels for a Bar Chart or 'point' scale. Either `[]` of specific values or `asc`/`desc` to sort the data. If an array is provided, data will be filtered based on the provided keys. Axis scale must be set to `{ type: 'point' }`. To sort dates properly, they need to be a javascript object instead of a string.

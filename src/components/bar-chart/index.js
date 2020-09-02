@@ -6,18 +6,34 @@ import { withWrapper } from '../chart-wrapper'
 import Tooltip from '../tooltip'
 
 import { useLegendToggle } from '../hooks'
-import { getCommonProps, processDataKeys, processColors, processAxisOrder, getAxisLabelsBar, aggregateData } from '../../shared/utils'
-import { chartPropTypes, chartDefaultProps, barChartPropTypes, barChartDefaultProps } from '../../shared/constants/chart-props'
+import {
+  getCommonProps,
+  processDataKeys,
+  processColors,
+  processAxisOrder,
+  getAxisLabelsBar,
+  aggregateData
+} from '../../shared/utils'
+import {
+  chartPropTypes,
+  chartDefaultProps,
+  barChartPropTypes,
+  barChartDefaultProps,
+  typographyPropTypes,
+  typographyDefaultProps
+} from '../../shared/constants/chart-props'
 
 import { DATA_HOVER_OPACITY } from '../../shared/constants/dimensions'
 
 
 const propTypes = {
+  ...typographyPropTypes,
   ...chartPropTypes,
   ...barChartPropTypes,
 }
 
 const defaultProps = {
+  ...typographyDefaultProps,
   ...chartDefaultProps,
   ...barChartDefaultProps,
 }
@@ -45,6 +61,7 @@ const BarChart = ({
   trimLegend,
   tooltipFormat,
   tooltipFormatX,
+  typographyProps,
   ...nivoProps
 }) => {
   // a single key is required for the X axis scale
@@ -71,8 +88,19 @@ const BarChart = ({
     axisBottomLabelValues,
     axisBottomLabelDisplayFn,
     axisLeftLabelDisplayFn,
+    typographyProps,
     ...nivoProps, // relies on: minValue, maxValue, padding, reverse, groupMode
-  }), [width, height, finalData, finalIndexBy, finalKeys, axisBottomLabelValues, axisBottomLabelDisplayFn, axisLeftLabelDisplayFn, nivoProps])
+  }), [
+    width,
+    height,
+    finalData,
+    finalIndexBy,
+    finalKeys,
+    axisBottomLabelValues,
+    axisBottomLabelDisplayFn,
+    axisLeftLabelDisplayFn,
+    nivoProps
+  ])
 
   const legendToggle = useLegendToggle(data)
 
@@ -133,7 +161,8 @@ const BarChart = ({
         lastXAxisTickLabelWidth,
         maxYAxisTickLabelWidth,
         maxRowLegendItems,
-        trimLegend
+        trimLegend,
+        typographyProps,
       }) }
       { ...legendToggle }
     />
