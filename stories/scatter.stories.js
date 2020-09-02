@@ -31,7 +31,7 @@ storiesOf('ScatterChart', module)
   .add('Widget Scatter Chart with long title', () => (
     <ResponsiveChartWrapper>
       <ScatterChart
-        title={ 'My Title My Title My Title My Title' }
+        title='My very long long long long long long Title'
         data={ scatterChartData }
         axisBottomLegendLabel={ 'axisBottomLegend' }
         axisLeftLegendLabel={ 'axisLeftLegend' }
@@ -44,6 +44,7 @@ storiesOf('ScatterChart', module)
         title={ title }
         titleStyle={{
           color: 'red',
+          fontfamily: 'Orbitron',
           fontSize: '24px',
           fontWeight: 700,
           textAlign: 'center'
@@ -51,7 +52,21 @@ storiesOf('ScatterChart', module)
         data={ scatterChartData }
         axisBottomLegendLabel={ 'axisBottomLegend' }
         axisLeftLegendLabel={ 'axisLeftLegend' }
-        trimLegend={ false }
+      />
+    </ResponsiveChartWrapper>
+  ))
+  .add('Widget Scatter Chart with custom typography', () => (
+    <ResponsiveChartWrapper>
+      <ScatterChart
+        title={ title }
+        typographyProps={{
+          fontFamily: '"Orbitron", sans-serif',
+          fontSize: 14,
+          textColor: 'red'
+        }}
+        data={ scatterChartData }
+        axisBottomLegendLabel={ 'axisBottomLegend' }
+        axisLeftLegendLabel={ 'axisLeftLegend' }
       />
     </ResponsiveChartWrapper>
   ))

@@ -11,14 +11,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Title - remove title text when pointer hovers
 - Utils - getAxisLabelsSeries - adjust function prop to its usage: `axisBottomTickValues` instead of `axisBottomLabelValues`
 - chart-props - revise definitions for colors and axisBottomLabelValues props
+- TEXT_HEIGHT, LEGEND_HEIGHT - calculate with typographyProps, getTextSize
 
 ### Changed
 - `<ChartWrapper />` - move all necessary chart wrapper css in ChartWrapper component
 - `<ChartWrapper />` - replace Autosizer with nivo's ResponsiveWrapper component
+- typography - update font family to `Open Sans`
+- deps - remove `react-virtualized-auto-sizer`
 
 ### Added
 - `tooltipFormatX` - add prop to format bottom axis for Bar/Line/Scatterplot. Mostly used for dates in time series
 - `title`, `titleStyle` - add props for `<Title />` component
+- `typographyProps` - add props for styling chart font family, size, and color
 
 ## [0.3.2] - 2020-08-18
 ### Fixed

@@ -8,24 +8,18 @@ import {
   HEIGHT_BREAKPOINT_1,
   HEIGHT_BREAKPOINT_2,
   HEIGHT_BREAKPOINT_3,
-  LEGEND_HEIGHT,
-  TEXT_HEIGHT,
-  FONT_SIZE,
-  BOTTOM_LEGEND_ADJUSTMENT,
   AXIS_TICK_WIDTH,
   AXIS_TICK_PADDING,
   BUFFER,
   SYMBOL_SIZE,
   SYMBOL_SPACING,
   LEGEND_TRANSLATE_X,
-  LEGEND_TRANSLATE_Y,
   TRIMMED_LEGEND_WIDTH,
   LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH,
-  LEGEND_ROW_FIXED_ELEMENTS_WIDTH
+  LEGEND_ROW_FIXED_ELEMENTS_WIDTH,
 } from '../constants/dimensions'
 import designSystemColors, { hues, lightnesses } from '../constants/design-system-colors'
 import LegendCircle from '../../components/legend-symbol'
-import { CHART_FONT_FAMILY } from '../global'
 
 import omit from 'lodash.omit'
 
@@ -63,6 +57,26 @@ const decodeXML = (str) => {
 }
 
 /**
+ * https://stackoverflow.com/questions/118241/calculate-text-width-with-javascript/50813259#50813259
+ * getTextSize - calculates a rendered text width and height in pixels
+ * @param { string } text - a text string
+ * @param { object } typographyProps - an object with font size, font family, and text color for the chart
+ * @returns { object } - the width and height of the rendered text in pixels
+ */
+export const getTextSize = (text, typographyProps) => {
+  let font = `${typographyProps.fontSize}px ${typographyProps.fontFamily}`
+  let canvas = document.createElement('canvas')
+  let context = canvas.getContext('2d')
+  context.font = font
+  let metrics = typeof text === 'number'
+    ? context.measureText(text)
+    : context.measureText(decodeXML(text))
+  return {
+    width: Math.ceil(metrics.width),
+    height: Math.ceil(metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent)
+  }
+}
+/**
  * Given a font size, we want to calculate the dimensions of the chart
  * The margin is the amount of space that the left axis ticks/legend, right legend or
  * bottom axis ticks/legend AND legend have
@@ -79,6 +93,8 @@ const decodeXML = (str) => {
  * @param { number } lastXAxisTickLabelWidth - the length of the highest x-axis label value
  * @param { number } maxRowLegendItems - number of legend items to display on the bottom chart legend
  * @param { boolean } trimLegend - to trim or not the legend items
+ * @param { number } text_height - chart text height in pixels
+ * @param { number } legend_height - chart legend text height in pixels
  * @returns { object } - top, right, bottom, left margin values
  */
 const setChartMargin = (
@@ -90,7 +106,9 @@ const setChartMargin = (
   maxYAxisTickLabelWidth,
   lastXAxisTickLabelWidth,
   maxRowLegendItems,
-  trimLegend
+  trimLegend,
+  text_height,
+  legend_height
 ) => {
   // default values
   /**
@@ -106,17 +124,14 @@ const setChartMargin = (
     left
   ] = useAxis
     ? [
-      TEXT_HEIGHT / 2 + 1,
-      TEXT_HEIGHT / 2 + 1,
-      AXIS_TICK_WIDTH + BUFFER,
+      SYMBOL_SIZE / 2 + 1,
+      SYMBOL_SIZE / 2 + 1,
+      AXIS_TICK_WIDTH,
       AXIS_TICK_WIDTH
     ]
-    : [
-      2 * BUFFER,
-      2 * BUFFER,
-      2 * BUFFER,
-      2 * BUFFER
-    ]
+    : new Array(4).fill(BUFFER)
+
+  const LEGEND_TRANSLATE_Y = legend_height + 3 * BUFFER
 
   // we only show x-axis tick labels and legend when chart width is large enough
   let showBottomAxisLegendLabel = false
@@ -125,14 +140,13 @@ const setChartMargin = (
   let showLeftAxisLegendLabel = false
   let showLeftAxisTicks = false
 
-  let bottomAxisLegendOffset = TEXT_HEIGHT / 2 + AXIS_TICK_WIDTH + BUFFER
-  let leftAxisLegendOffset = -(TEXT_HEIGHT / 2 + AXIS_TICK_WIDTH + BUFFER)
+  let bottomAxisLegendOffset = text_height / 2 + AXIS_TICK_WIDTH + BUFFER
+  let leftAxisLegendOffset = -(text_height / 2 + AXIS_TICK_WIDTH + BUFFER)
   // variable to set chart Legend offset
   let legendTranslate = LEGEND_TRANSLATE_Y
 
   // useAxis is the case when we have axis in a chart, for ex: bar, line, scatter charts
   if (useAxis) {
-    // legendTranslate = LEGEND_HEIGHT + AXIS_TICK_WIDTH + 2 * TEXT_HEIGHT + 3 * BUFFER
     // at HEIGHT_BREAKPOINT_2 we have both axis tick labels and x-axis legend visible
     if (height >= HEIGHT_BREAKPOINT_2) {
       /**
@@ -142,40 +156,41 @@ const setChartMargin = (
       right = Math.max(right, lastXAxisTickLabelWidth * 0.6)
       showBottomAxisLegendLabel = true
       showBottomAxisTicks = true
-      bottomAxisLegendOffset = bottomAxisLegendOffset + TEXT_HEIGHT + BUFFER - BOTTOM_LEGEND_ADJUSTMENT
-      bottom = AXIS_TICK_WIDTH + 3 * BUFFER + 2 * TEXT_HEIGHT
+      bottomAxisLegendOffset = bottomAxisLegendOffset + text_height + 1.5 * BUFFER
+      bottom += 4 * BUFFER + 2 * text_height
     // at HEIGHT_BREAKPOINT_1 we show only x-axis legend
     } else if (height >= HEIGHT_BREAKPOINT_1) {
       showBottomAxisLegendLabel = true
-      bottom = AXIS_TICK_WIDTH + 2 * BUFFER + TEXT_HEIGHT
+      bottom += 3 * BUFFER + text_height
     }
 
     // when chart width >= WIDTH_BREAKPOINT_2 we show both y-axis tick and legend labels
     if (width >= WIDTH_BREAKPOINT_2) {
       showLeftAxisLegendLabel = true
       showLeftAxisTicks = true
-      left = TEXT_HEIGHT + 3 * BUFFER + AXIS_TICK_WIDTH + maxYAxisTickLabelWidth
-      leftAxisLegendOffset= leftAxisLegendOffset - BUFFER - maxYAxisTickLabelWidth
+      left += text_height + 3.5 * BUFFER + maxYAxisTickLabelWidth
+      top = Math.max(top, text_height / 2 + 1)
+      leftAxisLegendOffset= leftAxisLegendOffset - 2 * BUFFER - maxYAxisTickLabelWidth
     // when chart width >= WIDTH_BREAKPOINT_1 we only show y-axis legend label
     } else if (width >= WIDTH_BREAKPOINT_1) {
       showLeftAxisLegendLabel = true
-      // TEXT_HEIGHT = axis legend height
-      left = TEXT_HEIGHT + 2 * BUFFER + AXIS_TICK_WIDTH
+      // text_height = axis legend height here
+      left += text_height + 3 * BUFFER
     }
-    legendTranslate = bottomAxisLegendOffset + 4.5 * BUFFER
+    legendTranslate = bottomAxisLegendOffset + 5 * BUFFER
   }
 
   // show right column legend when in landscape mode and number of legend items surpass MAX_LEGEND_ITEMS_ROW
   const rightHandLegend = isAspectRatio(width, height, aspectRatios.LANDSCAPE)
                           || legendItemCount > maxRowLegendItems
   // calculate height of column legend to hide it if it is larger than chart height
-  const columnLegendHeight = legendItemCount * LEGEND_HEIGHT
+  const columnLegendHeight = legendItemCount * (legend_height +  BUFFER)
   /**
    * we hide legend when chart width is below WIDTH_BREAKPOINT_3 and legend height is greater than
    * the chart height and bottom margin
    */
   let showLegend = width >= WIDTH_BREAKPOINT_3
-                   && columnLegendHeight <= height - top - 2 * BUFFER
+                   && columnLegendHeight <= height - 2 * BUFFER
   let rightHandLegendAnchor = columnLegendHeight <= height - top - bottom
     ? 'right'
     : 'top-right'
@@ -206,10 +221,9 @@ const setChartMargin = (
         ? legendItemWidth - LEGEND_ROW_FIXED_ELEMENTS_WIDTH
         : maxLegendLabelWidth
       // adjust bottom to include legend and a buffer
-      bottom += LEGEND_HEIGHT + BUFFER
+      bottom += legend_height + 2 * BUFFER
     }
   }
-
   return {
     top,
     right,
@@ -236,6 +250,7 @@ export const getAxisLabelsBar = ({
   axisLeftLabelDisplayFn,
   axisBottomLabelDisplayFn,
   axisBottomLabelValues,
+  typographyProps,
   ...options
 }) => {
   const { xScale, yScale } = getBarChartScales(options)
@@ -244,9 +259,9 @@ export const getAxisLabelsBar = ({
 
   return {
     xLabelCount: xLabels.length,
-    lastXLabelWidth: getTextSize(axisBottomLabelDisplayFn(xLabels[xLabels.length - 1])),
+    lastXLabelWidth: getTextSize(axisBottomLabelDisplayFn(xLabels[xLabels.length - 1]), typographyProps).width,
     yLabelCount: yLabels.length,
-    maxYLabelWidth: getLabelMaxWidth(yLabels,axisLeftLabelDisplayFn),
+    maxYLabelWidth: getLabelMaxWidth(yLabels, typographyProps, axisLeftLabelDisplayFn),
   }
 }
 
@@ -259,6 +274,7 @@ export const getAxisLabelsSeries = ({
   axisBottomTickValues,
   axisBottomLabelDisplayFn,
   axisLeftLabelDisplayFn,
+  typographyProps
 }) => {
   const { xScale, yScale } = computeXYScalesForSeries(data, xScaleSpec, yScaleSpec, width, height)
   const xLabels = getScaleTicks(xScale, axisBottomTickValues)
@@ -266,56 +282,40 @@ export const getAxisLabelsSeries = ({
 
   return {
     xLabelCount: xLabels.length,
-    lastXLabelWidth: getTextSize(axisBottomLabelDisplayFn(xLabels[xLabels.length - 1])),
+    lastXLabelWidth: getTextSize(axisBottomLabelDisplayFn(xLabels[xLabels.length - 1]), typographyProps).width,
     yLabelCount: yLabels.length,
-    maxYLabelWidth: getLabelMaxWidth(yLabels,axisLeftLabelDisplayFn),
+    maxYLabelWidth: getLabelMaxWidth(yLabels, typographyProps, axisLeftLabelDisplayFn),
   }
 }
 
 /**
  * getLabelMaxWidth - calculates the width of the longest label text in the legend
  * @param { array } keys - array of keys that will be in the legend
+ * @param { object } typographyProps - an object with font size, font family, and text color for the chart
  * @param { function } displayFn - function to apply on keys
  * @returns { number } - the width of the longest label text in the legend
  */
-const getLabelMaxWidth = (keys, displayFn) => keys.reduce((max, key) =>
-  Math.max(max, getTextSize(displayFn(key))), 0)
-
-/**
- * https://stackoverflow.com/questions/118241/calculate-text-width-with-javascript/50813259#50813259
- * getTextSize - calculates a rendered text width in pixels
- * @param { string } text - a text string
- * @param { string } font - a string with the font included ex: '12px open sans'
- * @returns { number } - the width of the rendered text in pixels
- */
-export const getTextSize = (text, font = `${FONT_SIZE}px ${CHART_FONT_FAMILY}`) => {
-  let canvas = document.createElement('canvas')
-  let context = canvas.getContext('2d')
-  context.font = font
-  let width = typeof text === 'number'
-    ? context.measureText(text).width
-    : context.measureText(decodeXML(text)).width
-  let textSize = Math.ceil(width)
-  return textSize
-}
+const getLabelMaxWidth = (keys, typographyProps, displayFn) => keys.reduce((max, key) =>
+  Math.max(max, getTextSize(displayFn(key), typographyProps).width), 0)
 
 /**
  * trimText - trims a text and adds '..' at the end
  * @param { string } text - a text string
  * @param { number } containerWidth - width of the text container in pixels
+ * @param { object } typographyProps - an object with font size, font family, and text color for the chart
  * @param { number } count - used to add or not a suffix
  * @returns { string } - a trimmed text with '..' added at the end
  */
 const TRIM = '..'
-const trimText = (text, containerWidth, count = 0) => {
+const trimText = (text, containerWidth, typographyProps, count = 0) => {
   if (text === '') return text
   let n = text.length
   const suffix = count ? TRIM : ''
-  let textWidth = getTextSize(text.substr(0, n) + suffix)
+  let textWidth = getTextSize(text.substr(0, n) + suffix, typographyProps).width
   if (textWidth <= containerWidth) {
     return text.substr(0, n) + suffix
   } else {
-    return trimText(text.substr(0, n - 1), containerWidth, count + 1)
+    return trimText(text.substr(0, n - 1), containerWidth, typographyProps, count + 1)
   }
 }
 
@@ -334,9 +334,10 @@ export const isAspectRatio = (width, height, aspectRatio) => getAspectRatio(widt
 /**
  * trimLegendLabel - trims the labels of the leged
  * @param { number } legendLabelContainerWidth - the width that the label needs to fit in
+ * @param { object } typographyProps - an object with font size, font family, and text color for the chart
  * @param { html } node - Legend html node
  */
-export const trimLegendLabel = legendLabelContainerWidth => node => {
+export const trimLegendLabel = (legendLabelContainerWidth, typographyProps) => node => {
   if (node !== null) {
     const text = Array.from(node.parentNode.children).find(tag => tag.tagName === 'text')
     if (text) {
@@ -348,7 +349,7 @@ export const trimLegendLabel = legendLabelContainerWidth => node => {
 
       let label = original
       if (legendLabelContainerWidth) {
-        label = trimText(original, legendLabelContainerWidth)
+        label = trimText(original, legendLabelContainerWidth, typographyProps)
       }
       text.innerHTML = label
     }
@@ -359,7 +360,6 @@ export const trimLegendLabel = legendLabelContainerWidth => node => {
 const getCommonAxisProps = (showAxisLegend, showAxisTicks, axisLegendLabel, legendOffset, displayFn = d => d) => ({
   tickSize: AXIS_TICK_WIDTH,
   tickPadding: AXIS_TICK_PADDING,
-  legendHeight: LEGEND_HEIGHT,
   legendPosition: 'middle',
   legend: showAxisLegend ? axisLegendLabel : '',
   // TODO calculate a max width for each tick and trim
@@ -386,9 +386,18 @@ export const getCommonProps = ({
   dash, // not for pie?
   legendProps={},
   maxRowLegendItems,
-  trimLegend
+  trimLegend,
+  typographyProps,
 }) => {
-  const maxLegendLabelWidth = getLabelMaxWidth(keys, (x) => x)
+
+  const text_height = isNaN(typographyProps.fontSize)
+    ? getTextSize('Typography', typographyProps)
+    : typographyProps.fontSize
+
+  // we keep legend_height in case we want to separate the font size for chart and chart legend
+  const legend_height = text_height
+
+  const maxLegendLabelWidth = getLabelMaxWidth(keys, typographyProps, (x) => x)
   const legendItemCount = keys.length
 
   const {
@@ -414,7 +423,9 @@ export const getCommonProps = ({
     maxYAxisTickLabelWidth,
     lastXAxisTickLabelWidth,
     maxRowLegendItems,
-    trimLegend
+    trimLegend,
+    text_height,
+    legend_height,
   )
 
   const chartWidth = width - margin.right - margin.left
@@ -433,9 +444,15 @@ export const getCommonProps = ({
     translateX: 0,
     translateY: legendTranslate,
   })
-  const symbolShape = nivoProps => <LegendCircle { ...nivoProps } trimLegendLabel={ trimLegendLabel(legendLabelContainerWidth) } />
+
+  const symbolShape = nivoProps =>
+    <LegendCircle
+      { ...nivoProps }
+      trimLegendLabel={ trimLegendLabel(legendLabelContainerWidth, typographyProps) }
+    />
+
   const legend = {
-    itemHeight: LEGEND_HEIGHT,
+    itemHeight: legend_height + BUFFER,
     symbolSize: SYMBOL_SIZE,
     symbolSpacing: SYMBOL_SPACING,
     symbolShape,
@@ -453,7 +470,7 @@ export const getCommonProps = ({
         axisBottomLegendLabel,
         bottomAxisLegendOffset,
         d => axisBottomTrim
-          ? trimText(axisBottomLabelDisplayFn(d)+'', chartWidth / axisBottomLabelCount)
+          ? trimText(axisBottomLabelDisplayFn(d)+'', chartWidth / axisBottomLabelCount, typographyProps)
           : axisBottomLabelDisplayFn(d)
       ),
     },
@@ -464,15 +481,17 @@ export const getCommonProps = ({
         showLeftAxisTicks,
         axisLeftLegendLabel,
         leftAxisLegendOffset,
-        axisLeftLabelDisplayFn),
+        axisLeftLabelDisplayFn
+      ),
     },
     legends: showLegend ? [legend] : [],
     animate: true,
     motionStiffness: 90,
     motionDamping: 15,
     theme: {
-      fontFamily: CHART_FONT_FAMILY,
-      fontSize: FONT_SIZE,
+      fontFamily: typographyProps.fontFamily,
+      fontSize: typographyProps.fontSize,
+      textColor: typographyProps.textColor,
       // axis definition needed to display on top of the grid lines
       axis: {
         domain: {

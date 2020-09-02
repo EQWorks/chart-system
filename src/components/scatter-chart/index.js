@@ -15,17 +15,26 @@ import {
   processAxisOrderNivo,
   getAxisLabelsSeries,
 } from '../../shared/utils'
-import { chartPropTypes, chartDefaultProps, seriesPropTypes, seriesDefaultProps } from '../../shared/constants/chart-props'
+import {
+  chartPropTypes,
+  chartDefaultProps,
+  seriesPropTypes,
+  seriesDefaultProps,
+  typographyPropTypes,
+  typographyDefaultProps
+} from '../../shared/constants/chart-props'
 import { SYMBOL_SIZE } from '../../shared/constants/dimensions'
 
 
 const propTypes = {
   ...seriesPropTypes,
   ...chartPropTypes,
+  ...typographyPropTypes
 }
 const defaultProps = {
   ...seriesDefaultProps,
   ...chartDefaultProps,
+  ...typographyDefaultProps
 }
 
 // ScatterChart - creates a scatter chart
@@ -53,6 +62,7 @@ const ScatterChart = ({
   height,
   tooltipFormat,
   tooltipFormatX,
+  typographyProps,
   ...nivoProps
 }) => {
   const { finalIndexBy, finalXKey, finalYKeys } = processSeriesDataKeys({ data, indexBy, xKey, yKeys, indexByValue })
@@ -77,10 +87,21 @@ const ScatterChart = ({
       height,
       axisBottomTickValues,
       axisBottomLabelDisplayFn,
-      axisLeftLabelDisplayFn
+      axisLeftLabelDisplayFn,
+      typographyProps
     }),
-    [finalData, finalXScale, finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn, axisLeftLabelDisplayFn],
+    [
+      finalData,
+      finalXScale,
+      finalYScale,
+      width,
+      height,
+      axisBottomTickValues,
+      axisBottomLabelDisplayFn,
+      axisLeftLabelDisplayFn
+    ]
   )
+
   const legendToggle = useLegendToggle(data)
   return (
     <ScatterPlot
@@ -125,7 +146,8 @@ const ScatterChart = ({
         axisLeftLabelDisplayFn,
         maxYAxisTickLabelWidth,
         maxRowLegendItems,
-        trimLegend
+        trimLegend,
+        typographyProps,
       }) }
       { ...legendToggle }
     />

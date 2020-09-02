@@ -13,7 +13,12 @@ import {
   convertPieDataToNivo,
   aggregateData,
 } from '../../shared/utils'
-import { chartPropTypes, chartDefaultProps } from '../../shared/constants/chart-props'
+import {
+  chartPropTypes,
+  chartDefaultProps,
+  typographyPropTypes,
+  typographyDefaultProps
+} from '../../shared/constants/chart-props'
 import {
   WIDTH_BREAKPOINT_2,
   HEIGHT_BREAKPOINT_2,
@@ -28,6 +33,7 @@ const propTypes = {
   dataKey: PropTypes.string,
   groupByKey: PropTypes.string,
   valueKey: PropTypes.string,
+  ...typographyPropTypes,
   ...chartPropTypes,
 }
 
@@ -38,6 +44,7 @@ const defaultProps = {
   dataKey: '',
   groupByKey: '',
   valueKey: '',
+  ...typographyDefaultProps,
   ...chartDefaultProps,
 }
 
@@ -59,6 +66,7 @@ const PieChart = ({
   maxRowLegendItems,
   trimLegend,
   tooltipFormat,
+  typographyProps,
   ...nivoProps
 }) => {
   // indexBy => id
@@ -131,7 +139,8 @@ const PieChart = ({
         width,
         dash: true,
         maxRowLegendItems,
-        trimLegend
+        trimLegend,
+        typographyProps,
       }) }
       { ...legendToggle }
     >

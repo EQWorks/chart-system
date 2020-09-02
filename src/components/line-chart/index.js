@@ -14,7 +14,14 @@ import {
   processAxisOrderNivo,
   getAxisLabelsSeries,
 } from '../../shared/utils'
-import { chartPropTypes, chartDefaultProps, seriesPropTypes, seriesDefaultProps } from '../../shared/constants/chart-props'
+import {
+  chartPropTypes,
+  chartDefaultProps,
+  seriesPropTypes,
+  seriesDefaultProps,
+  typographyPropTypes,
+  typographyDefaultProps
+} from '../../shared/constants/chart-props'
 import { DATA_HOVER_OPACITY } from '../../shared/constants/dimensions'
 
 setup(React.createElement)
@@ -24,10 +31,12 @@ const Container = styled('div')`
   width: 100%;
 `
 const propTypes = {
+  ...typographyPropTypes,
   ...seriesPropTypes,
   ...chartPropTypes,
 }
 const defaultProps = {
+  ...typographyDefaultProps,
   ...seriesDefaultProps,
   ...chartDefaultProps,
 }
@@ -67,6 +76,7 @@ const ResponsiveLineChart = ({
   trimLegend,
   tooltipFormat,
   tooltipFormatX,
+  typographyProps,
   ...nivoProps
 }) => {
   const { finalIndexBy, finalXKey, finalYKeys } = processSeriesDataKeys({ data, indexBy, xKey, yKeys, indexByValue })
@@ -91,9 +101,19 @@ const ResponsiveLineChart = ({
       height,
       axisBottomTickValues,
       axisBottomLabelDisplayFn,
-      axisLeftLabelDisplayFn
+      axisLeftLabelDisplayFn,
+      typographyProps
     }),
-    [finalData, finalXScale, finalYScale, width, height, axisBottomTickValues, axisBottomLabelDisplayFn, axisLeftLabelDisplayFn],
+    [
+      finalData,
+      finalXScale,
+      finalYScale,
+      width,
+      height,
+      axisBottomTickValues,
+      axisBottomLabelDisplayFn,
+      axisLeftLabelDisplayFn
+    ]
   )
 
   const legendToggle = useLegendToggle(data)
@@ -153,7 +173,8 @@ const ResponsiveLineChart = ({
           axisLeftLabelDisplayFn,
           maxYAxisTickLabelWidth,
           maxRowLegendItems,
-          trimLegend
+          trimLegend,
+          typographyProps,
         }) }
         { ...legendToggle }
       >
