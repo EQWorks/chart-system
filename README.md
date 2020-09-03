@@ -35,16 +35,16 @@ A catch-all `{...nivoProps}` is passed along to each chart, though the values mi
 - **maxRowLegendItems** - maximum labels on the bottom / row chart legend. Default is MAX_LEGEND_ITEMS_ROW (3)
 - **trimLegend** - whether or not to trim chart legend labels. Default is `true`
 - **tooltipFormat** - a function that exposes the final value of the tooltip for formatting. Receives the value as an argument. Default is `v => v`
-- **titleProps** - props object for styling the `<Title />` component. Default values:
+- **title** - the title text in `<Title />` component. Default value is ``
+- **titleStyle** - styling props for `<Title />` component. Default value is
 ```javascript
-titleProps: {
-    title: '',
+titleStyle: {
     color: 'black',
     fontSize: '18px',
     fontWeight: 'normal',
     textAlign: 'left'
-}
-```
+  }
+```  
 
 #### Bar, Line and Scatter:
 - **axisBottomOrder** - how to define the order of bottom axis labels for a Bar Chart or 'point' scale. Either `[]` of specific values or `asc`/`desc` to sort the data. If an array is provided, data will be filtered based on the provided keys. Axis scale must be set to `{ type: 'point' }`. To sort dates properly, they need to be a javascript object instead of a string.

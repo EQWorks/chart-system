@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Legend - label trimming when special characters are present in the labels
 - Title - remove title text when pointer hovers
 - Utils - getAxisLabelsSeries - adjust function prop to its usage: `axisBottomTickValues` instead of `axisBottomLabelValues`
+- chart-props - revise definitions for colors and axisBottomLabelValues props
 
 ### Changed
 - `<ChartWrapper />` - move all necessary chart wrapper css in ChartWrapper component
@@ -17,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - `tooltipFormatX` - add prop to format bottom axis for Bar/Line/Scatterplot. Mostly used for dates in time series
-- `titleProps` - add props for styling `<Title />` component
+- `title`, `titleStyle` - add props for `<Title />` component
 
 ## [0.3.2] - 2020-08-18
 ### Fixed
