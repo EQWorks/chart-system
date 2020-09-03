@@ -9,15 +9,13 @@ import lineChartData from './data/line-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
-const titleProps = {
-  title: 'My Title',
-}
+const title = 'My Title'
 
 storiesOf('Bar Chart', module)
   .add('Stacked', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        titleProps={ titleProps }
+        title={ title }
         data={ barChartData }
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
@@ -52,7 +50,7 @@ storiesOf('Bar Chart', module)
   .add('No Label Trim', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        titleProps={ titleProps }
+        title={ title }
         data={ barChartData }
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
@@ -64,7 +62,7 @@ storiesOf('Bar Chart', module)
   .add('Formatted X Label', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        titleProps={ titleProps }
+        title={ title }
         data={ barChartData }
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
@@ -76,7 +74,7 @@ storiesOf('Bar Chart', module)
   .add('Formatted Y Label', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        titleProps={ titleProps }
+        title={ title }
         data={ barChartData }
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
@@ -88,7 +86,7 @@ storiesOf('Bar Chart', module)
   .add('Bottom Axis Order - Descending', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        titleProps={ titleProps }
+        title={ title }
         data={ barChartData }
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
@@ -100,7 +98,7 @@ storiesOf('Bar Chart', module)
   .add('Bottom Axis Order - Exact', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        titleProps={ titleProps }
+        title={ title }
         data={ barChartData }
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
@@ -112,7 +110,7 @@ storiesOf('Bar Chart', module)
   .add('Grouped', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        titleProps={ titleProps }
+        title={ title }
         data={ barChartData }
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'

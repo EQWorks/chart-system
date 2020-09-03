@@ -6,15 +6,13 @@ import scatterChartData from './data/scatter-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
-const titleProps = {
-  title: 'My Title',
-}
+const title = 'My Title'
 
 storiesOf('ScatterChart', module)
   .add('Widget Scatter Chart', () => (
     <ResponsiveChartWrapper>
       <ScatterChart
-        titleProps={ titleProps }
+        title={ title }
         data={ scatterChartData }
         axisBottomLegendLabel={ 'axisBottomLegend' }
         axisLeftLegendLabel={ 'axisLeftLegend' }
@@ -33,7 +31,7 @@ storiesOf('ScatterChart', module)
   .add('Widget Scatter Chart with long title', () => (
     <ResponsiveChartWrapper>
       <ScatterChart
-        titleProps={{ title: 'My Title My Title My Title My Title' }}
+        title={ 'My Title My Title My Title My Title' }
         data={ scatterChartData }
         axisBottomLegendLabel={ 'axisBottomLegend' }
         axisLeftLegendLabel={ 'axisLeftLegend' }
@@ -43,11 +41,12 @@ storiesOf('ScatterChart', module)
   .add('Widget Scatter Chart with custom title', () => (
     <ResponsiveChartWrapper>
       <ScatterChart
-        titleProps={{
+        title={ title }
+        titleStyle={{
           color: 'red',
-          fontWeight: 'bold',
-          textAlign: 'center',
-          ...titleProps,
+          fontSize: '24px',
+          fontWeight: 700,
+          textAlign: 'center'
         }}
         data={ scatterChartData }
         axisBottomLegendLabel={ 'axisBottomLegend' }
@@ -59,7 +58,7 @@ storiesOf('ScatterChart', module)
   .add('Widget Scatter Chart with no trimming of Legend', () => (
     <ResponsiveChartWrapper>
       <ScatterChart
-        titleProps={ titleProps }
+        title={ title }
         data={ scatterChartData }
         axisBottomLegendLabel={ 'axisBottomLegend' }
         axisLeftLegendLabel={ 'axisLeftLegend' }

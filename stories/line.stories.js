@@ -9,15 +9,13 @@ import barChartData from './data/bar-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
-const titleProps = {
-  title: 'My Title',
-}
+const title = 'My Title'
 
 storiesOf('Line Chart', module)
   .add('Widget Line Chart', () => (
     <ResponsiveChartWrapper>
       <LineChart
-        titleProps={ titleProps }
+        title={ title }
         data={ lineChartData }
         indexBy='country'
         xKey='vehicle'
@@ -31,7 +29,7 @@ storiesOf('Line Chart', module)
   .add('Widget Line Chart with custom bottom legend label numbers', () => (
     <ResponsiveChartWrapper>
       <LineChart
-        titleProps={ titleProps }
+        title={ title }
         data={ lineChartData }
         indexBy='country'
         xKey='vehicle'
@@ -46,7 +44,7 @@ storiesOf('Line Chart', module)
   .add('Index By Keys', () => (
     <ResponsiveChartWrapper>
       <LineChart
-        titleProps={ titleProps }
+        title={ title }
         indexByValue={ false }
         xScale={{ type: 'point' }}
         data={ barChartData }
@@ -58,7 +56,7 @@ storiesOf('Line Chart', module)
   .add('Bottom Axis Order', () => (
     <ResponsiveChartWrapper>
       <LineChart
-        titleProps={ titleProps }
+        title={ title }
         indexByValue={ false }
         xScale={{ type: 'point' }}
         data={ barChartData }
@@ -68,87 +66,78 @@ storiesOf('Line Chart', module)
       />
     </ResponsiveChartWrapper>
   ))
-  .add('Overlord adPosition', () => {
-    return (
-      <ResponsiveChartWrapper>
-        <LineChart
-          title='Overlord adPosition'
-          indexBy='Name'
-          xKey='Date'
-          yKeys={ ['Imps'] }
-          axisBottomLegendLabel={ 'Date' }
-          // parse dates into js objects so sort function works properly
-          data={ d.adPosition.map((x) => ({ ...x, Date: new Date(x.Date) })) }
-          axisBottomOrder='asc'
-          maxRowLegendItems={ 6 }
-          // if dates are objects, no need to format
-          xScale={{
-            type: 'time',
-            // format: '%m-%d-%Y',
-            useUTC: false,
-            // precision: 'day',
-          }}
-          axisLeftLegendLabel={ 'impressions' }
-          // do date manipulation with your fav library
-          tooltipFormatX={ (value) => value.toDateString() }
-          axisBottomLabelDisplayFn={ (value) => value.toDateString().slice(4, 10) }
-        />
-      </ResponsiveChartWrapper>
-    )
-  }
-  )
-  .add('Overlord OS', () => {
-    return (
-      <ResponsiveChartWrapper>
-        <LineChart
-          title='Overlord OS'
-          indexBy='Name'
-          xKey='Date'
-          yKeys={ ['Imps'] }
-          axisBottomLegendLabel={ 'Date' }
-          maxRowLegendItems={ 6 }
-          // comment next line  out to see relevance
-          axisBottomOrder='asc'
-          xScale={{
-            type: 'time',
-            // format: '%m-%d-%Y',
-            useUTC: false,
-            // precision: 'day',
-          }}
-          data={ OS.map((x) => ({ ...x, Date: new Date(x.Date) })) }
-          axisLeftLegendLabel={ 'impressions' }
-          // do date manipulation with your fav library
-          tooltipFormatX={ (value) => value.toDateString() }
-          axisBottomLabelDisplayFn={ (value) => value.toDateString().slice(4, 10) }
-        />
-      </ResponsiveChartWrapper>
-    )
-  }
-  )
-  .add('Overlord subtleties: smaller period', () => {
-    return (
-      <ResponsiveChartWrapper>
-        <LineChart
-          title='Overlord adPosition'
-          indexBy='Name'
-          xKey='Date'
-          yKeys={ ['Imps'] }
-          axisBottomLegendLabel={ 'Date' }
-          axisBottomOrder='asc'
-          maxRowLegendItems={ 6 }
-          xScale={{
-            type: 'time',
-            format: '%m-%d-%Y',
-            useUTC: false,
-          }}
-          // if period of time is smaller than 9 days, ticks are duplicate, so need to do values `every day`
-          axisBottomLabelValues={ 'every day' }
-          data={ d.smallAdPosition }
-          axisLeftLegendLabel={ 'Impressions' }
-          // do date manipulation with your fav library
-          tooltipFormatX={ (value) => value.toDateString() }
-        />
-      </ResponsiveChartWrapper>
-    )
-  }
-  )
+  .add('Overlord adPosition', () => (
+    <ResponsiveChartWrapper>
+      <LineChart
+        title='Overlord adPosition'
+        indexBy='Name'
+        xKey='Date'
+        yKeys={ ['Imps'] }
+        axisBottomLegendLabel={ 'Date' }
+        // parse dates into js objects so sort function works properly
+        data={ d.adPosition.map((x) => ({ ...x, Date: new Date(x.Date) })) }
+        axisBottomOrder='asc'
+        maxRowLegendItems={ 6 }
+        // if dates are objects, no need to format
+        xScale={{
+          type: 'time',
+          // format: '%m-%d-%Y',
+          useUTC: false,
+          // precision: 'day',
+        }}
+        axisLeftLegendLabel={ 'impressions' }
+        // do date manipulation with your fav library
+        tooltipFormatX={ (value) => value.toDateString() }
+        axisBottomLabelDisplayFn={ (value) => value.toDateString().slice(4, 10) }
+      />
+    </ResponsiveChartWrapper>
+  ))
+  .add('Overlord OS', () => (
+    <ResponsiveChartWrapper>
+      <LineChart
+        title='Overlord OS'
+        indexBy='Name'
+        xKey='Date'
+        yKeys={ ['Imps'] }
+        axisBottomLegendLabel={ 'Date' }
+        maxRowLegendItems={ 6 }
+        // comment next line  out to see relevance
+        axisBottomOrder='asc'
+        xScale={{
+          type: 'time',
+          // format: '%m-%d-%Y',
+          useUTC: false,
+          // precision: 'day',
+        }}
+        data={ OS.map((x) => ({ ...x, Date: new Date(x.Date) })) }
+        axisLeftLegendLabel={ 'impressions' }
+        // do date manipulation with your fav library
+        tooltipFormatX={ (value) => value.toDateString() }
+        axisBottomLabelDisplayFn={ (value) => value.toDateString().slice(4, 10) }
+      />
+    </ResponsiveChartWrapper>
+  ))
+  .add('Overlord subtleties: smaller period', () => (
+    <ResponsiveChartWrapper>
+      <LineChart
+        title='Overlord adPosition'
+        indexBy='Name'
+        xKey='Date'
+        yKeys={ ['Imps'] }
+        axisBottomLegendLabel={ 'Date' }
+        axisBottomOrder='asc'
+        maxRowLegendItems={ 6 }
+        xScale={{
+          type: 'time',
+          format: '%m-%d-%Y',
+          useUTC: false,
+        }}
+        // if period of time is smaller than 9 days, ticks are duplicate, so need to do values `every day`
+        axisBottomLabelValues={ 'every day' }
+        data={ d.smallAdPosition }
+        axisLeftLegendLabel={ 'Impressions' }
+        // do date manipulation with your fav library
+        tooltipFormatX={ (value) => value.toDateString() }
+      />
+    </ResponsiveChartWrapper>
+  ))
