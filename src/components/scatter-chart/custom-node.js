@@ -13,7 +13,7 @@ const propTypes = {
   onMouseEnter: PropTypes.func,
   onMouseMove: PropTypes.func,
   onMouseLeave: PropTypes.func,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 }
 
 const CustomNode = ({
@@ -30,7 +30,7 @@ const CustomNode = ({
   onMouseEnter,
   onMouseMove,
   onMouseLeave,
-  onClick
+  onClick,
 }) => {
   return (
     <g transform={ `translate(${x},${y})` }>

@@ -21,7 +21,7 @@ import {
   seriesPropTypes,
   seriesDefaultProps,
   typographyPropTypes,
-  typographyDefaultProps
+  typographyDefaultProps,
 } from '../../shared/constants/chart-props'
 import { SYMBOL_SIZE } from '../../shared/constants/dimensions'
 
@@ -29,12 +29,12 @@ import { SYMBOL_SIZE } from '../../shared/constants/dimensions'
 const propTypes = {
   ...seriesPropTypes,
   ...chartPropTypes,
-  ...typographyPropTypes
+  ...typographyPropTypes,
 }
 const defaultProps = {
   ...seriesDefaultProps,
   ...chartDefaultProps,
-  ...typographyDefaultProps
+  ...typographyDefaultProps,
 }
 
 // ScatterChart - creates a scatter chart
@@ -88,7 +88,7 @@ const ScatterChart = ({
       axisBottomTickValues,
       axisBottomLabelDisplayFn,
       axisLeftLabelDisplayFn,
-      typographyProps
+      typographyProps,
     }),
     [
       finalData,
@@ -98,8 +98,8 @@ const ScatterChart = ({
       height,
       axisBottomTickValues,
       axisBottomLabelDisplayFn,
-      axisLeftLabelDisplayFn
-    ]
+      axisLeftLabelDisplayFn,
+    ],
   )
 
   const legendToggle = useLegendToggle(data)

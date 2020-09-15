@@ -86,14 +86,14 @@ export const typographyPropTypes = {
   typographyProps: PropTypes.shape({
     fontFamily: PropTypes.string.isRequired,
     fontSize: PropTypes.number.isRequired,
-    textColor: PropTypes.string.isRequired
-  })
+    textColor: PropTypes.string.isRequired,
+  }),
 }
 
 export const typographyDefaultProps = {
   typographyProps: {
     fontFamily: '"Open Sans", sans-serif',
     fontSize: 12,
-    textColor: 'black'
-  }
+    textColor: 'black',
+  },
 }

@@ -73,7 +73,7 @@ export const getTextSize = (text, typographyProps) => {
     : context.measureText(decodeXML(text))
   return {
     width: Math.ceil(metrics.width),
-    height: Math.ceil(metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent)
+    height: Math.ceil(metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent),
   }
 }
 /**
@@ -108,7 +108,7 @@ const setChartMargin = (
   maxRowLegendItems,
   trimLegend,
   text_height,
-  legend_height
+  legend_height,
 ) => {
   // default values
   /**
@@ -121,13 +121,13 @@ const setChartMargin = (
     top,
     right,
     bottom,
-    left
+    left,
   ] = useAxis
     ? [
       SYMBOL_SIZE / 2 + 1,
       SYMBOL_SIZE / 2 + 1,
       AXIS_TICK_WIDTH,
-      AXIS_TICK_WIDTH
+      AXIS_TICK_WIDTH,
     ]
     : new Array(4).fill(BUFFER)
 
@@ -240,7 +240,7 @@ const setChartMargin = (
     showLeftAxisTicks,
     bottomAxisLegendOffset,
     leftAxisLegendOffset,
-    legendTranslate
+    legendTranslate,
   }
 }
 
@@ -274,7 +274,7 @@ export const getAxisLabelsSeries = ({
   axisBottomTickValues,
   axisBottomLabelDisplayFn,
   axisLeftLabelDisplayFn,
-  typographyProps
+  typographyProps,
 }) => {
   const { xScale, yScale } = computeXYScalesForSeries(data, xScaleSpec, yScaleSpec, width, height)
   const xLabels = getScaleTicks(xScale, axisBottomTickValues)
@@ -322,7 +322,7 @@ const trimText = (text, containerWidth, typographyProps, count = 0) => {
 export const aspectRatios = {
   LANDSCAPE: 0,
   PORTRAIT: 1,
-  ANY: 2
+  ANY: 2,
 }
 
 const getAspectRatio = (width, height) => {
@@ -471,7 +471,7 @@ export const getCommonProps = ({
         bottomAxisLegendOffset,
         d => axisBottomTrim
           ? trimText(axisBottomLabelDisplayFn(d)+'', chartWidth / axisBottomLabelCount, typographyProps)
-          : axisBottomLabelDisplayFn(d)
+          : axisBottomLabelDisplayFn(d),
       ),
     },
     axisLeft: {
@@ -481,7 +481,7 @@ export const getCommonProps = ({
         showLeftAxisTicks,
         axisLeftLegendLabel,
         leftAxisLegendOffset,
-        axisLeftLabelDisplayFn
+        axisLeftLabelDisplayFn,
       ),
     },
     legends: showLegend ? [legend] : [],
@@ -496,18 +496,18 @@ export const getCommonProps = ({
       axis: {
         domain: {
           line: {
-            stroke: 'black'
-          }
-        }
+            stroke: 'black',
+          },
+        },
       },
       grid: {
         line: {
           stroke: '#dbdbdb',
           strokeWidth: 1,
-          strokeDasharray: dash ? '5 5' : '' // only for line
-        }
-      }
-    }
+          strokeDasharray: dash ? '5 5' : '', // only for line
+        },
+      },
+    },
   }
 }
 
@@ -530,8 +530,8 @@ const aggregateReducer = ({ indexBy, genIndexKeys, genValueKey, type }) => (agg,
       const curr = agg[ele[indexBy]] || {}
       ret[key] = AGGREGATE_FN[type](curr[key], ele[genValueKey(key)])
       return ret
-    }, {})
-  }
+    }, {}),
+  },
 })
 
 const avgMap = indexBy => ele => ({
@@ -540,7 +540,7 @@ const avgMap = indexBy => ele => ({
   ...Object.keys(omit(ele, indexBy)).reduce((ret, key) => {
     ret[key] = ele[key].sum / ele[key].count
     return ret
-  }, {})
+  }, {}),
 })
 
 // aggregate data based on unique value of indexBy and [keys]
@@ -619,7 +619,7 @@ export const convertPieDataToNivo = ({ data, indexBy, dataKey }) => {
     id: o[indexBy],
     label: o[indexBy],
     value: o[dataKey],
-    percent: `${(o[dataKey] * 100 / total).toFixed(1)}%`
+    percent: `${(o[dataKey] * 100 / total).toFixed(1)}%`,
   }))
   return finalData
 }

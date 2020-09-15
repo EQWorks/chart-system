@@ -12,7 +12,7 @@ import {
   processColors,
   processAxisOrder,
   getAxisLabelsBar,
-  aggregateData
+  aggregateData,
 } from '../../shared/utils'
 import {
   chartPropTypes,
@@ -20,7 +20,7 @@ import {
   barChartPropTypes,
   barChartDefaultProps,
   typographyPropTypes,
-  typographyDefaultProps
+  typographyDefaultProps,
 } from '../../shared/constants/chart-props'
 
 import { DATA_HOVER_OPACITY } from '../../shared/constants/dimensions'
@@ -99,7 +99,7 @@ const BarChart = ({
     axisBottomLabelValues,
     axisBottomLabelDisplayFn,
     axisLeftLabelDisplayFn,
-    nivoProps
+    nivoProps,
   ])
 
   const legendToggle = useLegendToggle(data)
