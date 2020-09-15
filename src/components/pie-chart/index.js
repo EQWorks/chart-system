@@ -17,12 +17,12 @@ import {
   chartPropTypes,
   chartDefaultProps,
   typographyPropTypes,
-  typographyDefaultProps
+  typographyDefaultProps,
 } from '../../shared/constants/chart-props'
 import {
   WIDTH_BREAKPOINT_2,
   HEIGHT_BREAKPOINT_2,
-  DATA_HOVER_OPACITY
+  DATA_HOVER_OPACITY,
 } from '../../shared/constants/dimensions'
 
 

@@ -13,7 +13,7 @@ const propTypes = {
 }
 
 const LegendCircle = ({
-  x, y, size, fill, borderWidth, borderColor, trimLegendLabel
+  x, y, size, fill, borderWidth, borderColor, trimLegendLabel,
 }) => {
 
   const initRef = useCallback(trimLegendLabel, [])

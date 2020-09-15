@@ -7,10 +7,10 @@ export const titlePropTypes = {
     fontSize: PropTypes.string.isRequired,
     fontWeight: PropTypes.oneOfType([
       PropTypes.number,
-      PropTypes.string
+      PropTypes.string,
     ]).isRequired,
-    textAlign: PropTypes.string.isRequired
-  })
+    textAlign: PropTypes.string.isRequired,
+  }),
 }
 
 export const titleDefaultProps = {
@@ -19,6 +19,6 @@ export const titleDefaultProps = {
     color: 'black',
     fontSize: '18px',
     fontWeight: 'normal',
-    textAlign: 'left'
-  }
+    textAlign: 'left',
+  },
 }

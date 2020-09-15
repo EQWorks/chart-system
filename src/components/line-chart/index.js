@@ -20,7 +20,7 @@ import {
   seriesPropTypes,
   seriesDefaultProps,
   typographyPropTypes,
-  typographyDefaultProps
+  typographyDefaultProps,
 } from '../../shared/constants/chart-props'
 import { DATA_HOVER_OPACITY } from '../../shared/constants/dimensions'
 
@@ -102,7 +102,7 @@ const ResponsiveLineChart = ({
       axisBottomTickValues,
       axisBottomLabelDisplayFn,
       axisLeftLabelDisplayFn,
-      typographyProps
+      typographyProps,
     }),
     [
       finalData,
@@ -112,8 +112,8 @@ const ResponsiveLineChart = ({
       height,
       axisBottomTickValues,
       axisBottomLabelDisplayFn,
-      axisLeftLabelDisplayFn
-    ]
+      axisLeftLabelDisplayFn,
+    ],
   )
 
   const legendToggle = useLegendToggle(data)

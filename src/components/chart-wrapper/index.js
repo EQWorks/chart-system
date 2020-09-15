@@ -35,7 +35,7 @@ export const withWrapper = Chart => {
           ref={ titleRef }
           style={{
             fontFamily: typographyProps.fontFamily,
-            ...titleStyle
+            ...titleStyle,
           }}
         >
           { title }
