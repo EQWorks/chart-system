@@ -15,10 +15,15 @@ const Wrapper = styled('div')`
   margin: 16px;
 `
 
-const Title = styled('div', forwardRef)`
+const Title = styled('div', forwardRef)(({ typography = titleDefaultProps.titleStyle }) =>`
+  font-family: ${typography.fontFamily};
+  font-size: ${typography.fontSize};
+  font-weight: ${typography.fontWeight};
+  color: ${typography.color};
+  text-align: ${typography.textAlign};
   margin-bottom: 16px;
   overflow-wrap: anywhere;
-`
+`)
 
 export const withWrapper = Chart => {
   const ChartWrapper = ({
@@ -33,7 +38,7 @@ export const withWrapper = Chart => {
         { title.length !== 0 &&
         <Title
           ref={ titleRef }
-          style={{
+          typography={{
             fontFamily: typographyProps.fontFamily,
             ...titleStyle,
           }}

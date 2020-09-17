@@ -113,6 +113,7 @@ const ResponsiveLineChart = ({
       axisBottomTickValues,
       axisBottomLabelDisplayFn,
       axisLeftLabelDisplayFn,
+      typographyProps,
     ],
   )
 
@@ -152,6 +153,7 @@ const ResponsiveLineChart = ({
               { label: axisBottomLegendLabel, value: tooltipFormatX(point.data.x) },
               { label: axisLeftLegendLabel, value: tooltipFormat(point.data.y) },
             ] }
+            typography={ typographyProps }
           />
         ) }
         { ...getCommonProps({
