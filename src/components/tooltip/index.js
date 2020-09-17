@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { typographyPropTypes, typographyDefaultProps } from '../../shared/constants/chart-props'
+
 import { styled, setup } from 'goober'
 
 setup(React.createElement)
@@ -28,14 +30,15 @@ const TooltipNode = styled('div')`
   background-color: ${props => props['background-color']};
 `
 
-const TooltipLabel = styled('strong')`
-  height: 17px;
-  font-size: 12px;
-`
+const TooltipLabel = styled('strong')(({ typography = typographyDefaultProps }) =>`
+  font-family: ${typography.fontFamily};
+  font-size: ${typography.fontSize}px;
+`)
 
-const TooltipData = styled('span')`
-  font-size: 12px;
-`
+const TooltipData = styled('span')(({ typography = typographyDefaultProps }) =>`
+font-family: ${typography.fontFamily};
+font-size: ${typography.fontSize}px;
+`)
 
 const propTypes = {
   label: PropTypes.string.isRequired,
@@ -47,24 +50,31 @@ const propTypes = {
       PropTypes.number,
     ]).isRequired,
   })),
+  typography: typographyPropTypes,
 }
 
 const Tooltip = ({
   label,
   color,
   display,
+  typography,
 }) => (
   <TooltipWrapper>
     <TooltipHeader>
       <TooltipNode background-color={ color } />
-      <TooltipLabel>
-        {label}
+      <TooltipLabel 
+        typography={ typography }
+      >
+        { label }
       </TooltipLabel>
     </TooltipHeader>
     <TooltipBody>
       {display.map(({ label, value }) => (
-        <TooltipData key={ label }>
-          {label}: {value}
+        <TooltipData
+          key={ label }
+          typography={ typography }
+        >
+          { label }: { value }
         </TooltipData>
       ))}
     </TooltipBody>
@@ -72,5 +82,6 @@ const Tooltip = ({
 )
 
 Tooltip.propTypes = propTypes
+Tooltip.defaultprops = typographyDefaultProps
 
 export default Tooltip

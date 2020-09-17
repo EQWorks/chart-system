@@ -128,6 +128,7 @@ const PieChart = ({
             { label: 'Value', value: tooltipFormat(value) },
             { label: 'Share', value: percent },
           ] }
+          typography={ typographyProps }
         />
       ) }
       onMouseEnter={ mouseOverHandler }

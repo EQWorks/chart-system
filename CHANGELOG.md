@@ -18,11 +18,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `<ChartWrapper />` - replace Autosizer with nivo's ResponsiveWrapper component
 - typography - update font family to `Open Sans`
 - deps - remove `react-virtualized-auto-sizer`
+- devops - clean linting rules
 
 ### Added
 - `tooltipFormatX` - add prop to format bottom axis for Bar/Line/Scatterplot. Mostly used for dates in time series
 - `title`, `titleStyle` - add props for `<Title />` component
 - `typographyProps` - add props for styling chart font family, size, and color
+- `<Tooltip />` - add chart typography style (font size, font family, color)
 
 ## [0.3.2] - 2020-08-18
 ### Fixed

@@ -99,6 +99,7 @@ const BarChart = ({
     axisBottomLabelValues,
     axisBottomLabelDisplayFn,
     axisLeftLabelDisplayFn,
+    typographyProps,
     nivoProps,
   ])
 
@@ -126,6 +127,7 @@ const BarChart = ({
             { label: axisBottomLegendLabel, value: tooltipFormatX(indexValue) },
             { label: axisLeftLegendLabel, value: tooltipFormat(value) },
           ] }
+          typography={ typographyProps }
         />
       ) }
       onMouseEnter={ (_data, event) => {
