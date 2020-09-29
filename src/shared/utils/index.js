@@ -93,6 +93,7 @@ export const getTextSize = (text, typographyProps) => {
  * @param { number } lastXAxisTickLabelWidth - the length of the highest x-axis label value
  * @param { number } maxRowLegendItems - number of legend items to display on the bottom chart legend
  * @param { boolean } trimLegend - to trim or not the legend items
+ * @param { boolean } disableLegend - to display or not chartLegend
  * @param { number } text_height - chart text height in pixels
  * @param { number } legend_height - chart legend text height in pixels
  * @returns { object } - top, right, bottom, left margin values
@@ -107,6 +108,7 @@ const setChartMargin = (
   lastXAxisTickLabelWidth,
   maxRowLegendItems,
   trimLegend,
+  disableLegend,
   text_height,
   legend_height,
 ) => {
@@ -180,23 +182,25 @@ const setChartMargin = (
     legendTranslate = bottomAxisLegendOffset + 5 * BUFFER
   }
 
-  // show right column legend when in landscape mode and number of legend items surpass MAX_LEGEND_ITEMS_ROW
+  // show right column legend when in landscape mode and number of legend items surpass maxRowLegendItems
   const rightHandLegend = isAspectRatio(width, height, aspectRatios.LANDSCAPE)
                           || legendItemCount > maxRowLegendItems
   // calculate height of column legend to hide it if it is larger than chart height
   const columnLegendHeight = legendItemCount * (legend_height +  BUFFER)
   /**
-   * we hide legend when chart width is below WIDTH_BREAKPOINT_3 and legend height is greater than
-   * the chart height and bottom margin
+   * we hide legend when disableLegend===true, chart width is below WIDTH_BREAKPOINT_3,
+   * and legend height is greater than the chart height and bottom margin
    */
-  let showLegend = width >= WIDTH_BREAKPOINT_3
-                   && columnLegendHeight <= height - 2 * BUFFER
+  let showLegend = !disableLegend
+    && width >= WIDTH_BREAKPOINT_3
+    && columnLegendHeight <= height - 2 * BUFFER
+
   let rightHandLegendAnchor = columnLegendHeight <= height - top - bottom
     ? 'right'
     : 'top-right'
 
-  if (!rightHandLegend) {
-    // row/bottom legend appears only after chart height >= HEIGHT_BREAKPOINT_3
+  if (!rightHandLegend && !disableLegend) {
+    // row/bottom legend appears only if !disableLegend and after chart height >= HEIGHT_BREAKPOINT_3
     showLegend = height >= HEIGHT_BREAKPOINT_3
   }
   let legendLabelContainerWidth
@@ -387,6 +391,7 @@ export const getCommonProps = ({
   legendProps={},
   maxRowLegendItems,
   trimLegend,
+  disableLegend,
   typographyProps,
 }) => {
 
@@ -424,6 +429,7 @@ export const getCommonProps = ({
     lastXAxisTickLabelWidth,
     maxRowLegendItems,
     trimLegend,
+    disableLegend,
     text_height,
     legend_height,
   )

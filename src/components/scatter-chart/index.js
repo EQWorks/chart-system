@@ -58,6 +58,7 @@ const ScatterChart = ({
   yScale,
   maxRowLegendItems,
   trimLegend,
+  disableLegend,
   width,
   height,
   tooltipFormat,
@@ -149,6 +150,7 @@ const ScatterChart = ({
         maxYAxisTickLabelWidth,
         maxRowLegendItems,
         trimLegend,
+        disableLegend,
         typographyProps,
       }) }
       { ...legendToggle }

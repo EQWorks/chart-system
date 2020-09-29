@@ -34,6 +34,7 @@ A catch-all `{...nivoProps}` is passed along to each chart, though the values mi
 - **axisLeftLabelDisplayFn** - `labelValue => { ...return displayValue }` - function to customize the left axis tick labels. Default is `d => d`
 - **maxRowLegendItems** - maximum labels on the bottom / row chart legend. Default is MAX_LEGEND_ITEMS_ROW (3)
 - **trimLegend** - whether or not to trim chart legend labels. Default is `true`
+- **disableLegend** - whether or not to display chart Legend. Default is `false`
 - **tooltipFormat** - a function that exposes the final value of the tooltip for formatting. Receives the value as an argument. Default is `v => v`
 - **title** - the title text in `<Title />` component. Default value is ``
 - **titleStyle** - styling props for `<Title />` component. Default value is
