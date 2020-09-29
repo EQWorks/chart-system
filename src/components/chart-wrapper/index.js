@@ -1,4 +1,4 @@
-import React, { createRef, forwardRef } from 'react'
+import React, { useRef, forwardRef } from 'react'
 
 import { titlePropTypes, titleDefaultProps } from '../../shared/constants/title-props'
 import { typographyPropTypes, typographyDefaultProps } from '../../shared/constants/chart-props'
@@ -32,7 +32,7 @@ export const withWrapper = Chart => {
     typographyProps,
     ...chartProps
   }) => {
-    const titleRef = createRef(null)
+    const titleRef = useRef()
     return (
       <Wrapper>
         { title.length !== 0 &&
@@ -52,7 +52,7 @@ export const withWrapper = Chart => {
                * because we have 16px margin and height 100% for Wrapper, the height overflows the container with 32px
                * for chart we have to substract the top and bottom Wrapper margins plus the bottom title margin (16px)
                */
-              height={ height - (title.length !== 0
+              height={ height - (title.length !== 0 && titleRef.current
                 ? titleRef.current.getBoundingClientRect().height + 32 + 16
                 : 32)
               }
