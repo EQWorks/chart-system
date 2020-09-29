@@ -30,12 +30,12 @@ const TooltipNode = styled('div')`
   background-color: ${props => props['background-color']};
 `
 
-const TooltipLabel = styled('strong')(({ typography = typographyDefaultProps }) =>`
+const TooltipLabel = styled('strong')(({ typography = typographyDefaultProps.typographyProps }) =>`
   font-family: ${typography.fontFamily};
   font-size: ${typography.fontSize}px;
 `)
 
-const TooltipData = styled('span')(({ typography = typographyDefaultProps }) =>`
+const TooltipData = styled('span')(({ typography = typographyDefaultProps.typographyProps }) =>`
 font-family: ${typography.fontFamily};
 font-size: ${typography.fontSize}px;
 `)
@@ -50,7 +50,7 @@ const propTypes = {
       PropTypes.number,
     ]).isRequired,
   })),
-  typography: typographyPropTypes,
+  typography: typographyPropTypes.typographyProps,
 }
 
 const Tooltip = ({
