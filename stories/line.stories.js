@@ -26,21 +26,6 @@ storiesOf('Line Chart', module)
       />
     </ResponsiveChartWrapper>
   ))
-  .add('Widget Line Chart with custom bottom legend label numbers', () => (
-    <ResponsiveChartWrapper>
-      <LineChart
-        title={ title }
-        data={ lineChartData }
-        indexBy='country'
-        xKey='vehicle'
-        yKeys={ ['amount'] }
-        xScale={{ type: 'point' }}
-        axisBottomLegendLabel={ 'axisBottomLegend' }
-        axisLeftLegendLabel={ 'axisLeftLegend' }
-        maxRowLegendItems={ 4 }
-      />
-    </ResponsiveChartWrapper>
-  ))
   .add('Index By Keys', () => (
     <ResponsiveChartWrapper>
       <LineChart
@@ -48,19 +33,6 @@ storiesOf('Line Chart', module)
         indexByValue={ false }
         xScale={{ type: 'point' }}
         data={ barChartData }
-        axisBottomLegendLabel={ 'axisBottomLegend' }
-        axisLeftLegendLabel={ 'axisLeftLegend' }
-      />
-    </ResponsiveChartWrapper>
-  ))
-  .add('Bottom Axis Order', () => (
-    <ResponsiveChartWrapper>
-      <LineChart
-        title={ title }
-        indexByValue={ false }
-        xScale={{ type: 'point' }}
-        data={ barChartData }
-        axisBottomOrder='desc'
         axisBottomLegendLabel={ 'axisBottomLegend' }
         axisLeftLegendLabel={ 'axisLeftLegend' }
       />

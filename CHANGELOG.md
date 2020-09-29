@@ -41,6 +41,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - devops - add depcheck file and updated deps
 - devops - add node 12.x and 14.x to master CI matrix
 - devops - eslint react version auto detect
+- stories - removed all stories related to title, legend, axis format, tooltip, typography,
+            dynamic-data from individual chart stories into their own story files
 
 ## [0.3.0] & [0.3.1] - 2020-08-05
 

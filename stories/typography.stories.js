@@ -8,11 +8,16 @@ import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 const title = 'My Title'
 
-storiesOf('ScatterChart', module)
-  .add('Widget Scatter Chart', () => (
+storiesOf('Typography', module)
+  .add('Custom typography', () => (
     <ResponsiveChartWrapper>
       <ScatterChart
         title={ title }
+        typographyProps={{
+          fontFamily: '"Orbitron", sans-serif',
+          fontSize: 14,
+          textColor: 'red'
+        }}
         data={ scatterChartData }
         axisBottomLegendLabel={ 'axisBottomLegend' }
         axisLeftLegendLabel={ 'axisLeftLegend' }

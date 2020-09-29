@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { storiesOf } from '@storybook/react'
 
 import BarChart from '../src/components/bar-chart/'
@@ -19,91 +19,6 @@ storiesOf('Bar Chart', module)
         data={ barChartData }
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
-      />
-    </ResponsiveChartWrapper>
-  ))
-  .add('Dynamic Data - legend update', () => {
-    const [data, setData] = useState(barChartData)
-    return (
-      <ResponsiveChartWrapper>
-        <button
-          onClick={ () => setData([{
-            address_city: 'Sauga',
-            dopeness: 1000,
-            awesomeness: 800,
-          },
-          {
-            address_city: 'T-Dot',
-            dopeness: 2000,
-            awesomeness: 2100,
-          }]) }
-        >Change Data</button>
-        <br />
-        <BarChart
-          data={ data }
-          axisBottomLegendLabel='Address City'
-          axisLeftLegendLabel='Visitors'
-        />
-      </ResponsiveChartWrapper>
-    )
-  })
-  .add('No Label Trim', () => (
-    <ResponsiveChartWrapper>
-      <BarChart
-        title={ title }
-        data={ barChartData }
-        axisBottomLegendLabel='Address City'
-        axisLeftLegendLabel='Visitors'
-        groupMode='grouped'
-        axisBottomTrim={ false }
-      />
-    </ResponsiveChartWrapper>
-  ))
-  .add('Formatted X Label', () => (
-    <ResponsiveChartWrapper>
-      <BarChart
-        title={ title }
-        data={ barChartData }
-        axisBottomLegendLabel='Address City'
-        axisLeftLegendLabel='Visitors'
-        groupMode='grouped'
-        axisBottomLabelDisplayFn={ d => d.substring(0, 2) }
-      />
-    </ResponsiveChartWrapper>
-  ))
-  .add('Formatted Y Label', () => (
-    <ResponsiveChartWrapper>
-      <BarChart
-        title={ title }
-        data={ barChartData }
-        axisBottomLegendLabel='Address City'
-        axisLeftLegendLabel='Visitors'
-        groupMode='grouped'
-        axisLeftLabelDisplayFn={ d => d + 'k' }
-      />
-    </ResponsiveChartWrapper>
-  ))
-  .add('Bottom Axis Order - Descending', () => (
-    <ResponsiveChartWrapper>
-      <BarChart
-        title={ title }
-        data={ barChartData }
-        axisBottomLegendLabel='Address City'
-        axisLeftLegendLabel='Visitors'
-        groupMode='grouped'
-        axisBottomOrder='desc'
-      />
-    </ResponsiveChartWrapper>
-  ))
-  .add('Bottom Axis Order - Exact', () => (
-    <ResponsiveChartWrapper>
-      <BarChart
-        title={ title }
-        data={ barChartData }
-        axisBottomLegendLabel='Address City'
-        axisLeftLegendLabel='Visitors'
-        groupMode='grouped'
-        axisBottomOrder={ ['Airdrie', 'Brandon', 'Abbotsford'] }
       />
     </ResponsiveChartWrapper>
   ))
