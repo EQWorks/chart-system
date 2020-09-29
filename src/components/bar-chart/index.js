@@ -59,6 +59,7 @@ const BarChart = ({
   valueKey,
   maxRowLegendItems,
   trimLegend,
+  disableLegend,
   tooltipFormat,
   tooltipFormatX,
   typographyProps,
@@ -164,6 +165,7 @@ const BarChart = ({
         maxYAxisTickLabelWidth,
         maxRowLegendItems,
         trimLegend,
+        disableLegend,
         typographyProps,
       }) }
       { ...legendToggle }

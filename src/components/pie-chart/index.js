@@ -65,6 +65,7 @@ const PieChart = ({
   slicesLabelsSkipAngle,
   maxRowLegendItems,
   trimLegend,
+  disableLegend,
   tooltipFormat,
   typographyProps,
   ...nivoProps
@@ -141,6 +142,7 @@ const PieChart = ({
         dash: true,
         maxRowLegendItems,
         trimLegend,
+        disableLegend,
         typographyProps,
       }) }
       { ...legendToggle }

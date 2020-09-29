@@ -74,6 +74,7 @@ const ResponsiveLineChart = ({
   height,
   maxRowLegendItems,
   trimLegend,
+  disableLegend,
   tooltipFormat,
   tooltipFormatX,
   typographyProps,
@@ -176,6 +177,7 @@ const ResponsiveLineChart = ({
           maxYAxisTickLabelWidth,
           maxRowLegendItems,
           trimLegend,
+          disableLegend,
           typographyProps,
         }) }
         { ...legendToggle }

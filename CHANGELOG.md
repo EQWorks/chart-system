@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `title`, `titleStyle` - add props for `<Title />` component
 - `typographyProps` - add props for styling chart font family, size, and color
 - `<Tooltip />` - add chart typography style (font size, font family, color)
+- `disableLegend` - add prop to disable Legend display
 
 ## [0.3.2] - 2020-08-18
 ### Fixed
