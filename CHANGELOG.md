@@ -6,28 +6,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2020-09-30
+
 ### Fixed
-- Legend - label trimming when special characters are present in the labels
-- Title - remove title text when pointer hovers
-- Utils - getAxisLabelsSeries - adjust function prop to its usage: `axisBottomTickValues` instead of `axisBottomLabelValues`
 - chart-props - revise definitions for colors and axisBottomLabelValues props
 - TEXT_HEIGHT, LEGEND_HEIGHT - calculate with typographyProps, getTextSize
 
 ### Changed
-- `<ChartWrapper />` - move all necessary chart wrapper css in ChartWrapper component
 - `<ChartWrapper />` - replace Autosizer with nivo's ResponsiveWrapper component
 - typography - update font family to `Open Sans`
 - deps - remove `react-virtualized-auto-sizer`
 - devops - clean linting rules
 
 ### Added
-- `tooltipFormatX` - add prop to format bottom axis for Bar/Line/Scatterplot. Mostly used for dates in time series
 - `title`, `titleStyle` - add props for `<Title />` component
 - `typographyProps` - add props for styling chart font family, size, and color
 - `<Tooltip />` - add chart typography style (font size, font family, color)
 - `disableLegend` - add prop to disable Legend display
 
+## [0.3.3] - 2020-08-24
+
+### Fixed
+- Legend - label trimming when special characters are present in the labels
+- Title - remove title text when pointer hovers
+- Utils - getAxisLabelsSeries - adjust function prop to its usage: `axisBottomTickValues` instead of `axisBottomLabelValues`
+
+### Changed
+- `<ChartWrapper />` - move all necessary chart wrapper css in ChartWrapper component
+
+### Added
+- `tooltipFormatX` - add prop to format bottom axis for Bar/Line/Scatterplot. Mostly used for dates in time series
+
 ## [0.3.2] - 2020-08-18
+
 ### Fixed
 - ReadMe - update scatter & line props usage
 - Utils - update sort function props to be more flexible
@@ -51,7 +62,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Legend - custom number of labels allowed on the bottom / row chart legend
 - Legend - custom trimLegend prop to allow trimming or not of chart legend labels
 - @storybook/addon-storysource
-
 
 ### Changed
 - Legend - right / column legend hides when chart width exceeds legend heigth
