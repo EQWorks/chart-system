@@ -219,6 +219,7 @@ const setChartMargin = (
         legendLabelContainerWidth = maxLegendLabelWidth
       }
       right = legendLabelContainerWidth + legendTranslate + LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH
+      legendItemWidth = legendLabelContainerWidth + LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH
     } else {
       legendItemWidth = (width - right - left) / legendItemCount
       legendLabelContainerWidth = trimLegend
@@ -263,7 +264,7 @@ export const getAxisLabelsBar = ({
 
   return {
     xLabelCount: xLabels.length,
-    lastXLabelWidth: getTextSize(axisBottomLabelDisplayFn(xLabels[xLabels.length - 1]), typographyProps).width,
+    lastXLabelWidth: xLabels.length ? getTextSize(axisBottomLabelDisplayFn(xLabels[xLabels.length - 1]), typographyProps).width : 0,
     yLabelCount: yLabels.length,
     maxYLabelWidth: getLabelMaxWidth(yLabels, typographyProps, axisLeftLabelDisplayFn),
   }
@@ -286,7 +287,7 @@ export const getAxisLabelsSeries = ({
 
   return {
     xLabelCount: xLabels.length,
-    lastXLabelWidth: getTextSize(axisBottomLabelDisplayFn(xLabels[xLabels.length - 1]), typographyProps).width,
+    lastXLabelWidth: xLabels.length ? getTextSize(axisBottomLabelDisplayFn(xLabels[xLabels.length - 1]), typographyProps).width : 0,
     yLabelCount: yLabels.length,
     maxYLabelWidth: getLabelMaxWidth(yLabels, typographyProps, axisLeftLabelDisplayFn),
   }
@@ -336,7 +337,7 @@ const getAspectRatio = (width, height) => {
 export const isAspectRatio = (width, height, aspectRatio) => getAspectRatio(width, height) === aspectRatio
 
 /**
- * trimLegendLabel - trims the labels of the leged
+ * trimLegendLabel - trims the labels of the legend
  * @param { number } legendLabelContainerWidth - the width that the label needs to fit in
  * @param { object } typographyProps - an object with font size, font family, and text color for the chart
  * @param { html } node - Legend html node
@@ -375,6 +376,8 @@ const getCommonAxisProps = (showAxisLegend, showAxisTicks, axisLegendLabel, lege
 
 export const getCommonProps = ({
   keys,
+  toggleDataSeries,
+  currentColorMap,
   height,
   width,
   useAxis,
@@ -439,9 +442,9 @@ export const getCommonProps = ({
   const aspectRatioProps = rightHandLegend ? ({
     anchor: rightHandLegendAnchor,
     direction: 'column',
-    // NOTE: itemWidth doesn't affect right legend
-    itemWidth: 0,
-    translateX: legendTranslate,
+    // NOTE: itemWidth affects wrapper of legend, which gets the onClick listener
+    itemWidth: legendItemWidth,
+    translateX: legendTranslate + legendItemWidth,
     translateY: 0,
   }) : ({
     anchor: 'bottom-left',
@@ -464,6 +467,21 @@ export const getCommonProps = ({
     symbolShape,
     ...aspectRatioProps,
     ...legendProps,
+    effects: [
+      {
+        on: 'hover',
+        style: {
+          itemTextColor: '#000',
+          itemBackground: '#eee',
+        },
+      },
+    ],
+    onClick: ({ id }) => toggleDataSeries(id),
+    data: keys.map(key => ({
+      label: key,
+      id: key,
+      color: currentColorMap[key] || 'rgba(150, 150, 150, 0.5)',
+    })),
   }
 
   return {

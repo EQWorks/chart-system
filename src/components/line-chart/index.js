@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import { styled, setup } from 'goober'
 import { Line } from '@nivo/line'
@@ -80,14 +80,58 @@ const ResponsiveLineChart = ({
   typographyProps,
   ...nivoProps
 }) => {
-  const { finalIndexBy, finalXKey, finalYKeys } = processSeriesDataKeys({ data, indexBy, xKey, yKeys, indexByValue })
-  const unsortedData = convertDataToNivo({ data, indexBy: finalIndexBy, xKey: finalXKey, yKeys: finalYKeys, indexByValue })
-  const finalData = processAxisOrderNivo({ unsortedData, axisBottomOrder })
-  const finalColors = colors.length ? colors : processColors(finalData.length, colorType, colorParam)
+  const {
+    finalXKey,
+    finalYKeys,
+    nivoData,
+    baseDataToColorMap,
+  } = useMemo(() => {
+    const {
+      finalIndexBy,
+      finalXKey,
+      finalYKeys,
+    } = processSeriesDataKeys({ data, indexBy, xKey, yKeys, indexByValue })
+    const unsortedData = convertDataToNivo({ data, indexBy: finalIndexBy, xKey: finalXKey, yKeys: finalYKeys, indexByValue })
+    const nivoData = processAxisOrderNivo({ unsortedData, axisBottomOrder })
+    const baseColors = colors.length ? colors : processColors(nivoData.length, colorType, colorParam)
+    // ====[TODO] flexible/repeat nature of colors could screw up { id: color } map
+    // =========] would need to include repeat logic here?
+    const baseDataToColorMap = nivoData.reduce((agg, o, i) => ({ ...agg, [o.id]: baseColors[i] }), {})
+    return {
+      finalXKey,
+      finalYKeys,
+      nivoData,
+      baseDataToColorMap,
+    }
+  }, [data, indexBy, xKey, yKeys, indexByValue, axisBottomOrder])
+ 
+  const [finalData, setFinalData] = useState(nivoData)
+  const [currentColorMap, setCurrentColorMap] = useState(baseDataToColorMap)
+  useEffect(() => {
+    setFinalData(nivoData)
+  }, [nivoData])
+  
+  useEffect(() => {
+    setCurrentColorMap(finalData.reduce((agg, o) => ({ ...agg, [o.id]: baseDataToColorMap[o.id] }), {}))
+  }, [finalData])
+
+  const finalColors = finalData.map(({ id }) => currentColorMap[id])
 
   const finalXScale = { type: 'linear', ...xScale }
   const finalYScale = { type: 'linear', ...yScale }
   const axisBottomTickValues = axisBottomLabelValues
+
+  const toggleDataSeries = id => {
+    setFinalData(prevData => {
+      const idx = prevData.findIndex(o => o.id === id)
+      if (idx < 0) {
+        // ====[NOTE] data & colors are matched by index, so add back in to original position
+        const ogIdx = nivoData.findIndex(o => o.id === id)
+        return [...prevData.slice(0, ogIdx), nivoData[ogIdx], ...prevData.slice(ogIdx)]
+      }
+      return [...prevData.slice(0, idx), ...prevData.slice(idx + 1)]
+    })
+  }
 
   const {
     xLabelCount: axisBottomLabelCount,
@@ -162,7 +206,9 @@ const ResponsiveLineChart = ({
           useAxis: true,
           yKeys: finalYKeys,
           xKey: finalXKey,
-          keys: finalData.map(o => o.id),
+          keys: nivoData.map(o => o.id),
+          currentColorMap,
+          toggleDataSeries,
           height,
           width,
           axisBottomLegendLabel,
