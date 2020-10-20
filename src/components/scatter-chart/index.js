@@ -1,6 +1,7 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import { ScatterPlot } from '@nivo/scatterplot'
 
+import CustomLegend from './custom-scatter-legend'
 import { withWrapper } from '../chart-wrapper'
 import CustomNode from './custom-node'
 import Tooltip from '../tooltip'
@@ -66,15 +67,59 @@ const ScatterChart = ({
   typographyProps,
   ...nivoProps
 }) => {
-  const { finalIndexBy, finalXKey, finalYKeys } = processSeriesDataKeys({ data, indexBy, xKey, yKeys, indexByValue })
-  const unsortedData = convertDataToNivo({ data, indexBy: finalIndexBy, xKey: finalXKey, yKeys: finalYKeys, indexByValue })
-  const finalData = processAxisOrderNivo({ unsortedData, axisBottomOrder })
-  const finalColors = colors.length ? colors : processColors(finalData.length, colorType, colorParam)
+  const {
+    nivoData,
+    baseDataToColorMap,
+  } = useMemo(() => {
+    const {
+      finalIndexBy,
+      finalXKey,
+      finalYKeys,
+    } = processSeriesDataKeys({ data, indexBy, xKey, yKeys, indexByValue })
+    const unsortedData = convertDataToNivo({ data, indexBy: finalIndexBy, xKey: finalXKey, yKeys: finalYKeys, indexByValue })
+    const nivoData = processAxisOrderNivo({ unsortedData, axisBottomOrder })
+    const baseColors = colors.length ? colors : processColors(nivoData.length, colorType, colorParam)
+    // ====[TODO] flexible/repeat nature of colors could screw up { id: color } map
+    // =========] would need to include repeat logic here?
+    const baseDataToColorMap = nivoData.reduce((agg, o, i) => ({ ...agg, [o.id]: baseColors[i] }), {})
+    return {
+      nivoData,
+      baseDataToColorMap,
+    }
+  }, [data, indexBy, xKey, yKeys, indexByValue, axisBottomOrder])
+
+  const [finalData, setFinalData] = useState(nivoData)
+  useEffect(() => {
+    setFinalData(nivoData)
+  }, [nivoData])
+
+  const { finalColors, currentColorMap } = useMemo(() => finalData.reduce(({ finalColors, currentColorMap }, o) => ({
+    finalColors: [...finalColors, baseDataToColorMap[o.id]],
+    currentColorMap: {
+      ...currentColorMap,
+      [o.id]: baseDataToColorMap[o.id],
+    },
+  }), {
+    finalColors: [],
+    currentColorMap : {},
+  }), [finalData])
+
+  const legendOnClick = ({ id }) => {
+    setFinalData(prevData => {
+      const idx = prevData.findIndex(o => o.id === id)
+      if (idx < 0) {
+        // ====[NOTE] data & colors are matched by index, so add back in to original position
+        const ogIdx = nivoData.findIndex(o => o.id === id)
+        return [...prevData.slice(0, ogIdx), nivoData[ogIdx], ...prevData.slice(ogIdx)]
+      }
+      return [...prevData.slice(0, idx), ...prevData.slice(idx + 1)]
+    })
+  }
 
   const finalXScale = { type: 'linear', ...xScale }
   const finalYScale = { type: 'linear', ...yScale }
-
   const axisBottomTickValues = axisBottomLabelValues
+
   const {
     xLabelCount: axisBottomLabelCount,
     lastXLabelWidth: lastXAxisTickLabelWidth,
@@ -108,6 +153,7 @@ const ScatterChart = ({
   return (
     <ScatterPlot
       { ...nivoProps }
+      layers={['grid', 'axes', 'nodes', 'markers', CustomLegend]}
       height={ height }
       width={ width }
       data={ finalData }
@@ -131,27 +177,26 @@ const ScatterChart = ({
         />
       ) }
       { ...getCommonProps({
-        data,
         useAxis: true,
-        keys: finalData.map(o => o.id),
-        yKeys: finalYKeys,
-        xKey: finalXKey,
+        keys: nivoData.map(o => o.id),
+        legendOnClick,
+        currentColorMap,
         height,
         width,
-        axisBottomLegendLabel,
-        axisLeftLegendLabel,
-        dash: true,
         axisBottomTrim,
+        axisBottomLegendLabel,
         axisBottomLabelDisplayFn,
         axisBottomTickValues,
         axisBottomLabelCount,
         lastXAxisTickLabelWidth,
+        axisLeftLegendLabel,  
         axisLeftLabelDisplayFn,
         maxYAxisTickLabelWidth,
         maxRowLegendItems,
         trimLegend,
         disableLegend,
         typographyProps,
+        dash: true,
       }) }
       { ...legendToggle }
     />
