@@ -102,16 +102,32 @@ const ResponsiveLineChart = ({
   }, [data, indexBy, xKey, yKeys, indexByValue, axisBottomOrder])
  
   const [finalData, setFinalData] = useState(nivoData)
-  const [currentColorMap, setCurrentColorMap] = useState(baseDataToColorMap)
   useEffect(() => {
     setFinalData(nivoData)
   }, [nivoData])
   
-  useEffect(() => {
-    setCurrentColorMap(finalData.reduce((agg, o) => ({ ...agg, [o.id]: baseDataToColorMap[o.id] }), {}))
-  }, [finalData])
+  const { finalColors, currentColorMap } = useMemo(() => finalData.reduce(({ finalColors, currentColorMap }, o) => ({
+    finalColors: [...finalColors, baseDataToColorMap[o.id]],
+    currentColorMap: {
+      ...currentColorMap,
+      [o.id]: baseDataToColorMap[o.id],
+    },
+  }), {
+    finalColors: [],
+    currentColorMap : {},
+  }), [finalData])
 
-  const finalColors = finalData.map(({ id }) => currentColorMap[id])
+  const legendOnClick = ({ id }) => {
+    setFinalData(prevData => {
+      const idx = prevData.findIndex(o => o.id === id)
+      if (idx < 0) {
+        // ====[NOTE] data & colors are matched by index, so add back in to original position
+        const ogIdx = nivoData.findIndex(o => o.id === id)
+        return [...prevData.slice(0, ogIdx), nivoData[ogIdx], ...prevData.slice(ogIdx)]
+      }
+      return [...prevData.slice(0, idx), ...prevData.slice(idx + 1)]
+    })
+  }
 
   const finalXScale = { type: 'linear', ...xScale }
   const finalYScale = { type: 'linear', ...yScale }
@@ -188,8 +204,7 @@ const ResponsiveLineChart = ({
         { ...getCommonProps({
           useAxis: true,
           keys: nivoData.map(o => o.id),
-          nivoData,
-          setFinalData,
+          legendOnClick,
           currentColorMap,
           height,
           width,

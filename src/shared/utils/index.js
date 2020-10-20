@@ -377,8 +377,7 @@ const getCommonAxisProps = (showAxisLegend, showAxisTicks, axisLegendLabel, lege
 export const getCommonProps = ({
   useAxis,
   keys,
-  nivoData,
-  setFinalData,
+  legendOnClick,
   currentColorMap,
   height,
   width,
@@ -476,17 +475,7 @@ export const getCommonProps = ({
         },
       },
     ],
-    onClick: ({ id }) => {
-      setFinalData(prevData => {
-        const idx = prevData.findIndex(o => o.id === id)
-        if (idx < 0) {
-          // ====[NOTE] data & colors are matched by index, so add back in to original position
-          const ogIdx = nivoData.findIndex(o => o.id === id)
-          return [...prevData.slice(0, ogIdx), nivoData[ogIdx], ...prevData.slice(ogIdx)]
-        }
-        return [...prevData.slice(0, idx), ...prevData.slice(idx + 1)]
-      })
-    },
+    onClick: legendOnClick,
     data: keys.map(key => ({
       label: key,
       id: key,
