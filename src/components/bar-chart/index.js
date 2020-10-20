@@ -2,7 +2,7 @@ import React, { useMemo, useState, useEffect } from 'react'
 
 import { Bar } from '@nivo/bar'
 
-import CustomBoxLegend from './custom-box-legend'
+import CustomBoxLegend from './custom-bar-legend'
 import { withWrapper } from '../chart-wrapper'
 import Tooltip from '../tooltip'
 
