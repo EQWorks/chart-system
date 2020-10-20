@@ -81,8 +81,6 @@ const ResponsiveLineChart = ({
   ...nivoProps
 }) => {
   const {
-    finalXKey,
-    finalYKeys,
     nivoData,
     baseDataToColorMap,
   } = useMemo(() => {
@@ -98,8 +96,6 @@ const ResponsiveLineChart = ({
     // =========] would need to include repeat logic here?
     const baseDataToColorMap = nivoData.reduce((agg, o, i) => ({ ...agg, [o.id]: baseColors[i] }), {})
     return {
-      finalXKey,
-      finalYKeys,
       nivoData,
       baseDataToColorMap,
     }
@@ -120,18 +116,6 @@ const ResponsiveLineChart = ({
   const finalXScale = { type: 'linear', ...xScale }
   const finalYScale = { type: 'linear', ...yScale }
   const axisBottomTickValues = axisBottomLabelValues
-
-  const toggleDataSeries = id => {
-    setFinalData(prevData => {
-      const idx = prevData.findIndex(o => o.id === id)
-      if (idx < 0) {
-        // ====[NOTE] data & colors are matched by index, so add back in to original position
-        const ogIdx = nivoData.findIndex(o => o.id === id)
-        return [...prevData.slice(0, ogIdx), nivoData[ogIdx], ...prevData.slice(ogIdx)]
-      }
-      return [...prevData.slice(0, idx), ...prevData.slice(idx + 1)]
-    })
-  }
 
   const {
     xLabelCount: axisBottomLabelCount,
@@ -202,29 +186,27 @@ const ResponsiveLineChart = ({
           />
         ) }
         { ...getCommonProps({
-          data,
           useAxis: true,
-          yKeys: finalYKeys,
-          xKey: finalXKey,
           keys: nivoData.map(o => o.id),
+          nivoData,
+          setFinalData,
           currentColorMap,
-          toggleDataSeries,
           height,
           width,
-          axisBottomLegendLabel,
-          axisLeftLegendLabel,
-          dash: true,
           axisBottomTrim,
+          axisBottomLegendLabel,
           axisBottomLabelDisplayFn,
           axisBottomTickValues,
           axisBottomLabelCount,
           lastXAxisTickLabelWidth,
+          axisLeftLegendLabel,  
           axisLeftLabelDisplayFn,
           maxYAxisTickLabelWidth,
           maxRowLegendItems,
           trimLegend,
           disableLegend,
           typographyProps,
+          dash: true,
         }) }
         { ...legendToggle }
       >

@@ -375,29 +375,29 @@ const getCommonAxisProps = (showAxisLegend, showAxisTicks, axisLegendLabel, lege
 })
 
 export const getCommonProps = ({
+  useAxis,
   keys,
-  toggleDataSeries,
+  nivoData,
+  setFinalData,
   currentColorMap,
   height,
   width,
-  useAxis,
   axisBottomTrim = true,
+  axisBottomLegendLabel, // not for pie
   axisBottomLabelDisplayFn = d => d,
   axisBottomTickValues,
   axisBottomLabelCount,
   lastXAxisTickLabelWidth,
-  axisBottomLegendLabel, // not for pie
   axisLeftLegendLabel, // not for pie
   axisLeftLabelDisplayFn = d => d,
   maxYAxisTickLabelWidth = 0,
-  dash, // not for pie?
   legendProps={},
   maxRowLegendItems,
   trimLegend,
   disableLegend,
   typographyProps,
+  dash, // not for pie?
 }) => {
-
   const text_height = isNaN(typographyProps.fontSize)
     ? getTextSize('Typography', typographyProps)
     : typographyProps.fontSize
@@ -476,10 +476,22 @@ export const getCommonProps = ({
         },
       },
     ],
-    onClick: ({ id }) => toggleDataSeries(id),
+    onClick: ({ id }) => {
+      setFinalData(prevData => {
+        const idx = prevData.findIndex(o => o.id === id)
+        if (idx < 0) {
+          // ====[NOTE] data & colors are matched by index, so add back in to original position
+          const ogIdx = nivoData.findIndex(o => o.id === id)
+          return [...prevData.slice(0, ogIdx), nivoData[ogIdx], ...prevData.slice(ogIdx)]
+        }
+        return [...prevData.slice(0, idx), ...prevData.slice(idx + 1)]
+      })
+    },
     data: keys.map(key => ({
       label: key,
       id: key,
+      // ====[TODO] "off" value as a prop
+      // ====[TODO] grey out text as well or just more obvious off state
       color: currentColorMap[key] || 'rgba(150, 150, 150, 0.5)',
     })),
   }
