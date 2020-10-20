@@ -378,7 +378,7 @@ export const getCommonProps = ({
   useAxis,
   keys,
   legendOnClick,
-  currentColorMap,
+  currentColorMap = {}, // not for pie
   height,
   width,
   axisBottomTrim = true,
@@ -476,8 +476,14 @@ export const getCommonProps = ({
       },
     ],
     /* ====[NOTE]
-      legend.data prop is overriden for BoxLegendSvg
+      legend.data prop is overriden in Bar for BoxLegendSvg
       https://github.com/plouc/nivo/blob/259e037f52b0b4134dd2fa0abec221bcb9f939c1/packages/bar/src/Bar.js#L291
+
+      and Scatter
+      https://github.com/plouc/nivo/blob/259e037f52b0b4134dd2fa0abec221bcb9f939c1/packages/scatterplot/src/ScatterPlot.js#L82
+
+      and Pie (but no layers[] override possible)
+      https://github.com/plouc/nivo/blob/259e037f52b0b4134dd2fa0abec221bcb9f939c1/packages/pie/src/PieLegends.js#L15
     */
     onClick: legendOnClick,
     data: keys.map(key => ({
