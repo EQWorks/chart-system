@@ -475,6 +475,10 @@ export const getCommonProps = ({
         },
       },
     ],
+    /* ====[NOTE]
+      legend.data prop is overriden for BoxLegendSvg
+      https://github.com/plouc/nivo/blob/259e037f52b0b4134dd2fa0abec221bcb9f939c1/packages/bar/src/Bar.js#L291
+    */
     onClick: legendOnClick,
     data: keys.map(key => ({
       label: key,
