@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Utils - removed stale/legacy parameters within getCommonProps
+- Bar/Line/Scatter/Pie - initial data processing wrapped in useMemo
+
+### Added
+- Bar/Line/Scatter/Pie - Legend - click to hide dataset
+
 ## [0.4.0] - 2020-09-30
 
 ### Fixed

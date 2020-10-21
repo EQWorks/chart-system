@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo, useReducer, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Pie } from '@nivo/pie'
 
@@ -70,12 +70,65 @@ const PieChart = ({
   typographyProps,
   ...nivoProps
 }) => {
-  // indexBy => id
-  // valueKey => value
-  const { finalIndexBy, finalDataKey } = processPieDataKeys({ data, indexBy, dataKey })
-  const aggregatedData = aggregateData({ data, keys: [finalDataKey], indexBy: finalIndexBy, groupByKey, valueKey, type: 'sum' })
-  const finalData = convertPieDataToNivo({ data: aggregatedData, indexBy: finalIndexBy, dataKey: finalDataKey })
-  const finalColors = colors.length ? colors : processColors(data.length, colorType, colorParam)
+  const {
+    nivoData,
+    baseColors,
+  } = useMemo(() => {
+    // indexBy => id
+    // valueKey => value
+    const { finalIndexBy, finalDataKey } = processPieDataKeys({ data, indexBy, dataKey })
+    const aggregatedData = aggregateData({ data, keys: [finalDataKey], indexBy: finalIndexBy, groupByKey, valueKey, type: 'sum' })
+    const nivoData = convertPieDataToNivo({ data: aggregatedData, indexBy: finalIndexBy, dataKey: finalDataKey })
+    const baseColors = colors.length ? colors : processColors(data.length, colorType, colorParam)
+    return {
+      nivoData,
+      baseColors,
+    }
+  }, [data, colors, indexBy])
+
+  const [{ finalData, finalColors }, dispatch] = useReducer((state, { type, payload }) => {
+    if (type === 'reset') {
+      return payload
+    }
+
+    if (type === 'toggle') {
+      const idx = state.finalData.findIndex(o => o.id === payload)
+      const currentSeries = state.finalData[idx]
+      const finalData = [
+        ...state.finalData.slice(0, idx),
+        // ====[NOTE] return original OR set value to 0 (hack to hide the slice)
+        currentSeries.hide ? nivoData[idx] : { ...state.finalData[idx], value: 0, hide: true },
+        ...state.finalData.slice(idx + 1),
+      ]
+      const total = finalData.reduce((sum, row) => sum + row.value, 0)
+      return {
+        finalData: finalData.map(o => ({ ...o, percent: `${(o.value * 100 / total).toFixed(1)}%` })),
+        finalColors: [
+          ...state.finalColors.slice(0, idx),
+          // ====[NOTE] return original OR set color to grey (hack to change legend)
+          currentSeries.hide ? baseColors[idx] : 'rgba(150, 150, 150, 0.5)',
+          ...state.finalColors.slice(idx + 1),
+        ],
+      }
+    }
+
+    return state
+  }, {
+    finalData: nivoData,
+    finalColors: baseColors,
+  })
+
+  useEffect(() => {
+    dispatch({
+      type: 'reset',
+      payload: {
+        finalData: nivoData,
+        finalColors: baseColors,
+      },
+    })
+  }, [nivoData, baseColors])
+
+  const legendOnClick = ({ id }) => dispatch({ type: 'toggle', payload: id })
 
   const mouseLeaveHandler = (_data, event) => {
     const arc = event.target
@@ -137,13 +190,14 @@ const PieChart = ({
       { ...getCommonProps({
         useAxis: false,
         keys: finalData.map(o => o.id),
+        legendOnClick,
         height,
         width,
-        dash: true,
         maxRowLegendItems,
         trimLegend,
         disableLegend,
         typographyProps,
+        dash: true,
       }) }
       { ...legendToggle }
     >
