@@ -1,8 +1,15 @@
-import React from 'react';
-import Plot from 'react-plotly.js';
+import PropTypes from 'prop-types'
+import React from 'react'
+import Plot from 'react-plotly.js'
 
 const Bar = ({ data, layout, config }) => {
-    return <Plot data={data} layout={layout} config={config} /> 
-};
+  return <Plot data={data} layout={layout} config={config} /> 
+}
 
-export default Bar;
+Bar.propTypes = {
+  config: PropTypes.object,
+  data: PropTypes.array,
+  layout: PropTypes.object,
+}
+
+export default Bar

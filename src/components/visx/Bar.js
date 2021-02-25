@@ -56,7 +56,6 @@ const Bar = ({ data, width, height, config }) => {
           const barHeight = yMax - (yScale(getY(d)) ?? 0)
           const barX = xScale(xPoint)
           const barY = yMax - barHeight
-          
           return (
             <VxBar
               key={i}
