@@ -2,10 +2,10 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 
 import BarChart from '../src/components/bar-chart/'
-import barChartData from './data/bar-chart-data'
-import bannerData from './data/overlord-banner'
-import scatterChartData from './data/scatter-chart-data'
-import lineChartData from './data/line-chart-data'
+import barChartData from './data/others/bar-chart-data'
+import bannerData from './data/atom/overlord-banner'
+import scatterChartData from './data/others/scatter-chart-data'
+import lineChartData from './data/others/line-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
@@ -15,8 +15,8 @@ storiesOf('Bar Chart', module)
   .add('Stacked', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        title={ title }
-        data={ barChartData }
+        title={title}
+        data={barChartData}
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
       />
@@ -25,8 +25,8 @@ storiesOf('Bar Chart', module)
   .add('Grouped', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        title={ title }
-        data={ barChartData }
+        title={title}
+        data={barChartData}
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
         groupMode='grouped'
@@ -36,7 +36,7 @@ storiesOf('Bar Chart', module)
   .add('Scatter Chart Data', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        data={ scatterChartData }
+        data={scatterChartData}
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
         groupMode='grouped'
@@ -46,9 +46,9 @@ storiesOf('Bar Chart', module)
   .add('Line Chart Data - Vehicle', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        data={ lineChartData }
+        data={lineChartData}
         indexBy='vehicle'
-        keys={ ['amount'] }
+        keys={['amount']}
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
         groupMode='grouped'
@@ -58,9 +58,9 @@ storiesOf('Bar Chart', module)
   .add('Line Chart Data - Country', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        data={ lineChartData }
+        data={lineChartData}
         indexBy='country'
-        keys={ ['amount'] }
+        keys={['amount']}
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
         groupMode='grouped'
@@ -70,7 +70,7 @@ storiesOf('Bar Chart', module)
   .add('Line Chart Data - Grouped By Keys', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        data={ lineChartData }
+        data={lineChartData}
         groupByKey='vehicle'
         valueKey='amount'
         indexBy='country'
@@ -83,7 +83,7 @@ storiesOf('Bar Chart', module)
   .add('overlord banner data', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        data={ bannerData.map((x) => ({ ...x, Date: new Date(x.Date) })) }
+        data={bannerData.map((x) => ({ ...x, Date: new Date(x.Date) }))}
         groupByKey='Name'
         valueKey='Imps'
         indexBy='Date'
@@ -91,10 +91,10 @@ storiesOf('Bar Chart', module)
         axisLeftLegendLabel='Impressions'
         axisBottomOrder='asc'
         groupMode='grouped'
-        maxRowLegendItems={ 6 }
-        tooltipFormatX={ (value) => value.toDateString() }
+        maxRowLegendItems={6}
+        tooltipFormatX={(value) => value.toDateString()}
         // manipulate X labes as you'd like
-        axisBottomLabelDisplayFn={ (value) => value.toDateString().slice(4,10) }
+        axisBottomLabelDisplayFn={(value) => value.toDateString().slice(4, 10)}
       />
     </ResponsiveChartWrapper>
   ))

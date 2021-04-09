@@ -2,7 +2,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 
 import ScatterChart from '../src/components/scatter-chart'
-import scatterChartData from './data/scatter-chart-data'
+import scatterChartData from './data/others/scatter-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
@@ -12,9 +12,9 @@ storiesOf('Title', module)
   .add('Widget Scatter Chart with no title', () => (
     <ResponsiveChartWrapper>
       <ScatterChart
-        data={ scatterChartData }
-        axisBottomLegendLabel={ 'axisBottomLegend' }
-        axisLeftLegendLabel={ 'axisLeftLegend' }
+        data={scatterChartData}
+        axisBottomLegendLabel={'axisBottomLegend'}
+        axisLeftLegendLabel={'axisLeftLegend'}
       />
     </ResponsiveChartWrapper>
   ))
@@ -22,16 +22,16 @@ storiesOf('Title', module)
     <ResponsiveChartWrapper>
       <ScatterChart
         title='My very long long long long long long Title'
-        data={ scatterChartData }
-        axisBottomLegendLabel={ 'axisBottomLegend' }
-        axisLeftLegendLabel={ 'axisLeftLegend' }
+        data={scatterChartData}
+        axisBottomLegendLabel={'axisBottomLegend'}
+        axisLeftLegendLabel={'axisLeftLegend'}
       />
     </ResponsiveChartWrapper>
   ))
   .add('Widget Scatter Chart with custom title', () => (
     <ResponsiveChartWrapper>
       <ScatterChart
-        title={ title }
+        title={title}
         titleStyle={{
           color: 'red',
           fontfamily: 'Orbitron',
@@ -39,9 +39,9 @@ storiesOf('Title', module)
           fontWeight: 700,
           textAlign: 'center',
         }}
-        data={ scatterChartData }
-        axisBottomLegendLabel={ 'axisBottomLegend' }
-        axisLeftLegendLabel={ 'axisLeftLegend' }
+        data={scatterChartData}
+        axisBottomLegendLabel={'axisBottomLegend'}
+        axisLeftLegendLabel={'axisLeftLegend'}
       />
     </ResponsiveChartWrapper>
   ))

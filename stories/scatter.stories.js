@@ -2,7 +2,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 
 import ScatterChart from '../src/components/scatter-chart'
-import scatterChartData from './data/scatter-chart-data'
+import scatterChartData from './data/others/scatter-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
@@ -12,10 +12,10 @@ storiesOf('ScatterChart', module)
   .add('Scatter Chart', () => (
     <ResponsiveChartWrapper>
       <ScatterChart
-        title={ title }
-        data={ scatterChartData }
-        axisBottomLegendLabel={ 'axisBottomLegend' }
-        axisLeftLegendLabel={ 'axisLeftLegend' }
+        title={title}
+        data={scatterChartData}
+        axisBottomLegendLabel={'axisBottomLegend'}
+        axisLeftLegendLabel={'axisLeftLegend'}
       />
     </ResponsiveChartWrapper>
   ))

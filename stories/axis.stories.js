@@ -2,7 +2,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 
 import BarChart from '../src/components/bar-chart/'
-import barChartData from './data/bar-chart-data'
+import barChartData from './data/others/bar-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
@@ -12,44 +12,44 @@ storiesOf('Axis', module)
   .add('No X-Axis Label Trim', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        title={ title }
-        data={ barChartData }
+        title={title}
+        data={barChartData}
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
         groupMode='grouped'
-        axisBottomTrim={ false }
+        axisBottomTrim={false}
       />
     </ResponsiveChartWrapper>
   ))
   .add('Formatted X-Axis Label', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        title={ title }
-        data={ barChartData }
+        title={title}
+        data={barChartData}
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
         groupMode='grouped'
-        axisBottomLabelDisplayFn={ d => d.substring(0, 2) }
+        axisBottomLabelDisplayFn={d => d.substring(0, 2)}
       />
     </ResponsiveChartWrapper>
   ))
   .add('Formatted Y-Axis Label', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        title={ title }
-        data={ barChartData }
+        title={title}
+        data={barChartData}
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
         groupMode='grouped'
-        axisLeftLabelDisplayFn={ d => d + 'k' }
+        axisLeftLabelDisplayFn={d => d + 'k'}
       />
     </ResponsiveChartWrapper>
   ))
   .add('X-Axis Order - Descending', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        title={ title }
-        data={ barChartData }
+        title={title}
+        data={barChartData}
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
         groupMode='grouped'
@@ -60,12 +60,12 @@ storiesOf('Axis', module)
   .add('X-Axis Order - Exact', () => (
     <ResponsiveChartWrapper>
       <BarChart
-        title={ title }
-        data={ barChartData }
+        title={title}
+        data={barChartData}
         axisBottomLegendLabel='Address City'
         axisLeftLegendLabel='Visitors'
         groupMode='grouped'
-        axisBottomOrder={ ['Airdrie', 'Brandon', 'Abbotsford'] }
+        axisBottomOrder={['Airdrie', 'Brandon', 'Abbotsford']}
       />
     </ResponsiveChartWrapper>
   ))
