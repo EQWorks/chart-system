@@ -9,6 +9,7 @@ export default {
 
 const keyX = mockData.map(({ Name }) => Name)
 const keyY = mockData.map(({ Age }) => Age)
+
 const data = [
   {
     x: keyX,

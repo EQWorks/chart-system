@@ -6,31 +6,31 @@ import {
   convertPieDataToNivo,
   aggregateData,
 } from '../../src/shared/utils'
-import barChartData from '../../stories/data/bar-chart-data'
-import lineChartData from '../../stories/data/line-chart-data'
+import barChartData from '../../stories/data/others/bar-chart-data'
+import lineChartData from '../../stories/data/others/line-chart-data'
 
 
 describe('Process Data Keys', () => {
-  it('should default to first key and ...rest', () =>{
+  it('should default to first key and ...rest', () => {
     const { finalIndexBy, finalKeys } = processDataKeys({ data: barChartData })
     const keys = Object.keys(barChartData[0])
     expect(finalIndexBy).toEqual(keys[0])
     expect(finalKeys).toEqual(keys.slice(1))
   })
-  it('should remove indexBy keys by default', () =>{
+  it('should remove indexBy keys by default', () => {
     const indexBy = 'address_city'
     const { finalIndexBy, finalKeys } = processDataKeys({ indexBy, data: barChartData })
     expect(finalIndexBy).toEqual(indexBy)
     expect(finalKeys.includes(indexBy)).toBeFalsy()
   })
-  it('should return provided values', () =>{
+  it('should return provided values', () => {
     const indexBy = 'address_city'
     const keys = ['visits', 'repeat_visits']
     const { finalIndexBy, finalKeys } = processDataKeys({ indexBy, keys, data: barChartData })
     expect(finalIndexBy).toEqual(indexBy)
     expect(finalKeys).toEqual(keys)
   })
-  it('should return keys based on value of groupByKey', () =>{
+  it('should return keys based on value of groupByKey', () => {
     const indexBy = 'country'
     const groupByKey = 'vehicle'
     const { finalIndexBy, finalKeys } = processDataKeys({ indexBy, groupByKey, data: lineChartData })
@@ -40,7 +40,7 @@ describe('Process Data Keys', () => {
 })
 
 describe('Process Series Data Keys', () => {
-  it('should default to first 3 keys - indexByValue', () =>{
+  it('should default to first 3 keys - indexByValue', () => {
     const indexByValue = true
     const { finalIndexBy, finalXKey, finalYKeys } = processSeriesDataKeys({ data: barChartData, indexByValue })
     const keys = Object.keys(barChartData[0])
@@ -48,7 +48,7 @@ describe('Process Series Data Keys', () => {
     expect(finalXKey).toEqual(keys[1])
     expect(finalYKeys).toEqual([keys[2]])
   })
-  it('should return provided values - indexByValue', () =>{
+  it('should return provided values - indexByValue', () => {
     const indexByValue = true
     const indexBy = 'address_city'
     const xKey = 'visits'
@@ -58,7 +58,7 @@ describe('Process Series Data Keys', () => {
     expect(finalXKey).toEqual(xKey)
     expect(finalYKeys).toEqual(yKeys)
   })
-  it('should return provided values - indexByKey', () =>{
+  it('should return provided values - indexByKey', () => {
     const xKey = 'visits'
     const yKeys = ['repeat_visitors']
     const { finalIndexBy, finalXKey, finalYKeys } = processSeriesDataKeys({ data: barChartData, xKey, yKeys })
@@ -69,13 +69,13 @@ describe('Process Series Data Keys', () => {
 })
 
 describe('Process Pie Data Keys', () => {
-  it('should default to first 2 keys', () =>{
+  it('should default to first 2 keys', () => {
     const { finalIndexBy, finalDataKey } = processPieDataKeys({ data: barChartData, indexBy: '', dataKey: '' })
     const keys = Object.keys(barChartData[0])
     expect(finalIndexBy).toEqual(keys[0])
     expect(finalDataKey).toEqual(keys[1])
   })
-  it('should return provided values', () =>{
+  it('should return provided values', () => {
     const indexBy = 'address_city'
     const dataKey = 'visits'
     const { finalIndexBy, finalDataKey } = processPieDataKeys({ data: barChartData, indexBy, dataKey })
@@ -85,20 +85,20 @@ describe('Process Pie Data Keys', () => {
 })
 
 describe('Aggregate Data', () => {
-  it('should use indexBy value to aggregate data', () =>{
+  it('should use indexBy value to aggregate data', () => {
     const keys = ['amount']
     const indexBy = 'country'
     const data = aggregateData({ data: lineChartData, indexBy, keys, type: 'sum' })
     expect(data[0][indexBy]).toEqual(lineChartData[0][indexBy])
   })
-  it('should use aggregate using sum', () =>{
+  it('should use aggregate using sum', () => {
     const keys = ['amount']
     const indexBy = 'country'
     const data = aggregateData({ data: lineChartData, indexBy, keys, type: 'sum' })
     const countrySum = lineChartData.filter(o => o.country === data[0][indexBy]).reduce((sum, ele) => sum + ele[keys[0]], 0)
     expect(data[0][keys[0]]).toEqual(countrySum)
   })
-  it('should use aggregate using min', () =>{
+  it('should use aggregate using min', () => {
     const keys = ['amount']
     const indexBy = 'country'
     const data = aggregateData({ data: lineChartData, indexBy, keys, type: 'min' })
@@ -107,7 +107,7 @@ describe('Aggregate Data', () => {
       .reduce((min, ele) => Math.min(min === null ? ele[keys[0]] : min, ele[keys[0]]), null)
     expect(data[0][keys[0]]).toEqual(countryMin)
   })
-  it('should use aggregate using max', () =>{
+  it('should use aggregate using max', () => {
     const keys = ['amount']
     const indexBy = 'country'
     const data = aggregateData({ data: lineChartData, indexBy, keys, type: 'max' })
@@ -116,7 +116,7 @@ describe('Aggregate Data', () => {
       .reduce((max, ele) => Math.max(max === null ? ele[keys[0]] : max, ele[keys[0]]), null)
     expect(data[0][keys[0]]).toEqual(countryMax)
   })
-  it('should use aggregate using avg', () =>{
+  it('should use aggregate using avg', () => {
     const keys = ['amount']
     const indexBy = 'country'
     const data = aggregateData({ data: lineChartData, indexBy, keys, type: 'avg' })
@@ -131,14 +131,14 @@ describe('Aggregate Data', () => {
 })
 
 describe('Aggregate Data - groupByKey', () => {
-  it('should use indexBy value to aggregate data', () =>{
+  it('should use indexBy value to aggregate data', () => {
     const valueKey = 'amount'
     const groupByKey = 'vehicle'
     const indexBy = 'country'
     const data = aggregateData({ data: lineChartData, indexBy, valueKey, groupByKey, type: 'sum' })
     expect(data[0][indexBy]).toEqual(lineChartData[0][indexBy])
   })
-  it('should use aggregate using sum', () =>{
+  it('should use aggregate using sum', () => {
     const valueKey = 'amount'
     const groupByKey = 'vehicle'
     const indexBy = 'country'
@@ -148,7 +148,7 @@ describe('Aggregate Data - groupByKey', () => {
     const countrySum = lineChartData.filter(o => o.country === data[0][indexBy] && o.vehicle == vehicleKey).reduce((sum, ele) => sum + ele[valueKey], 0)
     expect(data[0][vehicleKey]).toEqual(countrySum)
   })
-  it('should use aggregate using min', () =>{
+  it('should use aggregate using min', () => {
     const valueKey = 'amount'
     const groupByKey = 'vehicle'
     const indexBy = 'country'
@@ -160,7 +160,7 @@ describe('Aggregate Data - groupByKey', () => {
       .reduce((min, ele) => Math.min(min === null ? ele[valueKey] : min, ele[valueKey]), null)
     expect(data[0][vehicleKey]).toEqual(countryMin)
   })
-  it('should use aggregate using max', () =>{
+  it('should use aggregate using max', () => {
     const valueKey = 'amount'
     const groupByKey = 'vehicle'
     const indexBy = 'country'
@@ -172,7 +172,7 @@ describe('Aggregate Data - groupByKey', () => {
       .reduce((max, ele) => Math.max(max === null ? ele[valueKey] : max, ele[valueKey]), null)
     expect(data[0][vehicleKey]).toEqual(countryMax)
   })
-  it('should use aggregate using avg', () =>{
+  it('should use aggregate using avg', () => {
     const valueKey = 'amount'
     const groupByKey = 'vehicle'
     const indexBy = 'country'
@@ -190,7 +190,7 @@ describe('Aggregate Data - groupByKey', () => {
 })
 
 describe('Convert Data to Nivo', () => {
-  it('should use indexBy value to generate data series', () =>{
+  it('should use indexBy value to generate data series', () => {
     const indexByValue = true
     const xKey = 'visits'
     const yKeys = ['repeat_visits']
@@ -200,7 +200,7 @@ describe('Convert Data to Nivo', () => {
     expect(data[0].data[0].x).toEqual(barChartData[0][xKey])
     expect(data[0].data[0].y).toEqual(barChartData[0][yKeys[0]])
   })
-  it('should use yKey to generate data series', () =>{
+  it('should use yKey to generate data series', () => {
     const xKey = 'address_city'
     const yKeys = ['visits', 'repeat_visits']
     const data = convertDataToNivo({ data: barChartData, xKey, yKeys })
@@ -212,14 +212,14 @@ describe('Convert Data to Nivo', () => {
 })
 
 describe('Convert Pie Data to Nivo', () => {
-  it('should use indexBy and dataKey to remap data', () =>{
+  it('should use indexBy and dataKey to remap data', () => {
     const dataKey = 'visits'
     const indexBy = 'address_city'
     const data = convertPieDataToNivo({ data: barChartData, indexBy, dataKey })
     expect(data[0].id).toEqual(barChartData[0][indexBy])
     expect(data[0].value).toEqual(barChartData[0][dataKey])
   })
-  it('should calculate the .percent field', () =>{
+  it('should calculate the .percent field', () => {
     const dataKey = 'visits'
     const indexBy = 'address_city'
     const total = barChartData.reduce((sum, row) => sum + row[dataKey], 0)
