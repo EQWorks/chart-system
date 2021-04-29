@@ -2,19 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import * as d3 from 'd3'
 
-const calculateMargin = ({ axisX, axisY }) => {
 
-  const baseMargin = 24
-  const bottomMargin = baseMargin + (axisX.axis ? 24 : 0) + (axisX.label ? 24 : 0)
-  const leftMargin = baseMargin + (axisY.axis ? 24 : 0) + (axisY.label ? 24 : 0)
-
-  return {
-    top: baseMargin,
-    right: baseMargin,
-    bottom: bottomMargin,
-    left: leftMargin,
-  }
-}
 const percentage = 0.25;
 const rectHeight = 100;
 const padding = 50;

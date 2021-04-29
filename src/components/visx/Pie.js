@@ -15,7 +15,7 @@ const renderPie = (data, config, pie) => {
     domain: data.map((d) => d.item),
     range: colorRange,
   })
-    
+  console.log(pie);
   return pie.arcs.map((arc, index) => {
     const [centroidX, centroidY] = pie.path.centroid(arc)
     const hasSpaceForLabel = arc.endAngle - arc.startAngle >= 0.1
@@ -24,7 +24,7 @@ const renderPie = (data, config, pie) => {
 
     return (
       <g key={`arc-${index}`}>
-        <path d={arcPath} fill={arcFill}/>
+        <path d={arcPath} fill={arcFill} />
         {hasSpaceForLabel && (
           <text
             x={centroidX}
@@ -54,13 +54,13 @@ const Pie = ({ data, width, height, config }) => {
   const centerX = innerWidth / 2
   const top = centerY + margin.top
   const left = centerX + margin.left
-  
+
   return (
     <svg width={width} height={height}>
       <Group top={top} left={left}>
         <VxPie
           data={data}
-          pieValue={(d)=>d[dataKey.value]}
+          pieValue={(d) => d[dataKey.value]}
           outerRadius={radius}
         >
           {(pie) => renderPie(data, config, pie)}

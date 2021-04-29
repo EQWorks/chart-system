@@ -1,12 +1,11 @@
 import React from 'react'
-import SingleBar from '../src/components/d3/single-bar'
+import Gauge from '../src/components/d3/gauge'
 import { geoCohortData } from './data/atom/geo-cohort'
 export default {
-  title: 'D3/bar',
+  title: 'D3/gauge',
 }
 
 const [IDdata] = geoCohortData.aggregated.GeoCohortListID
-console.log(IDdata)
 const barConfig = {
   color: '#0075FF',
   dataKey: {
@@ -15,7 +14,7 @@ const barConfig = {
   },
 }
 
-export const Default = () => <SingleBar data={IDdata} width={500} height={500} config={barConfig} />
+export const Default = () => <Gauge data={IDdata} width={500} height={500} config={barConfig} />
 
 //win rate = imps/bids
 //CTR = clicks/impressions
