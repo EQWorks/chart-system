@@ -20,14 +20,14 @@ const Gauge = ({ width, height, config }) => {
   const svgRef = useRef(null)
   const [data, setData] = useState([0.30, 0.70])
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     const value = Math.random();
-  //     const remainder = 1 - value;
-  //     setData([value, remainder])
-  //   }, 1000)
-  //   return () => clearInterval(interval);
-  // })
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const value = Math.random();
+      const remainder = 1 - value;
+      setData([value, remainder])
+    }, 1000)
+    return () => clearInterval(interval);
+  })
 
   useEffect(() => {
     console.log(arcsData)
@@ -42,7 +42,7 @@ const Gauge = ({ width, height, config }) => {
         if (d.index === 1) {
           return //deactivate tweening for the remainder value
         }
-        var i = d3.interpolate(d.startAngle, d.endAngle);
+        var i = d3.interpolate(d.startAngle + 0.5, d.endAngle);
         return function (t) {
 
           d.endAngle = i(t);
@@ -63,15 +63,21 @@ const Gauge = ({ width, height, config }) => {
 
   const arcsData = d3.pie().sortValues(function (a, b) { return isAscending ? b - a : a - b })(data);
 
-  const arcPath = d3.arc().innerRadius(100).outerRadius(150);
+  const arcPath = d3.arc().innerRadius(100).outerRadius(150).cornerRadius(50);
 
   const [background] = d3.pie()([1.0])
-  console.log(arcPath(background))
+
   return (
     <svg ref={svgRef} width={width + padding * 1.5} height={height + padding}>
       <g transform={`translate(${width / 2} ${height / 2})`}>
         <path id="background" d={arcPath(background)} fill='grey' />
         {arcsData.map((d, i) => <path className="arcs" key={i} />)}
+        <text style={{
+          textAnchor: 'middle',
+          fontFamily: 'Open Sans',
+          fontSize: '24px',
+          fontWeight: 700
+        }}>{`${parseFloat(data[0]).toFixed(3) * 100}%`}</text>
       </g>
     </svg >
   )
