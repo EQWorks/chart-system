@@ -1,36 +1,17 @@
 import PropTypes from 'prop-types'
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useEffect } from 'react'
 import * as d3 from 'd3'
-import { pie } from 'd3-shape';
 
-const percentage = 0.25;
-const rectHeight = 100;
-const padding = 50;
-const spacing = 10;
-const colors = ['blue', 'grey']
-function tweenPie(b) {
-  b.innerRadius = 0;
-  var i = d3.interpolate({ startAngle: 0, endAngle: 0 }, b);
-  return function (t) { return arc(i(t)); };
-}
+const Gauge = ({ data, width, height, config }) => {
 
+  const { dataKey, color, backgroundColor } = config
 
-const Gauge = ({ width, height, config }) => {
-
+  const value = data[dataKey.x1] / data[dataKey.x2]
+  const remainder = 1.0 - value
+  const colors = [color, backgroundColor]
   const svgRef = useRef(null)
-  const [data, setData] = useState([0.30, 0.70])
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const value = Math.random();
-      const remainder = 1 - value;
-      setData([value, remainder])
-    }, 1000)
-    return () => clearInterval(interval);
-  })
-
-  useEffect(() => {
-    console.log(arcsData)
     svgRef.current && d3.select(svgRef.current)
       .selectAll('.arcs')
       .data(arcsData)
@@ -42,13 +23,13 @@ const Gauge = ({ width, height, config }) => {
         if (d.index === 1) {
           return //deactivate tweening for the remainder value
         }
-        var i = d3.interpolate(d.startAngle + 0.5, d.endAngle);
+        var i = d3.interpolate(d.startAngle + 0.1, d.endAngle)
         return function (t) {
 
-          d.endAngle = i(t);
-          return arcPath(d);
+          d.endAngle = i(t)
+          return arcPath(d)
         }
-      });
+      })
   }, [data])
 
   // when a > b
@@ -59,28 +40,54 @@ const Gauge = ({ width, height, config }) => {
   //sort = a - b
   //flipped = false
 
-  const isAscending = data[0] > data[1]
+  const isAscending = value > remainder
 
-  const arcsData = d3.pie().sortValues(function (a, b) { return isAscending ? b - a : a - b })(data);
+  const pieSize = width > height ? height / 2 : width / 2
 
-  const arcPath = d3.arc().innerRadius(100).outerRadius(150).cornerRadius(50);
+  const lineThickness = pieSize * 0.2
 
-  const [background] = d3.pie()([1.0])
+  const arcsGenerator = d3.pie().sortValues(function (a, b) { return isAscending ? b - a : a - b })
+
+  const arcsData = arcsGenerator([value, remainder])
+
+  const arcPath = d3.arc().innerRadius(pieSize - lineThickness).outerRadius(pieSize).cornerRadius(lineThickness)
+
+  const [backgroundPath] = d3.pie()([1.0])
 
   return (
-    <svg ref={svgRef} width={width + padding * 1.5} height={height + padding}>
+    <svg preserveAspectRatio="xMidYMid meet" ref={svgRef} width={width} height={height}>
       <g transform={`translate(${width / 2} ${height / 2})`}>
-        <path id="background" d={arcPath(background)} fill='grey' />
+        <path id="background" d={arcPath(backgroundPath)} fill={backgroundColor} />
         {arcsData.map((d, i) => <path className="arcs" key={i} />)}
         <text style={{
           textAnchor: 'middle',
+          dominantBaseline: 'middle',
           fontFamily: 'Open Sans',
           fontSize: '24px',
-          fontWeight: 700
-        }}>{`${parseFloat(data[0]).toFixed(3) * 100}%`}</text>
+          fontWeight: 700,
+        }}>{`${value.toFixed(4) * 100}%`}</text>
       </g>
     </svg >
   )
+}
+
+Gauge.propTypes = {
+  config: PropTypes.shape({
+    backgroundColor: PropTypes.string,
+    color: PropTypes.string,
+    dataKey: PropTypes.shape({
+      x1: PropTypes.string,
+      x2: PropTypes.string,
+    }),
+  }).isRequired,
+  data: PropTypes.object.isRequired,
+  height: PropTypes.number.isRequired,
+  width: PropTypes.number.isRequired,
+}
+
+Gauge.defaultProps = {
+  color: '#0075FF',
+  backgroundColor: '#cdcdcd',
 }
 
 
