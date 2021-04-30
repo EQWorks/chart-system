@@ -1,10 +1,10 @@
 import { ParentSize } from '@visx/responsive'
 import React from 'react'
-import Gauge from '../src/components/d3/gauge'
+import GaugeArc from '../src/components/d3/gauge-arc'
 import { geoCohortData } from './data/atom/geo-cohort'
 export default {
-  title: 'D3/gauge',
-  component: Gauge,
+  title: 'D3/GaugeArc',
+  component: GaugeArc,
   args: {
     width: 300,
     height: 300,
@@ -61,7 +61,7 @@ export const Default = (args) => {
       x2: args.remainderKey,
     },
   }
-  return <Gauge {...args} config={config} />
+  return <GaugeArc {...args} config={config} />
 }
 
 //win rate = imps/bids

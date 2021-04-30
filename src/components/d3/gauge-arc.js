@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React, { useRef, useEffect } from 'react'
 import * as d3 from 'd3'
 
-const Gauge = ({ data, width, height, config }) => {
+const GaugeArc = ({ data, width, height, config }) => {
 
   const { dataKey, color, backgroundColor } = config
 
@@ -71,7 +71,7 @@ const Gauge = ({ data, width, height, config }) => {
   )
 }
 
-Gauge.propTypes = {
+GaugeArc.propTypes = {
   config: PropTypes.shape({
     backgroundColor: PropTypes.string,
     color: PropTypes.string,
@@ -85,10 +85,10 @@ Gauge.propTypes = {
   width: PropTypes.number.isRequired,
 }
 
-Gauge.defaultProps = {
+GaugeArc.defaultProps = {
   color: '#0075FF',
   backgroundColor: '#cdcdcd',
 }
 
 
-export default Gauge
+export default GaugeArc

@@ -15,7 +15,7 @@ const renderPie = (data, config, pie) => {
     domain: data.map((d) => d.item),
     range: colorRange,
   })
-  console.log(pie);
+  console.log(pie)
   return pie.arcs.map((arc, index) => {
     const [centroidX, centroidY] = pie.path.centroid(arc)
     const hasSpaceForLabel = arc.endAngle - arc.startAngle >= 0.1
