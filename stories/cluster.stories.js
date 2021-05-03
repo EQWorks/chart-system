@@ -1,9 +1,9 @@
 import React from 'react'
-import GaugeArc from '../src/components/d3/gauge-arc'
+import Cluster from '../src/components/d3/cluster'
 import { geoCohortData } from './data/atom/geo-cohort'
 export default {
-  title: 'D3/GaugeArc',
-  component: GaugeArc,
+  title: 'D3/Cluster',
+  component: Cluster,
   args: {
     width: 300,
     height: 300,
@@ -60,8 +60,6 @@ export const Default = (args) => {
       x2: args.remainderKey,
     },
   }
-  return <GaugeArc {...args} config={config} />
-}
 
-//win rate = imps/bids
-//CTR = clicks/impressions
+  return <Cluster {...args} config={config} />
+}
