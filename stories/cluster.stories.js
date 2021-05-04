@@ -5,11 +5,10 @@ export default {
   title: 'D3/Cluster',
   component: Cluster,
   args: {
-    width: 300,
-    height: 300,
-    data: geoCohortData.aggregated.GeoCohortListID[0],
-    color: '#0075FF',
-    backgroundColor: '#cdcdcd',
+    width: 500,
+    height: 500,
+    data: geoCohortData.aggregated.GeoCohortItem,
+    color: ['#0075FF', '#FAF'],
     valueKey: 'Imps',
     remainderKey: 'Bids',
   },
@@ -28,7 +27,7 @@ export default {
     },
     color: {
       control: {
-        type: 'color',
+        type: 'select',
       }
     },
     backgroundColor: {
@@ -54,10 +53,9 @@ export default {
 export const Default = (args) => {
   const config = {
     color: args.color,
-    backgroundColor: args.backgroundColor,
     dataKey: {
-      x1: args.valueKey,
-      x2: args.remainderKey,
+      nodes: 'GeoCohortItem',
+      groups: 'GeoCohortListID',
     },
   }
 
