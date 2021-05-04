@@ -8,7 +8,7 @@ export default {
     width: 500,
     height: 500,
     data: geoCohortData.aggregated.GeoCohortItem,
-    color: ['#0075FF', '#FAF'],
+    color: ['#0075FF', '#FAF', '#AA1'],
     valueKey: 'Imps',
     remainderKey: 'Bids',
   },
