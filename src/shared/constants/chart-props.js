@@ -33,6 +33,7 @@ export const chartPropTypes = {
   disableLegend: PropTypes.bool,
   tooltipFormat: PropTypes.func,
   tooltipFormatX: PropTypes.func,
+  disableTooltipTitle: PropTypes.bool,
 }
 
 export const chartDefaultProps = {
@@ -54,6 +55,7 @@ export const chartDefaultProps = {
   disableLegend: false,
   tooltipFormat: v => v,
   tooltipFormatX: v => v,
+  disableTooltipTitle: false,
 }
 
 export const seriesPropTypes = {
