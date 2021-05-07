@@ -63,6 +63,7 @@ const BarChart = ({
   disableLegend,
   tooltipFormat,
   tooltipFormatX,
+  disableTooltipTitle,
   typographyProps,
   ...nivoProps
 }) => {
@@ -175,6 +176,7 @@ const BarChart = ({
             { label: axisBottomLegendLabel, value: tooltipFormatX(indexValue) },
             { label: axisLeftLegendLabel, value: tooltipFormat(value) },
           ] }
+          disableTooltipTitle={ disableTooltipTitle }
           typography={ typographyProps }
         />
       ) }

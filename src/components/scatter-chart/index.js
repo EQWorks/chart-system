@@ -64,6 +64,7 @@ const ScatterChart = ({
   height,
   tooltipFormat,
   tooltipFormatX,
+  disableTooltipTitle,
   typographyProps,
   ...nivoProps
 }) => {
@@ -173,6 +174,7 @@ const ScatterChart = ({
             { label: axisBottomLegendLabel, value: tooltipFormatX(node.data.formattedX) },
             { label: axisLeftLegendLabel, value: tooltipFormat(node.data.formattedY) },
           ] }
+          disableTooltipTitle={ disableTooltipTitle }
           typography={ typographyProps }
         />
       ) }

@@ -67,6 +67,7 @@ const PieChart = ({
   trimLegend,
   disableLegend,
   tooltipFormat,
+  disableTooltipTitle,
   typographyProps,
   ...nivoProps
 }) => {
@@ -182,6 +183,7 @@ const PieChart = ({
             { label: 'Value', value: tooltipFormat(value) },
             { label: 'Share', value: percent },
           ] }
+          disableTooltipTitle={ disableTooltipTitle }
           typography={ typographyProps }
         />
       ) }
