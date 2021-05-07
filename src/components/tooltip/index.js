@@ -50,6 +50,7 @@ const propTypes = {
       PropTypes.number,
     ]).isRequired,
   })),
+  disableTooltipTitle: PropTypes.bool,
   typography: typographyPropTypes.typographyProps,
 }
 
@@ -57,17 +58,20 @@ const Tooltip = ({
   label,
   color,
   display,
+  disableTooltipTitle,
   typography,
 }) => (
   <TooltipWrapper>
-    <TooltipHeader>
-      <TooltipNode background-color={ color } />
-      <TooltipLabel 
-        typography={ typography }
-      >
-        { label }
-      </TooltipLabel>
-    </TooltipHeader>
+    { !disableTooltipTitle && (
+      <TooltipHeader>
+        <TooltipNode background-color={ color } />
+        <TooltipLabel
+          typography={ typography }
+        >
+          { label }
+        </TooltipLabel>
+      </TooltipHeader>
+    ) }
     <TooltipBody>
       {display.map(({ label, value }) => (
         <TooltipData
