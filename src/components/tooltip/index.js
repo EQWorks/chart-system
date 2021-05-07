@@ -11,6 +11,7 @@ const TooltipWrapper = styled('div')`
   border-radius: 4px;
   background-color: #ffffff;
   padding: 5px;
+  box-shadow: 0 2px 8px 0 rgba(12, 12, 13, 0.15);
 `
 
 const TooltipHeader = styled('div')``
