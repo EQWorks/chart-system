@@ -184,6 +184,7 @@ const PieChart = ({
             { label: 'Share', value: percent },
           ] }
           disableTooltipTitle={ disableTooltipTitle }
+          chartType='pie'
           typography={ typographyProps }
         />
       ) }

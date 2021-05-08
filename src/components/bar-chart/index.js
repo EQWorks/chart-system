@@ -177,6 +177,7 @@ const BarChart = ({
             { label: axisLeftLegendLabel, value: tooltipFormat(value) },
           ] }
           disableTooltipTitle={ disableTooltipTitle }
+          chartType='bar'
           typography={ typographyProps }
         />
       ) }
