@@ -14,3 +14,21 @@ storiesOf('Tooltip', module)
       <PieChart title={ title } data={ pieChartData } isDonut={ false } tooltipFormat={ v => `$${v}` } />
     </ResponsiveChartWrapper>
   ))
+  .add('Tooltip - disable', () => (
+    <ResponsiveChartWrapper>
+      <PieChart
+        title={ title }
+        data={ pieChartData }
+        isDonut={ false }
+        isInteractive={false} />
+    </ResponsiveChartWrapper>
+  ))
+  .add('Tooltip - disable Tooltip Title', () => (
+    <ResponsiveChartWrapper>
+      <PieChart
+        title={ title }
+        data={ pieChartData }
+        isDonut={ false }
+        disableTooltipTitle={ true } />
+    </ResponsiveChartWrapper>
+  ))
