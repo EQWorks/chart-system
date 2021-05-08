@@ -175,6 +175,7 @@ const ScatterChart = ({
             { label: axisLeftLegendLabel, value: tooltipFormat(node.data.formattedY) },
           ] }
           disableTooltipTitle={ disableTooltipTitle }
+          chartType='scatter'
           typography={ typographyProps }
         />
       ) }

@@ -78,7 +78,6 @@ const ResponsiveLineChart = ({
   tooltipFormat,
   tooltipFormatX,
   disableTooltipTitle,
-  disableTooltip,
   typographyProps,
   ...nivoProps
 }) => {
@@ -201,6 +200,7 @@ const ResponsiveLineChart = ({
               { label: axisLeftLegendLabel, value: tooltipFormat(point.data.y) },
             ] }
             disableTooltipTitle={ disableTooltipTitle }
+            chartType='line'
             typography={ typographyProps }
           />
         ) }
