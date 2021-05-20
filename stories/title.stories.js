@@ -37,7 +37,7 @@ storiesOf('Title', module)
           fontfamily: 'Orbitron',
           fontSize: '24px',
           fontWeight: 700,
-          textAlign: 'center'
+          textAlign: 'center',
         }}
         data={ scatterChartData }
         axisBottomLegendLabel={ 'axisBottomLegend' }
