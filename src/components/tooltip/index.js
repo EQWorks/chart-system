@@ -44,7 +44,10 @@ const TooltipData = styled('span')(({ typography = typographyDefaultProps.typogr
 `)
 
 const propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
   color: PropTypes.string.isRequired,
   display: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired,
@@ -77,7 +80,8 @@ const Tooltip = ({
         </TooltipLabel>
       </TooltipHeader>
     ) }
-    <TooltipBody notitle={ disableTooltipTitle }>
+    {/* set notitle to string to avoid Warning: Received `true` for a non-boolean attribute `notitle`. */}
+    <TooltipBody notitle={ disableTooltipTitle.toString()}>
       {display.map(({ label, value }) => (
         <TooltipData
           key={ label }
