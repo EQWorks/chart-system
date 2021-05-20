@@ -21,7 +21,7 @@ const TooltipHeader = styled('div')``
 const TooltipBody = styled('div')`
   display: flex;
   flex-direction: column;
-  margin-left: ${({ notitle }) => notitle ? '0' : '14px'};
+  margin-left: ${({ notitle }) => notitle === 'true' ? '0' : '14px'};
 `
 
 const TooltipNode = styled('div')`
@@ -44,7 +44,10 @@ const TooltipData = styled('span')(({ typography = typographyDefaultProps.typogr
 `)
 
 const propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
   color: PropTypes.string.isRequired,
   display: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired,
@@ -77,7 +80,7 @@ const Tooltip = ({
         </TooltipLabel>
       </TooltipHeader>
     ) }
-    <TooltipBody notitle={ disableTooltipTitle }>
+    <TooltipBody notitle={ disableTooltipTitle.toString() }>
       {display.map(({ label, value }) => (
         <TooltipData
           key={ label }
