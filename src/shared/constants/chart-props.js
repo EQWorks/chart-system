@@ -23,6 +23,7 @@ export const chartPropTypes = {
     PropTypes.array,
     PropTypes.number,
     PropTypes.string, //for time
+    PropTypes.object, //for time
   ]),
   axisLeftLegendLabel: PropTypes.string,
   axisLeftLabelDisplayFn: PropTypes.func,
