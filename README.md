@@ -26,7 +26,7 @@ A catch-all `{...nivoProps}` is passed along to each chart, though the values mi
   - 'monochromatic:' assign a different lightness for each data series; colorParam = hue value of blue, color, yellow, pink, purple, teal or gray
   - 'random': assign a data series a color at random; no coloParam required
 - **colorParam** - the param to configure the chosen colorType. Default is `70`
-- **colors** - array of color values to use for data, overrides colorType
+- **colors** - array of colour hex values or a function to retrieve colour hex values to use for data, overrides colorType
 - **axisBottomLegendLabel** - the label for the bottom axis
 - **axisBottomTrim** - whether or not to trim the bottom axis **label** values based on chart width. Default is `true`
 - **axisBottomLabelDisplayFn** - `labelValue => { ...return displayValue }` - function to customize the bottom axis tick labels. Default is `d => d`
@@ -53,6 +53,10 @@ typographyProps: {
     fontSize: 12,
     textColor: 'black'
   }
+```
+- **disableTooltipTitle** - prop to hide the title part in the tooltip:
+```javascript
+disableTooltipTitle: { false }
 ```
 
 #### Bar, Line and Scatter:
