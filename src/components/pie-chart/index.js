@@ -80,7 +80,8 @@ const PieChart = ({
     const { finalIndexBy, finalDataKey } = processPieDataKeys({ data, indexBy, dataKey })
     const aggregatedData = aggregateData({ data, keys: [finalDataKey], indexBy: finalIndexBy, groupByKey, valueKey, type: 'sum' })
     const nivoData = convertPieDataToNivo({ data: aggregatedData, indexBy: finalIndexBy, dataKey: finalDataKey })
-    const baseColors = colors.length ? colors : processColors(data.length, colorType, colorParam)
+    const baseColors = typeof colors === 'function' || !colors.length ? processColors(data.length, colorType, colorParam) : colors
+
     return {
       nivoData,
       baseColors,
