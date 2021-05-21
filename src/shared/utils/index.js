@@ -460,6 +460,7 @@ export const getCommonProps = ({
     />
 
   const legend = {
+    id: 1,
     itemHeight: legend_height + BUFFER,
     symbolSize: SYMBOL_SIZE,
     symbolSpacing: SYMBOL_SPACING,
