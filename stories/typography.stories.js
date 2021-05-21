@@ -16,7 +16,7 @@ storiesOf('Typography', module)
         typographyProps={{
           fontFamily: '"Orbitron", sans-serif',
           fontSize: 14,
-          textColor: 'red'
+          textColor: 'red',
         }}
         data={ scatterChartData }
         axisBottomLegendLabel={ 'axisBottomLegend' }
