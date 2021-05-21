@@ -22,7 +22,8 @@ export const chartPropTypes = {
   axisBottomLabelValues: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.number,
-    PropTypes.string, //for time
+    PropTypes.string,
+    PropTypes.object, //for time
   ]),
   axisLeftLegendLabel: PropTypes.string,
   axisLeftLabelDisplayFn: PropTypes.func,
