@@ -1,4 +1,4 @@
-import React, { useMemo, useReducer, useEffect } from 'react'
+import React, { useState, useMemo, useReducer, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Pie } from '@nivo/pie'
 
@@ -33,6 +33,8 @@ const propTypes = {
   dataKey: PropTypes.string,
   groupByKey: PropTypes.string,
   valueKey: PropTypes.string,
+  padAngle: PropTypes.number,
+  cornerRadius: PropTypes.number,
   ...typographyPropTypes,
   ...chartPropTypes,
 }
@@ -44,6 +46,8 @@ const defaultProps = {
   dataKey: '',
   groupByKey: '',
   valueKey: '',
+  padAngle: 0.7,
+  cornerRadius: 3,
   ...typographyDefaultProps,
   ...chartDefaultProps,
 }
@@ -63,6 +67,8 @@ const PieChart = ({
   height,
   enableSlicesLabels,
   slicesLabelsSkipAngle,
+  padAngle,
+  cornerRadius,
   maxRowLegendItems,
   trimLegend,
   disableLegend,
@@ -71,6 +77,9 @@ const PieChart = ({
   typographyProps,
   ...nivoProps
 }) => {
+  const [slicePadAngle, setSlicePadAngle] = useState(padAngle)
+  const [sliceCornerRadius, setSliceCornerRadius] = useState(cornerRadius)
+
   const {
     nivoData,
     baseColors,
@@ -98,6 +107,7 @@ const PieChart = ({
     }
 
     if (type === 'toggle') {
+
       const idx = state.finalData.findIndex(o => o.id === payload)
       const currentSeries = state.finalData[idx]
       const finalData = [
@@ -106,6 +116,17 @@ const PieChart = ({
         currentSeries.hide ? nivoData[idx] : { ...state.finalData[idx], value: 0, hide: true },
         ...state.finalData.slice(idx + 1),
       ]
+
+      const visibleSlices = finalData.filter(d => !d.hide)
+      // don't use corner radius and padAngle on the last 100% slice
+      if (visibleSlices.length === 1) {
+        setSlicePadAngle(0)
+        setSliceCornerRadius(0)
+      } else {
+        setSlicePadAngle(padAngle)
+        setSliceCornerRadius(cornerRadius)
+      }
+
       const total = finalData.reduce((sum, row) => sum + row.value, 0)
       return {
         finalData: finalData.map(o => ({ ...o, percent: `${(o.value * 100 / total).toFixed(1)}%` })),
@@ -172,8 +193,8 @@ const PieChart = ({
       width={ width }
       data={ finalData }
       colors={ finalColors }
-      padAngle={ 0.7 }
-      cornerRadius={ 3 }
+      padAngle={ slicePadAngle }
+      cornerRadius={ sliceCornerRadius }
       enableRadialLabels={ false }
       fit={ true }
       enableSlicesLabels={ enableSlicesLabels }
