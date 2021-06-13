@@ -80,7 +80,11 @@ const PieChart = ({
     const { finalIndexBy, finalDataKey } = processPieDataKeys({ data, indexBy, dataKey })
     const aggregatedData = aggregateData({ data, keys: [finalDataKey], indexBy: finalIndexBy, groupByKey, valueKey, type: 'sum' })
     const nivoData = convertPieDataToNivo({ data: aggregatedData, indexBy: finalIndexBy, dataKey: finalDataKey })
-    const baseColors = typeof colors === 'function' || !colors.length ? processColors(data.length, colorType, colorParam) : colors
+    let baseColors = colors.length ? colors : processColors(data.length, colorType, colorParam)
+
+    if (typeof colors === 'function') {
+      baseColors = nivoData.map(colors)
+    }
 
     return {
       nivoData,
@@ -105,12 +109,13 @@ const PieChart = ({
       const total = finalData.reduce((sum, row) => sum + row.value, 0)
       return {
         finalData: finalData.map(o => ({ ...o, percent: `${(o.value * 100 / total).toFixed(1)}%` })),
-        finalColors: [
-          ...state.finalColors.slice(0, idx),
-          // ====[NOTE] return original OR set color to grey (hack to change legend)
-          currentSeries.hide ? baseColors[idx] : 'rgba(150, 150, 150, 0.5)',
-          ...state.finalColors.slice(idx + 1),
-        ],
+        finalColors:
+          [
+            ...state.finalColors.slice(0, idx),
+            // ====[NOTE] return original OR set color to grey (hack to change legend)
+            currentSeries.hide ? baseColors[idx] : 'rgba(150, 150, 150, 0.5)',
+            ...state.finalColors.slice(idx + 1),
+          ],
       }
     }
 
