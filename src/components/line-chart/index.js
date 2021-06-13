@@ -92,10 +92,15 @@ const ResponsiveLineChart = ({
     } = processSeriesDataKeys({ data, indexBy, xKey, yKeys, indexByValue })
     const unsortedData = convertDataToNivo({ data, indexBy: finalIndexBy, xKey: finalXKey, yKeys: finalYKeys, indexByValue })
     const nivoData = processAxisOrderNivo({ unsortedData, axisBottomOrder })
-    const baseColors = typeof colors === 'function' || !colors.length ? processColors(nivoData.length, colorType, colorParam) : colors
+    const baseColors = colors.length ? colors : processColors(nivoData.length, colorType, colorParam)
     // ====[TODO] flexible/repeat nature of colors could screw up { id: color } map
     // =========] would need to include repeat logic here?
-    const baseDataToColorMap = nivoData.reduce((agg, o, i) => ({ ...agg, [o.id]: baseColors[i] }), {})
+    const baseDataToColorMap = nivoData.reduce((agg, o, i) => (
+      {
+        ...agg,
+        [o.id]: typeof baseColors === 'function' ? baseColors(o) : baseColors[i],
+      }
+    ), {})
     return {
       nivoData,
       baseDataToColorMap,

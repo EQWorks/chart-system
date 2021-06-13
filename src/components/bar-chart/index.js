@@ -82,8 +82,13 @@ const BarChart = ({
     // ====[TODO] props for type (sum, max, min, avg)
     const aggregatedData = aggregateData({ data, keys: finalKeys, indexBy: finalIndexBy, groupByKey, valueKey, type: 'sum' })
     const finalData = processAxisOrder({ data: aggregatedData, axisBottomOrder, finalIndexBy })
-    const baseColors = typeof colors === 'function' || !colors.length ? processColors(finalKeys.length, colorType, colorParam) : colors
-    const baseDataToColorMap = finalKeys.reduce((agg, key, i) => ({ ...agg, [key]: baseColors[i] }), {})
+    const baseColors = colors.length ? colors : processColors(finalKeys.length, colorType, colorParam)
+    const baseDataToColorMap = finalKeys.reduce((agg, key, i) => (
+      {
+        ...agg,
+        [key]: typeof baseColors === 'function' ? baseColors(key) : baseColors[i],
+      }
+    ), {})
     return {
       finalData,
       baseDataToColorMap,
@@ -91,7 +96,6 @@ const BarChart = ({
       baseKeys: finalKeys,
     }
   }, [data, indexBy, axisBottomOrder])
-
 
   const [finalKeys, setFinalKeys] = useState(baseKeys)
   useEffect(() => {
