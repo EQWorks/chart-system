@@ -26,7 +26,7 @@ A catch-all `{...nivoProps}` is passed along to each chart, though the values mi
   - 'monochromatic:' assign a different lightness for each data series; colorParam = hue value of blue, color, yellow, pink, purple, teal or gray
   - 'random': assign a data series a color at random; no coloParam required
 - **colorParam** - the param to configure the chosen colorType. Default is `70`
-- **colors** - array of colour hex values or a function to retrieve colour hex values to use for data, overrides colorType
+- **colors** - array of colour hex values or a function to retrieve colour hex values to use for data; overrides colorType.
 - **axisBottomLegendLabel** - the label for the bottom axis
 - **axisBottomTrim** - whether or not to trim the bottom axis **label** values based on chart width. Default is `true`
 - **axisBottomLabelDisplayFn** - `labelValue => { ...return displayValue }` - function to customize the bottom axis tick labels. Default is `d => d`
@@ -72,6 +72,8 @@ disableTooltipTitle: { false }
 - **isDonut** - whether to include `innerRadius={0.6}` Nivo prop. Default is `false`
 - **enableSlicesLabels** - to include % values in the pie chart itself. Defaults is `true`
 - **slicesLabelsSkipAngle** - the angle (i.e. width) of a pie slice at which the label is not displayed. Defaults is `30`
+- **padAngle** - padding added around Pie chart slices. Default is `0.7`.
+- **cornerRadius** - radius value to shape the corner of slices. Default is `3`.
 
 #### Bar Only:
 This charts requires a unique `indexBy` values to properly render and the following keys allow some aggregation to facilitate that. Ideally, data should be properly processed in advance.
