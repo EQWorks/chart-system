@@ -13,6 +13,9 @@ export default {
     backgroundColor: '#cdcdcd',
     valueKey: 'Imps',
     remainderKey: 'Bids',
+    startRange: 0,
+    endRange: 5,
+    dynamicRange: true,
   },
   argTypes: {
     width: {
@@ -49,15 +52,22 @@ export default {
         options: ['Bids', 'Imps', 'Clicks'],
       }
     },
-  },
-}
-
-const barConfig = {
-  color: '#0075FF',
-  backgroundColor: '#cdcdcd',
-  dataKey: {
-    x1: 'Imps',
-    x2: 'Clicks',
+    startRange: {
+      control: {
+        type: 'number',
+      }
+    },
+    endRange: {
+      control: {
+        type: 'number',
+      }
+    },
+    dynamicRange: {
+      control: {
+        type: 'boolean',
+        defaultValue: true,
+      }
+    },
   },
 }
 
@@ -69,6 +79,10 @@ export const Default = (args) => {
       x1: args.valueKey,
       x2: args.remainderKey,
     },
+    axis: {
+      range: [args.startRange, args.endRange],
+      dynamicRange: args.dynamicRange,
+    }
   }
   return <GaugeBar {...args} config={config} />
 }
