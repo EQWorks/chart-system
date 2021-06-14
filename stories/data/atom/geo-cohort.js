@@ -668,7 +668,7 @@ export const geoCohortData = {
         ],
         "GeoCohortItem": "H3N2N7",
         "GeoCohortListID": [
-          1
+          2
         ],
         "ImpCost": 0.000319,
         "Imps": 1,
@@ -684,7 +684,7 @@ export const geoCohortData = {
         ],
         "GeoCohortItem": "H8Y1T7",
         "GeoCohortListID": [
-          1
+          2
         ],
         "ImpCost": 0.0035039999999999997,
         "Imps": 13,
@@ -700,7 +700,7 @@ export const geoCohortData = {
         ],
         "GeoCohortItem": "J8L3R4",
         "GeoCohortListID": [
-          1
+          2
         ],
         "ImpCost": 0.000957,
         "Imps": 3,
@@ -717,7 +717,7 @@ export const geoCohortData = {
         ],
         "GeoCohortItem": "L5G4A7",
         "GeoCohortListID": [
-          1
+          2
         ],
         "ImpCost": 0.008932,
         "Imps": 28,
@@ -732,7 +732,7 @@ export const geoCohortData = {
         ],
         "GeoCohortItem": "M9W6H7",
         "GeoCohortListID": [
-          1
+          2
         ],
         "ImpCost": 0.000638,
         "Imps": 2,
@@ -749,7 +749,7 @@ export const geoCohortData = {
         ],
         "GeoCohortItem": "R3C1V3",
         "GeoCohortListID": [
-          1
+          2
         ],
         "ImpCost": 0.025839,
         "Imps": 81,
@@ -765,7 +765,7 @@ export const geoCohortData = {
         ],
         "GeoCohortItem": "S7J2V3",
         "GeoCohortListID": [
-          1
+          2
         ],
         "ImpCost": 0.001276,
         "Imps": 4,
@@ -796,7 +796,7 @@ export const geoCohortData = {
         ],
         "GeoCohortItem": "E4L3H2",
         "GeoCohortListID": [
-          1
+          2
         ],
         "ImpCost": 0.001276,
         "Imps": 4,
@@ -812,7 +812,7 @@ export const geoCohortData = {
         ],
         "GeoCohortItem": "E4P2A2",
         "GeoCohortListID": [
-          1
+          2
         ],
         "ImpCost": 0.0019140000000000001,
         "Imps": 6,
@@ -1358,6 +1358,7 @@ export const geoCohortData = {
       {
         "Actions": 0,
         "Bids": 5233,
+
         "Clicks": 1,
         "Date": "04-14-2021",
         "GeoCohortItem": [
