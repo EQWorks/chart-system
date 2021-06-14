@@ -1,147 +1,122 @@
 import PropTypes from 'prop-types'
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect, useMemo } from 'react'
 import * as d3 from 'd3'
 
 
-// const graph = {
-//   nodes: [
-//     { name: 'alice' },
-//     { name: 'bob' },
-//     { name: 'gordon' },
-//     { name: 'chris' },
-//     { name: 'james' },
-//     { name: 'nick' },
-//   ],
-//   links: [
-//     { source: 'alice', target: 'bob' },
-//     { source: 'bob', target: 'gordon' },
-//     { source: 'chris', target: 'james' },
-//     { source: 'nice', target: 'bob' },
-//   ],
-// }
-
-const mockData = [[1], [1], [1], [1, 2], [1, 2], [1, 2], [2], [2], [2, 3], [2, 3], [3], [3]]
-
+const radiusMin = 5
+const radiusMax = 15
+const start = 0
 
 const Cluster = ({ width, height, data, config }) => {
 
+  const { dataKey, color, currentGroup, tooltip, clusterMaxLength } = config
+  const end = clusterMaxLength > 0 ? clusterMaxLength : data.length
+  const clusters = useMemo(() => data.sort((a, b) => d3.descending(a[dataKey.radius], b[dataKey.radius])).slice(start, end), [data, dataKey.radius])
+  const selected = clusters.map(d => d[dataKey.radius])
 
-  // const nodeList = data.map(el => el['GeoCohortListID'])
-  // console.log(data)
-  const [groupNum, setGroupNum] = useState(1)
-  const { dataKey, color } = config
+  const rScale = d3.scaleLinear()
+    .domain(d3.extent(selected))
+    .range([radiusMin, radiusMax])
+
   const svgRef = useRef(null)
 
-  // const nodeList = data.map(el => {
-  //   const ids = el[dataKey.nodes]
-  //   if (ids.includes(groupNum) && ids.length === 1) {
-  //     return [1]
-  //   } else {
-  //     return [2]
-  //   }
-  // })
-
-  console.log(mockData)
-
   useEffect(() => {
-    if (svgRef !== null) {
-
-      const nodeList = mockData.map(ids => ids.includes(groupNum) ? [1] : [2])
+    if (svgRef.current !== null && width > 0 && height > 0) {
+      const nodeList = clusters.map(el => {
+        const ids = el[dataKey.node]
+        return ids.includes(currentGroup) ? [1] : [2]
+      })
 
       const ticked = () => {
-        // link
-        //   .attr('x1', d => d.source.x)
-        //   .attr('y1', d => d.source.y)
-        //   .attr('x2', d => d.target.x)
-        //   .attr('y2', d => d.target.y)
         node
           .attr('cx', d => d.x)
           .attr('cy', d => d.y)
 
         hull1
-          .attr('d', d => {
-            const points = d[0].filter(d => d.includes(1)).map(({ x, y }) => [x, y])
-            return 'M' + d3.polygonHull(points).join('L') + 'Z'
-          })
           .attr('class', 'hull')
-          .style('stroke-width', 50)
-          .style('stroke', color[groupNum - 1])
-          .style('fill', color[groupNum - 1])
+          .style('stroke-width', 40)
+          .style('stroke', color)
+          .style('fill', color)
           .style('opacity', 0.2)
           .style('stroke-linejoin', 'round')
-
       }
 
       const svg = d3.select(svgRef.current)
 
       svg.selectAll('.nodes').remove()
       svg.selectAll('.hull').remove()
-      const xCenter = [width / 4 * 1, width / 4 * 3]
+      const xCenter = [width / 5 * 2, width / 5 * 4]
       d3.forceSimulation(nodeList)
         .force('charge', d3.forceManyBody().strength(-10))
-        .force('collide', d3.forceCollide(10).strength(.7))
+        .force('collide', d3.forceCollide().radius((_, i) => rScale(selected[i]) + 2.5))
         .force('center', d3.forceCenter(width / 2, height / 2))
-        .force('x', d3.forceX().x(d => xCenter[d - 1])) //consider case of multi value array
+        .force('x', d3.forceX().x(d => xCenter[d - 1]))
         .force('y', d3.forceY().y(height / 2))
         .on('tick', ticked)
 
-      // const link = d3.select(svgRef.current)
-      //   .append('g')
-      //   .attr('class', 'links')
-      //   .selectAll('line')
-      //   .data(graph.links)
-      //   .enter()
-      //   .append('line')
-      //   .attr('stroke-width', 3)
-      //   .attr('stroke', 'orange')
-
-      const node = svg
-        .append('g')
+      const node = svg.append('g')
         .attr('class', 'nodes')
-        .selectAll('line')
+        .selectAll('circle')
         .data(nodeList)
         .enter()
         .append('circle')
-        .attr('r', 5)
-        .attr('fill', d => d.includes(1) ? color[groupNum - 1] : 'grey')
+        .attr('r', (_, i) => rScale(selected[i]))
+        .attr('fill', d => d.includes(1) ? color : 'grey')
 
       const hull1 = svg.append('path')
         .datum([nodeList])
+        .attr('pointer-events', 'none')
 
-      const hull2 = svg.append('path')
+      const tooltipLayer = d3.selectAll('.tooltip')
 
+      node.on('mouseover', (evt, node) => {
 
-
+        tooltipLayer.style('visibility', 'visible')
+          .html(`
+          <p><b>${data[node.index][tooltip.dataKey]}</b></p>
+          <p>${dataKey.radius}: ${selected[node.index]}</p>
+          `)
+          .style('left', (evt.offsetX + 50) + 'px')
+          .style('top', (evt.offsetY + 50) + 'px')
+      })
+        .on('mouseout', () => {
+          tooltipLayer.style('visibility', 'hidden')
+            .selectAll('p')
+            .remove()
+        })
     }
-  }, [svgRef, groupNum])
-
+  }, [svgRef.current, clusters, currentGroup, tooltip])
 
   return (
     <>
-      <button onClick={() => setGroupNum(1)}>group 1</button>
-      <button onClick={() => setGroupNum(2)}>group 2</button>
-      <button onClick={() => setGroupNum(3)}>group 3</button>
       <svg ref={svgRef} width={width} height={height}></svg>
+      <div className='tooltip' style={tooltip.style}></div>
     </>
   )
 }
 
 Cluster.propTypes = {
+  clusterMaxLength: PropTypes.number,
   config: PropTypes.shape({
+    clusterMaxLength: PropTypes.number,
     color: PropTypes.string,
+    currentGroup: PropTypes.number,
     dataKey: PropTypes.shape({
-      nodes: PropTypes.string,
-      groups: PropTypes.string,
+      node: PropTypes.string,
+      radius: PropTypes.string,
+    }),
+    tooltip: PropTypes.shape({
+      dataKey: PropTypes.any,
+      style: PropTypes.any,
     }),
   }),
-  data: PropTypes.object,
+  data: PropTypes.array,
   height: PropTypes.number,
   width: PropTypes.number,
 }
 
 Cluster.defaultProps = {
-  color: d3.schemeCategory10,
+  clusterMaxLength: 0,
 }
 
-
-export default Cluster
+export default React.memo(Cluster)

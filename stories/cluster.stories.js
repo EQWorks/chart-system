@@ -1,6 +1,7 @@
 import React from 'react'
 import Cluster from '../src/components/d3/cluster'
 import { geoCohortData } from './data/atom/geo-cohort'
+
 export default {
   title: 'D3/Cluster',
   component: Cluster,
@@ -8,7 +9,8 @@ export default {
     width: 500,
     height: 500,
     data: geoCohortData.aggregated.GeoCohortItem,
-    color: ['#0075FF', '#FAF', '#AA1'],
+    color: '#0075FF',
+    currentGroup: [1, 2],
     valueKey: 'Imps',
     remainderKey: 'Bids',
   },
@@ -19,6 +21,12 @@ export default {
         options: [0, 500],
       }
     },
+    currentGroup: {
+      control: {
+        type: 'radio',
+        options: [1, 2],
+      }
+    },
     height: {
       control: {
         type: 'number',
@@ -27,14 +35,14 @@ export default {
     },
     color: {
       control: {
-        type: 'select',
-      }
-    },
-    backgroundColor: {
-      control: {
         type: 'color',
       }
     },
+    // backgroundColor: {
+    //   control: {
+    //     type: 'color',
+    //   }
+    // },
     valueKey: {
       control: {
         type: 'select',
@@ -53,10 +61,25 @@ export default {
 export const Default = (args) => {
   const config = {
     color: args.color,
+    currentGroup: args.currentGroup,
     dataKey: {
-      nodes: 'GeoCohortItem',
-      groups: 'GeoCohortListID',
+      node: 'GeoCohortListID',
+      radius: args.valueKey,
     },
+    clusterLengthMax: 150,
+    tooltip: {
+      dataKey: 'GeoCohortItem',
+      style: {
+        position: 'absolute',
+        minWidth: 80,
+        backgroundColor: '#fff',
+        padding: 16,
+        border: 'none',
+        borderRadius: 4,
+        boxShadow: '0 2px 8px 0 rgba(12, 12, 13, 0.15)',
+        visibility: 'hidden',
+      }
+    }
   }
 
   return <Cluster {...args} config={config} />
