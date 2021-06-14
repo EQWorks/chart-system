@@ -309,9 +309,9 @@ const getLabelMaxWidth = (keys, typographyProps, displayFn) => keys.reduce((max,
  * @param { number } containerWidth - width of the text container in pixels
  * @param { object } typographyProps - an object with font size, font family, and text color for the chart
  * @param { number } count - used to add or not a suffix
- * @returns { string } - a trimmed text with '..' added at the end
+ * @returns { string } - a trimmed text with '...' added at the end
  */
-const TRIM = '..'
+const TRIM = '...'
 const trimText = (text, containerWidth, typographyProps, count = 0) => {
   if (text === '') return text
   let n = text.length
