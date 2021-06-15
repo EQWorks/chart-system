@@ -41,7 +41,7 @@ const GaugeBar = ({ data, width, height, config }) => {
                 fontSize: '12px',
                 fontWeight: 400,
               }}
-                transform={`translate(${xScale(tick) * scale}, ${25})`}>{`${tick}%`}</text>
+              transform={`translate(${xScale(tick) * scale}, ${25})`}>{`${tick}%`}</text>
             </g>,
           )}
         </g>
@@ -57,18 +57,18 @@ GaugeBar.propTypes = {
   config: PropTypes.shape({
     axis: PropTypes.shape({
       dynamicRange: PropTypes.any,
-      range: PropTypes.any
+      range: PropTypes.any,
     }),
     backgroundColor: PropTypes.string,
     color: PropTypes.string,
     dataKey: PropTypes.shape({
       x1: PropTypes.string,
-      x2: PropTypes.string
-    })
+      x2: PropTypes.string,
+    }),
   }).isRequired,
   data: PropTypes.object.isRequired,
   height: PropTypes.number.isRequired,
-  width: PropTypes.number.isRequired
+  width: PropTypes.number.isRequired,
 }
 
 GaugeBar.defaultProps = {
@@ -77,7 +77,7 @@ GaugeBar.defaultProps = {
   axis: {
     dynamicRange: false,
     range: [0, 100],
-  }
+  },
 }
 
 
