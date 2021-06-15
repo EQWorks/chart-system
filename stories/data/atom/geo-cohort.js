@@ -668,7 +668,7 @@ export const geoCohortData = {
         ],
         "GeoCohortItem": "H3N2N7",
         "GeoCohortListID": [
-          2
+          1, 2
         ],
         "ImpCost": 0.000319,
         "Imps": 1,
@@ -684,7 +684,7 @@ export const geoCohortData = {
         ],
         "GeoCohortItem": "H8Y1T7",
         "GeoCohortListID": [
-          2
+          1, 2
         ],
         "ImpCost": 0.0035039999999999997,
         "Imps": 13,
@@ -717,7 +717,7 @@ export const geoCohortData = {
         ],
         "GeoCohortItem": "L5G4A7",
         "GeoCohortListID": [
-          2
+          1, 2
         ],
         "ImpCost": 0.008932,
         "Imps": 28,
@@ -732,7 +732,7 @@ export const geoCohortData = {
         ],
         "GeoCohortItem": "M9W6H7",
         "GeoCohortListID": [
-          2
+          1, 2
         ],
         "ImpCost": 0.000638,
         "Imps": 2,
@@ -749,7 +749,7 @@ export const geoCohortData = {
         ],
         "GeoCohortItem": "R3C1V3",
         "GeoCohortListID": [
-          2
+          1, 2
         ],
         "ImpCost": 0.025839,
         "Imps": 81,
@@ -765,7 +765,7 @@ export const geoCohortData = {
         ],
         "GeoCohortItem": "S7J2V3",
         "GeoCohortListID": [
-          2
+          1, 2
         ],
         "ImpCost": 0.001276,
         "Imps": 4,
@@ -858,7 +858,7 @@ export const geoCohortData = {
         ],
         "GeoCohortItem": "J7R6B1",
         "GeoCohortListID": [
-          1
+          2
         ],
         "ImpCost": 0.000319,
         "Imps": 1,
@@ -888,7 +888,7 @@ export const geoCohortData = {
         ],
         "GeoCohortItem": "L5B4G9",
         "GeoCohortListID": [
-          1
+          2
         ],
         "ImpCost": 0.001276,
         "Imps": 4,
@@ -903,7 +903,7 @@ export const geoCohortData = {
         ],
         "GeoCohortItem": "L6R1A5",
         "GeoCohortListID": [
-          1
+          2
         ],
         "ImpCost": 0.000319,
         "Imps": 1,
@@ -918,7 +918,7 @@ export const geoCohortData = {
         ],
         "GeoCohortItem": "N5Z2C2",
         "GeoCohortListID": [
-          1
+          2
         ],
         "ImpCost": 0.000319,
         "Imps": 1,
@@ -933,7 +933,7 @@ export const geoCohortData = {
         ],
         "GeoCohortItem": "P3A5Z9",
         "GeoCohortListID": [
-          1
+          2
         ],
         "ImpCost": 0.001276,
         "Imps": 4,
@@ -948,7 +948,7 @@ export const geoCohortData = {
         ],
         "GeoCohortItem": "T6K1P5",
         "GeoCohortListID": [
-          1
+          2
         ],
         "ImpCost": 0.000319,
         "Imps": 1,

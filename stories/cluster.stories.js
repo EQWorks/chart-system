@@ -13,6 +13,7 @@ export default {
     currentGroup: [1, 2],
     valueKey: 'Imps',
     remainderKey: 'Bids',
+    commonNodes: false,
   },
   argTypes: {
     width: {
@@ -36,6 +37,12 @@ export default {
     color: {
       control: {
         type: 'color',
+      }
+    },
+    commonNodes: {
+      control: {
+        type: 'boolean',
+        defaultValue: false,
       }
     },
     // backgroundColor: {
@@ -65,6 +72,11 @@ export const Default = (args) => {
     dataKey: {
       node: 'GeoCohortListID',
       radius: args.valueKey,
+    },
+    mode: {
+      showCommonNodes: args.commonNodes,
+      groups: [1, 2],
+      colors: ['#a9ff91', '#4278ff', '#dc91ff']
     },
     clusterLengthMax: 150,
     tooltip: {

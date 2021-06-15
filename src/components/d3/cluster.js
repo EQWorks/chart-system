@@ -9,7 +9,7 @@ const start = 0
 
 const Cluster = ({ width, height, data, config }) => {
 
-  const { dataKey, color, currentGroup, tooltip, clusterMaxLength } = config
+  const { dataKey, color, currentGroup, tooltip, clusterMaxLength, mode } = config
   const end = clusterMaxLength > 0 ? clusterMaxLength : data.length
   const clusters = useMemo(() => data.sort((a, b) => d3.descending(a[dataKey.radius], b[dataKey.radius])).slice(start, end), [data, dataKey.radius])
   const selected = clusters.map(d => d[dataKey.radius])
@@ -24,7 +24,14 @@ const Cluster = ({ width, height, data, config }) => {
     if (svgRef.current !== null && width > 0 && height > 0) {
       const nodeList = clusters.map(el => {
         const ids = el[dataKey.node]
-        return ids.includes(currentGroup) ? [1] : [2]
+        if (mode.showCommonNodes) {
+          const first = ids.includes(mode.groups[0])
+          const second = ids.includes(mode.groups[1])
+          return first && second ? [2] : first && !second ? [1] : [3]
+        }
+        else {
+          return ids.includes(currentGroup) ? [1] : [2]
+        }
       })
 
       const ticked = () => {
@@ -45,7 +52,7 @@ const Cluster = ({ width, height, data, config }) => {
 
       svg.selectAll('.nodes').remove()
       svg.selectAll('.hull').remove()
-      const xCenter = [width / 5 * 2, width / 5 * 4]
+      const xCenter = mode.showCommonNodes ? [width / 5 * 2, width / 5 * 3, width / 5 * 4] : [width / 5 * 2, width / 5 * 4]
       d3.forceSimulation(nodeList)
         .force('charge', d3.forceManyBody().strength(-10))
         .force('collide', d3.forceCollide().radius((_, i) => rScale(selected[i]) + 2.5))
@@ -61,7 +68,15 @@ const Cluster = ({ width, height, data, config }) => {
         .enter()
         .append('circle')
         .attr('r', (_, i) => rScale(selected[i]))
-        .attr('fill', d => d.includes(1) ? color : 'grey')
+        .attr('fill', d => {
+          if (mode.showCommonNodes) {
+            const { colors } = mode
+            return d.includes(1) ? colors[0] : d.includes(2) ? colors[1] : colors[2]
+          }
+          else {
+            return d.includes(1) ? color : '#cdcdcd'
+          }
+        })
 
       const hull1 = svg.append('path')
         .datum([nodeList])
@@ -105,6 +120,11 @@ Cluster.propTypes = {
       node: PropTypes.string,
       radius: PropTypes.string,
     }),
+    mode: PropTypes.shape({
+      colors: PropTypes.any,
+      groups: PropTypes.any,
+      showCommonNodes: PropTypes.any,
+    }),
     tooltip: PropTypes.shape({
       dataKey: PropTypes.any,
       style: PropTypes.any,
@@ -117,6 +137,10 @@ Cluster.propTypes = {
 
 Cluster.defaultProps = {
   clusterMaxLength: 0,
+  mode: {
+    colors: ['#a9ff91', '#4278ff', '#dc91ff'],
+    showCommonNodes: false,
+  },
 }
 
 export default React.memo(Cluster)
