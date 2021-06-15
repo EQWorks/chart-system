@@ -10,7 +10,7 @@ export default {
     height: 500,
     data: geoCohortData.aggregated.GeoCohortItem,
     color: '#0075FF',
-    currentGroup: [1, 2],
+    currentGroup: 1,
     valueKey: 'Imps',
     remainderKey: 'Bids',
     commonNodes: false,
@@ -20,47 +20,42 @@ export default {
       control: {
         type: 'number',
         options: [0, 500],
-      }
+      },
     },
     currentGroup: {
       control: {
         type: 'radio',
         options: [1, 2],
-      }
+      },
     },
     height: {
       control: {
         type: 'number',
         options: [0, 500],
-      }
+      },
     },
     color: {
       control: {
         type: 'color',
-      }
+      },
     },
     commonNodes: {
       control: {
         type: 'boolean',
         defaultValue: false,
-      }
+      },
     },
-    // backgroundColor: {
-    //   control: {
-    //     type: 'color',
-    //   }
-    // },
     valueKey: {
       control: {
         type: 'select',
         options: ['Bids', 'Imps', 'Clicks'],
-      }
+      },
     },
     remainderKey: {
       control: {
         type: 'select',
         options: ['Bids', 'Imps', 'Clicks'],
-      }
+      },
     },
   },
 }
@@ -90,8 +85,8 @@ export const Default = (args) => {
         borderRadius: 4,
         boxShadow: '0 2px 8px 0 rgba(12, 12, 13, 0.15)',
         visibility: 'hidden',
-      }
-    }
+      },
+    },
   }
 
   return <Cluster {...args} config={config} />

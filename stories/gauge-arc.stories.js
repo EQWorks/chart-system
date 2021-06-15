@@ -21,47 +21,47 @@ export default {
       control: {
         type: 'number',
         options: [0, 500],
-      }
+      },
     },
     height: {
       control: {
         type: 'number',
         options: [0, 500],
-      }
+      },
     },
     color: {
       control: {
         type: 'color',
-      }
+      },
     },
     backgroundColor: {
       control: {
         type: 'color',
-      }
+      },
     },
     valueKey: {
       control: {
         type: 'select',
         options: ['Bids', 'Imps', 'Clicks'],
-      }
+      },
     },
     remainderKey: {
       control: {
         type: 'select',
         options: ['Bids', 'Imps', 'Clicks'],
-      }
+      },
     },
     animation: {
       control: {
         type: 'boolean',
         defaultValue: true,
-      }
+      },
     },
     duration: {
       control: {
         type: 'number',
-      }
-    }
+      },
+    },
   },
 }
 
@@ -81,5 +81,3 @@ export const Default = (args) => {
   return <GaugeArc {...args} config={config} />
 }
 
-//win rate = imps/bids
-//CTR = clicks/impressions

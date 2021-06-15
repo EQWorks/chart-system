@@ -22,35 +22,35 @@ export default {
       control: {
         type: 'number',
         options: [0, 500],
-      }
+      },
     },
     height: {
       control: {
         type: 'number',
         options: [0, 500],
-      }
+      },
     },
     color: {
       control: {
         type: 'color',
-      }
+      },
     },
     backgroundColor: {
       control: {
         type: 'color',
-      }
+      },
     },
     valueKey: {
       control: {
         type: 'select',
         options: ['Bids', 'Imps', 'Clicks'],
-      }
+      },
     },
     remainderKey: {
       control: {
         type: 'select',
         options: ['Bids', 'Imps', 'Clicks'],
-      }
+      },
     },
     startRange: {
       control: {
@@ -66,7 +66,7 @@ export default {
       control: {
         type: 'boolean',
         defaultValue: true,
-      }
+      },
     },
   },
 }
@@ -82,7 +82,7 @@ export const Default = (args) => {
     axis: {
       range: [args.startRange, args.endRange],
       dynamicRange: args.dynamicRange,
-    }
+    },
   }
   return <GaugeBar {...args} config={config} />
 }

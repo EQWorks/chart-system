@@ -19,7 +19,6 @@ const GaugeBar = ({ data, width, height, config }) => {
     .domain(axisRange)
     .range([0, width])
 
-  console.log(percentage)
   const tickNum = width < minWidth ? 5 : 10
   const ticks = xScale.nice().ticks(tickNum) //ticks are calculated based on domain range
   const filledAmt = xScale(percentage)
