@@ -20,7 +20,7 @@ const GaugeArc = ({ data, width, height, config }) => {
 
   const arcsGenerator = d3.pie().sortValues(function (a, b) { return isAscending ? b - a : a - b })
 
-  const arcsData = useMemo(() => arcsGenerator([value, remainder]), [data])
+  const arcsData = useMemo(() => arcsGenerator([value, remainder]), [value, remainder])
 
   const arcPath = d3.arc().innerRadius(pieSize - lineThickness).outerRadius(pieSize).cornerRadius(lineThickness)
 
