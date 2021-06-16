@@ -101,6 +101,4 @@ GaugeArc.defaultProps = {
   },
 }
 
-
 export default React.memo(GaugeArc)
-

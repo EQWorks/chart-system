@@ -80,5 +80,4 @@ GaugeBar.defaultProps = {
   },
 }
 
-
 export default GaugeBar

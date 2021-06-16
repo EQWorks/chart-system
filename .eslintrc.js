@@ -24,7 +24,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  plugins: ['react'],
+  plugins: ['react', 'react-hooks'],
   rules: {
     'comma-dangle': ['error', 'always-multiline'],
     'eol-last': ['error', 'always'],
@@ -32,5 +32,10 @@ module.exports = {
     'object-curly-spacing': ['error', 'always'],
     quotes: ['error', 'single', { 'avoidEscape': true }],
     semi: ['error', 'never'],
+    "no-unused-vars": ['error', { "ignoreRestSiblings": true }],
+    "react/display-name": "warn",
+    "react/no-deprecated": "warn",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
   },
 }
