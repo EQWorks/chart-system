@@ -14,6 +14,7 @@ export default {
     valueKey: 'Imps',
     remainderKey: 'Bids',
     commonNodes: false,
+    clusterMaxLength: 150,
   },
   argTypes: {
     width: {
@@ -57,10 +58,16 @@ export default {
         options: ['Bids', 'Imps', 'Clicks'],
       },
     },
+    clusterMaxLength: {
+      control: {
+        type: 'number',
+      },
+    },
   },
 }
 
 export const Default = (args) => {
+  console.log("args", args.clusterLengthMax)
   const config = {
     color: args.color,
     currentGroup: args.currentGroup,
@@ -73,7 +80,7 @@ export const Default = (args) => {
       groups: [1, 2],
       colors: ['#a9ff91', '#4278ff', '#dc91ff']
     },
-    clusterLengthMax: 150,
+    clusterMaxLength: args.clusterMaxLength,
     tooltip: {
       dataKey: 'GeoCohortItem',
       style: {

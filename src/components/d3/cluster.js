@@ -11,9 +11,8 @@ const Cluster = ({ width, height, data, config }) => {
 
   const { dataKey, color, currentGroup, tooltip, clusterMaxLength, mode } = config
   const end = clusterMaxLength > 0 ? clusterMaxLength : data.length
-  const clusters = useMemo(() => data.sort((a, b) => d3.descending(a[dataKey.radius], b[dataKey.radius])).slice(start, end), [data, dataKey.radius])
+  const clusters = useMemo(() => data.sort((a, b) => d3.descending(a[dataKey.radius], b[dataKey.radius])).slice(start, end), [data, dataKey.radius, end])
   const selected = clusters.map(d => d[dataKey.radius])
-
   const rScale = d3.scaleLinear()
     .domain(d3.extent(selected))
     .range([radiusMin, radiusMax])
@@ -21,6 +20,7 @@ const Cluster = ({ width, height, data, config }) => {
   const svgRef = useRef(null)
 
   useEffect(() => {
+    console.log(svgRef)
     if (svgRef.current !== null && width > 0 && height > 0) {
       const nodeList = clusters.map(el => {
         const ids = el[dataKey.node]
@@ -100,7 +100,7 @@ const Cluster = ({ width, height, data, config }) => {
             .remove()
         })
     }
-  }, [svgRef.current, clusters, currentGroup, tooltip])
+  }, [svgRef, clusters, currentGroup, tooltip])
 
   return (
     <>
