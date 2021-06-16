@@ -8,5 +8,7 @@ ignores: [
     "@babel/*",
     "@storybook/*",
     "size-limit",
-    "@size-limit/*"
+    "@size-limit/*",
+    "plotly.js",
+    "storybook"
 ]

@@ -2,10 +2,10 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 
 import LineChart from '../src/components/line-chart'
-import lineChartData from './data/line-chart-data'
-import d from './data/overlord-ad-position'
-import OS from './data/overlord-OS'
-import barChartData from './data/bar-chart-data'
+import lineChartData from './data/others/line-chart-data'
+import d from './data/atom/overlord-ad-position'
+import OS from './data/atom/overlord-OS'
+import barChartData from './data/others/bar-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
@@ -15,26 +15,26 @@ storiesOf('Line Chart', module)
   .add('Widget Line Chart', () => (
     <ResponsiveChartWrapper>
       <LineChart
-        title={ title }
-        data={ lineChartData }
+        title={title}
+        data={lineChartData}
         indexBy='country'
         xKey='vehicle'
-        yKeys={ ['amount'] }
+        yKeys={['amount']}
         xScale={{ type: 'point' }}
-        axisBottomLegendLabel={ 'axisBottomLegend' }
-        axisLeftLegendLabel={ 'axisLeftLegend' }
+        axisBottomLegendLabel={'axisBottomLegend'}
+        axisLeftLegendLabel={'axisLeftLegend'}
       />
     </ResponsiveChartWrapper>
   ))
   .add('Index By Keys', () => (
     <ResponsiveChartWrapper>
       <LineChart
-        title={ title }
-        indexByValue={ false }
+        title={title}
+        indexByValue={false}
         xScale={{ type: 'point' }}
-        data={ barChartData }
-        axisBottomLegendLabel={ 'axisBottomLegend' }
-        axisLeftLegendLabel={ 'axisLeftLegend' }
+        data={barChartData}
+        axisBottomLegendLabel={'axisBottomLegend'}
+        axisLeftLegendLabel={'axisLeftLegend'}
       />
     </ResponsiveChartWrapper>
   ))
@@ -44,12 +44,12 @@ storiesOf('Line Chart', module)
         title='Overlord adPosition'
         indexBy='Name'
         xKey='Date'
-        yKeys={ ['Imps'] }
-        axisBottomLegendLabel={ 'Date' }
+        yKeys={['Imps']}
+        axisBottomLegendLabel={'Date'}
         // parse dates into js objects so sort function works properly
-        data={ d.adPosition.map((x) => ({ ...x, Date: new Date(x.Date) })) }
+        data={d.adPosition.map((x) => ({ ...x, Date: new Date(x.Date) }))}
         axisBottomOrder='asc'
-        maxRowLegendItems={ 6 }
+        maxRowLegendItems={6}
         // if dates are objects, no need to format
         xScale={{
           type: 'time',
@@ -57,10 +57,10 @@ storiesOf('Line Chart', module)
           useUTC: false,
           // precision: 'day',
         }}
-        axisLeftLegendLabel={ 'impressions' }
+        axisLeftLegendLabel={'impressions'}
         // do date manipulation with your fav library
-        tooltipFormatX={ (value) => value.toDateString() }
-        axisBottomLabelDisplayFn={ (value) => value.toDateString().slice(4, 10) }
+        tooltipFormatX={(value) => value.toDateString()}
+        axisBottomLabelDisplayFn={(value) => value.toDateString().slice(4, 10)}
       />
     </ResponsiveChartWrapper>
   ))
@@ -70,9 +70,9 @@ storiesOf('Line Chart', module)
         title='Overlord OS'
         indexBy='Name'
         xKey='Date'
-        yKeys={ ['Imps'] }
-        axisBottomLegendLabel={ 'Date' }
-        maxRowLegendItems={ 6 }
+        yKeys={['Imps']}
+        axisBottomLegendLabel={'Date'}
+        maxRowLegendItems={6}
         // comment next line  out to see relevance
         axisBottomOrder='asc'
         xScale={{
@@ -81,11 +81,11 @@ storiesOf('Line Chart', module)
           useUTC: false,
           // precision: 'day',
         }}
-        data={ OS.map((x) => ({ ...x, Date: new Date(x.Date) })) }
-        axisLeftLegendLabel={ 'impressions' }
+        data={OS.map((x) => ({ ...x, Date: new Date(x.Date) }))}
+        axisLeftLegendLabel={'impressions'}
         // do date manipulation with your fav library
-        tooltipFormatX={ (value) => value.toDateString() }
-        axisBottomLabelDisplayFn={ (value) => value.toDateString().slice(4, 10) }
+        tooltipFormatX={(value) => value.toDateString()}
+        axisBottomLabelDisplayFn={(value) => value.toDateString().slice(4, 10)}
       />
     </ResponsiveChartWrapper>
   ))
@@ -95,21 +95,21 @@ storiesOf('Line Chart', module)
         title='Overlord adPosition'
         indexBy='Name'
         xKey='Date'
-        yKeys={ ['Imps'] }
-        axisBottomLegendLabel={ 'Date' }
+        yKeys={['Imps']}
+        axisBottomLegendLabel={'Date'}
         axisBottomOrder='asc'
-        maxRowLegendItems={ 6 }
+        maxRowLegendItems={6}
         xScale={{
           type: 'time',
           format: '%m-%d-%Y',
           useUTC: false,
         }}
         // if period of time is smaller than 9 days, ticks are duplicate, so need to do values `every day`
-        axisBottomLabelValues={ 'every day' }
-        data={ d.smallAdPosition }
-        axisLeftLegendLabel={ 'Impressions' }
+        axisBottomLabelValues={'every day'}
+        data={d.smallAdPosition}
+        axisLeftLegendLabel={'Impressions'}
         // do date manipulation with your fav library
-        tooltipFormatX={ (value) => value.toDateString() }
+        tooltipFormatX={(value) => value.toDateString()}
       />
     </ResponsiveChartWrapper>
   ))

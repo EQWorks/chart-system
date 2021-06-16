@@ -5,10 +5,10 @@ import BarChart from '../src/components/bar-chart/'
 import PieChart from '../src/components/pie-chart'
 import LineChart from '../src/components/line-chart'
 import ScatterChart from '../src/components/scatter-chart'
-import barChartData from './data/bar-chart-data'
-import lineChartData from './data/line-chart-data'
-import pieChartData from './data/pie-chart-data'
-import scatterChartData from './data/scatter-chart-data'
+import barChartData from './data/others/bar-chart-data'
+import lineChartData from './data/others/line-chart-data'
+import pieChartData from './data/others/pie-chart-data'
+import scatterChartData from './data/others/scatter-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
@@ -26,8 +26,8 @@ storiesOf('Color', module)
     return (
       <ResponsiveChartWrapper>
         <BarChart
-          title={ title }
-          data={ barChartData }
+          title={title}
+          data={barChartData}
           axisBottomLegendLabel='Address City'
           axisLeftLegendLabel='Visitors'
           groupMode='grouped'
@@ -36,11 +36,11 @@ storiesOf('Color', module)
       </ResponsiveChartWrapper>
     )
   })
-  .add('Pie Chart with Color function', () => { 
+  .add('Pie Chart with Color function', () => {
     const pieIds = ['css', 'erlang testing', 'css1', 'elixir salak']
     pieIds.forEach((d, i) => {
       colorsMap[d] = palette[i]
-    })  
+    })
     return (
       <ResponsiveChartWrapper>
         <PieChart
@@ -56,18 +56,18 @@ storiesOf('Color', module)
     const LineIds = ['france', 'us', 'germany', 'norway']
     LineIds.forEach((d, i) => {
       colorsMap[d] = palette[i]
-    })  
+    })
     return (
       <ResponsiveChartWrapper>
         <LineChart
-          title={ title }
-          data={ lineChartData }
+          title={title}
+          data={lineChartData}
           indexBy='country'
           xKey='vehicle'
-          yKeys={ ['amount'] }
+          yKeys={['amount']}
           xScale={{ type: 'point' }}
-          axisBottomLegendLabel={ 'axisBottomLegend' }
-          axisLeftLegendLabel={ 'axisLeftLegend' }
+          axisBottomLegendLabel={'axisBottomLegend'}
+          axisLeftLegendLabel={'axisLeftLegend'}
           colors={d => colorsMap[d.id]}
         />
       </ResponsiveChartWrapper>
@@ -76,7 +76,8 @@ storiesOf('Color', module)
   .add('Scatter Chart with Color function', () => {
     const scatterIds = ['Arts & Entertainment', 'Science - Technology', 'Hobbies, (Vacation)']
     scatterIds.forEach((d, i) => {
-      colorsMap[d] = palette[i]})
+      colorsMap[d] = palette[i]
+    })
     return (
       <ResponsiveChartWrapper>
         <ScatterChart
