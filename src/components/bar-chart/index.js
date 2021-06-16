@@ -167,7 +167,6 @@ const BarChart = ({
       data={finalData}
       // NOTE yScale, xScale, yFormat, xFormat are not exposed in Bar
       indexBy={finalIndexBy}
-      layout='horizontal'
       keys={finalKeys}
       colors={finalColors}
       enableRadialLabels={false}
