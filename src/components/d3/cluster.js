@@ -100,7 +100,7 @@ const Cluster = ({ width, height, data, config }) => {
             .remove()
         })
     }
-  }, [svgRef, clusters, currentGroup ])
+  }, [svgRef.current, clusters, currentGroup ])
 
   return (
     <>
