@@ -1,7 +1,7 @@
 {
   "name": "@eqworks/chart-system",
   "private": false,
-  "version": "0.5.0",
+  "version": "0.5.1",
   "main": "dist/index.js",
   "source": "src/index.js",
   "files": [
@@ -76,7 +76,7 @@
   "size-limit": [
     {
       "path": "dist/index.js",
-      "limit": "150 KB"
+      "limit": "250 KB"
     }
   ],
   "devDependencies": {

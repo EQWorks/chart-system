@@ -67,7 +67,7 @@ export default {
 }
 
 export const Default = (args) => {
-  console.log("args", args.clusterLengthMax)
+
   const config = {
     color: args.color,
     currentGroup: args.currentGroup,

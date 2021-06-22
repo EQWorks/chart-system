@@ -20,7 +20,7 @@ const Cluster = ({ width, height, data, config }) => {
   const svgRef = useRef(null)
 
   useEffect(() => {
-    console.log(svgRef)
+
     if (svgRef.current !== null && width > 0 && height > 0) {
       const nodeList = clusters.map(el => {
         const ids = el[dataKey.node]
@@ -100,7 +100,7 @@ const Cluster = ({ width, height, data, config }) => {
             .remove()
         })
     }
-  }, [svgRef, clusters, currentGroup, tooltip])
+  }, [svgRef, clusters, currentGroup ])
 
   return (
     <>
