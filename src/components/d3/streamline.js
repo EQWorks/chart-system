@@ -107,7 +107,7 @@ const Streamline = ({ data, width, height, config }) => {
         <defs>
           <linearGradient id={`gradient-${key}`} gradientTransform="rotate(90)">
             <stop offset='5%' stopColor={`${color}40`} />
-            <stop offset='50%' stopColor={`${color}00`} />
+            <stop offset='90%' stopColor={`${color}00`} />
           </linearGradient>
         </defs>
         <rect x={mousePos.x} stroke={color} fill='rgba(0,0,0,0)' strokeDasharray='5 1' y={mousePos.y} width={mousePos.w} height={mousePos.h} />
@@ -130,7 +130,7 @@ const Streamline = ({ data, width, height, config }) => {
             <textPath xlinkHref={`#min-${key}`}>{`minimum ${min}${unit}`}</textPath>
           </text>
         </g>}
-        <path stroke='rbga(255,255,255,0)' fill={`url(#gradient-${key})`} d={`M0,${height} ` + path + ` v${height} L0,${height}`} />
+        <path stroke='rbga(255,255,255,0)' fill={`url(#gradient-${key})`} d={`M0,${height} ` + path + ` V${height} L0,${height}`} />
         <path stroke={color} fill='none' strokeWidth={strokeWidth} d={path} />
         {inspect && data.map((d, i) => <circle key={i} cx={xScale(i)} cy={yScale(d[key])} r={strokeWidth} fill='white' />)}
       </svg>
