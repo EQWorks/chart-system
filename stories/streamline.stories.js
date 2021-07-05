@@ -49,10 +49,13 @@ export const Default = (args) => {
   const [data, setData] = React.useState([]);
   const { maxThreshold: max, minThreshold: min } = args
   useEffect(() => {
-    const interval = setInterval(() => {
-      setData(prev => [...prev, { value: Math.random() * (max - min) + min }])
-    }, 500);
-    return () => clearInterval(interval)
+    if (data.length < 50) {
+
+      const interval = setInterval(() => {
+        setData(prev => [...prev, { value: Math.random() * (max - min) + min }])
+      }, 500);
+      return () => clearInterval(interval)
+    }
   }, [data])
 
   const config = {
