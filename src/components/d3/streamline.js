@@ -110,7 +110,7 @@ const Streamline = ({ data, width, height, config }) => {
         svgRef.current.removeEventListener('mousemove', handleMouseMove)
       }
     }
-  }, [svgRef.current, mousePos.isDragged])
+  }, [svgRef.current, mousePos.isDragged, isInspected])
 
   const xScale = d3.scaleLinear()
     .domain(Array.isArray(xAxisRange) ? xAxisRange : [0, data.length - 1])
