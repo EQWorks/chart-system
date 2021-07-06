@@ -1,62 +1,104 @@
 import PropTypes from 'prop-types'
 import React, { useState, useEffect, useRef } from 'react'
 import * as d3 from 'd3'
+import { getAverage } from './utils'
+import './streamline.css'
+
+
+const mouseConfig = {
+  position: { ix: 0, iy: 0, x: 0, y: 0, w: 0, h: 0 },
+  isDragged: false,
+}
+
+const ThresholdLine = ({ type, key, content, path }) => {
+  const dy = type === 'max' ? '-10' : '20'
+  return (
+    <g>
+      <path id={`${type}-${key}`} strokeDasharray="10,10" stroke='#222' fill='none' strokeWidth='1' d={path} />
+      <text dy={dy} style={{
+        fontSize: '12px',
+        fill: '#000',
+      }}>
+        <textPath xlinkHref={`#${type}-${key}`}>{content}</textPath>
+      </text>
+    </g>
+  )
+}
+
+ThresholdLine.propTypes = {
+  content: PropTypes.string,
+  key: PropTypes.string,
+  path: PropTypes.string,
+  type: PropTypes.string,
+}
+
 
 const Streamline = ({ data, width, height, config }) => {
 
-  const { key, xAxisRange, yAxisRange, style, threshold, screeningMode } = config
+  const { key, xAxisRange, yAxisRange, style, threshold, isInspected, inspectionMode } = config
   const { color, strokeWidth } = style
   const { max, min, unit } = threshold
-  const [isDragged, setIsDragged] = useState(false)
-  //ix = initial X, iy = initial Y
-  const [mousePos, setMousePos] = useState({ ix: 0, iy: 0, x: 0, y: 0, w: 0, h: 0 })
-  const [inspect, setInspect] = useState(false)
+  const [mousePos, setMousePos] = useState(mouseConfig)
+  const [tooltip, setTooltip] = useState({ isOpen: false, values: null })
+
   const svgRef = useRef()
 
   const handleMouseDown = (e) => {
-    setIsDragged(true)
-    setMousePos({ ix: e.offsetX, iy: e.offsetY, x: 0, y: 0, w: 0, h: 0 })
-
+    setMousePos({ isDragged: true, position: { ix: e.offsetX, iy: e.offsetY, x: 0, y: 0, w: 0, h: 0 } })
   }
   const handleMouseUp = () => {
-    setIsDragged(false)
     setMousePos(prev => {
-      getInspectedData(prev)
-      return { ix: 0, iy: 0, x: 0, y: 0, w: 0, h: 0 }
+      if (!tooltip.isOpen) {
+        const inspectedData = getInspectedData(prev.position).map(d => d[key])
+        const tooltipValues = inspectedData.length > 0
+          ? {
+            min: Math.min(...inspectedData) ?? 0,
+            max: Math.max(...inspectedData) ?? 0,
+            avg: getAverage(inspectedData) ?? 0,
+            volume: (inspectedData.length / data.length * 100) ?? 0,
+          } : null
+        setTooltip({ values: tooltipValues, position: prev.position, isOpen: true })
+      }
+      return { isDragged: false, position: { ix: 0, iy: 0, x: 0, y: 0, w: 0, h: 0 } }
     })
-
-
   }
+
+  const tooltipOnClose = () => {
+    setTooltip({ values: null, isOpen: false })
+  }
+
   const handleMouseMove = (e) => {
-    if (isDragged) {
+    if (mousePos.isDragged) {
       setMousePos(prev => {
         const currentX = e.offsetX
         const currentY = e.offsetY
         const finalMousePos = { x: 0, y: 0, w: 0, h: 0 }
-        if (currentX < prev.ix) {
-          const fx = prev.ix - currentX
+        if (currentX < prev.position.ix) {
+          const fx = prev.position.ix - currentX
           finalMousePos.w = fx
           finalMousePos.x = currentX
         }
-        if (currentX > prev.ix) {
-          finalMousePos.x = prev.ix
-          finalMousePos.w = currentX - prev.x
+        if (currentX > prev.position.ix) {
+          finalMousePos.x = prev.position.ix
+          finalMousePos.w = currentX - prev.position.x
         }
-        if (currentY < prev.iy) {
-          const fy = prev.iy - currentY
+        if (currentY < prev.position.iy) {
+          const fy = prev.position.iy - currentY
           finalMousePos.y = currentY
           finalMousePos.h = fy
         }
-        if (currentY > prev.iy) {
-          finalMousePos.y = prev.iy
-          finalMousePos.h = currentY - prev.y
+        if (currentY > prev.position.iy) {
+          finalMousePos.y = prev.position.iy
+          finalMousePos.h = currentY - prev.position.y
         }
-        return { ...prev, ...finalMousePos }
+
+        return { ...prev, position: { ...prev.position, ...finalMousePos } }
       })
     }
   }
+
   useEffect(() => {
-    if (svgRef.current) {
+    if (svgRef.current && inspectionMode && isInspected) {
       svgRef.current.addEventListener('mousedown', handleMouseDown)
       svgRef.current.addEventListener('mouseup', handleMouseUp)
       svgRef.current.addEventListener('mousemove', handleMouseMove)
@@ -68,7 +110,7 @@ const Streamline = ({ data, width, height, config }) => {
         svgRef.current.removeEventListener('mousemove', handleMouseMove)
       }
     }
-  }, [svgRef.current, isDragged])
+  }, [svgRef.current, mousePos.isDragged])
 
   const xScale = d3.scaleLinear()
     .domain(Array.isArray(xAxisRange) ? xAxisRange : [0, data.length - 1])
@@ -97,12 +139,23 @@ const Streamline = ({ data, width, height, config }) => {
     const startY = yScale.invert(pos.y)
     const endX = xScale.invert(pos.x + pos.w)
     const endY = yScale.invert(pos.y + pos.h)
-    console.log(data.filter((d, i) => d[key] < startY && d[key] > endY && i > startX && i < endX))
+    return data.filter((d, i) => d[key] < startY && d[key] > endY && i > startX && i < endX)
+
   }
 
   return (
-    <div>
-      <button onClick={() => setInspect(!inspect)}>{inspect ? 'uninspect' : 'inspect'}</button>
+    <div className='tooltip-container'>
+      {tooltip.isOpen && inspectionMode && <div className='tooltip' style={{ position: 'absolute', left: tooltip.position.x, top: tooltip.position.y }}>
+        {tooltip.values !== null ? <>
+          <p>Inspected data</p>
+          <p>{`Max: ${tooltip.values.max.toFixed(2)} ${unit}`}</p>
+          <p>{`Min: ${tooltip.values.min.toFixed(2)} ${unit}`}</p>
+          <p>{`Average: ${tooltip.values.avg.toFixed(2)} ${unit}`}</p>
+          <p>{`Volume: ${tooltip.values.volume.toFixed(2)} %`}</p>
+        </>
+          : <p>Data not available</p>}
+        <button className='btn__tooltip--close' onClick={tooltipOnClose}>Close</button>
+      </div>}
       <svg ref={svgRef} width={width} height={height}>
         <defs>
           <linearGradient id={`gradient-${key}`} gradientTransform="rotate(90)">
@@ -110,29 +163,13 @@ const Streamline = ({ data, width, height, config }) => {
             <stop offset='90%' stopColor={`${color}00`} />
           </linearGradient>
         </defs>
-        <rect x={mousePos.x} stroke={color} fill='rgba(0,0,0,0)' strokeDasharray='5 1' y={mousePos.y} width={mousePos.w} height={mousePos.h} />
-        <rect x={mousePos.x} fill={color} opacity='0.1' y={mousePos.y} width={mousePos.w} height={mousePos.h} />
-        {!inspect && thresholdLines.max && <g>
-          <path id={`max-${key}`} strokeDasharray="10,10" strokeWidth='2' stroke='#ccc' fill='none' strokeWidth='1' d={thresholdLines.max} />
-          <text dy='-10' style={{
-            fontSize: '12px',
-            fill: '#ccc',
-          }}>
-            <textPath xlinkHref={`#max-${key}`}>{`maximum ${max}${unit}`}</textPath>
-          </text>
-        </g>}
-        {!inspect && thresholdLines.min && <g>
-          <path id={`min-${key}`} strokeDasharray="10,10" strokeWidth='2' stroke='#ccc' fill='none' strokeWidth='1' d={thresholdLines.min} />
-          <text dy='20' style={{
-            fontSize: '12px',
-            fill: '#ccc',
-          }}>
-            <textPath xlinkHref={`#min-${key}`}>{`minimum ${min}${unit}`}</textPath>
-          </text>
-        </g>}
+        <rect x={mousePos.position.x} stroke={color} fill='rgba(0,0,0,0)' strokeDasharray='5 1' y={mousePos.position.y} width={mousePos.position.w} height={mousePos.position.h} />
+        <rect x={mousePos.position.x} fill={color} opacity='0.1' y={mousePos.position.y} width={mousePos.position.w} height={mousePos.position.h} />
+        {!isInspected && thresholdLines.max && <ThresholdLine path={thresholdLines.max} type='max' key={key} content={`maximum ${max}${unit}`} />}
+        {!isInspected && thresholdLines.min && <ThresholdLine path={thresholdLines.min} type='min' key={key} content={`minimum ${min}${unit}`} />}
         <path stroke='rbga(255,255,255,0)' fill={`url(#gradient-${key})`} d={`M0,${height} ` + path + ` V${height} L0,${height}`} />
         <path stroke={color} fill='none' strokeWidth={strokeWidth} d={path} />
-        {inspect && data.map((d, i) => <circle key={i} cx={xScale(i)} cy={yScale(d[key])} r={strokeWidth} fill='white' />)}
+        {isInspected && inspectionMode && data.map((d, i) => <circle key={i} cx={xScale(i)} cy={yScale(d[key])} r={strokeWidth} fill='#fff' stroke={color} />)}
       </svg>
     </div>
   )
@@ -140,8 +177,9 @@ const Streamline = ({ data, width, height, config }) => {
 
 Streamline.propTypes = {
   config: PropTypes.shape({
+    inspectionMode: PropTypes.bool,
+    isInspected: PropTypes.bool,
     key: PropTypes.string,
-    screeningMode: PropTypes.bool,
     style: PropTypes.shape({
       color: PropTypes.string,
       strokeWidth: PropTypes.number,
@@ -154,9 +192,7 @@ Streamline.propTypes = {
     xAxisRange: PropTypes.array,
     yAxisRange: PropTypes.array,
   }),
-  data: PropTypes.shape({
-    length: PropTypes.number,
-  }),
+  data: PropTypes.array,
   height: PropTypes.number,
   width: PropTypes.number,
 }

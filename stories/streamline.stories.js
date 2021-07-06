@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Streamline from '../src/components/d3/streamline'
 import { ParentSize } from '@visx/responsive'
 import { max } from 'd3'
@@ -12,6 +12,8 @@ export default {
     maxThreshold: 0.8,
     minThreshold: 0.2,
     strokeWidth: 3,
+    inspectionMode: true,
+    isInspected: false,
   },
   argTypes: {
     width: {
@@ -41,19 +43,28 @@ export default {
         type: 'number',
       }
     },
-
+    inspectionMode: {
+      control: {
+        type: 'boolean',
+      }
+    },
+    isInspected: {
+      control: {
+        type: 'boolean',
+      }
+    },
   },
 }
 
 export const Default = (args) => {
-  const [data, setData] = React.useState([]);
+  const [data, setData] = useState([])
   const { maxThreshold: max, minThreshold: min } = args
   useEffect(() => {
     if (data.length < 50) {
 
       const interval = setInterval(() => {
         setData(prev => [...prev, { value: Math.random() * (max - min) + min }])
-      }, 500);
+      }, 50);
       return () => clearInterval(interval)
     }
   }, [data])
@@ -71,6 +82,8 @@ export const Default = (args) => {
       min: args.minThreshold,
       unit: '',
     },
+    inspectionMode: args.inspectionMode,
+    isInspected: args.isInspected,
   }
 
   return <Streamline {...args} data={data} config={config} />
