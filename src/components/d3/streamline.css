@@ -1,0 +1,11 @@
+.tooltip {
+  background-color: #fff;
+  box-shadow: 0px 4px 8px rgba(12, 12, 13, 0.2);;
+  border-radius: 6px;
+  border: none;
+  padding: 16px;
+}
+
+.tooltip-container {
+  position:relative
+}
