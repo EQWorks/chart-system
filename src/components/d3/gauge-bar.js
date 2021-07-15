@@ -13,7 +13,7 @@ const GaugeBar = ({ data, width, height, config }) => {
 
   const percentage = data[dataKey.x2] ? data[dataKey.x1] / data[dataKey.x2] * 100 : 0
 
-  const axisRange = axis.dynamicRange ? [axis.range[0], Math.ceil(percentage + 1.0)] : [axis.range[0], axis.range[1]]
+  const axisRange = axis.dynamicRange ? [axis.range[0], axis.optimalRatio > 0 ? percentage * Math.max(0, axis.optimalRatio) : Math.ceil(percentage)] : [axis.range[0], axis.range[1]]
 
   const xScale = d3.scaleLinear()
     .domain(axisRange)
@@ -56,8 +56,9 @@ GaugeBar.propTypes = {
   color: PropTypes.string,
   config: PropTypes.shape({
     axis: PropTypes.shape({
-      dynamicRange: PropTypes.any,
-      range: PropTypes.any,
+      dynamicRange: PropTypes.bool,
+      range: PropTypes.array,
+      optimalRatio: PropTypes.number,
     }),
     backgroundColor: PropTypes.string,
     color: PropTypes.string,
@@ -74,9 +75,12 @@ GaugeBar.propTypes = {
 GaugeBar.defaultProps = {
   color: '#0075FF',
   backgroundColor: '#cdcdcd',
-  axis: {
-    dynamicRange: false,
-    range: [0, 100],
+  config: {
+    axis: {
+      dynamicRange: false,
+      range: [0, 100],
+      optimalRatio: 0,
+    },
   },
 }
 
