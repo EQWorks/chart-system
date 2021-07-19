@@ -1,0 +1,23 @@
+name: Chromatic
+
+on: push
+
+jobs:
+  chromatic-deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        # Version 2 of the actions/checkout action will only checkout a single commit without history by default.
+        # Chromatic needs the full git history in order to track changes over time.
+        # see https://github.com/chromaui/action#:~:text=the%20Chromatic%20CLI-,Checkout,-depth
+        with:
+          fetch-depth: 0
+      - run: yarn install
+
+      - name: Publish to Chromatic
+        uses: chromaui/action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          exitZeroOnChanges: true
+          autoAcceptChanges: true
