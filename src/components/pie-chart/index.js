@@ -99,7 +99,7 @@ const PieChart = ({
       nivoData,
       baseColors,
     }
-  }, [data, colors, indexBy])
+  }, [data, colors, indexBy, colorParam, colorType, dataKey, groupByKey, valueKey])
 
   const [{ finalData, finalColors }, dispatch] = useReducer((state, { type, payload }) => {
     if (type === 'reset') {

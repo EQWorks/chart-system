@@ -92,7 +92,7 @@ const ScatterChart = ({
       nivoData,
       baseDataToColorMap,
     }
-  }, [data, indexBy, xKey, yKeys, indexByValue, axisBottomOrder])
+  }, [data, indexBy, xKey, yKeys, indexByValue, axisBottomOrder, colorParam, colorType, colors])
 
   const [finalData, setFinalData] = useState(nivoData)
   useEffect(() => {
@@ -108,7 +108,7 @@ const ScatterChart = ({
   }), {
     finalColors: [],
     currentColorMap : {},
-  }), [finalData])
+  }), [finalData, baseDataToColorMap])
 
   const legendOnClick = ({ id }) => {
     setFinalData(prevData => {
@@ -122,8 +122,8 @@ const ScatterChart = ({
     })
   }
 
-  const finalXScale = { type: 'linear', ...xScale }
-  const finalYScale = { type: 'linear', ...yScale }
+  const finalXScale = useMemo(() => ({ type: 'linear', ...xScale }), [xScale])
+  const finalYScale = useMemo(() => ({ type: 'linear', ...yScale }), [yScale])
   const axisBottomTickValues = axisBottomLabelValues
 
   const {
