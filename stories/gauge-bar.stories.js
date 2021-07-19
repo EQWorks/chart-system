@@ -16,6 +16,7 @@ export default {
     startRange: 0,
     endRange: 5,
     dynamicRange: true,
+    optimalRatio: 1.5,
   },
   argTypes: {
     width: {
@@ -68,6 +69,11 @@ export default {
         defaultValue: true,
       },
     },
+    optimalRatio: {
+      control: {
+        type: 'number',
+      }
+    }
   },
 }
 
@@ -82,6 +88,7 @@ export const Default = (args) => {
     axis: {
       range: [args.startRange, args.endRange],
       dynamicRange: args.dynamicRange,
+      optimalRatio: args.optimalRatio
     },
   }
   return <GaugeBar {...args} config={config} />
