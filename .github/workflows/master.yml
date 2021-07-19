@@ -9,11 +9,11 @@ on:
       - master
 
 jobs:
-  lint:
+  checks:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x]
+        node-version: [ '12', '14', '16' ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -36,78 +36,9 @@ jobs:
 
       - run: yarn install
       - run: yarn lint
-
-  test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [10.x, 12.x, 14.x]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Set Node.js version
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Cache Node Modules
-        uses: actions/cache@v2
-        with:
-          path: node_modules
-          key: ${{ runner.OS }}-${{ matrix.node-version }}-build-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.OS }}-${{ matrix.node-version }}-build-${{ env.cache-name }}-
-            ${{ runner.OS }}-${{ matrix.node-version }}-build-
-            ${{ runner.OS }}-${{ matrix.node-version }}-
-            ${{ runner.OS }}-
-
-      - run: yarn install
       - run: yarn test
-
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [10.x, 12.x, 14.x]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Set Node.js version
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Cache Node Modules
-        uses: actions/cache@v2
-        with:
-          path: node_modules
-          key: ${{ runner.OS }}-${{ matrix.node-version }}-build-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.OS }}-${{ matrix.node-version }}-build-${{ env.cache-name }}-
-            ${{ runner.OS }}-${{ matrix.node-version }}-build-
-            ${{ runner.OS }}-${{ matrix.node-version }}-
-            ${{ runner.OS }}-
-
-      - run: yarn install
       - run: yarn build
       - run: yarn size-limit
-
-  depcheck:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [10.x, 12.x, 14.x]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Set Node.js version
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-
       - run: npx depcheck
 
   commit-watch:
