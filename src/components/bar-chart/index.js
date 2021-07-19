@@ -95,7 +95,7 @@ const BarChart = ({
       finalIndexBy,
       baseKeys: finalKeys,
     }
-  }, [data, indexBy, axisBottomOrder])
+  }, [data, indexBy, axisBottomOrder, colorParam, colorType, colors, groupByKey, keys, valueKey])
 
   const [finalKeys, setFinalKeys] = useState(baseKeys)
   useEffect(() => {
@@ -111,7 +111,7 @@ const BarChart = ({
   }), {
     finalColors: [],
     currentColorMap: {},
-  }), [finalKeys])
+  }), [finalKeys, baseDataToColorMap])
 
   const legendOnClick = ({ id }) => {
     setFinalKeys(prevData => {
@@ -136,7 +136,7 @@ const BarChart = ({
     height,
     data: finalData,
     finalIndexBy,
-    keys: baseKeys,
+    keys: finalKeys,
     axisBottomLabelValues,
     axisBottomLabelDisplayFn,
     axisLeftLabelDisplayFn,

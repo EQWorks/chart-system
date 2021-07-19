@@ -16,7 +16,7 @@ const LegendCircle = ({
   x, y, size, fill, borderWidth, borderColor, trimLegendLabel,
 }) => {
 
-  const initRef = useCallback(trimLegendLabel, [])
+  const initRef = useCallback(trimLegendLabel, [trimLegendLabel])
 
   return (
     <circle
