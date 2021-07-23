@@ -1,14 +1,14 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import BarChart from '../src/components/bar-chart/'
-import barChartData from './data/others/bar-chart-data'
+import BarChart from '../../src/components/bar-chart/'
+import barChartData from '../data/others/bar-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
 const title = 'My Title'
 
-storiesOf('Axis', module)
+storiesOf('Nivo/Axis', module)
   .add('No X-Axis Label Trim', () => (
     <ResponsiveChartWrapper>
       <BarChart

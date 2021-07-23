@@ -1,6 +1,6 @@
 import React from 'react'
-import Bar from '../src/components/visx/Bar'
-import { mockData } from './data/others/mock-data'
+import Bar from '../../src/components/visx/Bar'
+import { mockData } from '../data/others/mock-data'
 export default {
   title: 'Visx/bar',
 }

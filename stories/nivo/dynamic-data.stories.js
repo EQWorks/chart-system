@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import { storiesOf } from '@storybook/react'
 
-import BarChart from '../src/components/bar-chart/'
-import PieChart from '../src/components/pie-chart'
-import barChartData from './data/others/bar-chart-data'
-import pieChartData from './data/others/pie-chart-data'
+import BarChart from '../../src/components/bar-chart/'
+import PieChart from '../../src/components/pie-chart'
+import barChartData from '../data/others/bar-chart-data'
+import pieChartData from '../data/others/pie-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
 const title = 'My Title'
 
-storiesOf('Dynamic Data', module)
+storiesOf('Nivo/Dynamic Data', module)
   .add('Dynamic Data - legend update', () => {
     const [data, setData] = useState(barChartData)
     return (

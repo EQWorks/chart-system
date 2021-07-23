@@ -1,14 +1,14 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import ScatterChart from '../src/components/scatter-chart'
-import scatterChartData from './data/others/scatter-chart-data'
+import ScatterChart from '../../src/components/scatter-chart'
+import scatterChartData from '../data/others/scatter-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
 const title = 'My Title'
 
-storiesOf('ScatterChart', module)
+storiesOf('Nivo/ScatterChart', module)
   .add('Scatter Chart', () => (
     <ResponsiveChartWrapper>
       <ScatterChart
