@@ -55,6 +55,7 @@
     "prepublishOnly": "yarn lint && yarn test && yarn build",
     "build-storybook": "build-storybook",
     "build": "babel src --out-dir dist --copy-files",
+    "watch": "babel src -w --out-dir dist --copy-files",
     "chromatic": "npx chromatic --skip 'dependabot/**'"
   },
   "storybook-deployer": {
