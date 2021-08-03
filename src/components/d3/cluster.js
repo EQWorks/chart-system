@@ -49,7 +49,7 @@ const Cluster = ({ width, height, data, config }) => {
       }
 
       const svg = d3.select(svgRef.current)
-
+      console.log(svg)
       svg.selectAll('.nodes').remove()
       svg.selectAll('.hull').remove()
       const xCenter = mode.showCommonNodes ? [width / 5 * 2, width / 5 * 3, width / 5 * 4] : [width / 5 * 2, width / 5 * 4]
@@ -100,7 +100,7 @@ const Cluster = ({ width, height, data, config }) => {
             .remove()
         })
     }
-  }, [svgRef.current, clusters, currentGroup ])
+  }, [svgRef.current, clusters, currentGroup])
 
   return (
     <>
