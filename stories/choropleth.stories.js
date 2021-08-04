@@ -6,7 +6,7 @@ export default {
   component: Choropleth,
   args: {
     width: 1000,
-    height: 500,
+    height: 1000,
     color: '#0075FF',
     backgroundColor: '#cdcdcd',
     valueKey: 'Imps',
