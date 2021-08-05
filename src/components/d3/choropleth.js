@@ -1,19 +1,12 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import * as d3 from 'd3'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
+import rewind from '@mapbox/geojson-rewind'
 
-
-const URL = 'https://gist.githubusercontent.com/DoParkEQ/0f438074b19eea9c4c81b907065100fd/raw/120edab420fbc8b557d69335ac4c59dfc67fe828/gta.geojson'
-
-const Choropleth = ({ width, height }) => {
+const Choropleth = ({ data, width, height }) => {
 
   const canvasRef = useRef()
-  const [data, setData] = useState()
-
-  useEffect(() => {
-    fetch(URL).then(res => res.json()).then(d => setData(d))
-  }, [])
 
   useEffect(() => {
     if (canvasRef.current && data) {
@@ -25,28 +18,43 @@ const Choropleth = ({ width, height }) => {
         .center([-79.2, 44])
         .translate([width / 2, height / 2])
 
-      const path = d3.geoPath(projection).context(ctx)
+      const path = d3.geoPath(projection)
+      const canvasPath = path.context(ctx)
 
-      ctx.strokeWidth = 1
+      ctx.lineWidth = 0.1
       ctx.strokeStyle = 'black'
 
-      ctx.beginPath()
-      path(data)
-      ctx.stroke()
+      const rewindedData = rewind(data.polygon, true)
+
+
+      rewindedData.features.forEach((feature => {
+        ctx.fillStyle = 'rgba(255,0,0,0.5)'
+        ctx.beginPath()
+        canvasPath(feature)
+        ctx.closePath()
+        ctx.stroke()
+        ctx.fill()
+
+      }))
 
       const redraw = (transform) => {
         ctx.clearRect(0, 0, width, height)
         ctx.save()
         ctx.translate(transform.x, transform.y)
         ctx.scale(transform.k, transform.k)
-        ctx.beginPath()
-        path(data)
-        ctx.stroke()
+        rewindedData.features.forEach((feature => {
+          ctx.fillStyle = 'rgba(255,0,0,0.5)'
+          ctx.beginPath()
+          canvasPath(feature)
+          ctx.closePath()
+          ctx.stroke()
+          ctx.fill()
+        }))
         ctx.restore()
       }
 
       const zoom = d3.zoom()
-        .scaleExtent([1, 8])
+        .scaleExtent([1, 15])
         .on('zoom', (event) => {
           redraw(event.transform)
         })
@@ -55,8 +63,6 @@ const Choropleth = ({ width, height }) => {
     }
   }, [canvasRef.current, data])
 
-
-
   return (
     <canvas width={width} height={height} ref={canvasRef}>
     </canvas>
@@ -64,6 +70,9 @@ const Choropleth = ({ width, height }) => {
 }
 
 Choropleth.propTypes = {
+  data: PropTypes.shape({
+    polygon: PropTypes.array,
+  }),
   height: PropTypes.number,
   width: PropTypes.number,
 }
