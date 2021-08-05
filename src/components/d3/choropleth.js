@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import * as d3 from 'd3'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import rewind from '@mapbox/geojson-rewind'
 
-const Choropleth = ({ data, width, height }) => {
+const Choropleth = ({ currentDate, threshold, data, width, height }) => {
 
   const canvasRef = useRef()
+  const [transform, setTransform] = useState({ x: width / 2, y: height / 2, k: 1 })
 
   useEffect(() => {
     if (canvasRef.current && data) {
@@ -21,42 +22,45 @@ const Choropleth = ({ data, width, height }) => {
       const path = d3.geoPath(projection)
       const canvasPath = path.context(ctx)
 
-      ctx.lineWidth = 0.1
-      ctx.strokeStyle = 'black'
+      ctx.lineWidth = 1.0
+      ctx.strokeStyle = 'white'
 
       const rewindedData = rewind(data.polygon, true)
+      const timeData = data.time.filter(({ date }) => date === currentDate)
 
-
-      rewindedData.features.forEach((feature => {
-        ctx.fillStyle = 'rgba(255,0,0,0.5)'
-        ctx.beginPath()
-        canvasPath(feature)
-        ctx.closePath()
-        ctx.stroke()
-        ctx.fill()
-
-      }))
-
-      const redraw = (transform) => {
-        ctx.clearRect(0, 0, width, height)
+      const draw = (evt) => {
+        ctx.fillStyle = '#222'
+        // ctx.clearRect(0, 0, width, height)
+        ctx.fillRect(0, 0, width, height)
         ctx.save()
-        ctx.translate(transform.x, transform.y)
-        ctx.scale(transform.k, transform.k)
+        ctx.translate(evt.x, evt.y)
+        ctx.scale(evt.k, evt.k)
+        setTransform({ x: evt.x, y: evt.y, k: evt.k })
         rewindedData.features.forEach((feature => {
-          ctx.fillStyle = 'rgba(255,0,0,0.5)'
+          const d = timeData.find(({ fsa }) => fsa === feature.properties.id)
+          ctx.fillStyle = d3.interpolateWarm(d?.value)
           ctx.beginPath()
           canvasPath(feature)
           ctx.closePath()
           ctx.stroke()
           ctx.fill()
+          if (d.value < threshold) {
+            ctx.fillStyle = 'rgba(0,0,0,0.5)'
+            ctx.beginPath()
+            canvasPath(feature)
+            ctx.closePath()
+            ctx.fill()
+          }
         }))
         ctx.restore()
       }
 
+      draw(transform)
+
       const zoom = d3.zoom()
         .scaleExtent([1, 15])
         .on('zoom', (event) => {
-          redraw(event.transform)
+          draw(event.transform)
         })
 
       canvas.call(zoom)
@@ -72,9 +76,12 @@ const Choropleth = ({ data, width, height }) => {
 Choropleth.propTypes = {
   data: PropTypes.shape({
     polygon: PropTypes.array,
+    time: PropTypes.array,
   }),
   height: PropTypes.number,
   width: PropTypes.number,
+  currentDate: PropTypes.string,
+  threshold: PropTypes.number,
 }
 
 export default Choropleth

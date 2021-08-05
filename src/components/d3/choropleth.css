@@ -1,0 +1,36 @@
+
+.controls {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  background-color: #444;
+  border-radius: 8px;
+  margin: 8px;
+}
+
+.controls div {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 24px;
+}
+.controls div:last-child {
+  padding-bottom: 0px;
+}
+button {
+  padding: 8px;
+  border-radius: 4px;
+  border: none;
+  background-color: #0075FF;
+  color: white;
+}
+
+button:hover {
+  padding: 8px;
+  border-radius: 4px;
+  border: none;
+  background-color: #0077FF;
+  color: white;
+}
