@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import Choropleth from '../src/components/d3/choropleth'
+import ChoroplethSVG from '../src/components/d3/choropleth-svg'
 import '../src/components/d3/choropleth.css'
 export default {
-  title: 'D3/Choropleth',
-  component: Choropleth,
+  title: 'D3/ChoroplethSVG',
+  component: ChoroplethSVG,
   args: {
     width: window.innerWidth,
     height: window.innerHeight,
@@ -122,8 +122,6 @@ export const Default = (args) => {
     }
   })
 
-  console.log(counter, currentDate)
-
   useEffect(() => {
     fetch(URL).then(res => res.json()).then(d => {
 
@@ -166,7 +164,7 @@ export const Default = (args) => {
           <button onClick={() => setFastForward(!fastForward)}>{fastForward ? '🛑' : '⏩'}</button>
         </div>
       </div>
-      <Choropleth width={args.width} height={args.height} threshold={threshold} currentDate={currentDate} data={
+      <ChoroplethSVG width={args.width} height={args.height} threshold={threshold} currentDate={currentDate} data={
         {
           polygon: mapData,
           time: timeData,

@@ -11,7 +11,6 @@ const Choropleth = ({ currentDate, threshold, data, width, height }) => {
 
   useEffect(() => {
     if (canvasRef.current && data) {
-
       const canvas = d3.select(canvasRef.current)
       const ctx = canvas.node().getContext('2d')
       const projection = d3.geoMercator()
@@ -19,12 +18,10 @@ const Choropleth = ({ currentDate, threshold, data, width, height }) => {
         .center([-79.2, 44])
         .translate([width / 2, height / 2])
 
-      const path = d3.geoPath(projection)
-      const canvasPath = path.context(ctx)
+      const path = d3.geoPath(projection).context(ctx)
 
       ctx.lineWidth = 1.0
       ctx.strokeStyle = 'white'
-
       const rewindedData = rewind(data.polygon, true)
       const timeData = data.time.filter(({ date }) => date === currentDate)
 
@@ -40,14 +37,14 @@ const Choropleth = ({ currentDate, threshold, data, width, height }) => {
           const d = timeData.find(({ fsa }) => fsa === feature.properties.id)
           ctx.fillStyle = d3.interpolateWarm(d?.value)
           ctx.beginPath()
-          canvasPath(feature)
+          path(feature)
           ctx.closePath()
           ctx.stroke()
           ctx.fill()
           if (d.value < threshold) {
             ctx.fillStyle = 'rgba(0,0,0,0.5)'
             ctx.beginPath()
-            canvasPath(feature)
+            path(feature)
             ctx.closePath()
             ctx.fill()
           }
