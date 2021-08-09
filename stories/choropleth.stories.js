@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import ChoroplethSVG from '../src/components/d3/choropleth-svg'
 import '../src/components/d3/choropleth.css'
+
+
 export default {
   title: 'D3/ChoroplethSVG',
   component: ChoroplethSVG,
@@ -98,11 +100,12 @@ const URL = 'https://gist.githubusercontent.com/DoParkEQ/0f438074b19eea9c4c81b90
 
 export const Default = (args) => {
   const [counter, setCounter] = useState(1)
-  const [currentDate, setCurrentDate] = useState('2021-07-01')
+  const [currentDate, setCurrentDate] = useState('2021-07-15')
   const [threshold, setThreshold] = useState(0.0);
   const [mapData, setMapData] = useState(null)
   const [timeData, setTimeData] = useState(null)
   const [fastForward, setFastForward] = useState(false)
+
   useEffect(() => {
     if (fastForward) {
       if (counter < 16) {
@@ -132,7 +135,6 @@ export const Default = (args) => {
 
     })
   }, [])
-
 
   const config = {
     color: args.color,
@@ -164,11 +166,30 @@ export const Default = (args) => {
           <button onClick={() => setFastForward(!fastForward)}>{fastForward ? '🛑' : '⏩'}</button>
         </div>
       </div>
-      <ChoroplethSVG width={args.width} height={args.height} threshold={threshold} currentDate={currentDate} data={
-        {
-          polygon: mapData,
-          time: timeData,
-        }} />
+      <ChoroplethSVG
+        width={args.width}
+        height={args.height}
+        config={{
+          projection: {
+            center: [-79.2, 44],
+            scale: 10000,
+            translate: [args.width / 2, args.height / 2],
+          },
+          threshold: {
+            status: true,
+            key: 'value',
+            value: threshold,
+          },
+          currentTime: {
+            key: 'date',
+            value: currentDate
+          },
+        }}
+        data={
+          {
+            polygon: mapData,
+            time: timeData,
+          }} />
     </div>
   ) : <div></div>
 

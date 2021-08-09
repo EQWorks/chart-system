@@ -11,10 +11,8 @@ const Line = ({ data, config }) => {
   const yScale = d3.scaleLinear().domain(yDomain).range(yRange)
   const lineGenerator = d3.line()
     .x(d => xScale(new Date(`${d[xKey]}T00:00:00`)))
-    .y(d => {
-      console.log(yScale(d[yKey]))
-      return yScale(d[yKey])
-    })
+    .y(d => yScale(d[yKey]))
+    .curve(d3.curveBundle.beta(0.5))
 
   const path = lineGenerator(data)
 

@@ -34,3 +34,7 @@ button:hover {
   background-color: #0077FF;
   color: white;
 }
+
+p {
+  font-family: "Open Sans";
+}
