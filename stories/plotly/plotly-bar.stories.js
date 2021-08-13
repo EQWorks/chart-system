@@ -1,6 +1,6 @@
 import React from 'react'
-import Bar from '../src/components/plotly/bar'
-import { mockData } from './data/others/mock-data'
+import Bar from '../../src/components/plotly/bar'
+import { mockData } from '../data/others/mock-data'
 import ParentSize from '@visx/responsive/lib/components/ParentSize'
 
 export default {

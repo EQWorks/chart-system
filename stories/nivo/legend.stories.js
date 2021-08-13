@@ -1,18 +1,18 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import BarChart from '../src/components/bar-chart/'
-import PieChart from '../src/components/pie-chart'
+import BarChart from '../../src/components/bar-chart/'
+import PieChart from '../../src/components/pie-chart'
 
-import barChartData from './data/others/bar-chart-data'
-import lineChartData from './data/others/line-chart-data'
-import pieChartData from './data/others/pie-chart-data'
+import barChartData from '../data/others/bar-chart-data'
+import lineChartData from '../data/others/line-chart-data'
+import pieChartData from '../data/others/pie-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
 const title = 'My Title'
 
-storiesOf('Legend', module)
+storiesOf('Nivo/Legend', module)
   .add('Legend disabled', () => (
     <ResponsiveChartWrapper>
       <BarChart

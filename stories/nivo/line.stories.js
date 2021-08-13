@@ -1,17 +1,17 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import LineChart from '../src/components/line-chart'
-import lineChartData from './data/others/line-chart-data'
-import d from './data/atom/overlord-ad-position'
-import OS from './data/atom/overlord-OS'
-import barChartData from './data/others/bar-chart-data'
+import LineChart from '../../src/components/line-chart'
+import lineChartData from '../data/others/line-chart-data'
+import d from '../data/atom/overlord-ad-position'
+import OS from '../data/atom/overlord-OS'
+import barChartData from '../data/others/bar-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
 const title = 'My Title'
 
-storiesOf('Line Chart', module)
+storiesOf('Nivo/Line Chart', module)
   .add('Widget Line Chart', () => (
     <ResponsiveChartWrapper>
       <LineChart

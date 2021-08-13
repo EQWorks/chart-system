@@ -1,14 +1,14 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import BarChart from '../src/components/bar-chart/'
-import PieChart from '../src/components/pie-chart'
-import LineChart from '../src/components/line-chart'
-import ScatterChart from '../src/components/scatter-chart'
-import barChartData from './data/others/bar-chart-data'
-import lineChartData from './data/others/line-chart-data'
-import pieChartData from './data/others/pie-chart-data'
-import scatterChartData from './data/others/scatter-chart-data'
+import BarChart from '../../src/components/bar-chart/'
+import PieChart from '../../src/components/pie-chart'
+import LineChart from '../../src/components/line-chart'
+import ScatterChart from '../../src/components/scatter-chart'
+import barChartData from '../data/others/bar-chart-data'
+import lineChartData from '../data/others/line-chart-data'
+import pieChartData from '../data/others/pie-chart-data'
+import scatterChartData from '../data/others/scatter-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
@@ -17,7 +17,7 @@ const palette = ['#F936A9', '#B54DD5', '#FF4774', '#FFA600', '#1564ec', '#FF7641
 
 const colorsMap = {}
 
-storiesOf('Color', module)
+storiesOf('Nivo/Color', module)
   .add('Bar Chart with Color function', () => {
     const barIds = ['visits', 'visitors', 'single_visitors', 'repeat_visitors', 'repeat_visitor_rate', 'multi_visitors', 'multi_visitor_rate']
     barIds.forEach((d, i) => {

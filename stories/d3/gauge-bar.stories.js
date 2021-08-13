@@ -1,6 +1,6 @@
 import React from 'react'
-import GaugeBar from '../src/components/d3/gauge-bar'
-import { geoCohortData } from './data/atom/geo-cohort'
+import GaugeBar from '../../src/components/d3/gauge-bar'
+import { geoCohortData } from '../data/atom/geo-cohort'
 import { ParentSize } from '@visx/responsive'
 export default {
   title: 'D3/GaugeBar',

@@ -1,6 +1,6 @@
 import React from 'react'
-import Cluster from '../src/components/d3/cluster'
-import { geoCohortData } from './data/atom/geo-cohort'
+import Cluster from '../../src/components/d3/cluster'
+import { geoCohortData } from '../data/atom/geo-cohort'
 
 export default {
   title: 'D3/Cluster',

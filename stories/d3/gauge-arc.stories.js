@@ -1,6 +1,6 @@
 import React from 'react'
-import GaugeArc from '../src/components/d3/gauge-arc'
-import { geoCohortData } from './data/atom/geo-cohort'
+import GaugeArc from '../../src/components/d3/gauge-arc'
+import { geoCohortData } from '../data/atom/geo-cohort'
 
 export default {
   title: 'D3/GaugeArc',

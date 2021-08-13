@@ -1,6 +1,6 @@
 import React from 'react'
-import Pie from '../src/components/visx/Pie'
-import { mockData2 } from './data/others/mock-data'
+import Pie from '../../src/components/visx/Pie'
+import { mockData2 } from '../data/others/mock-data'
 
 export default {
   title: 'Visx/pie',

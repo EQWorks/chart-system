@@ -1,16 +1,16 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import PieChart from '../src/components/pie-chart'
-import pieChartData from './data/others/pie-chart-data'
-import barChartData from './data/others/bar-chart-data'
-import lineChartData from './data/others/line-chart-data'
+import PieChart from '../../src/components/pie-chart'
+import pieChartData from '../data/others/pie-chart-data'
+import barChartData from '../data/others/bar-chart-data'
+import lineChartData from '../data/others/line-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 
 
 const title = 'My Title'
 
-storiesOf('Pie Chart', module)
+storiesOf('Nivo/Pie Chart', module)
   .add('Basic', () => (
     <ResponsiveChartWrapper>
       <PieChart title={title} data={pieChartData} isDonut={false} />
