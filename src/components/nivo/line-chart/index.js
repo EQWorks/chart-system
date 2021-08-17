@@ -1,12 +1,10 @@
-import React, { useMemo, useState, useEffect } from 'react'
-import { ScatterPlot } from '@nivo/scatterplot'
+import React, { useEffect, useMemo, useState } from 'react'
 
-import CustomLegend from './custom-scatter-legend'
+import { styled, setup } from 'goober'
+import { Line } from '@nivo/line'
+
 import { withWrapper } from '../chart-wrapper'
-import CustomNode from './custom-node'
 import Tooltip from '../tooltip'
-import { onMouseEnter, onMouseLeave } from './events'
-
 import { useLegendToggle } from '../hooks'
 import {
   getCommonProps,
@@ -15,7 +13,7 @@ import {
   processColors,
   processAxisOrderNivo,
   getAxisLabelsSeries,
-} from '../../shared/utils'
+} from '../shared/utils'
 import {
   chartPropTypes,
   chartDefaultProps,
@@ -23,23 +21,38 @@ import {
   seriesDefaultProps,
   typographyPropTypes,
   typographyDefaultProps,
-} from '../../shared/constants/chart-props'
-import { SYMBOL_SIZE } from '../../shared/constants/dimensions'
+} from '../shared/constants/chart-props'
+import { DATA_HOVER_OPACITY } from '../shared/constants/dimensions'
 
+setup(React.createElement)
 
+const Container = styled('div')`
+  height: 100%;
+  width: 100%;
+`
 const propTypes = {
+  ...typographyPropTypes,
   ...seriesPropTypes,
   ...chartPropTypes,
-  ...typographyPropTypes,
 }
 const defaultProps = {
+  ...typographyDefaultProps,
   ...seriesDefaultProps,
   ...chartDefaultProps,
-  ...typographyDefaultProps,
 }
 
-// ScatterChart - creates a scatter chart
-const ScatterChart = ({
+const mouseOut = (event) => {
+  const container = event.target
+  // event target changes depending on what the cursor leaves from
+  if (container.tagName === 'rect') {
+    container.parentNode.parentNode.getElementsByTagName('path').forEach(p => p.style.opacity = 1.0)
+  } else if (container.tagName === 'svg') {
+    container.children[1].getElementsByTagName('path').forEach(p => p.style.opacity = 1.0)
+  }
+}
+
+// LineChart - creates a line chart
+const ResponsiveLineChart = ({
   data,
   indexByValue,
   indexBy,
@@ -57,11 +70,11 @@ const ScatterChart = ({
   xScale,
   axisLeftLegendLabel,
   yScale,
+  width,
+  height,
   maxRowLegendItems,
   trimLegend,
   disableLegend,
-  width,
-  height,
   tooltipFormat,
   tooltipFormatX,
   disableTooltipTitle,
@@ -79,7 +92,7 @@ const ScatterChart = ({
     } = processSeriesDataKeys({ data, indexBy, xKey, yKeys, indexByValue })
     const unsortedData = convertDataToNivo({ data, indexBy: finalIndexBy, xKey: finalXKey, yKeys: finalYKeys, indexByValue })
     const nivoData = processAxisOrderNivo({ unsortedData, axisBottomOrder })
-    const baseColors = colors.length ? colors : processColors(data.length, colorType, colorParam)
+    const baseColors = colors.length ? colors : processColors(nivoData.length, colorType, colorParam)
     // ====[TODO] flexible/repeat nature of colors could screw up { id: color } map
     // =========] would need to include repeat logic here?
     const baseDataToColorMap = nivoData.reduce((agg, o, i) => (
@@ -93,12 +106,12 @@ const ScatterChart = ({
       baseDataToColorMap,
     }
   }, [data, indexBy, xKey, yKeys, indexByValue, axisBottomOrder, colorParam, colorType, colors])
-
+ 
   const [finalData, setFinalData] = useState(nivoData)
   useEffect(() => {
     setFinalData(nivoData)
   }, [nivoData])
-
+  
   const { finalColors, currentColorMap } = useMemo(() => finalData.reduce(({ finalColors, currentColorMap }, o) => ({
     finalColors: [...finalColors, baseDataToColorMap[o.id]],
     currentColorMap: {
@@ -157,61 +170,75 @@ const ScatterChart = ({
 
   const legendToggle = useLegendToggle(data)
   return (
-    <ScatterPlot
-      { ...nivoProps }
-      layers={['grid', 'axes', 'nodes', 'markers', CustomLegend]}
-      height={ height }
-      width={ width }
-      data={ finalData }
-      colors={ finalColors }
-      xScale={ finalXScale }
-      yScale={ finalYScale }
-      nodeSize={ SYMBOL_SIZE }
-      useMesh={ false }
-      onMouseEnter={ onMouseEnter }
-      onMouseLeave={ onMouseLeave }
-      renderNode={ CustomNode }
-      tooltip={ ({ node }) => (
-        <Tooltip
-          label={ node.id.split('.')[0] }
-          color={ node.style.color }
-          display={ [
-            { label: axisBottomLegendLabel, value: tooltipFormatX(node.data.formattedX) },
-            { label: axisLeftLegendLabel, value: tooltipFormat(node.data.formattedY) },
-          ] }
-          disableTooltipTitle={ disableTooltipTitle }
-          chartType='scatter'
-          typography={ typographyProps }
-        />
-      ) }
-      { ...getCommonProps({
-        useAxis: true,
-        keys: nivoData.map(o => o.id),
-        legendOnClick,
-        currentColorMap,
-        height,
-        width,
-        axisBottomTrim,
-        axisBottomLegendLabel,
-        axisBottomLabelDisplayFn,
-        axisBottomTickValues,
-        axisBottomLabelCount,
-        lastXAxisTickLabelWidth,
-        axisLeftLegendLabel,  
-        axisLeftLabelDisplayFn,
-        maxYAxisTickLabelWidth,
-        maxRowLegendItems,
-        trimLegend,
-        disableLegend,
-        typographyProps,
-        dash: true,
-      }) }
-      { ...legendToggle }
-    />
+    // NOTE: onMouseLeave and onMouseEnter events not firing correctly
+    // https://github.com/plouc/nivo/issues/756
+    <Container onMouseOut={ mouseOut }>
+      <Line
+        { ...nivoProps }
+        height={ height }
+        width={ width }
+        data={ finalData }
+        colors={ finalColors }
+        xScale={ finalXScale }
+        yScale={ finalYScale }
+        pointColor={{ theme: 'background' }}
+        pointBorderWidth={ 0 }
+        pointBorderColor={{ from: 'serieColor' }}
+        useMesh={ true }
+        enableCrosshair={ true }
+        crosshairType='bottom'
+        onMouseMove={ (d, event) => {
+          let dataPoints = Array.from(event.target.parentNode.parentNode.getElementsByTagName('path'))
+          let hoverItemIndex = finalData.findIndex(o => d.serieId === o.id)
+          let hovered = dataPoints.splice(hoverItemIndex, 1)
+          hovered[0].style.opacity = 1.0
+          dataPoints.forEach(point => {
+            point.style.opacity = DATA_HOVER_OPACITY
+          })
+        } }
+        tooltip={ ({ point }) => (
+          <Tooltip
+            color={ point.borderColor }
+            label={ point.serieId }
+            display={ [
+              { label: axisBottomLegendLabel, value: tooltipFormatX(point.data.x) },
+              { label: axisLeftLegendLabel, value: tooltipFormat(point.data.y) },
+            ] }
+            disableTooltipTitle={ disableTooltipTitle }
+            chartType='line'
+            typography={ typographyProps }
+          />
+        ) }
+        { ...getCommonProps({
+          useAxis: true,
+          keys: nivoData.map(o => o.id),
+          legendOnClick,
+          currentColorMap,
+          height,
+          width,
+          axisBottomTrim,
+          axisBottomLegendLabel,
+          axisBottomLabelDisplayFn,
+          axisBottomTickValues,
+          axisBottomLabelCount,
+          lastXAxisTickLabelWidth,
+          axisLeftLegendLabel,  
+          axisLeftLabelDisplayFn,
+          maxYAxisTickLabelWidth,
+          maxRowLegendItems,
+          trimLegend,
+          disableLegend,
+          typographyProps,
+          dash: true,
+        }) }
+        { ...legendToggle }
+      >
+      </Line>
+    </Container>
   )
 }
 
-ScatterChart.defaultProps = defaultProps
-ScatterChart.propTypes = propTypes
+ResponsiveLineChart.defaultProps = defaultProps
+ResponsiveLineChart.propTypes = propTypes
 
-export default withWrapper(ScatterChart)
+export default withWrapper(ResponsiveLineChart)
