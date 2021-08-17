@@ -5,7 +5,7 @@ import {
   convertDataToNivo,
   convertPieDataToNivo,
   aggregateData,
-} from '../../src/shared/utils'
+} from '../../src/components/nivo/shared/utils'
 import barChartData from '../../stories/data/others/bar-chart-data'
 import lineChartData from '../../stories/data/others/line-chart-data'
 
