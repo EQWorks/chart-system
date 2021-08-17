@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { typographyPropTypes, typographyDefaultProps } from '../../shared/constants/chart-props'
+import { typographyPropTypes, typographyDefaultProps } from '../shared/constants/chart-props'
 
 import { styled, setup } from 'goober'
 

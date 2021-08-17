@@ -1,7 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import PieChart from '../../src/components/pie-chart'
+import PieChart from '../../src/components/nivo/pie-chart'
 import pieChartData from '../data/others/pie-chart-data'
 import barChartData from '../data/others/bar-chart-data'
 import lineChartData from '../data/others/line-chart-data'

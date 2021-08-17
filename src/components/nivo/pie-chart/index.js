@@ -12,18 +12,18 @@ import {
   processPieDataKeys,
   convertPieDataToNivo,
   aggregateData,
-} from '../../shared/utils'
+} from '../shared/utils'
 import {
   chartPropTypes,
   chartDefaultProps,
   typographyPropTypes,
   typographyDefaultProps,
-} from '../../shared/constants/chart-props'
+} from '../shared/constants/chart-props'
 import {
   WIDTH_BREAKPOINT_2,
   HEIGHT_BREAKPOINT_2,
   DATA_HOVER_OPACITY,
-} from '../../shared/constants/dimensions'
+} from '../shared/constants/dimensions'
 
 
 const propTypes = {
