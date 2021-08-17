@@ -14,7 +14,7 @@ import {
   processAxisOrder,
   getAxisLabelsBar,
   aggregateData,
-} from '../shared/utils'
+} from '../../shared/utils'
 import {
   chartPropTypes,
   chartDefaultProps,
@@ -22,9 +22,9 @@ import {
   barChartDefaultProps,
   typographyPropTypes,
   typographyDefaultProps,
-} from '../shared/constants/chart-props'
+} from '../../shared/constants/chart-props'
 
-import { DATA_HOVER_OPACITY } from '../shared/constants/dimensions'
+import { DATA_HOVER_OPACITY } from '../../shared/constants/dimensions'
 
 
 const propTypes = {

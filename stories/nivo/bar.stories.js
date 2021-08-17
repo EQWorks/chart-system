@@ -1,7 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import BarChart from '../../src/components/nivo/bar-chart/'
+import BarChart from '../../src/components/bar-chart/'
 import barChartData from '../data/others/bar-chart-data'
 import bannerData from '../data/atom/overlord-banner'
 import scatterChartData from '../data/others/scatter-chart-data'

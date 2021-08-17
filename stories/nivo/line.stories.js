@@ -1,7 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import LineChart from '../../src/components/nivo/line-chart'
+import LineChart from '../../src/components/line-chart'
 import lineChartData from '../data/others/line-chart-data'
 import d from '../data/atom/overlord-ad-position'
 import OS from '../data/atom/overlord-OS'
