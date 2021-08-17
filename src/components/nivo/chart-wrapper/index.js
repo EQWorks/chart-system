@@ -1,7 +1,7 @@
 import React, { useRef, forwardRef } from 'react'
 
-import { titlePropTypes, titleDefaultProps } from '../../shared/constants/title-props'
-import { typographyPropTypes, typographyDefaultProps } from '../../shared/constants/chart-props'
+import { titlePropTypes, titleDefaultProps } from '../shared/constants/title-props'
+import { typographyPropTypes, typographyDefaultProps } from '../shared/constants/chart-props'
 
 import { styled, setup } from 'goober'
 

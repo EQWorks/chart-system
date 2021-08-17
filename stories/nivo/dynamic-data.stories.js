@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { storiesOf } from '@storybook/react'
 
-import BarChart from '../../src/components/bar-chart/'
-import PieChart from '../../src/components/pie-chart'
+import BarChart from '../../src/components/nivo/bar-chart/'
+import PieChart from '../../src/components/nivo/pie-chart'
 import barChartData from '../data/others/bar-chart-data'
 import pieChartData from '../data/others/pie-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'

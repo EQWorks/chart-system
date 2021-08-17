@@ -1,4 +1,4 @@
-import { DATA_HOVER_OPACITY } from '../../shared/constants/dimensions'
+import { DATA_HOVER_OPACITY } from '../shared/constants/dimensions'
 
 /**
  * onMouseEnter - defines action on mouse enter, highlighting the data set on which the cursor sets on
