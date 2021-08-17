@@ -1,5 +1,5 @@
-import { processColors } from '../../src/shared/utils'
-import designSystemColors, { hues, lightnesses } from '../../src/shared/constants/design-system-colors'
+import { processColors } from '../../src/components/nivo/shared/utils'
+import designSystemColors, { hues, lightnesses } from '../../src/constants/design-system-colors'
 
 
 describe('Color Processing', () => {
