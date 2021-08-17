@@ -1,7 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import ScatterChart from '../../src/components/nivo/scatter-chart'
+import ScatterChart from '../../src/components/scatter-chart'
 import scatterChartData from '../data/others/scatter-chart-data'
 import ResponsiveChartWrapper from './responsive-chart-wrapper'
 

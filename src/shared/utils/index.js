@@ -18,8 +18,8 @@ import {
   LEGEND_COLUMN_FIXED_ELEMENTS_WIDTH,
   LEGEND_ROW_FIXED_ELEMENTS_WIDTH,
 } from '../constants/dimensions'
-import designSystemColors, { hues, lightnesses } from '../../../../constants/design-system-colors'
-import LegendCircle from '../../legend-symbol'
+import designSystemColors, { hues, lightnesses } from '../constants/design-system-colors'
+import LegendCircle from '../../components/legend-symbol'
 
 import omit from 'lodash.omit'
 
