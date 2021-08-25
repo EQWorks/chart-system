@@ -6,6 +6,7 @@ import rewind from '@mapbox/geojson-rewind'
 import Tooltip from './tooltip'
 import Line from './line'
 import './choropleth.css'
+import avgIdfaData from '../../../stories/data/others/IDFA/average'
 
 const ChoroplethSVG = ({ config, data, width, height }) => {
 
@@ -13,21 +14,20 @@ const ChoroplethSVG = ({ config, data, width, height }) => {
   const [tooltip, setTooltip] = useState({ target: null, status: false })
   const [transform, setTransform] = useState({ x: width / 2, y: height / 2, k: 1 })
   const [lineData, setLineData] = useState(null)
-  const [avgLineData, setAvgLineData] = useState(null)
   const [volatility, setVolatility] = useState(null)
-  const { projection, threshold, currentTime } = config
+  const { projection, threshold, currentTime, tooltipStyle } = config
   const geoProjection = d3.geoMercator()
     .scale(projection.scale)
     .center(projection.center)
     .translate(projection.translate)
   const path = d3.geoPath(geoProjection)
-  // const tickNum = 3;
-  // const xDomain = [new Date('2021-07-01'), new Date(currentTime.value)]
-  // const xRange = [0, width];
+
   useEffect(() => {
 
     if (svgRef.current && data) {
+      const tScale = d3.scaleLinear().domain(d3.extent(data.time, d => d.deviceCount)).range([0, 1])
       const rewindedData = rewind(data.polygon, true)
+      console.log(data.polygon)
       const timeData = data.time.filter(d => d[currentTime.key] === currentTime.value)
       const svg = d3.select(svgRef.current)
       d3.select('g').remove()
@@ -41,9 +41,9 @@ const ChoroplethSVG = ({ config, data, width, height }) => {
         .attr('stroke', 'white')
         .attr('fill', data => {
           const d = timeData.find(({ fsa }) => fsa === data.properties.id)
-          const rgb = d3.interpolateWarm(d?.value)
+          const rgb = d3.interpolateWarm(tScale(d?.deviceCount))
           let finalCol = rgb
-          if (threshold.status && d[threshold.key] < threshold.value) {
+          if (threshold.status && tScale(d?.deviceCount) < threshold.value) {
             const hsl = d3.hsl(rgb)
             const adjuster = 0.3
             finalCol = `hsl(${hsl.h},${(hsl.s - adjuster) * 100}%,${(hsl.l - adjuster) * 100}%)`
@@ -67,7 +67,6 @@ const ChoroplethSVG = ({ config, data, width, height }) => {
               setTransform(event.transform)
               return event.transform
             })
-          // .attr('stroke-width', lineScale(event))
         })
 
       svg.call(zoom)
@@ -79,24 +78,11 @@ const ChoroplethSVG = ({ config, data, width, height }) => {
     if (data && tooltip.status) {
 
       const line = data.time.filter(({ fsa }) => fsa === tooltip.target)
-      const avgLine = data.time.sort((a, b) => a.date.localeCompare(b.date)).reduce((acc, val) => {
-        const len = acc.length
-        if (len !== 0) {
-          if (val.date !== acc[len - 1].date) {
-            acc.push(val)
-          } else {
-            const avg = (val.value + acc[len - 1].value) / 2
-            acc[len - 1].value = avg
-          }
-          return acc
-        }
-        acc.push(val)
-        return acc
-      }, [])
-      setAvgLineData(avgLine)
       setLineData(line)
-      const values = d3.extent(line, d => d[threshold.key])
-      const v = (values[0] - values[1]) * 100
+      const l = [...line]
+      const firstValue = l.shift()
+      const lastValue = l.pop()
+      const v = (lastValue[threshold.key] / firstValue[threshold.key]) * 100
       setVolatility(v.toFixed(2))
     }
   }, [tooltip.status])
@@ -107,33 +93,33 @@ const ChoroplethSVG = ({ config, data, width, height }) => {
     </svg>
     {tooltip.status &&
       <Tooltip
-        width={180}
+        width={tooltipStyle.width}
         height='auto'
         left={tooltip.event.clientX}
         top={tooltip.event.clientY}>
         {volatility && <div>
           <p style={{ fontWeight: 600 }}>{tooltip.target}</p>
-          <p>{`${volatility}% ${volatility > 0 ? 'increased' : 'decreased'}`}</p>
+          <p>{`${volatility > 100 ? volatility - 100 : volatility}% ${volatility > 100 ? 'increased' : 'decreased'}`}</p>
         </div>}
-        <svg width={180} height={120}>
+        <svg width={tooltipStyle.width} height={tooltipStyle.height}>
           <g>
-            {lineData && <Line data={avgLineData} config={{
-              xDomain: [new Date('2021-07-01'), new Date(currentTime.value)],
-              yDomain: d3.extent(avgLineData, d => d.value),
-              xRange: [0, 300],
+            {avgIdfaData && <Line data={avgIdfaData} config={{
+              xDomain: [new Date('2021-05-03'), new Date(currentTime.value)],
+              yDomain: d3.extent(avgIdfaData, d => d.movingAverage),
+              xRange: [0, tooltipStyle.width],
               yRange: [100, 0],
               xKey: 'date',
-              yKey: 'value',
+              yKey: 'movingAverage',
               stroke: '#ccc',
               strokeWidth: 3,
             }} />}
-            {avgLineData && <Line data={lineData} config={{
-              xDomain: [new Date('2021-07-01'), new Date(currentTime.value)],
-              yDomain: d3.extent(lineData, d => d.value),
-              xRange: [0, 300],
+            {lineData && <Line data={lineData} config={{
+              xDomain: [new Date('2021-05-03'), new Date(currentTime.value)],
+              yDomain: d3.extent(lineData, d => d[threshold.key]),
+              xRange: [0, tooltipStyle.width],
               yRange: [100, 0],
               xKey: 'date',
-              yKey: 'value',
+              yKey: 'deviceCount',
               stroke: '#FF0000',
               strokeWidth: 3,
             }} />}
@@ -146,7 +132,7 @@ const ChoroplethSVG = ({ config, data, width, height }) => {
                 fontFamily: 'Open Sans',
                 fontSize: '12px',
                 fontWeight: 400,
-              }} transform='translate(0,20)'>{'07-01'}</text>
+              }} transform='translate(0,20)'>{'05-03'}</text>
             </g>
             <g>
               <line x1={90} y1={0} x2={90} y2={8} stroke='black' />
@@ -155,7 +141,7 @@ const ChoroplethSVG = ({ config, data, width, height }) => {
                 fontFamily: 'Open Sans',
                 fontSize: '12px',
                 fontWeight: 400,
-              }} transform='translate(90,20)'>{'07-01'}</text>
+              }} transform='translate(90,20)'>{'05-09'}</text>
             </g>
             <g>
               <line x1={180} y1={0} x2={180} y2={8} stroke='black' />
@@ -164,7 +150,7 @@ const ChoroplethSVG = ({ config, data, width, height }) => {
                 fontFamily: 'Open Sans',
                 fontSize: '12px',
                 fontWeight: 400,
-              }} transform='translate(180,20)'>{'07-01'}</text>
+              }} transform='translate(180,20)'>{'05-15'}</text>
             </g>
           </g>
         </svg>
@@ -189,6 +175,10 @@ ChoroplethSVG.propTypes = {
       key: PropTypes.string,
       status: PropTypes.bool,
       value: PropTypes.number,
+    }),
+    tooltipStyle: PropTypes.shape({
+      height: PropTypes.number,
+      width: PropTypes.number,
     }),
   }),
   currentDate: PropTypes.string,

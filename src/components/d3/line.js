@@ -6,7 +6,7 @@ import * as d3 from 'd3'
 const Line = ({ data, config }) => {
 
   const { xKey, yKey, xRange, xDomain, yRange, yDomain, stroke, strokeWidth } = config
-
+  console.log(yDomain)
   const xScale = d3.scaleTime().domain(xDomain).range(xRange)
   const yScale = d3.scaleLinear().domain(yDomain).range(yRange)
   const lineGenerator = d3.line()
