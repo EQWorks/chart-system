@@ -30,8 +30,10 @@ const ChoroplethSVG = ({ config, data, width, height }) => {
       console.log(data.polygon)
       const timeData = data.time.filter(d => d[currentTime.key] === currentTime.value)
       const svg = d3.select(svgRef.current)
-      d3.select('g').remove()
-      const g = svg.append('g')
+
+      d3.select('#map').remove()
+
+      const g = svg.append('g').attr('id', 'map')
       g
         .selectAll('path')
         .data(rewindedData.features)
@@ -87,9 +89,37 @@ const ChoroplethSVG = ({ config, data, width, height }) => {
     }
   }, [tooltip.status])
 
+  const axisScale = d3.scaleLinear()
+    .domain(d3.extent(data.time, d => d.deviceCount))
+    .range([0, 150])
+  const tickNum = 6
+  const ticks = axisScale.nice().ticks(tickNum)
+
   return (<>
     <svg width={width} height={height} ref={svgRef}>
+      <defs>
+        <linearGradient id="gradient">
+          <stop offset="0%" stopColor={`${d3.interpolateWarm(0)}`} />
+          <stop offset="100%" stopColor={`${d3.interpolateWarm(1)}`} />
+        </linearGradient>
+      </defs>
       <rect width="100%" height="100%" fill="#222" />
+      <rect width='150' height='20' transform={`translate(8, ${height - 100})`} fill='url(#gradient)'></rect>
+      <g transform={`translate(13, ${height - 80})`}>
+        {ticks.map((tick, idx) =>
+          <g key={idx}>
+            <line x1={axisScale(tick)} y1={0} x2={axisScale(tick)} y2={4} stroke='white' />
+            <text style={{
+              textAnchor: 'middle',
+              fontFamily: 'Open Sans',
+              fontSize: '12px',
+              fontWeight: 400,
+              fill: '#fff',
+            }}
+            transform={`translate(${axisScale(tick)}, ${25})`}>{`${parseInt(axisScale.invert(tick))}`}</text>
+          </g>,
+        )}
+      </g>
     </svg>
     {tooltip.status &&
       <Tooltip
