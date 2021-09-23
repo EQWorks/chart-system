@@ -1,23 +1,30 @@
 import React from 'react'
-import Bar from '../../src/components/plotly/bar'
+import Line from '../../src/components/plotly/line'
 
 import mockData from '../data/plotly/mock-data'
 
 export default {
-  title: 'Plotly/bar',
+  title: 'Plotly/line',
 }
 
-export const ExplicitAggregateOperation = () =>
-  <Bar
+export const NoAggregation = () =>
+  <Line
     data={mockData}
     keys={['stat1', 'stat2']}
-    keysAgg={['mean', 'mean']}
-    indexBy='city'
+    x='age'
+  />
+
+export const ExplicitAggregateOperation = () =>
+  <Line
+    data={mockData}
+    keys={['stat1', 'stat2']}
+    agg={['mean', 'mean']}
+    indexBy='age'
   />
 
 export const DefaultAggregateOperation = () =>
-  <Bar
+  <Line
     data={mockData}
     keys={['stat1', 'stat2']}
-    indexBy='city'
+    indexBy='stat3'
   />

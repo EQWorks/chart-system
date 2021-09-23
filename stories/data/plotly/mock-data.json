@@ -1,0 +1,6002 @@
+[
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 21,
+    "stat1": 49,
+    "stat2": 34,
+    "stat3": 0.06999
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 25,
+    "stat1": 70,
+    "stat2": 64,
+    "stat3": 0.64676
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 35,
+    "stat1": 26,
+    "stat2": 57,
+    "stat3": 0.12431
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 28,
+    "stat1": 19,
+    "stat2": 97,
+    "stat3": 0.18351
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 33,
+    "stat1": 9,
+    "stat2": 76,
+    "stat3": 0.25118
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 35,
+    "stat1": 2,
+    "stat2": 97,
+    "stat3": 0.04125
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 25,
+    "stat1": 0,
+    "stat2": 92,
+    "stat3": 0.65347
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 20,
+    "stat1": 25,
+    "stat2": 52,
+    "stat3": 0.73013
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 37,
+    "stat1": 2,
+    "stat2": 98,
+    "stat3": 0.2315
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 26,
+    "stat1": 2,
+    "stat2": 44,
+    "stat3": 0.42679
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 31,
+    "stat1": 12,
+    "stat2": 76,
+    "stat3": 0.31185
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 20,
+    "stat1": 42,
+    "stat2": 63,
+    "stat3": 0.94379
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 30,
+    "stat1": 35,
+    "stat2": 62,
+    "stat3": 0.28396
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 38,
+    "stat1": 20,
+    "stat2": 87,
+    "stat3": 0.81084
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 38,
+    "stat1": 48,
+    "stat2": 98,
+    "stat3": 0.90748
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 37,
+    "stat1": 8,
+    "stat2": 27,
+    "stat3": 0.82397
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 24,
+    "stat1": 29,
+    "stat2": 31,
+    "stat3": 0.03876
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 34,
+    "stat1": 59,
+    "stat2": 39,
+    "stat3": 0.10781
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 20,
+    "stat1": 30,
+    "stat2": 67,
+    "stat3": 0.54399
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 32,
+    "stat1": 66,
+    "stat2": 96,
+    "stat3": 0.88053
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 18,
+    "stat1": 53,
+    "stat2": 100,
+    "stat3": 0.65829
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 34,
+    "stat1": 13,
+    "stat2": 60,
+    "stat3": 0.88252
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 36,
+    "stat1": 41,
+    "stat2": 98,
+    "stat3": 0.85245
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 25,
+    "stat1": 52,
+    "stat2": 32,
+    "stat3": 0.6595
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 27,
+    "stat1": 32,
+    "stat2": 82,
+    "stat3": 0.95845
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 19,
+    "stat1": 36,
+    "stat2": 38,
+    "stat3": 0.54785
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 18,
+    "stat1": 36,
+    "stat2": 32,
+    "stat3": 0.14043
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 22,
+    "stat1": 29,
+    "stat2": 82,
+    "stat3": 0.8802
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 36,
+    "stat1": 37,
+    "stat2": 64,
+    "stat3": 0.8463
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 34,
+    "stat1": 22,
+    "stat2": 45,
+    "stat3": 0.23791
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 33,
+    "stat1": 57,
+    "stat2": 81,
+    "stat3": 0.43984
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 25,
+    "stat1": 21,
+    "stat2": 54,
+    "stat3": 0.04724
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 22,
+    "stat1": 14,
+    "stat2": 94,
+    "stat3": 0.4209
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 33,
+    "stat1": 7,
+    "stat2": 80,
+    "stat3": 0.76589
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 21,
+    "stat1": 45,
+    "stat2": 37,
+    "stat3": 0.74668
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 22,
+    "stat1": 26,
+    "stat2": 95,
+    "stat3": 0.97219
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 19,
+    "stat1": 23,
+    "stat2": 44,
+    "stat3": 0.58161
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 24,
+    "stat1": 1,
+    "stat2": 25,
+    "stat3": 0.22014
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 20,
+    "stat1": 38,
+    "stat2": 33,
+    "stat3": 0.69799
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 19,
+    "stat1": 6,
+    "stat2": 51,
+    "stat3": 0.39998
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 29,
+    "stat1": 11,
+    "stat2": 82,
+    "stat3": 0.79499
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 33,
+    "stat1": 38,
+    "stat2": 31,
+    "stat3": 0.53626
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 34,
+    "stat1": 41,
+    "stat2": 77,
+    "stat3": 0.53464
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 36,
+    "stat1": 27,
+    "stat2": 76,
+    "stat3": 0.58666
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 31,
+    "stat1": 14,
+    "stat2": 61,
+    "stat3": 0.92251
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 38,
+    "stat1": 20,
+    "stat2": 60,
+    "stat3": 0.98707
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 35,
+    "stat1": 31,
+    "stat2": 86,
+    "stat3": 0.58615
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 24,
+    "stat1": 61,
+    "stat2": 63,
+    "stat3": 0.35385
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 32,
+    "stat1": 13,
+    "stat2": 90,
+    "stat3": 0.4623
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 38,
+    "stat1": 5,
+    "stat2": 86,
+    "stat3": 0.13691
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 37,
+    "stat1": 32,
+    "stat2": 67,
+    "stat3": 0.14464
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 26,
+    "stat1": 44,
+    "stat2": 25,
+    "stat3": 0.18643
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 19,
+    "stat1": 5,
+    "stat2": 87,
+    "stat3": 0.35623
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 29,
+    "stat1": 24,
+    "stat2": 69,
+    "stat3": 0.73002
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 33,
+    "stat1": 7,
+    "stat2": 51,
+    "stat3": 0.54869
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 28,
+    "stat1": 24,
+    "stat2": 25,
+    "stat3": 0.34337
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 37,
+    "stat1": 40,
+    "stat2": 27,
+    "stat3": 0.4614
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 22,
+    "stat1": 17,
+    "stat2": 36,
+    "stat3": 0.68195
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 31,
+    "stat1": 31,
+    "stat2": 89,
+    "stat3": 0.04175
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 23,
+    "stat1": 70,
+    "stat2": 91,
+    "stat3": 0.12891
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 19,
+    "stat1": 31,
+    "stat2": 85,
+    "stat3": 0.17579
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 39,
+    "stat1": 21,
+    "stat2": 57,
+    "stat3": 0.71001
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 19,
+    "stat1": 43,
+    "stat2": 89,
+    "stat3": 0.72537
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 22,
+    "stat1": 39,
+    "stat2": 67,
+    "stat3": 0.79558
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 28,
+    "stat1": 39,
+    "stat2": 99,
+    "stat3": 0.80117
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 26,
+    "stat1": 1,
+    "stat2": 39,
+    "stat3": 0.92381
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 32,
+    "stat1": 32,
+    "stat2": 67,
+    "stat3": 0.0597
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 34,
+    "stat1": 64,
+    "stat2": 52,
+    "stat3": 0.76163
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 20,
+    "stat1": 20,
+    "stat2": 49,
+    "stat3": 0.54716
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 25,
+    "stat1": 29,
+    "stat2": 26,
+    "stat3": 0.92117
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 22,
+    "stat1": 12,
+    "stat2": 28,
+    "stat3": 0.87541
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 29,
+    "stat1": 25,
+    "stat2": 53,
+    "stat3": 0.18071
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 28,
+    "stat1": 69,
+    "stat2": 94,
+    "stat3": 0.00218
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 21,
+    "stat1": 49,
+    "stat2": 67,
+    "stat3": 0.08153
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 30,
+    "stat1": 63,
+    "stat2": 34,
+    "stat3": 0.32005
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 36,
+    "stat1": 9,
+    "stat2": 93,
+    "stat3": 0.22793
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 26,
+    "stat1": 56,
+    "stat2": 79,
+    "stat3": 0.92432
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 27,
+    "stat1": 44,
+    "stat2": 26,
+    "stat3": 0.19145
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 30,
+    "stat1": 58,
+    "stat2": 34,
+    "stat3": 0.93038
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 29,
+    "stat1": 20,
+    "stat2": 99,
+    "stat3": 0.84876
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 27,
+    "stat1": 29,
+    "stat2": 93,
+    "stat3": 0.71408
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 26,
+    "stat1": 5,
+    "stat2": 59,
+    "stat3": 0.37478
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 24,
+    "stat1": 6,
+    "stat2": 83,
+    "stat3": 0.5352
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 39,
+    "stat1": 36,
+    "stat2": 59,
+    "stat3": 0.38423
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 28,
+    "stat1": 41,
+    "stat2": 93,
+    "stat3": 0.58512
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 25,
+    "stat1": 28,
+    "stat2": 29,
+    "stat3": 0.82356
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 18,
+    "stat1": 41,
+    "stat2": 67,
+    "stat3": 0.46498
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 36,
+    "stat1": 52,
+    "stat2": 98,
+    "stat3": 0.8387
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 37,
+    "stat1": 62,
+    "stat2": 48,
+    "stat3": 0.13768
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 39,
+    "stat1": 37,
+    "stat2": 61,
+    "stat3": 0.65461
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 27,
+    "stat1": 48,
+    "stat2": 58,
+    "stat3": 0.0178
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 36,
+    "stat1": 40,
+    "stat2": 62,
+    "stat3": 0.33845
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 38,
+    "stat1": 16,
+    "stat2": 68,
+    "stat3": 0.14695
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 28,
+    "stat1": 63,
+    "stat2": 86,
+    "stat3": 0.73709
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 20,
+    "stat1": 29,
+    "stat2": 95,
+    "stat3": 0.36311
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 30,
+    "stat1": 47,
+    "stat2": 96,
+    "stat3": 0.3048
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 39,
+    "stat1": 29,
+    "stat2": 89,
+    "stat3": 0.54523
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 25,
+    "stat1": 69,
+    "stat2": 58,
+    "stat3": 0.43621
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 27,
+    "stat1": 12,
+    "stat2": 78,
+    "stat3": 0.66847
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 38,
+    "stat1": 46,
+    "stat2": 41,
+    "stat3": 0.18138
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 27,
+    "stat1": 41,
+    "stat2": 61,
+    "stat3": 0.05211
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 26,
+    "stat1": 57,
+    "stat2": 47,
+    "stat3": 0.20671
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 22,
+    "stat1": 61,
+    "stat2": 35,
+    "stat3": 0.29031
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 31,
+    "stat1": 43,
+    "stat2": 52,
+    "stat3": 0.81053
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 23,
+    "stat1": 30,
+    "stat2": 75,
+    "stat3": 0.62497
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 24,
+    "stat1": 49,
+    "stat2": 54,
+    "stat3": 0.33589
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 34,
+    "stat1": 69,
+    "stat2": 28,
+    "stat3": 0.35967
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 34,
+    "stat1": 63,
+    "stat2": 71,
+    "stat3": 0.46695
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 29,
+    "stat1": 37,
+    "stat2": 95,
+    "stat3": 0.36071
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 34,
+    "stat1": 37,
+    "stat2": 27,
+    "stat3": 0.62607
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 18,
+    "stat1": 63,
+    "stat2": 27,
+    "stat3": 0.51268
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 27,
+    "stat1": 53,
+    "stat2": 75,
+    "stat3": 0.87369
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 32,
+    "stat1": 37,
+    "stat2": 79,
+    "stat3": 0.10331
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 29,
+    "stat1": 33,
+    "stat2": 27,
+    "stat3": 0.35906
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 30,
+    "stat1": 62,
+    "stat2": 58,
+    "stat3": 0.64019
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 33,
+    "stat1": 20,
+    "stat2": 63,
+    "stat3": 0.27045
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 32,
+    "stat1": 26,
+    "stat2": 73,
+    "stat3": 0.49611
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 21,
+    "stat1": 41,
+    "stat2": 98,
+    "stat3": 0.84714
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 33,
+    "stat1": 39,
+    "stat2": 43,
+    "stat3": 0.7462
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 36,
+    "stat1": 55,
+    "stat2": 70,
+    "stat3": 0.52303
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 35,
+    "stat1": 62,
+    "stat2": 55,
+    "stat3": 0.43701
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 23,
+    "stat1": 70,
+    "stat2": 29,
+    "stat3": 0.67276
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 28,
+    "stat1": 39,
+    "stat2": 68,
+    "stat3": 0.00276
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 25,
+    "stat1": 6,
+    "stat2": 69,
+    "stat3": 0.22974
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 21,
+    "stat1": 21,
+    "stat2": 52,
+    "stat3": 0.28435
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 19,
+    "stat1": 38,
+    "stat2": 99,
+    "stat3": 0.8295
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 22,
+    "stat1": 64,
+    "stat2": 99,
+    "stat3": 0.99203
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 18,
+    "stat1": 65,
+    "stat2": 97,
+    "stat3": 0.26349
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 18,
+    "stat1": 28,
+    "stat2": 25,
+    "stat3": 0.42844
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 34,
+    "stat1": 34,
+    "stat2": 92,
+    "stat3": 0.56591
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 19,
+    "stat1": 29,
+    "stat2": 65,
+    "stat3": 0.01783
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 32,
+    "stat1": 30,
+    "stat2": 52,
+    "stat3": 0.64565
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 34,
+    "stat1": 10,
+    "stat2": 33,
+    "stat3": 0.63557
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 35,
+    "stat1": 24,
+    "stat2": 42,
+    "stat3": 0.24063
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 24,
+    "stat1": 4,
+    "stat2": 59,
+    "stat3": 0.01771
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 29,
+    "stat1": 49,
+    "stat2": 31,
+    "stat3": 0.24334
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 31,
+    "stat1": 64,
+    "stat2": 26,
+    "stat3": 0.97025
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 39,
+    "stat1": 61,
+    "stat2": 35,
+    "stat3": 0.32061
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 37,
+    "stat1": 29,
+    "stat2": 40,
+    "stat3": 0.91657
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 23,
+    "stat1": 16,
+    "stat2": 43,
+    "stat3": 0.23296
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 39,
+    "stat1": 21,
+    "stat2": 66,
+    "stat3": 0.46895
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 32,
+    "stat1": 18,
+    "stat2": 79,
+    "stat3": 0.87188
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 19,
+    "stat1": 64,
+    "stat2": 63,
+    "stat3": 0.7654
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 23,
+    "stat1": 40,
+    "stat2": 69,
+    "stat3": 0.32904
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 25,
+    "stat1": 48,
+    "stat2": 30,
+    "stat3": 0.39047
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 32,
+    "stat1": 0,
+    "stat2": 29,
+    "stat3": 0.07508
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 32,
+    "stat1": 27,
+    "stat2": 100,
+    "stat3": 0.78683
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 22,
+    "stat1": 3,
+    "stat2": 35,
+    "stat3": 0.93288
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 21,
+    "stat1": 8,
+    "stat2": 27,
+    "stat3": 0.52657
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 23,
+    "stat1": 7,
+    "stat2": 60,
+    "stat3": 0.81708
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 32,
+    "stat1": 38,
+    "stat2": 95,
+    "stat3": 0.87884
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 28,
+    "stat1": 65,
+    "stat2": 25,
+    "stat3": 0.58546
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 26,
+    "stat1": 21,
+    "stat2": 72,
+    "stat3": 0.53144
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 20,
+    "stat1": 60,
+    "stat2": 57,
+    "stat3": 0.47125
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 38,
+    "stat1": 57,
+    "stat2": 59,
+    "stat3": 0.32732
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 31,
+    "stat1": 66,
+    "stat2": 32,
+    "stat3": 0.72986
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 25,
+    "stat1": 68,
+    "stat2": 79,
+    "stat3": 0.17291
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 31,
+    "stat1": 17,
+    "stat2": 63,
+    "stat3": 0.32342
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 38,
+    "stat1": 14,
+    "stat2": 44,
+    "stat3": 0.62723
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 25,
+    "stat1": 43,
+    "stat2": 78,
+    "stat3": 0.01654
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 38,
+    "stat1": 49,
+    "stat2": 75,
+    "stat3": 0.85977
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 26,
+    "stat1": 6,
+    "stat2": 25,
+    "stat3": 0.26487
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 28,
+    "stat1": 4,
+    "stat2": 72,
+    "stat3": 0.95917
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 19,
+    "stat1": 18,
+    "stat2": 47,
+    "stat3": 0.17536
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 35,
+    "stat1": 36,
+    "stat2": 59,
+    "stat3": 0.99437
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 28,
+    "stat1": 1,
+    "stat2": 85,
+    "stat3": 0.29838
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 37,
+    "stat1": 54,
+    "stat2": 56,
+    "stat3": 0.30471
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 31,
+    "stat1": 12,
+    "stat2": 87,
+    "stat3": 0.78133
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 21,
+    "stat1": 31,
+    "stat2": 79,
+    "stat3": 0.04485
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 26,
+    "stat1": 32,
+    "stat2": 67,
+    "stat3": 0.82928
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 28,
+    "stat1": 52,
+    "stat2": 87,
+    "stat3": 0.31834
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 31,
+    "stat1": 37,
+    "stat2": 43,
+    "stat3": 0.66729
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 21,
+    "stat1": 64,
+    "stat2": 62,
+    "stat3": 0.67824
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 32,
+    "stat1": 37,
+    "stat2": 92,
+    "stat3": 0.40935
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 23,
+    "stat1": 47,
+    "stat2": 58,
+    "stat3": 0.69333
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 37,
+    "stat1": 63,
+    "stat2": 44,
+    "stat3": 0.22503
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 24,
+    "stat1": 45,
+    "stat2": 96,
+    "stat3": 0.85004
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 22,
+    "stat1": 31,
+    "stat2": 52,
+    "stat3": 0.56981
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 31,
+    "stat1": 56,
+    "stat2": 87,
+    "stat3": 0.34495
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 30,
+    "stat1": 24,
+    "stat2": 62,
+    "stat3": 0.34393
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 26,
+    "stat1": 33,
+    "stat2": 57,
+    "stat3": 0.59871
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 28,
+    "stat1": 5,
+    "stat2": 35,
+    "stat3": 0.84068
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 20,
+    "stat1": 11,
+    "stat2": 41,
+    "stat3": 0.85619
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 38,
+    "stat1": 59,
+    "stat2": 86,
+    "stat3": 0.22705
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 31,
+    "stat1": 6,
+    "stat2": 100,
+    "stat3": 0.10298
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 36,
+    "stat1": 29,
+    "stat2": 46,
+    "stat3": 0.82954
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 26,
+    "stat1": 66,
+    "stat2": 85,
+    "stat3": 0.79819
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 39,
+    "stat1": 0,
+    "stat2": 45,
+    "stat3": 0.47406
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 34,
+    "stat1": 6,
+    "stat2": 60,
+    "stat3": 0.9761
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 26,
+    "stat1": 66,
+    "stat2": 37,
+    "stat3": 0.24463
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 31,
+    "stat1": 21,
+    "stat2": 35,
+    "stat3": 0.67368
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 30,
+    "stat1": 23,
+    "stat2": 72,
+    "stat3": 0.6351
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 33,
+    "stat1": 67,
+    "stat2": 68,
+    "stat3": 0.69984
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 26,
+    "stat1": 27,
+    "stat2": 89,
+    "stat3": 0.42906
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 24,
+    "stat1": 51,
+    "stat2": 82,
+    "stat3": 0.15986
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 24,
+    "stat1": 63,
+    "stat2": 81,
+    "stat3": 0.62943
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 22,
+    "stat1": 37,
+    "stat2": 37,
+    "stat3": 0.74101
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 34,
+    "stat1": 47,
+    "stat2": 64,
+    "stat3": 0.50244
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 19,
+    "stat1": 25,
+    "stat2": 53,
+    "stat3": 0.44847
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 26,
+    "stat1": 21,
+    "stat2": 82,
+    "stat3": 0.9168
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 36,
+    "stat1": 19,
+    "stat2": 87,
+    "stat3": 0.70337
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 37,
+    "stat1": 34,
+    "stat2": 72,
+    "stat3": 0.43583
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 25,
+    "stat1": 13,
+    "stat2": 30,
+    "stat3": 0.27881
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 31,
+    "stat1": 55,
+    "stat2": 92,
+    "stat3": 0.62623
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 36,
+    "stat1": 56,
+    "stat2": 33,
+    "stat3": 0.70501
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 37,
+    "stat1": 44,
+    "stat2": 91,
+    "stat3": 0.93279
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 33,
+    "stat1": 31,
+    "stat2": 64,
+    "stat3": 0.46339
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 34,
+    "stat1": 38,
+    "stat2": 70,
+    "stat3": 0.67362
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 27,
+    "stat1": 30,
+    "stat2": 83,
+    "stat3": 0.8328
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 28,
+    "stat1": 12,
+    "stat2": 50,
+    "stat3": 0.49799
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 25,
+    "stat1": 47,
+    "stat2": 32,
+    "stat3": 0.21529
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 20,
+    "stat1": 21,
+    "stat2": 43,
+    "stat3": 0.77831
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 33,
+    "stat1": 36,
+    "stat2": 47,
+    "stat3": 0.29961
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 24,
+    "stat1": 45,
+    "stat2": 52,
+    "stat3": 0.13699
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 25,
+    "stat1": 27,
+    "stat2": 42,
+    "stat3": 0.06131
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 19,
+    "stat1": 62,
+    "stat2": 96,
+    "stat3": 0.20607
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 27,
+    "stat1": 69,
+    "stat2": 61,
+    "stat3": 0.76964
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 33,
+    "stat1": 17,
+    "stat2": 81,
+    "stat3": 0.26605
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 21,
+    "stat1": 53,
+    "stat2": 99,
+    "stat3": 0.74377
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 28,
+    "stat1": 60,
+    "stat2": 45,
+    "stat3": 0.35412
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 36,
+    "stat1": 1,
+    "stat2": 63,
+    "stat3": 0.43765
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 25,
+    "stat1": 38,
+    "stat2": 34,
+    "stat3": 0.02425
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 32,
+    "stat1": 53,
+    "stat2": 54,
+    "stat3": 0.18419
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 38,
+    "stat1": 24,
+    "stat2": 97,
+    "stat3": 0.9804
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 35,
+    "stat1": 17,
+    "stat2": 78,
+    "stat3": 0.2061
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 20,
+    "stat1": 22,
+    "stat2": 84,
+    "stat3": 0.68833
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 22,
+    "stat1": 61,
+    "stat2": 48,
+    "stat3": 0.10449
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 30,
+    "stat1": 31,
+    "stat2": 50,
+    "stat3": 0.4817
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 18,
+    "stat1": 64,
+    "stat2": 58,
+    "stat3": 0.38072
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 30,
+    "stat1": 53,
+    "stat2": 74,
+    "stat3": 0.75793
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 33,
+    "stat1": 25,
+    "stat2": 35,
+    "stat3": 0.21524
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 29,
+    "stat1": 47,
+    "stat2": 52,
+    "stat3": 0.87689
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 23,
+    "stat1": 56,
+    "stat2": 93,
+    "stat3": 0.49205
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 18,
+    "stat1": 21,
+    "stat2": 74,
+    "stat3": 0.78484
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 18,
+    "stat1": 49,
+    "stat2": 77,
+    "stat3": 0.11881
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 22,
+    "stat1": 40,
+    "stat2": 64,
+    "stat3": 0.51521
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 18,
+    "stat1": 46,
+    "stat2": 83,
+    "stat3": 0.8968
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 32,
+    "stat1": 20,
+    "stat2": 40,
+    "stat3": 0.8566
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 23,
+    "stat1": 46,
+    "stat2": 33,
+    "stat3": 0.81314
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 39,
+    "stat1": 4,
+    "stat2": 69,
+    "stat3": 0.99678
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 27,
+    "stat1": 35,
+    "stat2": 82,
+    "stat3": 0.14088
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 21,
+    "stat1": 27,
+    "stat2": 78,
+    "stat3": 0.27099
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 18,
+    "stat1": 47,
+    "stat2": 80,
+    "stat3": 0.06969
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 33,
+    "stat1": 57,
+    "stat2": 74,
+    "stat3": 0.10944
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 36,
+    "stat1": 36,
+    "stat2": 43,
+    "stat3": 0.23167
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 35,
+    "stat1": 44,
+    "stat2": 81,
+    "stat3": 0.23853
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 35,
+    "stat1": 30,
+    "stat2": 96,
+    "stat3": 0.38497
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 26,
+    "stat1": 41,
+    "stat2": 66,
+    "stat3": 0.11576
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 21,
+    "stat1": 55,
+    "stat2": 96,
+    "stat3": 0.89392
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 20,
+    "stat1": 15,
+    "stat2": 88,
+    "stat3": 0.4487
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 19,
+    "stat1": 47,
+    "stat2": 83,
+    "stat3": 0.89146
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 35,
+    "stat1": 49,
+    "stat2": 71,
+    "stat3": 0.77625
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 26,
+    "stat1": 57,
+    "stat2": 34,
+    "stat3": 0.16828
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 18,
+    "stat1": 36,
+    "stat2": 92,
+    "stat3": 0.61492
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 23,
+    "stat1": 33,
+    "stat2": 55,
+    "stat3": 0.41223
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 39,
+    "stat1": 44,
+    "stat2": 76,
+    "stat3": 0.98211
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 31,
+    "stat1": 22,
+    "stat2": 53,
+    "stat3": 0.44572
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 29,
+    "stat1": 56,
+    "stat2": 33,
+    "stat3": 0.53964
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 38,
+    "stat1": 1,
+    "stat2": 51,
+    "stat3": 0.82059
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 38,
+    "stat1": 35,
+    "stat2": 30,
+    "stat3": 0.65875
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 36,
+    "stat1": 41,
+    "stat2": 44,
+    "stat3": 0.02328
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 35,
+    "stat1": 60,
+    "stat2": 83,
+    "stat3": 0.22972
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 19,
+    "stat1": 19,
+    "stat2": 62,
+    "stat3": 0.0691
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 22,
+    "stat1": 17,
+    "stat2": 57,
+    "stat3": 0.71556
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 19,
+    "stat1": 7,
+    "stat2": 79,
+    "stat3": 0.9162
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 35,
+    "stat1": 52,
+    "stat2": 30,
+    "stat3": 0.04152
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 25,
+    "stat1": 44,
+    "stat2": 53,
+    "stat3": 0.83897
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 25,
+    "stat1": 19,
+    "stat2": 82,
+    "stat3": 0.18223
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 31,
+    "stat1": 12,
+    "stat2": 78,
+    "stat3": 0.93281
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 20,
+    "stat1": 20,
+    "stat2": 30,
+    "stat3": 0.1274
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 32,
+    "stat1": 67,
+    "stat2": 32,
+    "stat3": 0.55537
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 19,
+    "stat1": 18,
+    "stat2": 89,
+    "stat3": 0.13262
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 20,
+    "stat1": 64,
+    "stat2": 91,
+    "stat3": 0.45153
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 36,
+    "stat1": 13,
+    "stat2": 81,
+    "stat3": 0.28092
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 32,
+    "stat1": 52,
+    "stat2": 83,
+    "stat3": 0.02059
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 21,
+    "stat1": 32,
+    "stat2": 84,
+    "stat3": 0.70698
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 27,
+    "stat1": 35,
+    "stat2": 39,
+    "stat3": 0.84964
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 27,
+    "stat1": 45,
+    "stat2": 94,
+    "stat3": 0.96867
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 38,
+    "stat1": 30,
+    "stat2": 30,
+    "stat3": 0.27994
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 28,
+    "stat1": 52,
+    "stat2": 66,
+    "stat3": 0.73673
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 18,
+    "stat1": 30,
+    "stat2": 69,
+    "stat3": 0.0298
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 28,
+    "stat1": 52,
+    "stat2": 39,
+    "stat3": 0.72038
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 23,
+    "stat1": 44,
+    "stat2": 68,
+    "stat3": 0.64995
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 39,
+    "stat1": 6,
+    "stat2": 84,
+    "stat3": 0.21114
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 39,
+    "stat1": 52,
+    "stat2": 88,
+    "stat3": 0.95995
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 37,
+    "stat1": 48,
+    "stat2": 33,
+    "stat3": 0.16684
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 22,
+    "stat1": 16,
+    "stat2": 80,
+    "stat3": 0.97675
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 20,
+    "stat1": 9,
+    "stat2": 26,
+    "stat3": 0.18868
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 35,
+    "stat1": 15,
+    "stat2": 59,
+    "stat3": 0.5617
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 27,
+    "stat1": 36,
+    "stat2": 57,
+    "stat3": 0.24177
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 27,
+    "stat1": 28,
+    "stat2": 40,
+    "stat3": 0.03505
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 37,
+    "stat1": 45,
+    "stat2": 95,
+    "stat3": 0.62902
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 22,
+    "stat1": 65,
+    "stat2": 32,
+    "stat3": 0.62415
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 23,
+    "stat1": 53,
+    "stat2": 80,
+    "stat3": 0.69935
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 38,
+    "stat1": 42,
+    "stat2": 85,
+    "stat3": 0.23611
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 18,
+    "stat1": 11,
+    "stat2": 76,
+    "stat3": 0.51087
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 31,
+    "stat1": 12,
+    "stat2": 94,
+    "stat3": 0.02665
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 26,
+    "stat1": 33,
+    "stat2": 90,
+    "stat3": 0.29226
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 23,
+    "stat1": 42,
+    "stat2": 100,
+    "stat3": 0.62246
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 33,
+    "stat1": 48,
+    "stat2": 85,
+    "stat3": 0.23186
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 26,
+    "stat1": 68,
+    "stat2": 83,
+    "stat3": 0.12566
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 22,
+    "stat1": 58,
+    "stat2": 62,
+    "stat3": 0.96131
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 36,
+    "stat1": 8,
+    "stat2": 29,
+    "stat3": 0.91573
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 32,
+    "stat1": 66,
+    "stat2": 63,
+    "stat3": 0.9346
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 25,
+    "stat1": 54,
+    "stat2": 72,
+    "stat3": 0.98717
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 35,
+    "stat1": 50,
+    "stat2": 82,
+    "stat3": 0.21529
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 35,
+    "stat1": 43,
+    "stat2": 86,
+    "stat3": 0.48274
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 30,
+    "stat1": 55,
+    "stat2": 36,
+    "stat3": 0.05031
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 32,
+    "stat1": 40,
+    "stat2": 36,
+    "stat3": 0.43785
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 24,
+    "stat1": 27,
+    "stat2": 77,
+    "stat3": 0.13239
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 31,
+    "stat1": 25,
+    "stat2": 32,
+    "stat3": 0.6372
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 23,
+    "stat1": 6,
+    "stat2": 68,
+    "stat3": 0.21908
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 37,
+    "stat1": 4,
+    "stat2": 82,
+    "stat3": 0.15641
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 34,
+    "stat1": 24,
+    "stat2": 30,
+    "stat3": 0.52818
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 25,
+    "stat1": 10,
+    "stat2": 49,
+    "stat3": 0.41345
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 24,
+    "stat1": 29,
+    "stat2": 25,
+    "stat3": 0.9964
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 35,
+    "stat1": 16,
+    "stat2": 64,
+    "stat3": 0.65389
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 22,
+    "stat1": 53,
+    "stat2": 74,
+    "stat3": 0.18061
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 21,
+    "stat1": 16,
+    "stat2": 57,
+    "stat3": 0.64232
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 18,
+    "stat1": 7,
+    "stat2": 34,
+    "stat3": 0.05224
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 39,
+    "stat1": 28,
+    "stat2": 100,
+    "stat3": 0.75274
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 25,
+    "stat1": 0,
+    "stat2": 75,
+    "stat3": 0.37535
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 27,
+    "stat1": 61,
+    "stat2": 27,
+    "stat3": 0.84917
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 19,
+    "stat1": 40,
+    "stat2": 29,
+    "stat3": 0.5047
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 29,
+    "stat1": 34,
+    "stat2": 28,
+    "stat3": 0.76651
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 18,
+    "stat1": 2,
+    "stat2": 26,
+    "stat3": 0.7575
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 21,
+    "stat1": 63,
+    "stat2": 92,
+    "stat3": 0.83869
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 23,
+    "stat1": 29,
+    "stat2": 65,
+    "stat3": 0.47109
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 27,
+    "stat1": 23,
+    "stat2": 39,
+    "stat3": 0.79652
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 19,
+    "stat1": 24,
+    "stat2": 44,
+    "stat3": 0.8387
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 34,
+    "stat1": 7,
+    "stat2": 74,
+    "stat3": 0.95743
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 32,
+    "stat1": 38,
+    "stat2": 57,
+    "stat3": 0.44983
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 32,
+    "stat1": 7,
+    "stat2": 65,
+    "stat3": 0.45292
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 27,
+    "stat1": 55,
+    "stat2": 62,
+    "stat3": 0.20037
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 34,
+    "stat1": 53,
+    "stat2": 44,
+    "stat3": 0.7942
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 38,
+    "stat1": 63,
+    "stat2": 70,
+    "stat3": 0.91394
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 32,
+    "stat1": 65,
+    "stat2": 86,
+    "stat3": 0.57056
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 28,
+    "stat1": 44,
+    "stat2": 45,
+    "stat3": 0.51482
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 37,
+    "stat1": 69,
+    "stat2": 34,
+    "stat3": 0.29804
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 19,
+    "stat1": 13,
+    "stat2": 95,
+    "stat3": 0.6995
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 37,
+    "stat1": 33,
+    "stat2": 32,
+    "stat3": 0.82574
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 35,
+    "stat1": 68,
+    "stat2": 90,
+    "stat3": 0.4028
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 36,
+    "stat1": 17,
+    "stat2": 67,
+    "stat3": 0.70287
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 25,
+    "stat1": 58,
+    "stat2": 99,
+    "stat3": 0.08792
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 37,
+    "stat1": 54,
+    "stat2": 65,
+    "stat3": 0.44952
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 27,
+    "stat1": 55,
+    "stat2": 65,
+    "stat3": 0.98168
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 38,
+    "stat1": 67,
+    "stat2": 74,
+    "stat3": 0.80093
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 39,
+    "stat1": 7,
+    "stat2": 92,
+    "stat3": 0.77008
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 32,
+    "stat1": 55,
+    "stat2": 32,
+    "stat3": 0.56021
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 33,
+    "stat1": 7,
+    "stat2": 52,
+    "stat3": 0.78217
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 30,
+    "stat1": 56,
+    "stat2": 68,
+    "stat3": 0.19835
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 39,
+    "stat1": 41,
+    "stat2": 47,
+    "stat3": 0.69942
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 26,
+    "stat1": 65,
+    "stat2": 100,
+    "stat3": 0.35707
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 25,
+    "stat1": 40,
+    "stat2": 97,
+    "stat3": 0.48784
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 19,
+    "stat1": 12,
+    "stat2": 83,
+    "stat3": 0.10538
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 20,
+    "stat1": 22,
+    "stat2": 63,
+    "stat3": 0.72641
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 23,
+    "stat1": 15,
+    "stat2": 27,
+    "stat3": 0.26309
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 31,
+    "stat1": 6,
+    "stat2": 29,
+    "stat3": 0.38722
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 30,
+    "stat1": 63,
+    "stat2": 58,
+    "stat3": 0.85524
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 25,
+    "stat1": 35,
+    "stat2": 32,
+    "stat3": 0.53766
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 38,
+    "stat1": 47,
+    "stat2": 100,
+    "stat3": 0.10162
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 36,
+    "stat1": 55,
+    "stat2": 63,
+    "stat3": 0.92671
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 25,
+    "stat1": 54,
+    "stat2": 94,
+    "stat3": 0.5336
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 19,
+    "stat1": 32,
+    "stat2": 29,
+    "stat3": 0.14473
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 34,
+    "stat1": 4,
+    "stat2": 30,
+    "stat3": 0.59984
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 28,
+    "stat1": 23,
+    "stat2": 90,
+    "stat3": 0.4269
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 19,
+    "stat1": 65,
+    "stat2": 37,
+    "stat3": 0.5249
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 18,
+    "stat1": 5,
+    "stat2": 52,
+    "stat3": 0.97445
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 36,
+    "stat1": 43,
+    "stat2": 86,
+    "stat3": 0.46639
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 18,
+    "stat1": 5,
+    "stat2": 91,
+    "stat3": 0.52086
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 20,
+    "stat1": 64,
+    "stat2": 49,
+    "stat3": 0.55756
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 19,
+    "stat1": 59,
+    "stat2": 52,
+    "stat3": 0.355
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 20,
+    "stat1": 70,
+    "stat2": 75,
+    "stat3": 0.55775
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 36,
+    "stat1": 11,
+    "stat2": 72,
+    "stat3": 0.78527
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 20,
+    "stat1": 49,
+    "stat2": 97,
+    "stat3": 0.97386
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 23,
+    "stat1": 38,
+    "stat2": 31,
+    "stat3": 0.76575
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 18,
+    "stat1": 64,
+    "stat2": 61,
+    "stat3": 0.86292
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 28,
+    "stat1": 26,
+    "stat2": 85,
+    "stat3": 0.88931
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 26,
+    "stat1": 47,
+    "stat2": 97,
+    "stat3": 0.74517
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 20,
+    "stat1": 46,
+    "stat2": 59,
+    "stat3": 0.2217
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 32,
+    "stat1": 53,
+    "stat2": 75,
+    "stat3": 0.17088
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 20,
+    "stat1": 52,
+    "stat2": 36,
+    "stat3": 0.41061
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 37,
+    "stat1": 49,
+    "stat2": 52,
+    "stat3": 0.48135
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 32,
+    "stat1": 69,
+    "stat2": 44,
+    "stat3": 0.51274
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 30,
+    "stat1": 69,
+    "stat2": 28,
+    "stat3": 0.91502
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 19,
+    "stat1": 23,
+    "stat2": 100,
+    "stat3": 0.75853
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 24,
+    "stat1": 29,
+    "stat2": 25,
+    "stat3": 0.1854
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 35,
+    "stat1": 27,
+    "stat2": 61,
+    "stat3": 0.38041
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 38,
+    "stat1": 27,
+    "stat2": 46,
+    "stat3": 0.75313
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 31,
+    "stat1": 48,
+    "stat2": 90,
+    "stat3": 0.7155
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 18,
+    "stat1": 27,
+    "stat2": 58,
+    "stat3": 0.12034
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 37,
+    "stat1": 64,
+    "stat2": 96,
+    "stat3": 0.82135
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 24,
+    "stat1": 11,
+    "stat2": 94,
+    "stat3": 0.0955
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 26,
+    "stat1": 54,
+    "stat2": 46,
+    "stat3": 0.09976
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 31,
+    "stat1": 16,
+    "stat2": 84,
+    "stat3": 0.96291
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 39,
+    "stat1": 43,
+    "stat2": 79,
+    "stat3": 0.9938
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 20,
+    "stat1": 43,
+    "stat2": 29,
+    "stat3": 0.75419
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 37,
+    "stat1": 12,
+    "stat2": 79,
+    "stat3": 0.21667
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 35,
+    "stat1": 55,
+    "stat2": 71,
+    "stat3": 0.26622
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 38,
+    "stat1": 15,
+    "stat2": 88,
+    "stat3": 0.41054
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 32,
+    "stat1": 40,
+    "stat2": 97,
+    "stat3": 0.43983
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 26,
+    "stat1": 69,
+    "stat2": 67,
+    "stat3": 0.46475
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 18,
+    "stat1": 14,
+    "stat2": 42,
+    "stat3": 0.54855
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 39,
+    "stat1": 46,
+    "stat2": 28,
+    "stat3": 0.80513
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 26,
+    "stat1": 55,
+    "stat2": 100,
+    "stat3": 0.82598
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 28,
+    "stat1": 39,
+    "stat2": 43,
+    "stat3": 0.14861
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 28,
+    "stat1": 63,
+    "stat2": 64,
+    "stat3": 0.7545
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 37,
+    "stat1": 7,
+    "stat2": 58,
+    "stat3": 0.24893
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 27,
+    "stat1": 25,
+    "stat2": 68,
+    "stat3": 0.42191
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 28,
+    "stat1": 41,
+    "stat2": 49,
+    "stat3": 0.94946
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 18,
+    "stat1": 41,
+    "stat2": 52,
+    "stat3": 0.76712
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 35,
+    "stat1": 28,
+    "stat2": 61,
+    "stat3": 0.35079
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 38,
+    "stat1": 5,
+    "stat2": 52,
+    "stat3": 0.79156
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 22,
+    "stat1": 70,
+    "stat2": 66,
+    "stat3": 0.79694
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 33,
+    "stat1": 59,
+    "stat2": 33,
+    "stat3": 0.19422
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 37,
+    "stat1": 47,
+    "stat2": 58,
+    "stat3": 0.71244
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 33,
+    "stat1": 11,
+    "stat2": 50,
+    "stat3": 0.73779
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 31,
+    "stat1": 5,
+    "stat2": 81,
+    "stat3": 0.00475
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 26,
+    "stat1": 5,
+    "stat2": 60,
+    "stat3": 0.67357
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 30,
+    "stat1": 50,
+    "stat2": 84,
+    "stat3": 0.58831
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 28,
+    "stat1": 68,
+    "stat2": 26,
+    "stat3": 0.92803
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 25,
+    "stat1": 34,
+    "stat2": 90,
+    "stat3": 0.04679
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 37,
+    "stat1": 27,
+    "stat2": 41,
+    "stat3": 0.85278
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 18,
+    "stat1": 20,
+    "stat2": 55,
+    "stat3": 0.78198
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 21,
+    "stat1": 7,
+    "stat2": 77,
+    "stat3": 0.42574
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 39,
+    "stat1": 6,
+    "stat2": 83,
+    "stat3": 0.47481
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 27,
+    "stat1": 55,
+    "stat2": 39,
+    "stat3": 0.31393
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 33,
+    "stat1": 40,
+    "stat2": 66,
+    "stat3": 0.76624
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 18,
+    "stat1": 45,
+    "stat2": 39,
+    "stat3": 0.34547
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 29,
+    "stat1": 54,
+    "stat2": 39,
+    "stat3": 0.72696
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 30,
+    "stat1": 68,
+    "stat2": 40,
+    "stat3": 0.38838
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 25,
+    "stat1": 2,
+    "stat2": 40,
+    "stat3": 0.85102
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 35,
+    "stat1": 49,
+    "stat2": 100,
+    "stat3": 0.49958
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 32,
+    "stat1": 22,
+    "stat2": 33,
+    "stat3": 0.56601
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 35,
+    "stat1": 27,
+    "stat2": 50,
+    "stat3": 0.25964
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 27,
+    "stat1": 46,
+    "stat2": 49,
+    "stat3": 0.47177
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 28,
+    "stat1": 45,
+    "stat2": 85,
+    "stat3": 0.57592
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 33,
+    "stat1": 54,
+    "stat2": 28,
+    "stat3": 0.84612
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 26,
+    "stat1": 8,
+    "stat2": 63,
+    "stat3": 0.92862
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 39,
+    "stat1": 24,
+    "stat2": 43,
+    "stat3": 0.78617
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 39,
+    "stat1": 17,
+    "stat2": 98,
+    "stat3": 0.41983
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 23,
+    "stat1": 3,
+    "stat2": 96,
+    "stat3": 0.65661
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 24,
+    "stat1": 22,
+    "stat2": 26,
+    "stat3": 0.8809
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 20,
+    "stat1": 30,
+    "stat2": 89,
+    "stat3": 0.27909
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 38,
+    "stat1": 9,
+    "stat2": 27,
+    "stat3": 0.28121
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 19,
+    "stat1": 28,
+    "stat2": 57,
+    "stat3": 0.19351
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 35,
+    "stat1": 31,
+    "stat2": 71,
+    "stat3": 0.6972
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 27,
+    "stat1": 50,
+    "stat2": 85,
+    "stat3": 0.7494
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 19,
+    "stat1": 26,
+    "stat2": 32,
+    "stat3": 0.99436
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 38,
+    "stat1": 22,
+    "stat2": 46,
+    "stat3": 0.32143
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 23,
+    "stat1": 56,
+    "stat2": 55,
+    "stat3": 0.45075
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 35,
+    "stat1": 50,
+    "stat2": 51,
+    "stat3": 0.30271
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 26,
+    "stat1": 66,
+    "stat2": 78,
+    "stat3": 0.9123
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 34,
+    "stat1": 27,
+    "stat2": 29,
+    "stat3": 0.5184
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 28,
+    "stat1": 28,
+    "stat2": 45,
+    "stat3": 0.98812
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 23,
+    "stat1": 17,
+    "stat2": 62,
+    "stat3": 0.78992
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 34,
+    "stat1": 34,
+    "stat2": 80,
+    "stat3": 0.41924
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 33,
+    "stat1": 30,
+    "stat2": 82,
+    "stat3": 0.39631
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 29,
+    "stat1": 6,
+    "stat2": 74,
+    "stat3": 0.07403
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 31,
+    "stat1": 53,
+    "stat2": 48,
+    "stat3": 0.87129
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 33,
+    "stat1": 51,
+    "stat2": 95,
+    "stat3": 0.46744
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 24,
+    "stat1": 40,
+    "stat2": 73,
+    "stat3": 0.51577
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 34,
+    "stat1": 52,
+    "stat2": 37,
+    "stat3": 0.66201
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 36,
+    "stat1": 50,
+    "stat2": 65,
+    "stat3": 0.75658
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 23,
+    "stat1": 70,
+    "stat2": 62,
+    "stat3": 0.21192
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 31,
+    "stat1": 33,
+    "stat2": 50,
+    "stat3": 0.56853
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 20,
+    "stat1": 52,
+    "stat2": 72,
+    "stat3": 0.17288
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 25,
+    "stat1": 15,
+    "stat2": 28,
+    "stat3": 0.12442
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 27,
+    "stat1": 13,
+    "stat2": 98,
+    "stat3": 0.44857
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 24,
+    "stat1": 58,
+    "stat2": 100,
+    "stat3": 0.84096
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 25,
+    "stat1": 62,
+    "stat2": 95,
+    "stat3": 0.43727
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 19,
+    "stat1": 63,
+    "stat2": 36,
+    "stat3": 0.30858
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 37,
+    "stat1": 45,
+    "stat2": 68,
+    "stat3": 0.73278
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 24,
+    "stat1": 0,
+    "stat2": 65,
+    "stat3": 0.56476
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 21,
+    "stat1": 58,
+    "stat2": 65,
+    "stat3": 0.05564
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 35,
+    "stat1": 70,
+    "stat2": 87,
+    "stat3": 0.50249
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 36,
+    "stat1": 43,
+    "stat2": 39,
+    "stat3": 0.87484
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 30,
+    "stat1": 57,
+    "stat2": 98,
+    "stat3": 0.05583
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 20,
+    "stat1": 4,
+    "stat2": 52,
+    "stat3": 0.19818
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 34,
+    "stat1": 28,
+    "stat2": 32,
+    "stat3": 0.89381
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 25,
+    "stat1": 7,
+    "stat2": 82,
+    "stat3": 0.17788
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 28,
+    "stat1": 7,
+    "stat2": 58,
+    "stat3": 0.47266
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 18,
+    "stat1": 57,
+    "stat2": 75,
+    "stat3": 0.06868
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 35,
+    "stat1": 3,
+    "stat2": 57,
+    "stat3": 0.20856
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 39,
+    "stat1": 15,
+    "stat2": 36,
+    "stat3": 0.07803
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 21,
+    "stat1": 64,
+    "stat2": 62,
+    "stat3": 0.10863
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 18,
+    "stat1": 28,
+    "stat2": 86,
+    "stat3": 0.41888
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 19,
+    "stat1": 6,
+    "stat2": 36,
+    "stat3": 0.8775
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 28,
+    "stat1": 50,
+    "stat2": 91,
+    "stat3": 0.90628
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 27,
+    "stat1": 41,
+    "stat2": 100,
+    "stat3": 0.11953
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 35,
+    "stat1": 6,
+    "stat2": 69,
+    "stat3": 0.25477
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 30,
+    "stat1": 27,
+    "stat2": 49,
+    "stat3": 0.87098
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 37,
+    "stat1": 44,
+    "stat2": 27,
+    "stat3": 0.04459
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 30,
+    "stat1": 52,
+    "stat2": 27,
+    "stat3": 0.11807
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 37,
+    "stat1": 5,
+    "stat2": 57,
+    "stat3": 0.22851
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 28,
+    "stat1": 22,
+    "stat2": 74,
+    "stat3": 0.02791
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 18,
+    "stat1": 26,
+    "stat2": 44,
+    "stat3": 0.28649
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 18,
+    "stat1": 17,
+    "stat2": 86,
+    "stat3": 0.84835
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 29,
+    "stat1": 59,
+    "stat2": 52,
+    "stat3": 0.97271
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 29,
+    "stat1": 12,
+    "stat2": 63,
+    "stat3": 0.26638
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 15,
+    "stat1": 65,
+    "stat2": 26,
+    "stat3": 0.39785
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 39,
+    "stat1": 71,
+    "stat2": 11,
+    "stat3": 0.60107
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 13,
+    "stat1": 87,
+    "stat2": 8,
+    "stat3": 0.21913
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 39,
+    "stat1": 94,
+    "stat2": 12,
+    "stat3": 0.64404
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 46,
+    "stat1": 69,
+    "stat2": 29,
+    "stat3": 0.32365
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 48,
+    "stat1": 66,
+    "stat2": 13,
+    "stat3": 0.37745
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 44,
+    "stat1": 67,
+    "stat2": 15,
+    "stat3": 0.0245
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 29,
+    "stat1": 89,
+    "stat2": 21,
+    "stat3": 0.11931
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 59,
+    "stat1": 68,
+    "stat2": 6,
+    "stat3": 0.08039
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 4,
+    "stat1": 92,
+    "stat2": 7,
+    "stat3": 0.65101
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 24,
+    "stat1": 100,
+    "stat2": 16,
+    "stat3": 0.11607
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 41,
+    "stat1": 74,
+    "stat2": 6,
+    "stat3": 0.1512
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 18,
+    "stat1": 65,
+    "stat2": 7,
+    "stat3": 0.64448
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 48,
+    "stat1": 96,
+    "stat2": 22,
+    "stat3": 0.86818
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 44,
+    "stat1": 91,
+    "stat2": 32,
+    "stat3": 0.37698
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 7,
+    "stat1": 85,
+    "stat2": 4,
+    "stat3": 0.37174
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 13,
+    "stat1": 87,
+    "stat2": 26,
+    "stat3": 0.90809
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 61,
+    "stat1": 88,
+    "stat2": 4,
+    "stat3": 0.23423
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 52,
+    "stat1": 78,
+    "stat2": 4,
+    "stat3": 0.33964
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 49,
+    "stat1": 70,
+    "stat2": 19,
+    "stat3": 0.17195
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 59,
+    "stat1": 86,
+    "stat2": 7,
+    "stat3": 0.43252
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 9,
+    "stat1": 85,
+    "stat2": 9,
+    "stat3": 0.2469
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 4,
+    "stat1": 80,
+    "stat2": 10,
+    "stat3": 0.47635
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 48,
+    "stat1": 66,
+    "stat2": 3,
+    "stat3": 0.21578
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 34,
+    "stat1": 99,
+    "stat2": 18,
+    "stat3": 0.9218
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 24,
+    "stat1": 83,
+    "stat2": 22,
+    "stat3": 0.50573
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 41,
+    "stat1": 85,
+    "stat2": 8,
+    "stat3": 0.88483
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 24,
+    "stat1": 69,
+    "stat2": 13,
+    "stat3": 0.34633
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 56,
+    "stat1": 65,
+    "stat2": 30,
+    "stat3": 0.258
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 62,
+    "stat1": 79,
+    "stat2": 32,
+    "stat3": 0.45469
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 52,
+    "stat1": 66,
+    "stat2": 22,
+    "stat3": 0.60268
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 37,
+    "stat1": 71,
+    "stat2": 25,
+    "stat3": 0.92218
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 55,
+    "stat1": 91,
+    "stat2": 25,
+    "stat3": 0.62914
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 6,
+    "stat1": 72,
+    "stat2": 5,
+    "stat3": 0.77543
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 24,
+    "stat1": 98,
+    "stat2": 13,
+    "stat3": 0.36345
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 32,
+    "stat1": 76,
+    "stat2": 27,
+    "stat3": 0.81738
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 43,
+    "stat1": 71,
+    "stat2": 4,
+    "stat3": 0.06569
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 55,
+    "stat1": 66,
+    "stat2": 30,
+    "stat3": 0.05117
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 35,
+    "stat1": 99,
+    "stat2": 9,
+    "stat3": 0.50487
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 58,
+    "stat1": 93,
+    "stat2": 35,
+    "stat3": 0.55657
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 53,
+    "stat1": 100,
+    "stat2": 12,
+    "stat3": 0.70414
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 44,
+    "stat1": 68,
+    "stat2": 27,
+    "stat3": 0.25983
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 54,
+    "stat1": 93,
+    "stat2": 2,
+    "stat3": 0.66554
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 1,
+    "stat1": 88,
+    "stat2": 28,
+    "stat3": 0.85601
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 47,
+    "stat1": 91,
+    "stat2": 22,
+    "stat3": 0.88476
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 40,
+    "stat1": 73,
+    "stat2": 22,
+    "stat3": 0.62167
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 18,
+    "stat1": 71,
+    "stat2": 2,
+    "stat3": 0.47547
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 37,
+    "stat1": 72,
+    "stat2": 9,
+    "stat3": 0.1667
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 27,
+    "stat1": 98,
+    "stat2": 11,
+    "stat3": 0.23356
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 13,
+    "stat1": 73,
+    "stat2": 25,
+    "stat3": 0.94192
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 16,
+    "stat1": 93,
+    "stat2": 29,
+    "stat3": 0.15912
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 43,
+    "stat1": 71,
+    "stat2": 33,
+    "stat3": 0.54065
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 6,
+    "stat1": 84,
+    "stat2": 21,
+    "stat3": 0.07695
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 15,
+    "stat1": 71,
+    "stat2": 31,
+    "stat3": 0.23731
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 8,
+    "stat1": 68,
+    "stat2": 18,
+    "stat3": 0.84504
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 57,
+    "stat1": 67,
+    "stat2": 25,
+    "stat3": 0.62502
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 61,
+    "stat1": 84,
+    "stat2": 18,
+    "stat3": 0.75797
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 11,
+    "stat1": 86,
+    "stat2": 34,
+    "stat3": 0.87489
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 19,
+    "stat1": 66,
+    "stat2": 24,
+    "stat3": 0.07128
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 10,
+    "stat1": 84,
+    "stat2": 17,
+    "stat3": 0.43014
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 38,
+    "stat1": 85,
+    "stat2": 7,
+    "stat3": 0.1385
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 20,
+    "stat1": 89,
+    "stat2": 26,
+    "stat3": 0.67566
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 48,
+    "stat1": 84,
+    "stat2": 1,
+    "stat3": 0.29398
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 45,
+    "stat1": 87,
+    "stat2": 32,
+    "stat3": 0.55012
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 53,
+    "stat1": 100,
+    "stat2": 19,
+    "stat3": 0.59448
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 40,
+    "stat1": 81,
+    "stat2": 24,
+    "stat3": 0.02461
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 42,
+    "stat1": 97,
+    "stat2": 8,
+    "stat3": 0.19522
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 15,
+    "stat1": 82,
+    "stat2": 25,
+    "stat3": 0.91567
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 31,
+    "stat1": 82,
+    "stat2": 27,
+    "stat3": 0.50151
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 18,
+    "stat1": 78,
+    "stat2": 32,
+    "stat3": 0.25037
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 52,
+    "stat1": 92,
+    "stat2": 28,
+    "stat3": 0.62583
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 4,
+    "stat1": 90,
+    "stat2": 16,
+    "stat3": 0.06468
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 51,
+    "stat1": 90,
+    "stat2": 10,
+    "stat3": 0.19828
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 17,
+    "stat1": 92,
+    "stat2": 15,
+    "stat3": 0.05218
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 28,
+    "stat1": 88,
+    "stat2": 14,
+    "stat3": 0.94267
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 21,
+    "stat1": 90,
+    "stat2": 33,
+    "stat3": 0.90469
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 11,
+    "stat1": 72,
+    "stat2": 25,
+    "stat3": 0.73778
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 50,
+    "stat1": 80,
+    "stat2": 21,
+    "stat3": 0.15226
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 18,
+    "stat1": 99,
+    "stat2": 20,
+    "stat3": 0.80427
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 50,
+    "stat1": 78,
+    "stat2": 29,
+    "stat3": 0.03545
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 56,
+    "stat1": 68,
+    "stat2": 2,
+    "stat3": 0.72684
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 62,
+    "stat1": 82,
+    "stat2": 29,
+    "stat3": 0.33304
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 45,
+    "stat1": 83,
+    "stat2": 22,
+    "stat3": 0.46947
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 28,
+    "stat1": 86,
+    "stat2": 14,
+    "stat3": 0.22492
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 5,
+    "stat1": 86,
+    "stat2": 27,
+    "stat3": 0.73012
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 34,
+    "stat1": 78,
+    "stat2": 29,
+    "stat3": 0.83241
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 23,
+    "stat1": 99,
+    "stat2": 9,
+    "stat3": 0.46832
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 55,
+    "stat1": 71,
+    "stat2": 10,
+    "stat3": 0.88197
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 15,
+    "stat1": 65,
+    "stat2": 7,
+    "stat3": 0.74427
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 42,
+    "stat1": 71,
+    "stat2": 12,
+    "stat3": 0.22276
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 51,
+    "stat1": 80,
+    "stat2": 19,
+    "stat3": 0.02177
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 57,
+    "stat1": 82,
+    "stat2": 4,
+    "stat3": 0.09225
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 3,
+    "stat1": 83,
+    "stat2": 22,
+    "stat3": 0.18367
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 53,
+    "stat1": 95,
+    "stat2": 5,
+    "stat3": 0.09287
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 36,
+    "stat1": 68,
+    "stat2": 15,
+    "stat3": 0.50918
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 43,
+    "stat1": 95,
+    "stat2": 31,
+    "stat3": 0.37802
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 36,
+    "stat1": 76,
+    "stat2": 14,
+    "stat3": 0.78365
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 51,
+    "stat1": 71,
+    "stat2": 29,
+    "stat3": 0.28179
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 59,
+    "stat1": 77,
+    "stat2": 28,
+    "stat3": 0.69009
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 8,
+    "stat1": 74,
+    "stat2": 30,
+    "stat3": 0.84178
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 30,
+    "stat1": 95,
+    "stat2": 25,
+    "stat3": 0.9124
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 58,
+    "stat1": 71,
+    "stat2": 31,
+    "stat3": 0.37745
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 11,
+    "stat1": 91,
+    "stat2": 18,
+    "stat3": 0.49593
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 48,
+    "stat1": 88,
+    "stat2": 6,
+    "stat3": 0.78978
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 60,
+    "stat1": 99,
+    "stat2": 19,
+    "stat3": 0.83701
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 48,
+    "stat1": 96,
+    "stat2": 19,
+    "stat3": 0.40812
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 4,
+    "stat1": 95,
+    "stat2": 1,
+    "stat3": 0.42313
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 60,
+    "stat1": 92,
+    "stat2": 31,
+    "stat3": 0.61747
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 65,
+    "stat1": 95,
+    "stat2": 13,
+    "stat3": 0.67841
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 62,
+    "stat1": 79,
+    "stat2": 12,
+    "stat3": 0.54984
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 57,
+    "stat1": 67,
+    "stat2": 5,
+    "stat3": 0.61016
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 6,
+    "stat1": 95,
+    "stat2": 29,
+    "stat3": 0.19685
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 29,
+    "stat1": 70,
+    "stat2": 17,
+    "stat3": 0.95477
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 57,
+    "stat1": 89,
+    "stat2": 22,
+    "stat3": 0.27457
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 60,
+    "stat1": 96,
+    "stat2": 15,
+    "stat3": 0.59366
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 46,
+    "stat1": 98,
+    "stat2": 2,
+    "stat3": 0.63609
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 32,
+    "stat1": 98,
+    "stat2": 16,
+    "stat3": 0.45079
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 25,
+    "stat1": 89,
+    "stat2": 24,
+    "stat3": 0.28582
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 32,
+    "stat1": 73,
+    "stat2": 5,
+    "stat3": 0.97413
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 57,
+    "stat1": 71,
+    "stat2": 9,
+    "stat3": 0.07457
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 29,
+    "stat1": 94,
+    "stat2": 24,
+    "stat3": 0.42896
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 25,
+    "stat1": 66,
+    "stat2": 6,
+    "stat3": 0.52712
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 59,
+    "stat1": 76,
+    "stat2": 3,
+    "stat3": 0.9937
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 18,
+    "stat1": 96,
+    "stat2": 27,
+    "stat3": 0.77567
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 30,
+    "stat1": 98,
+    "stat2": 3,
+    "stat3": 0.60926
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 6,
+    "stat1": 91,
+    "stat2": 25,
+    "stat3": 0.08023
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 45,
+    "stat1": 74,
+    "stat2": 25,
+    "stat3": 0.28433
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 3,
+    "stat1": 89,
+    "stat2": 9,
+    "stat3": 0.58524
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 23,
+    "stat1": 79,
+    "stat2": 32,
+    "stat3": 0.79021
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 57,
+    "stat1": 85,
+    "stat2": 28,
+    "stat3": 0.39224
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 19,
+    "stat1": 85,
+    "stat2": 17,
+    "stat3": 0.45682
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 18,
+    "stat1": 100,
+    "stat2": 7,
+    "stat3": 0.37057
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 9,
+    "stat1": 95,
+    "stat2": 33,
+    "stat3": 0.86218
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 7,
+    "stat1": 93,
+    "stat2": 26,
+    "stat3": 0.23169
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 30,
+    "stat1": 70,
+    "stat2": 3,
+    "stat3": 0.07661
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 26,
+    "stat1": 68,
+    "stat2": 6,
+    "stat3": 0.22936
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 24,
+    "stat1": 72,
+    "stat2": 22,
+    "stat3": 0.58682
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 44,
+    "stat1": 77,
+    "stat2": 21,
+    "stat3": 0.38957
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 17,
+    "stat1": 88,
+    "stat2": 8,
+    "stat3": 0.62058
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 54,
+    "stat1": 77,
+    "stat2": 15,
+    "stat3": 0.38586
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 46,
+    "stat1": 68,
+    "stat2": 31,
+    "stat3": 0.67505
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 15,
+    "stat1": 91,
+    "stat2": 11,
+    "stat3": 0.41761
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 38,
+    "stat1": 86,
+    "stat2": 16,
+    "stat3": 0.29856
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 17,
+    "stat1": 70,
+    "stat2": 14,
+    "stat3": 0.9192
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 29,
+    "stat1": 80,
+    "stat2": 10,
+    "stat3": 0.12178
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 11,
+    "stat1": 70,
+    "stat2": 4,
+    "stat3": 0.00834
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 31,
+    "stat1": 88,
+    "stat2": 20,
+    "stat3": 0.58059
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 54,
+    "stat1": 97,
+    "stat2": 26,
+    "stat3": 0.12426
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 41,
+    "stat1": 94,
+    "stat2": 19,
+    "stat3": 0.44605
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 25,
+    "stat1": 70,
+    "stat2": 12,
+    "stat3": 0.50028
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 13,
+    "stat1": 82,
+    "stat2": 18,
+    "stat3": 0.93995
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 64,
+    "stat1": 85,
+    "stat2": 32,
+    "stat3": 0.92288
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 59,
+    "stat1": 74,
+    "stat2": 35,
+    "stat3": 0.30262
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 58,
+    "stat1": 81,
+    "stat2": 19,
+    "stat3": 0.49278
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 4,
+    "stat1": 88,
+    "stat2": 14,
+    "stat3": 0.45637
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 30,
+    "stat1": 83,
+    "stat2": 9,
+    "stat3": 0.94506
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 3,
+    "stat1": 72,
+    "stat2": 1,
+    "stat3": 0.16157
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 32,
+    "stat1": 91,
+    "stat2": 34,
+    "stat3": 0.77044
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 53,
+    "stat1": 93,
+    "stat2": 10,
+    "stat3": 0.79125
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 32,
+    "stat1": 68,
+    "stat2": 13,
+    "stat3": 0.59796
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 45,
+    "stat1": 70,
+    "stat2": 2,
+    "stat3": 0.82067
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 20,
+    "stat1": 91,
+    "stat2": 2,
+    "stat3": 0.70769
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 17,
+    "stat1": 83,
+    "stat2": 1,
+    "stat3": 0.52903
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 24,
+    "stat1": 95,
+    "stat2": 28,
+    "stat3": 0.35267
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 54,
+    "stat1": 95,
+    "stat2": 30,
+    "stat3": 0.37408
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 4,
+    "stat1": 85,
+    "stat2": 5,
+    "stat3": 0.72712
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 10,
+    "stat1": 98,
+    "stat2": 10,
+    "stat3": 0.07603
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 46,
+    "stat1": 88,
+    "stat2": 2,
+    "stat3": 0.29698
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 29,
+    "stat1": 81,
+    "stat2": 34,
+    "stat3": 0.99976
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 62,
+    "stat1": 96,
+    "stat2": 18,
+    "stat3": 0.77492
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 18,
+    "stat1": 71,
+    "stat2": 27,
+    "stat3": 0.74105
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 28,
+    "stat1": 69,
+    "stat2": 12,
+    "stat3": 0.82588
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 24,
+    "stat1": 88,
+    "stat2": 11,
+    "stat3": 0.02788
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 19,
+    "stat1": 90,
+    "stat2": 5,
+    "stat3": 0.04931
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 3,
+    "stat1": 81,
+    "stat2": 28,
+    "stat3": 0.75011
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 1,
+    "stat1": 65,
+    "stat2": 15,
+    "stat3": 0.90737
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 39,
+    "stat1": 87,
+    "stat2": 4,
+    "stat3": 0.0638
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 8,
+    "stat1": 95,
+    "stat2": 13,
+    "stat3": 0.80069
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 48,
+    "stat1": 68,
+    "stat2": 30,
+    "stat3": 0.09554
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 49,
+    "stat1": 96,
+    "stat2": 17,
+    "stat3": 0.87395
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 16,
+    "stat1": 90,
+    "stat2": 31,
+    "stat3": 0.27762
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 23,
+    "stat1": 96,
+    "stat2": 16,
+    "stat3": 0.81928
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 8,
+    "stat1": 98,
+    "stat2": 2,
+    "stat3": 0.8235
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 22,
+    "stat1": 69,
+    "stat2": 18,
+    "stat3": 0.6071
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 41,
+    "stat1": 77,
+    "stat2": 5,
+    "stat3": 0.4672
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 65,
+    "stat1": 74,
+    "stat2": 11,
+    "stat3": 0.1276
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 44,
+    "stat1": 87,
+    "stat2": 18,
+    "stat3": 0.30277
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 43,
+    "stat1": 72,
+    "stat2": 27,
+    "stat3": 0.7297
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 2,
+    "stat1": 79,
+    "stat2": 35,
+    "stat3": 0.85018
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 19,
+    "stat1": 77,
+    "stat2": 2,
+    "stat3": 0.32569
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 29,
+    "stat1": 75,
+    "stat2": 26,
+    "stat3": 0.69554
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 14,
+    "stat1": 100,
+    "stat2": 29,
+    "stat3": 0.92836
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 47,
+    "stat1": 81,
+    "stat2": 10,
+    "stat3": 0.20865
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 36,
+    "stat1": 95,
+    "stat2": 19,
+    "stat3": 0.92417
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 29,
+    "stat1": 86,
+    "stat2": 9,
+    "stat3": 0.23546
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 24,
+    "stat1": 72,
+    "stat2": 16,
+    "stat3": 0.04524
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 32,
+    "stat1": 72,
+    "stat2": 13,
+    "stat3": 0.09744
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 59,
+    "stat1": 83,
+    "stat2": 27,
+    "stat3": 0.44506
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 22,
+    "stat1": 99,
+    "stat2": 33,
+    "stat3": 0.92914
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 5,
+    "stat1": 97,
+    "stat2": 18,
+    "stat3": 0.60102
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 55,
+    "stat1": 65,
+    "stat2": 10,
+    "stat3": 0.90612
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 3,
+    "stat1": 89,
+    "stat2": 29,
+    "stat3": 0.31012
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 21,
+    "stat1": 85,
+    "stat2": 12,
+    "stat3": 0.65108
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 48,
+    "stat1": 77,
+    "stat2": 14,
+    "stat3": 0.72693
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 33,
+    "stat1": 68,
+    "stat2": 34,
+    "stat3": 0.19585
+  },
+  {
+    "gender": "male",
+    "city": "Richmond Hill",
+    "age": 42,
+    "stat1": 81,
+    "stat2": 32,
+    "stat3": 0.14465
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 60,
+    "stat1": 85,
+    "stat2": 19,
+    "stat3": 0.93811
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 40,
+    "stat1": 83,
+    "stat2": 29,
+    "stat3": 0.2994
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 50,
+    "stat1": 72,
+    "stat2": 13,
+    "stat3": 0.02347
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 16,
+    "stat1": 65,
+    "stat2": 3,
+    "stat3": 0.4574
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 12,
+    "stat1": 82,
+    "stat2": 2,
+    "stat3": 0.89144
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 49,
+    "stat1": 73,
+    "stat2": 35,
+    "stat3": 0.77154
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 8,
+    "stat1": 74,
+    "stat2": 17,
+    "stat3": 0.99543
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 20,
+    "stat1": 72,
+    "stat2": 24,
+    "stat3": 0.56909
+  },
+  {
+    "gender": "female",
+    "city": "Longueuil",
+    "age": 21,
+    "stat1": 71,
+    "stat2": 4,
+    "stat3": 0.04402
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 12,
+    "stat1": 90,
+    "stat2": 31,
+    "stat3": 0.87937
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 17,
+    "stat1": 99,
+    "stat2": 22,
+    "stat3": 0.70398
+  },
+  {
+    "gender": "female",
+    "city": "Richmond Hill",
+    "age": 10,
+    "stat1": 69,
+    "stat2": 24,
+    "stat3": 0.54902
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 40,
+    "stat1": 76,
+    "stat2": 16,
+    "stat3": 0.21645
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 9,
+    "stat1": 88,
+    "stat2": 26,
+    "stat3": 0.00312
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 34,
+    "stat1": 71,
+    "stat2": 29,
+    "stat3": 0.70554
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 47,
+    "stat1": 97,
+    "stat2": 16,
+    "stat3": 0.57258
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 65,
+    "stat1": 94,
+    "stat2": 5,
+    "stat3": 0.12984
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 11,
+    "stat1": 84,
+    "stat2": 13,
+    "stat3": 0.54958
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 49,
+    "stat1": 70,
+    "stat2": 12,
+    "stat3": 0.08311
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 60,
+    "stat1": 83,
+    "stat2": 12,
+    "stat3": 0.34964
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 17,
+    "stat1": 71,
+    "stat2": 25,
+    "stat3": 0.01079
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 64,
+    "stat1": 95,
+    "stat2": 33,
+    "stat3": 0.55057
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 7,
+    "stat1": 65,
+    "stat2": 11,
+    "stat3": 0.09435
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 37,
+    "stat1": 76,
+    "stat2": 24,
+    "stat3": 0.16187
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 37,
+    "stat1": 81,
+    "stat2": 24,
+    "stat3": 0.56517
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 55,
+    "stat1": 82,
+    "stat2": 33,
+    "stat3": 0.10243
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 16,
+    "stat1": 81,
+    "stat2": 35,
+    "stat3": 0.76312
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 2,
+    "stat1": 73,
+    "stat2": 17,
+    "stat3": 0.2703
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 42,
+    "stat1": 66,
+    "stat2": 15,
+    "stat3": 0.34568
+  },
+  {
+    "gender": "male",
+    "city": "Saguenay",
+    "age": 50,
+    "stat1": 67,
+    "stat2": 1,
+    "stat3": 0.62975
+  },
+  {
+    "gender": "female",
+    "city": "Saguenay",
+    "age": 34,
+    "stat1": 95,
+    "stat2": 17,
+    "stat3": 0.38702
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 1,
+    "stat1": 93,
+    "stat2": 17,
+    "stat3": 0.25243
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 7,
+    "stat1": 100,
+    "stat2": 7,
+    "stat3": 0.44313
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 3,
+    "stat1": 66,
+    "stat2": 34,
+    "stat3": 0.73543
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 9,
+    "stat1": 71,
+    "stat2": 34,
+    "stat3": 0.52042
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 64,
+    "stat1": 98,
+    "stat2": 35,
+    "stat3": 0.23089
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 65,
+    "stat1": 80,
+    "stat2": 1,
+    "stat3": 0.74421
+  },
+  {
+    "gender": "female",
+    "city": "Niagara Falls",
+    "age": 21,
+    "stat1": 97,
+    "stat2": 18,
+    "stat3": 0.39793
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 64,
+    "stat1": 85,
+    "stat2": 12,
+    "stat3": 0.13874
+  },
+  {
+    "gender": "male",
+    "city": "Longueuil",
+    "age": 20,
+    "stat1": 95,
+    "stat2": 20,
+    "stat3": 0.50555
+  },
+  {
+    "gender": "male",
+    "city": "Moncton",
+    "age": 63,
+    "stat1": 95,
+    "stat2": 18,
+    "stat3": 0.84039
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 16,
+    "stat1": 66,
+    "stat2": 15,
+    "stat3": 0.1099
+  },
+  {
+    "gender": "male",
+    "city": "Niagara Falls",
+    "age": 30,
+    "stat1": 96,
+    "stat2": 3,
+    "stat3": 0.3589
+  },
+  {
+    "gender": "female",
+    "city": "Moncton",
+    "age": 37,
+    "stat1": 76,
+    "stat2": 34,
+    "stat3": 0.80666
+  }
+]
