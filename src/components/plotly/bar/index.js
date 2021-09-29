@@ -8,10 +8,11 @@ const Bar = ({
   data,
   stacked,
   showTicks,
+  ...props
 }) => {
 
   const layout = useMemo(() => ({
-    barmode: stacked ? 'stacked' : 'group',
+    barmode: stacked ? 'stack' : 'group',
     xaxis: {
       showticklabels: showTicks,
     },
@@ -34,6 +35,7 @@ const Bar = ({
       showTicks={showTicks}
       data={data}
       layout={layout}
+      {...props}
     />
   )
 }

@@ -8,6 +8,7 @@ const Line = ({
   data,
   spline,
   showTicks,
+  ...props
 }) => {
 
   const configDatum = useCallback((datum) => {
@@ -26,14 +27,20 @@ const Line = ({
     yaxis: {
       showticklabels: showTicks,
     },
-    ...!showTicks && {
-      margin: {
-        t: 0,
-        b: 0,
-        l: 0,
-        r: 0,
-      },
-    },
+    // margin: {
+    //   t: 0,
+    //   b: 0,
+    //   l: 0,
+    //   r: 0,
+    // },
+    // ...!showTicks && {
+    //   margin: {
+    //     t: 0,
+    //     b: 0,
+    //     l: 0,
+    //     r: 0,
+    //   },
+    // },
   }), [showTicks])
 
   return (
@@ -41,6 +48,7 @@ const Line = ({
       type='line'
       layout={layout}
       data={finalData}
+      {...props}
     />
   )
 }
