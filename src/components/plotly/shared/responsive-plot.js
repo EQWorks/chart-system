@@ -3,15 +3,9 @@ import PropTypes from 'prop-types'
 import Plot from 'react-plotly.js'
 import { useResizeDetector } from 'react-resize-detector'
 
-// import { aggregate, aggregateJson } from '../shared/utils'
-// import { parseData, getChartData, getLayers } from '../shared/utils/helpers'
-
 const ResponsivePlot = ({ type, data, layout, subPlots, ...props }) => {
 
-  const { width, height, ref } = useResizeDetector({
-    // refreshMode: 'debounce', 
-    // refreshRate: 1000
-  })
+  const { width, height, ref } = useResizeDetector({})
 
   const doSubPlots = useMemo(() => data.length > 1 && subPlots, [data.length, subPlots])
   const subPlotRows = useMemo(() => Math.ceil(data.length / 2), [data.length])
@@ -55,12 +49,6 @@ const ResponsivePlot = ({ type, data, layout, subPlots, ...props }) => {
               pattern: 'independent',
             },
           },
-          // margin: {
-          //   't': 1,
-          //   'b': 1,
-          //   'l': 1,
-          //   'r': 1,
-          // },
           ...layout,
         }}
         style={{ width: '100%', height: '100%' }}
@@ -71,8 +59,8 @@ const ResponsivePlot = ({ type, data, layout, subPlots, ...props }) => {
 }
 
 ResponsivePlot.propTypes = {
-  config: PropTypes.object,
-  data: PropTypes.array,
+  type: PropTypes.string.isRequired,
+  data: PropTypes.array.isRequired,
   layout: PropTypes.object,
   subPlots: PropTypes.bool,
 }
