@@ -1,0 +1,37 @@
+[
+  {
+    "city": "Longueuil",
+    "age": 18,
+    "stat1": 53,
+    "stat2": 100,
+    "stat3": 0.65829
+  },
+  {
+    "city": "Niagara Falls",
+    "age": 34,
+    "stat1": 13,
+    "stat2": 60,
+    "stat3": 0.88252
+  },
+  {
+    "city": "Montreal",
+    "age": 36,
+    "stat1": 41,
+    "stat2": 98,
+    "stat3": 0.85245
+  },
+  {
+    "city": "Saskatoon",
+    "age": 25,
+    "stat1": 52,
+    "stat2": 32,
+    "stat3": 0.6595
+  },
+  {
+    "city": "Vancouver",
+    "age": 27,
+    "stat1": 32,
+    "stat2": 82,
+    "stat3": 0.95845
+  }
+]

@@ -1,28 +1,28 @@
 import React from 'react'
-import Bar from '../../src/components/plotly/bar'
+import Scatter from '../../src/components/plotly/scatter'
 
-import mockData from '../data/plotly/mock-data-pie-bar'
+import mockData from '../data/plotly/mock-data-line-scatter'
 import ResponsiveChartWrapper from '../nivo/responsive-chart-wrapper'
 
 export default {
-  title: 'Plotly/bar',
+  title: 'Plotly/scatter',
 }
 
 export const Default = () =>
   <ResponsiveChartWrapper>
-    <Bar
+    <Scatter
       data={mockData}
-      x='city'
+      x='age'
       y={['stat1', 'stat2']}
     />
   </ResponsiveChartWrapper>
 
-export const Stacked = () =>
+export const WithLines = () =>
   <ResponsiveChartWrapper>
-    <Bar
+    <Scatter
       data={mockData}
-      stacked
-      x='city'
+      showLines
+      x='age'
       y={['stat1', 'stat2']}
     />
   </ResponsiveChartWrapper>
