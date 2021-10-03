@@ -5,14 +5,17 @@ import { useResizeDetector } from 'react-resize-detector'
 
 const ResponsivePlot = ({ type, data, layout, subPlots, ...props }) => {
 
-  const { width, height, ref } = useResizeDetector({})
+  const { width, ref } = useResizeDetector({})
 
   const doSubPlots = useMemo(() => data.length > 1 && subPlots, [data.length, subPlots])
   const subPlotRows = useMemo(() => Math.ceil(data.length / 2), [data.length])
   const subPlotColumns = 2
 
   return (
-    <div ref={ref}>
+    <div
+      style={{ width: '100%', height: '100%' }}
+      ref={ref}
+    >
       <Plot
         data={
           doSubPlots ?
@@ -25,9 +28,10 @@ const ResponsivePlot = ({ type, data, layout, subPlots, ...props }) => {
             :
             data.map(obj => ({ type, ...obj }))
         }
+        config={{ responsive: true }}
         layout={{
           width,
-          height,
+          autosize: true,
           paper_bgcolor: 'transparent',
           plot_bgcolor: 'transparent',
           modebar: {
@@ -51,7 +55,7 @@ const ResponsivePlot = ({ type, data, layout, subPlots, ...props }) => {
           },
           ...layout,
         }}
-        style={{ width: '100%', height: '100%' }}
+        style={{ height: 'inherit' }}
         {...props}
       />
     </div>
