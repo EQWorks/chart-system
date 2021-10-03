@@ -6,10 +6,20 @@ import ResponsivePlot from '../shared/responsive-plot'
 
 const Bar = ({
   data,
+  x,
+  y,
   stacked,
   showTicks,
   ...props
 }) => {
+
+  const finalData = useMemo(() => y.map(k => (
+    {
+      name: k,
+      x: data.map(d => d[x]),
+      y: data.map(d => d[k]),
+    }
+  )), [data, x, y])
 
   const layout = useMemo(() => ({
     barmode: stacked ? 'stack' : 'group',
@@ -32,8 +42,8 @@ const Bar = ({
   return (
     <ResponsivePlot
       type='bar'
+      data={finalData}
       showTicks={showTicks}
-      data={data}
       layout={layout}
       {...props}
     />

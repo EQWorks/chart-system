@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 
 import { PlotlyPropDefaults, PlotlyPropTypes } from '../shared/constants'
@@ -6,16 +6,21 @@ import ResponsivePlot from '../shared/responsive-plot'
 
 const Scatter = ({
   data,
+  x,
+  y,
   showTicks,
+  showLines,
   ...props
 }) => {
 
-  const configDatum = useCallback((datum) => {
-    datum.mode = 'markers'
-    return datum
-  }, [])
-
-  const finalData = useMemo(() => data.map(d => configDatum(d)), [data, configDatum])
+  const finalData = useMemo(() => y.map(k => (
+    {
+      name: k,
+      x: data.map(d => d[x]),
+      y: data.map(d => d[k]),
+      mode: showLines ? 'lines+markers' : 'markers',
+    }
+  )), [data, showLines, x, y])
 
   const layout = useMemo(() => ({
     xaxis: {

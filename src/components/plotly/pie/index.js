@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 
 import { PlotlyPropDefaults, PlotlyPropTypes } from '../shared/constants'
@@ -6,25 +6,23 @@ import ResponsivePlot from '../shared/responsive-plot'
 
 const Pie = ({
   data,
+  label,
+  values,
   donut,
   showLegend,
   showPercentage,
   ...props
 }) => {
 
-  const formatDatum = ({ x, y, ...rest }) => ({
-    labels: x,
-    values: y,
-    ...rest,
-  })
-
-  const configDatum = useCallback((datum) => {
-    datum.textinfo = showPercentage ? 'values' : 'none'
-    datum.hole = donut ? 0.4 : 0
-    return datum
-  }, [donut, showPercentage])
-
-  const finalData = useMemo(() => data.map(d => configDatum(formatDatum(d))), [data, configDatum])
+  const finalData = useMemo(() => values.map(k => (
+    {
+      name: k,
+      labels: data.map(d => d[label]),
+      values: data.map(d => d[k]),
+      textinfo: showPercentage ? 'values' : 'none',
+      hole: donut ? 0.4 : 0,
+    }
+  )), [data, donut, label, showPercentage, values])
 
   const layout = useMemo(() => ({
     showlegend: showLegend,
