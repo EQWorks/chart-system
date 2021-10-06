@@ -8,21 +8,18 @@ export default {
   title: 'Plotly/bar',
 }
 
-export const Default = () =>
+const Template = (args) =>
   <ResponsiveChartWrapper>
     <Bar
       data={mockData}
       x='city'
       y={['stat1', 'stat2']}
+      {...args}
     />
   </ResponsiveChartWrapper>
 
-export const Stacked = () =>
-  <ResponsiveChartWrapper>
-    <Bar
-      data={mockData}
-      stacked
-      x='city'
-      y={['stat1', 'stat2']}
-    />
-  </ResponsiveChartWrapper>
+export const Default = Template.bind({})
+
+export const Stacked = Template.bind({})
+Default.args = { stacked: true }
+

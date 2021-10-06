@@ -8,21 +8,17 @@ export default {
   title: 'Plotly/line',
 }
 
-export const Default = () =>
+const Template = (args) =>
   <ResponsiveChartWrapper>
     <Line
       data={mockData}
       x='age'
       y={['stat1', 'stat2']}
+      {...args}
     />
   </ResponsiveChartWrapper>
 
-export const Spline = () =>
-  <ResponsiveChartWrapper>
-    <Line
-      data={mockData}
-      spline
-      x='age'
-      y={['stat1', 'stat2']}
-    />
-  </ResponsiveChartWrapper>
+export const Default = Template.bind({})
+
+export const Spline = Template.bind({})
+Spline.args = { spline: true }

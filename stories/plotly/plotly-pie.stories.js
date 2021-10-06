@@ -8,31 +8,20 @@ export default {
   title: 'Plotly/pie',
 }
 
-export const Default = () =>
+const Template = (args) =>
   <ResponsiveChartWrapper>
     <Pie
       data={mockData}
       label='city'
       values={['stat1', 'stat2']}
+      {...args}
     />
   </ResponsiveChartWrapper>
 
-export const Donut = () =>
-  <ResponsiveChartWrapper>
-    <Pie
-      data={mockData}
-      donut
-      label='city'
-      values={['stat1', 'stat2']}
-    />
-  </ResponsiveChartWrapper>
+export const Default = Template.bind({})
 
-export const NoLabels = () =>
-  <ResponsiveChartWrapper>
-    <Pie
-      data={mockData}
-      showPercentage={false}
-      label='city'
-      values={['stat1', 'stat2']}
-    />
-  </ResponsiveChartWrapper>
+export const Donut = Template.bind({})
+Donut.args = { donut: true }
+
+export const NoLabels = Template.bind({})
+NoLabels.args = { showPercentage: false }

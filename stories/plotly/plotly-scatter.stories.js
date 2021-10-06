@@ -8,21 +8,17 @@ export default {
   title: 'Plotly/scatter',
 }
 
-export const Default = () =>
+const Template = (args) =>
   <ResponsiveChartWrapper>
     <Scatter
       data={mockData}
       x='age'
       y={['stat1', 'stat2']}
+      {...args}
     />
   </ResponsiveChartWrapper>
 
-export const WithLines = () =>
-  <ResponsiveChartWrapper>
-    <Scatter
-      data={mockData}
-      showLines
-      x='age'
-      y={['stat1', 'stat2']}
-    />
-  </ResponsiveChartWrapper>
+export const Default = Template.bind({})
+
+export const WithLines = Template.bind({})
+WithLines.args = { showLines: true }
