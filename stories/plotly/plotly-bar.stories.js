@@ -2,7 +2,7 @@ import React from 'react'
 import Bar from '../../src/components/plotly/bar'
 
 import mockData from '../data/plotly/mock-data-pie-bar'
-import ResponsiveChartWrapper from '../nivo/responsive-chart-wrapper'
+import ResponsiveChartWrapper from '../shared/responsive-chart-wrapper'
 
 export default {
   title: 'Plotly/bar',

@@ -2,7 +2,7 @@ import React from 'react'
 import Line from '../../src/components/plotly/line'
 
 import mockData from '../data/plotly/mock-data-line-scatter'
-import ResponsiveChartWrapper from '../nivo/responsive-chart-wrapper'
+import ResponsiveChartWrapper from '../shared/responsive-chart-wrapper'
 
 export default {
   title: 'Plotly/line',

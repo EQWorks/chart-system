@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react'
 
 import BarChart from '../../src/components/nivo/bar-chart/'
 import barChartData from '../data/others/bar-chart-data'
-import ResponsiveChartWrapper from './responsive-chart-wrapper'
+import ResponsiveChartWrapper from '../shared/responsive-chart-wrapper'
 
 
 const title = 'My Title'

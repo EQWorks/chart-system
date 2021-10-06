@@ -6,7 +6,7 @@ import barChartData from '../data/others/bar-chart-data'
 import bannerData from '../data/atom/overlord-banner'
 import scatterChartData from '../data/others/scatter-chart-data'
 import lineChartData from '../data/others/line-chart-data'
-import ResponsiveChartWrapper from './responsive-chart-wrapper'
+import ResponsiveChartWrapper from '../shared/responsive-chart-wrapper'
 
 
 const title = 'My Title'
