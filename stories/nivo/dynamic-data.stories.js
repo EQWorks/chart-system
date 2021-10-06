@@ -5,7 +5,7 @@ import BarChart from '../../src/components/nivo/bar-chart/'
 import PieChart from '../../src/components/nivo/pie-chart'
 import barChartData from '../data/others/bar-chart-data'
 import pieChartData from '../data/others/pie-chart-data'
-import ResponsiveChartWrapper from './responsive-chart-wrapper'
+import ResponsiveChartWrapper from '../shared/responsive-chart-wrapper'
 
 
 const title = 'My Title'

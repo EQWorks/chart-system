@@ -1,25 +1,27 @@
 import React from 'react'
-import Bar from '../../src/components/plotly/bar'
+import Pie from '../../src/components/plotly/pie'
 
 import mockData from '../data/plotly/mock-data-pie-bar'
 import ResponsiveChartWrapper from '../shared/responsive-chart-wrapper'
 
 export default {
-  title: 'Plotly/bar',
+  title: 'Plotly/pie',
 }
 
 const Template = (args) =>
   <ResponsiveChartWrapper>
-    <Bar
+    <Pie
       data={mockData}
-      x='city'
-      y={['stat1', 'stat2']}
+      label='city'
+      values={['stat1', 'stat2']}
       {...args}
     />
   </ResponsiveChartWrapper>
 
 export const Default = Template.bind({})
 
-export const Stacked = Template.bind({})
-Default.args = { stacked: true }
+export const Donut = Template.bind({})
+Donut.args = { donut: true }
 
+export const NoLabels = Template.bind({})
+NoLabels.args = { showPercentage: false }

@@ -1,18 +1,18 @@
 import React from 'react'
-import Bar from '../../src/components/plotly/bar'
+import Scatter from '../../src/components/plotly/scatter'
 
-import mockData from '../data/plotly/mock-data-pie-bar'
+import mockData from '../data/plotly/mock-data-line-scatter'
 import ResponsiveChartWrapper from '../shared/responsive-chart-wrapper'
 
 export default {
-  title: 'Plotly/bar',
+  title: 'Plotly/scatter',
 }
 
 const Template = (args) =>
   <ResponsiveChartWrapper>
-    <Bar
+    <Scatter
       data={mockData}
-      x='city'
+      x='age'
       y={['stat1', 'stat2']}
       {...args}
     />
@@ -20,6 +20,5 @@ const Template = (args) =>
 
 export const Default = Template.bind({})
 
-export const Stacked = Template.bind({})
-Default.args = { stacked: true }
-
+export const WithLines = Template.bind({})
+WithLines.args = { showLines: true }

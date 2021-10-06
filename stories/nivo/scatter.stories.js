@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react'
 
 import ScatterChart from '../../src/components/nivo/scatter-chart'
 import scatterChartData from '../data/others/scatter-chart-data'
-import ResponsiveChartWrapper from './responsive-chart-wrapper'
+import ResponsiveChartWrapper from '../shared/responsive-chart-wrapper'
 
 
 const title = 'My Title'

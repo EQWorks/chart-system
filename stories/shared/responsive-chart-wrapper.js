@@ -17,7 +17,7 @@ const ChartDiv = styled('div')`
 `
 
 const layout = [
-  { i: 'a', x: 0, y: 0, w: 200, h: 6 },
+  { i: 'a', x: 0, y: 0, w: 200, h: 12 },
 ]
 
 const propTypes = { children: PropTypes.element }
