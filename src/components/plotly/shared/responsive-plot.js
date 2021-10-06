@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { forwardRef, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import Plot from 'react-plotly.js'
 import { styled, setup } from 'goober'
@@ -6,10 +6,11 @@ import { useResizeDetector } from 'react-resize-detector'
 
 
 setup(React.createElement)
-const Wrapper = styled('div')`
+const Wrapper = styled('div', forwardRef)`
   height: 100%;
   width: 100%;
 `
+
 const ResponsivePlot = ({ type, data, layout, subPlots, ...props }) => {
   const { width, ref } = useResizeDetector({})
 
