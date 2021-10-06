@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 
-import { PlotlyPropDefaults, PlotlyPropTypes } from '../shared/constants'
+import { PlotlyPropTypes } from '../shared/constants'
 import ResponsivePlot from '../shared/responsive-plot'
+
 
 const Line = ({
   data,
@@ -12,7 +13,6 @@ const Line = ({
   showTicks,
   ...props
 }) => {
-
   const finalData = useMemo(() => y.map(k => (
     {
       name: k,
@@ -52,6 +52,8 @@ const Line = ({
 }
 
 Line.propTypes = {
+  x: PropTypes.string.isRequired,
+  y: PropTypes.string.isRequired,
   spline: PropTypes.bool,
   showTicks: PropTypes.bool,
   ...PlotlyPropTypes,
@@ -60,7 +62,6 @@ Line.propTypes = {
 Line.defaultProps = {
   spline: false,
   showTicks: true,
-  ...PlotlyPropDefaults,
 }
 
 export default Line

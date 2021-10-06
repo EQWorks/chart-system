@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 
-import { PlotlyPropDefaults, PlotlyPropTypes } from '../shared/constants'
+import { PlotlyPropTypes } from '../shared/constants'
 import ResponsivePlot from '../shared/responsive-plot'
+
 
 const Pie = ({
   data,
@@ -13,7 +14,6 @@ const Pie = ({
   showPercentage,
   ...props
 }) => {
-
   const finalData = useMemo(() => values.map(k => (
     {
       name: k,
@@ -43,6 +43,8 @@ const Pie = ({
 }
 
 Pie.propTypes = {
+  label: PropTypes.string.isRequired,
+  values: PropTypes.string.isRequired,
   donut: PropTypes.bool,
   showPercentage: PropTypes.bool,
   showLegend: PropTypes.bool,
@@ -53,7 +55,6 @@ Pie.defaultProps = {
   donut: false,
   showPercentage: true,
   showLegend: true,
-  ...PlotlyPropDefaults,
 }
 
 export default Pie

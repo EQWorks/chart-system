@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 
-import { PlotlyPropDefaults, PlotlyPropTypes } from '../shared/constants'
+import { PlotlyPropTypes } from '../shared/constants'
 import ResponsivePlot from '../shared/responsive-plot'
+
 
 const Scatter = ({
   data,
@@ -12,7 +13,6 @@ const Scatter = ({
   showLines,
   ...props
 }) => {
-
   const finalData = useMemo(() => y.map(k => (
     {
       name: k,
@@ -50,13 +50,14 @@ const Scatter = ({
 }
 
 Scatter.propTypes = {
+  x: PropTypes.string.isRequired,
+  y: PropTypes.string.isRequired,
   showTicks: PropTypes.bool,
   ...PlotlyPropTypes,
 }
 
 Scatter.defaultProps = {
   showTicks: true,
-  ...PlotlyPropDefaults,
 }
 
 export default Scatter

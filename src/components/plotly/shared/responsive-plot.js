@@ -1,10 +1,16 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import Plot from 'react-plotly.js'
+import { styled, setup } from 'goober'
 import { useResizeDetector } from 'react-resize-detector'
 
-const ResponsivePlot = ({ type, data, layout, subPlots, ...props }) => {
 
+setup(React.createElement)
+const Wrapper = styled('div')`
+  height: 100%;
+  width: 100%;
+`
+const ResponsivePlot = ({ type, data, layout, subPlots, ...props }) => {
   const { width, ref } = useResizeDetector({})
 
   const doSubPlots = useMemo(() => data.length > 1 && subPlots, [data.length, subPlots])
@@ -12,10 +18,7 @@ const ResponsivePlot = ({ type, data, layout, subPlots, ...props }) => {
   const subPlotColumns = 2
 
   return (
-    <div
-      style={{ width: '100%', height: '100%' }}
-      ref={ref}
-    >
+    <Wrapper ref={ref} >
       <Plot
         data={
           doSubPlots ?
@@ -58,7 +61,7 @@ const ResponsivePlot = ({ type, data, layout, subPlots, ...props }) => {
         style={{ height: 'inherit' }}
         {...props}
       />
-    </div>
+    </Wrapper>
   )
 }
 
@@ -67,6 +70,11 @@ ResponsivePlot.propTypes = {
   data: PropTypes.array.isRequired,
   layout: PropTypes.object,
   subPlots: PropTypes.bool,
+}
+
+ResponsivePlot.defaultProps = {
+  layout: {},
+  subPlots: false,
 }
 
 export default ResponsivePlot
