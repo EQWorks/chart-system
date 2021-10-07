@@ -44,7 +44,7 @@ const Pie = ({
 
 Pie.propTypes = {
   label: PropTypes.string.isRequired,
-  values: PropTypes.string.isRequired,
+  values: PropTypes.arrayOf(PropTypes.string).isRequired,
   donut: PropTypes.bool,
   showPercentage: PropTypes.bool,
   showLegend: PropTypes.bool,
