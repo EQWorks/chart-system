@@ -51,7 +51,7 @@ const Scatter = ({
 
 Scatter.propTypes = {
   x: PropTypes.string.isRequired,
-  y: PropTypes.string.isRequired,
+  y: PropTypes.arrayOf(PropTypes.string).isRequired,
   showTicks: PropTypes.bool,
   ...PlotlyPropTypes,
 }

@@ -52,7 +52,7 @@ const Bar = ({
 
 Bar.propTypes = {
   x: PropTypes.string.isRequired,
-  y: PropTypes.string.isRequired,
+  y: PropTypes.arrayOf(PropTypes.string).isRequired,
   stacked: PropTypes.bool,
   showTicks: PropTypes.bool,
   ...PlotlyPropTypes,
