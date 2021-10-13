@@ -1,9 +1,11 @@
 import React, { forwardRef, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import Plot from 'react-plotly.js'
+import Plotly from 'plotly.js-basic-dist-min'
+import createPlotlyComponent from 'react-plotly.js/factory'
 import { styled, setup } from 'goober'
 import { useResizeDetector } from 'react-resize-detector'
 
+const Plot = createPlotlyComponent(Plotly)
 
 setup(React.createElement)
 const Wrapper = styled('div', forwardRef)`
