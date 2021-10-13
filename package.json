@@ -35,7 +35,7 @@
     "eslint-plugin-react-hooks": "^4.2.1-alpha-e6be2d531",
     "goober": "^2.0.5",
     "lodash.omit": "^4.5.0",
-    "plotly.js": "^1.58.4",
+    "plotly.js-basic-dist-min": "^2.5.1",
     "prop-types": "^15.7.2",
     "react-plotly.js": "^2.5.1",
     "react-resizable": "^1.10.1",
