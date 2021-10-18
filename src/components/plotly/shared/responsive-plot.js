@@ -34,7 +34,6 @@ const ResponsivePlot = ({ type, data, layout, subPlots, ...props }) => {
             :
             data.map(obj => ({ type, ...obj }))
         }
-        config={{ responsive: true }}
         layout={{
           width,
           autosize: true,
