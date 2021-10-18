@@ -17,8 +17,8 @@ const ResponsivePlot = ({ type, data, layout, subPlots, ...props }) => {
   const { width, ref } = useResizeDetector({})
 
   const doSubPlots = useMemo(() => data.length > 1 && subPlots, [data.length, subPlots])
-  const subPlotRows = useMemo(() => Math.ceil(data.length / 2), [data.length])
   const subPlotColumns = 2
+  const subPlotRows = useMemo(() => Math.ceil(data.length / subPlotColumns), [data.length])
 
   return (
     <Wrapper ref={ref} >
@@ -27,8 +27,18 @@ const ResponsivePlot = ({ type, data, layout, subPlots, ...props }) => {
           doSubPlots ?
             data.map((obj, i) => ({
               type,
-              xaxis: `x${i + 1}`,
-              yaxis: `y${i + 1}`,
+              ...(
+                type === 'pie'
+                  ? {
+                    domain: {
+                      column: i % subPlotColumns,
+                      row: Math.floor(i / subPlotColumns),
+                    },
+                  } : {
+                    xaxis: `x${i + 1}`,
+                    yaxis: `y${i + 1}`,
+                  }
+              ),
               ...obj,
             }))
             :
