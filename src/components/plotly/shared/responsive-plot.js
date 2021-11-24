@@ -20,30 +20,32 @@ const ResponsivePlot = ({ type, data, layout, subPlots, ...props }) => {
   const subPlotColumns = 2
   const subPlotRows = useMemo(() => Math.ceil(data.length / subPlotColumns), [data.length])
 
+  const transformedData = useMemo(() => (
+    doSubPlots ?
+      data.map((obj, i) => ({
+        type,
+        ...(
+          type === 'pie'
+            ? {
+              domain: {
+                column: i % subPlotColumns,
+                row: Math.floor(i / subPlotColumns),
+              },
+            } : {
+              xaxis: `x${i + 1}`,
+              yaxis: `y${i + 1}`,
+            }
+        ),
+        ...obj,
+      }))
+      :
+      data.map(obj => ({ type, ...obj }))
+  ), [data, doSubPlots, type])
+
   return (
     <Wrapper ref={ref} >
       <Plot
-        data={
-          doSubPlots ?
-            data.map((obj, i) => ({
-              type,
-              ...(
-                type === 'pie'
-                  ? {
-                    domain: {
-                      column: i % subPlotColumns,
-                      row: Math.floor(i / subPlotColumns),
-                    },
-                  } : {
-                    xaxis: `x${i + 1}`,
-                    yaxis: `y${i + 1}`,
-                  }
-              ),
-              ...obj,
-            }))
-            :
-            data.map(obj => ({ type, ...obj }))
-        }
+        data={transformedData}
         layout={{
           width,
           autosize: true,
