@@ -6,6 +6,7 @@ import ResponsivePlot from '../shared/responsive-plot'
 
 
 const Pie = ({
+  groupByValue,
   data,
   label,
   values,
@@ -14,15 +15,30 @@ const Pie = ({
   showPercentage,
   ...props
 }) => {
-  const finalData = useMemo(() => values.map(k => (
-    {
-      name: k,
-      labels: data.map(d => d[label]),
-      values: data.map(d => d[k]),
-      textinfo: showPercentage ? 'values' : 'none',
-      hole: donut ? 0.4 : 0,
-    }
-  )), [data, donut, label, showPercentage, values])
+  const finalData = useMemo(() => (
+    groupByValue
+      ? data.map(d => {
+        const _d = { ...d }
+        const name = _d[label]
+        delete _d[label]
+        return {
+          name,
+          labels: Object.keys(_d),
+          values: Object.values(_d),
+          textinfo: showPercentage ? 'values' : 'none',
+          hole: donut ? 0.4 : 0,
+        }
+      })
+      : values.map(k => (
+        {
+          name: k,
+          labels: data.map(d => d[label]),
+          values: data.map(d => d[k]),
+          textinfo: showPercentage ? 'values' : 'none',
+          hole: donut ? 0.4 : 0,
+        }
+      ))
+  ), [data, donut, groupByValue, label, showPercentage, values])
 
   const layout = useMemo(() => ({
     showlegend: showLegend,
