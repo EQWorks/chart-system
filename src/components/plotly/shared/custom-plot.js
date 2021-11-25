@@ -1,39 +1,9 @@
-import { setup, styled } from 'goober'
-import Plotly from 'plotly.js-basic-dist-min'
 import PropTypes from 'prop-types'
-import React, { forwardRef, useMemo } from 'react'
-import createPlotlyComponent from 'react-plotly.js/factory'
+import React, { useMemo } from 'react'
 import { useResizeDetector } from 'react-resize-detector'
+import styles from './styles'
 
-const Plot = createPlotlyComponent(Plotly)
-
-setup(React.createElement)
-const Wrapper = styled('div', forwardRef)`
-  height: 100%;
-  width: 100%;
-`
-
-const SubPlotsWrapper = styled('div')(({ columns, rows }) => ({
-  width: '100%',
-  height: '100%',
-  display: 'grid',
-  gridTemplateColumns: `repeat(${columns}, 1fr)`,
-  gridTemplateRows: `repeat(${rows}, 1fr)`,
-}))
-
-const SubPlotInnerWrapper = styled('div')`
-  position: relative;
-  overflow: hidden;
-`
-
-const SizeablePlotWrapper = styled('div')(({ size }) => ({
-  width: '100%',
-  height: '100%',
-  padding: `${100 - (MIN_SIZE + size * (MAX_SIZE - MIN_SIZE))}%`,
-}))
-
-const MIN_SIZE = 60
-const MAX_SIZE = 100
+import PlotlyWrapper from './plotly-wrapper'
 
 const CustomPlot = ({
   type,
@@ -72,27 +42,6 @@ const CustomPlot = ({
       data.map(obj => ({ type, ...obj }))
   ), [data, doSubPlots, type])
 
-  const renderPlot = (props = {}) => {
-    const { data, layout, ...rest } = props
-    return (
-      <Plot
-        data={data}
-        layout={{
-          autosize: true,
-          paper_bgcolor: 'transparent',
-          plot_bgcolor: 'transparent',
-          modebar: {
-            bgcolor: 'transparent',
-            color: 'black',
-            activecolor: 'black',
-          },
-          ...layout,
-        }}
-        {...rest}
-      />
-    )
-  }
-
   const renderTitle = (title) =>
     <div style={{
       position: 'absolute',
@@ -117,31 +66,30 @@ const CustomPlot = ({
     </div>
 
   return doSubPlots
-    ? <SubPlotsWrapper columns={subPlotColumns} rows={subPlotRows}>
+    ? <styles.SubPlotsWrapper columns={subPlotColumns} rows={subPlotRows}>
       {
         transformedData.map((d, i) => (
-          <SubPlotInnerWrapper key={i} >
+          <styles.SubPlotInnerWrapper key={i} >
             {renderTitle(d.name)}
-            <SizeablePlotWrapper size={size}>
-              {renderPlot({
-                data: [d],
-                style: { width: '100%', height: '100%' },
-                layout: {
+            <styles.SizeablePlotWrapper size={size}>
+              <PlotlyWrapper
+                data={[d]}
+                style={{ width: '100%', height: '100%' }}
+                layout={{
                   showlegend: false,
                   margin: { b: 0, t: 0, l: 0, r: 0 },
-                },
-                ...props,
-              })
-              }
-            </SizeablePlotWrapper>
-          </SubPlotInnerWrapper>
+                }}
+                {...props}
+              />
+            </styles.SizeablePlotWrapper>
+          </styles.SubPlotInnerWrapper>
         ))
       }
-    </SubPlotsWrapper >
-    : <Wrapper ref={ref} >
-      {renderPlot({
-        data: transformedData,
-        layout: {
+    </styles.SubPlotsWrapper >
+    : <styles.Wrapper ref={ref} >
+      <PlotlyWrapper
+        data={transformedData}
+        layout={{
           width,
           legend: {
             orientation: 'h',
@@ -150,13 +98,11 @@ const CustomPlot = ({
             y: 1,
             x: 1,
           },
-        },
-        style: {
-          height: 'inherit',
-        },
-        ...props,
-      })}
-    </Wrapper>
+        }}
+        style={{ height: 'inherit' }}
+        {...props}
+      />
+    </styles.Wrapper>
 }
 
 CustomPlot.propTypes = {
