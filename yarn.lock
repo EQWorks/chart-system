@@ -8164,6 +8164,11 @@ iterate-value@^1.0.2:
     es-get-iterator "^1.0.2"
     iterate-iterator "^1.0.1"
 
+iwanthue@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/iwanthue/-/iwanthue-1.5.1.tgz#13b86d1ed7c3e5e0588cdaf86609633fb2bec64a"
+  integrity sha512-oQFQoeUibqgKL4CxnJdwOJLkGlP9z/N1q5rDgaTXDmJ4RhToUc2kNvnp6LGuomfkK/26i2ZPGgBQedA5OZm2/A==
+
 jake@^10.6.1:
   version "10.8.2"
   resolved "https://registry.yarnpkg.com/jake/-/jake-10.8.2.tgz#ebc9de8558160a66d82d0eadc6a2e58fbc500a7b"

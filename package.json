@@ -35,6 +35,7 @@
     "d3-time": "^2.0.0",
     "eslint-plugin-react-hooks": "^4.2.1-alpha-e6be2d531",
     "goober": "^2.0.5",
+    "iwanthue": "^1.5.1",
     "lodash.omit": "^4.5.0",
     "plotly.js-basic-dist-min": "^2.5.1",
     "prop-types": "^15.7.2",
