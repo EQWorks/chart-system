@@ -46,6 +46,7 @@ const Line = ({
       type='line'
       layout={layout}
       data={finalData}
+      colorsNeeded={y.length}
       {...props}
     />
   )

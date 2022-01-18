@@ -13,6 +13,7 @@ const CustomPlot = ({
   size,
   titlePosition,
   showVizTitles,
+  colorsNeeded,
   ...props
 }) => {
   const { width, ref } = useResizeDetector({})
@@ -100,6 +101,7 @@ CustomPlot.propTypes = {
   titlePosition: PropTypes.arrayOf(PropTypes.number),
   showVizTitles: PropTypes.bool,
   size: PropTypes.number,
+  colorsNeeded: PropTypes.number,
 }
 
 CustomPlot.defaultProps = {
@@ -108,6 +110,7 @@ CustomPlot.defaultProps = {
   titlePosition: [0, 1],
   showVizTitles: true,
   size: 0.8,
+  colorsNeeded: 12,
 }
 
 export default CustomPlot

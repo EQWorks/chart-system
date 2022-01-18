@@ -53,6 +53,7 @@ const Pie = ({
       type='pie'
       data={finalData}
       layout={layout}
+      colorsNeeded={values.length}
       {...props}
     />
   )

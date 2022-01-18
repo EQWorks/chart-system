@@ -44,6 +44,7 @@ const Scatter = ({
       type='scatter'
       layout={layout}
       data={finalData}
+      colorsNeeded={y.length}
       {...props}
     />
   )

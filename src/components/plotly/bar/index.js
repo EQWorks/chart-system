@@ -45,6 +45,7 @@ const Bar = ({
       data={finalData}
       showTicks={showTicks}
       layout={layout}
+      colorsNeeded={y.length}
       {...props}
     />
   )
