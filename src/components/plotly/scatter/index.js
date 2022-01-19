@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 
-import { PlotlyPropTypes } from '../shared/constants'
+import { plotlyDefaultProps, plotlyPropTypes } from '../shared/constants'
 import CustomPlot from '../shared/custom-plot'
 
 
@@ -9,18 +9,19 @@ const Scatter = ({
   data,
   x,
   y,
+  titles,
   showTicks,
   showLines,
   ...props
 }) => {
   const finalData = useMemo(() => y.map(k => (
     {
-      name: k,
+      name: titles[k],
       x: data.map(d => d[x]),
       y: data.map(d => d[k]),
       mode: showLines ? 'lines+markers' : 'markers',
     }
-  )), [data, showLines, x, y])
+  )), [data, showLines, titles, x, y])
 
   const layout = useMemo(() => ({
     xaxis: {
@@ -54,11 +55,12 @@ Scatter.propTypes = {
   x: PropTypes.string.isRequired,
   y: PropTypes.arrayOf(PropTypes.string).isRequired,
   showTicks: PropTypes.bool,
-  ...PlotlyPropTypes,
+  ...plotlyPropTypes,
 }
 
 Scatter.defaultProps = {
   showTicks: true,
+  ...plotlyDefaultProps,
 }
 
 export default Scatter

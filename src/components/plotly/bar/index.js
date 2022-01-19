@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 
-import { PlotlyPropTypes } from '../shared/constants'
+import { plotlyDefaultProps, plotlyPropTypes } from '../shared/constants'
 import CustomPlot from '../shared/custom-plot'
 
 
@@ -9,17 +9,18 @@ const Bar = ({
   data,
   x,
   y,
+  titles,
   stacked,
   showTicks,
   ...props
 }) => {
   const finalData = useMemo(() => y.map(k => (
     {
-      name: k,
+      name: titles[k],
       x: data.map(d => d[x]),
       y: data.map(d => d[k]),
     }
-  )), [data, x, y])
+  )), [titles, data, x, y])
 
   const layout = useMemo(() => ({
     barmode: stacked ? 'stack' : 'group',
@@ -56,12 +57,13 @@ Bar.propTypes = {
   y: PropTypes.arrayOf(PropTypes.string).isRequired,
   stacked: PropTypes.bool,
   showTicks: PropTypes.bool,
-  ...PlotlyPropTypes,
+  ...plotlyPropTypes,
 }
 
 Bar.defaultProps = {
   stacked: false,
   showTicks: true,
+  ...plotlyDefaultProps,
 }
 
 export default Bar

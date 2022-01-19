@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 
-import { PlotlyPropTypes } from '../shared/constants'
+import { plotlyDefaultProps, plotlyPropTypes } from '../shared/constants'
 import CustomPlot from '../shared/custom-plot'
 
 
@@ -10,6 +10,7 @@ const Pie = ({
   data,
   label,
   values,
+  titles,
   donut,
   showLegend,
   showPercentage,
@@ -31,14 +32,14 @@ const Pie = ({
       })
       : values.map(k => (
         {
-          name: k,
+          name: titles[k],
           labels: data.map(d => d[label]),
           values: data.map(d => d[k]),
           textinfo: showPercentage ? 'values' : 'none',
           hole: donut ? 0.4 : 0,
         }
       ))
-  ), [data, donut, groupByValue, label, showPercentage, values])
+  ), [data, donut, groupByValue, label, showPercentage, values, titles])
 
   const layout = useMemo(() => ({
     showlegend: showLegend,
@@ -64,14 +65,13 @@ Pie.propTypes = {
   values: PropTypes.arrayOf(PropTypes.string).isRequired,
   donut: PropTypes.bool,
   showPercentage: PropTypes.bool,
-  showLegend: PropTypes.bool,
-  ...PlotlyPropTypes,
+  ...plotlyPropTypes,
 }
 
 Pie.defaultProps = {
   donut: false,
   showPercentage: true,
-  showLegend: true,
+  ...plotlyDefaultProps,
 }
 
 export default Pie

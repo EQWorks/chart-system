@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 
-import { PlotlyPropTypes } from '../shared/constants'
+import { plotlyDefaultProps, plotlyPropTypes } from '../shared/constants'
 import CustomPlot from '../shared/custom-plot'
 
 
@@ -9,20 +9,21 @@ const Line = ({
   data,
   x,
   y,
+  titles,
   spline,
   showTicks,
   ...props
 }) => {
   const finalData = useMemo(() => y.map(k => (
     {
-      name: k,
       x: data.map(d => d[x]),
       y: data.map(d => d[k]),
+      name: titles[k],
       line: {
         shape: spline ? 'spline' : 'linear',
       },
     }
-  )), [data, spline, x, y])
+  )), [data, spline, titles, x, y])
 
   const layout = useMemo(() => ({
     xaxis: {
@@ -57,12 +58,13 @@ Line.propTypes = {
   y: PropTypes.arrayOf(PropTypes.string).isRequired,
   spline: PropTypes.bool,
   showTicks: PropTypes.bool,
-  ...PlotlyPropTypes,
+  ...plotlyPropTypes,
 }
 
 Line.defaultProps = {
   spline: false,
   showTicks: true,
+  ...plotlyDefaultProps,
 }
 
 export default Line
