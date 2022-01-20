@@ -1,55 +1,48 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import { plotlyDefaultProps, plotlyPropTypes } from '../shared/constants'
 import CustomPlot from '../shared/custom-plot'
+import useTransformedData from '../shared/use-transformed-data'
 
 
 const Scatter = ({
   data,
-  x,
-  y,
-  groupByValue,
   showTicks,
   showLines,
   ...props
-}) => {
-  const finalData = useMemo(() => y.map(k => (
-    {
-      name: titles[k],
-      x: data.map(d => d[x]),
-      y: data.map(d => d[k]),
-      mode: showLines ? 'lines+markers' : 'markers',
+}) => (
+  <CustomPlot
+    type='scatter'
+    data={
+      useTransformedData({
+        type: 'scatter',
+        data,
+        extra: {
+          mode: showLines ? 'lines+markers' : 'markers',
+        },
+        ...props,
+      })
     }
-  )), [data, showLines, titles, x, y])
-
-  const layout = useMemo(() => ({
-    xaxis: {
-      showticklabels: showTicks,
-    },
-    yaxis: {
-      showticklabels: showTicks,
-    },
-    ...!showTicks && {
-      margin: {
-        t: 0,
-        b: 0,
-        l: 0,
-        r: 0,
+    layout={{
+      xaxis: {
+        showticklabels: showTicks,
       },
-    },
-  }), [showTicks])
-
-  return (
-    <CustomPlot
-      type='scatter'
-      layout={layout}
-      data={finalData}
-      colorsNeeded={y.length}
-      {...props}
-    />
-  )
-}
+      yaxis: {
+        showticklabels: showTicks,
+      },
+      ...!showTicks && {
+        margin: {
+          t: 0,
+          b: 0,
+          l: 0,
+          r: 0,
+        },
+      },
+    }}
+    {...props}
+  />
+)
 
 Scatter.propTypes = {
   x: PropTypes.string.isRequired,

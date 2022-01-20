@@ -1,56 +1,47 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import { plotlyDefaultProps, plotlyPropTypes } from '../shared/constants'
 import CustomPlot from '../shared/custom-plot'
+import useTransformedData from '../shared/use-transformed-data'
 
 
 const Bar = ({
   data,
-  x,
-  y,
-  groupByValue,
   stacked,
   showTicks,
   ...props
-}) => {
-  const finalData = useMemo(() => y.map(k => (
-    {
-      name: titles[k],
-      x: data.map(d => d[x]),
-      y: data.map(d => d[k]),
+}) => (
+  <CustomPlot
+    type='bar'
+    data={
+      useTransformedData({
+        type: 'bar',
+        data,
+        ...props,
+      })
     }
-  )), [titles, data, x, y])
-
-  const layout = useMemo(() => ({
-    barmode: stacked ? 'stack' : 'group',
-    xaxis: {
-      showticklabels: showTicks,
-    },
-    yaxis: {
-      showticklabels: showTicks,
-    },
-    ...!showTicks && {
-      margin: {
-        t: 0,
-        b: 0,
-        l: 0,
-        r: 0,
+    showTicks={showTicks}
+    layout={{
+      barmode: stacked ? 'stack' : 'group',
+      xaxis: {
+        showticklabels: showTicks,
       },
-    },
-  }), [showTicks, stacked])
-
-  return (
-    <CustomPlot
-      type='bar'
-      data={finalData}
-      showTicks={showTicks}
-      layout={layout}
-      colorsNeeded={y.length}
-      {...props}
-    />
-  )
-}
+      yaxis: {
+        showticklabels: showTicks,
+      },
+      ...!showTicks && {
+        margin: {
+          t: 0,
+          b: 0,
+          l: 0,
+          r: 0,
+        },
+      },
+    }}
+    {...props}
+  />
+)
 
 Bar.propTypes = {
   x: PropTypes.string.isRequired,

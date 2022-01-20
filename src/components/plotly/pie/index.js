@@ -1,64 +1,38 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import { plotlyDefaultProps, plotlyPropTypes } from '../shared/constants'
 import CustomPlot from '../shared/custom-plot'
-
+import useTransformedData from '../shared/use-transformed-data'
 
 const Pie = ({
-  groupByValue,
-  data,
-  label,
-  values,
-  groupByValue,
   donut,
-  showLegend,
+  data,
   showPercentage,
   ...props
-}) => {
-  const finalData = useMemo(() => (
-    groupByValue
-      ? data.map(d => {
-        const _d = { ...d }
-        const name = _d[label]
-        delete _d[label]
-        return {
-          name,
-          labels: Object.keys(_d),
-          values: Object.values(_d),
-          textinfo: showPercentage ? 'values' : 'none',
-          hole: donut ? 0.4 : 0,
-        }
-      })
-      : values.map(k => (
-        {
-          name: titles[k],
-          labels: data.map(d => d[label]),
-          values: data.map(d => d[k]),
-          textinfo: showPercentage ? 'values' : 'none',
-          hole: donut ? 0.4 : 0,
-        }
-      ))
-  ), [data, donut, groupByValue, label, showPercentage, values, titles])
-
-  const layout = useMemo(() => ({
-    showlegend: showLegend,
-    legend: {
-      x: 1,
-      y: 0.5,
-    },
-  }), [showLegend])
-
-  return (
-    <CustomPlot
-      type='pie'
-      data={finalData}
-      layout={layout}
-      colorsNeeded={values.length}
-      {...props}
-    />
-  )
-}
+}) => (
+  <CustomPlot
+    type='pie'
+    data={useTransformedData({
+      type: 'pie',
+      data,
+      extra: {
+        textinfo: showPercentage ? 'values' : 'none',
+        hole: donut ? 0.4 : 0,
+      },
+      ...props,
+    })}
+    layout={{
+      margin: {
+        b: 0,
+        t: 0,
+        l: 0,
+        r: 0,
+      },
+    }}
+    {...props}
+  />
+)
 
 Pie.propTypes = {
   label: PropTypes.string.isRequired,

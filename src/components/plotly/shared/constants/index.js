@@ -12,3 +12,46 @@ export const plotlyDefaultProps = {
   groupByValue: false,
   showLegend: true,
 }
+
+export const plotlyInterfaces = {
+  pie: {
+    domain: {
+      input: 'label',
+      output: 'labels',
+    },
+    range: {
+      input: 'values',
+      output: 'values',
+    },
+  },
+  bar: {
+    domain: {
+      input: 'x',
+      output: 'x',
+    },
+    range: {
+      input: 'y',
+      output: 'y',
+    },
+  },
+  line: {
+    domain: {
+      input: 'x',
+      output: 'x',
+    },
+    range: {
+      input: 'y',
+      output: 'y',
+    },
+  },
+  scatter: {
+    domain: {
+      input: 'x',
+      output: 'x',
+    },
+    range: {
+      input: 'y',
+      output: 'y',
+    },
+  },
+}
