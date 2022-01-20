@@ -1,12 +1,16 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { useResizeDetector } from 'react-resize-detector'
+
+import Plotly from 'plotly.js-basic-dist-min'
+import createPlotlyComponent from 'react-plotly.js/factory'
+import merge from 'lodash.merge'
 
 import getColorScheme from './get-color-scheme'
 import styles from './styles'
-import PlotlyWrapper from './plotly-wrapper'
+import Legend from './legend'
+import { plotlyInterfaces } from './constants'
 
-const SHOW_COLOR_PALETTE = true
+const Plot = createPlotlyComponent(Plotly)
 
 const CustomPlot = ({
   type,
@@ -14,52 +18,36 @@ const CustomPlot = ({
   layout,
   subPlots,
   size,
+  style,
   titlePosition,
+  legendPosition,
   showVizTitles,
   baseColor,
+  showLegend,
   ...props
 }) => {
-  const { width, ref } = useResizeDetector({})
   const doSubPlots = useMemo(() => data.length > 1 && subPlots, [data.length, subPlots])
   const subPlotColumns = 2
   const subPlotRows = useMemo(() => Math.ceil(data.length / subPlotColumns), [data.length])
 
-  const colors = useMemo(() => getColorScheme(baseColor, data.length), [baseColor, data.length])
+  // TODO standardize among all types, or encapsulate in constants/plotlyInterfaces
+  const legendKeys = useMemo(() => (type === 'pie'
+    ? data[0][plotlyInterfaces[type].domain.output]
+    : data.map(({ name }) => name)
+  ), [data, type])
+  const colors = useMemo(() => getColorScheme(baseColor, legendKeys.length), [baseColor, legendKeys.length])
 
-  const transformedData = useMemo(() => (
-    doSubPlots ?
-      data.map((obj, i) => ({
-        type,
-        ...(
-          type === 'pie'
-            ? {
-              domain: {
-                column: i % subPlotColumns,
-                row: Math.floor(i / subPlotColumns),
-              },
-            } : {
-              xaxis: `x${i + 1}`,
-              yaxis: `y${i + 1}`,
-            }
-        ),
-        marker: {
-          ...obj.marker,
-          color: colors[i],
-          colors,
-        },
-        ...obj,
-      }))
-      :
-      data.map((obj, i) => ({
-        type,
-        marker: {
-          ...obj.marker,
-          color: colors[i],
-          colors,
-        },
-        ...obj,
-      }))
-  ), [colors, data, doSubPlots, type])
+  const coloredData = useMemo(() => (
+    data.map((obj, i) => ({
+      type,
+      marker: {
+        ...obj.marker,
+        color: colors[i],
+        colors, // plotly uses both 'color' and 'colors' depending on the chart type
+      },
+      ...obj,
+    }))
+  ), [colors, data, type])
 
   const renderTitle = (title) => (
     <styles.PlotTitle
@@ -70,85 +58,103 @@ const CustomPlot = ({
     </styles.PlotTitle>
   )
 
-  const renderColorPalette = (
-    <div style={{
-      position: 'absolute',
-      display: 'flex',
-    }}
-    >
-      {colors.map(c => (
-        <div key={c} style={{
-          marginRight: '0.5rem',
-          position: 'relative',
-          background: c,
-          width: '1rem',
-          height: '1rem',
-          zIndex: 100,
-        }} />
-      ))}
-    </div>
+  const renderPlot = data => (
+    <styles.Plot>
+      <Plot
+        data={data}
+        layout={
+          merge(layout, {
+            showlegend: false,
+            autosize: true,
+            paper_bgcolor: 'transparent',
+            plot_bgcolor: 'transparent',
+            modebar: {
+              bgcolor: 'transparent',
+              color: 'black',
+              activecolor: 'black',
+            },
+          })
+        }
+        style={{
+          width: '100%',
+          height: '100%',
+          ...style,
+        }}
+        config={{
+          displayModeBar: false,
+        }}
+        {...props}
+      />
+    </styles.Plot>
   )
 
-  return doSubPlots
-    ? <styles.SubPlotGrid columns={subPlotColumns} rows={subPlotRows}>
-      {SHOW_COLOR_PALETTE && renderColorPalette}
+  const renderMultipleViz = (
+    <styles.SubPlotGrid columns={subPlotColumns} rows={subPlotRows}>
       {
-        transformedData.map((d, i) => (
+        coloredData.map((d, i) => (
           <styles.DynamicPadding key={i} size={size}>
             <styles.SubPlot>
               {showVizTitles && renderTitle(d.name)}
-              <PlotlyWrapper
-                data={[d]}
-                layout={{
-                  showlegend: false,
-                  margin: { b: 0, t: 0, l: 0, r: 0 },
-                }}
-                {...props}
-              />
+              {renderPlot([d])}
             </styles.SubPlot>
           </styles.DynamicPadding>
         ))
       }
     </styles.SubPlotGrid >
-    : <styles.Wrapper ref={ref} >
-      {SHOW_COLOR_PALETTE && renderColorPalette}
+  )
+
+  const renderSingleViz = (
+    <styles.Wrapper >
       {showVizTitles && renderTitle(data[0].name)}
-      <PlotlyWrapper
-        data={transformedData}
-        layout={{
-          width,
-          legend: {
-            orientation: 'h',
-            yanchor: 'bottom',
-            xanchor: 'right',
-            y: 1,
-            x: 1,
-          },
-        }}
-        style={{ height: 'inherit' }}
-        {...props}
-      />
+      {/* <styles.DynamicPadding size={size}> */}
+      {renderPlot(coloredData)}
+      {/* </styles.DynamicPadding> */}
     </styles.Wrapper>
+  )
+
+  return (
+    <styles.OuterContainer>
+      {
+        doSubPlots
+          ? renderMultipleViz
+          : renderSingleViz
+      }
+      {
+        showLegend &&
+        <Legend
+          colors={colors}
+          keys={legendKeys}
+          position={legendPosition}
+        />
+      }
+    </styles.OuterContainer>
+  )
 }
 
 CustomPlot.propTypes = {
   type: PropTypes.string.isRequired,
   data: PropTypes.array.isRequired,
-  layout: PropTypes.object,
   subPlots: PropTypes.bool,
+  layout: PropTypes.object,
+  style: PropTypes.object,
   titlePosition: PropTypes.arrayOf(PropTypes.number),
+  legendPosition: PropTypes.arrayOf(PropTypes.number),
+  showLegend: PropTypes.bool,
   showVizTitles: PropTypes.bool,
   size: PropTypes.number,
   baseColor: PropTypes.string,
 }
 
 CustomPlot.defaultProps = {
-  layout: {},
   subPlots: false,
+  layout: {},
+  style: {},
   titlePosition: [0, 1],
+  legendPosition: [1, 0],
   showVizTitles: true,
   size: 0.8,
   baseColor: '#0017ff',
+  showLegend: true,
 }
 
 export default CustomPlot
