@@ -73,6 +73,12 @@ const CustomPlot = ({
               color: 'black',
               activecolor: 'black',
             },
+            margin: {
+              t: 0,
+              b: 0,
+              l: 0,
+              r: 0,
+            },
           })
         }
         style={{
@@ -106,9 +112,9 @@ const CustomPlot = ({
   const renderSingleViz = (
     <styles.Wrapper >
       {showVizTitles && renderTitle(data[0].name)}
-      {/* <styles.DynamicPadding size={size}> */}
-      {renderPlot(coloredData)}
-      {/* </styles.DynamicPadding> */}
+      <styles.DynamicPadding size={size}>
+        {renderPlot(coloredData)}
+      </styles.DynamicPadding>
     </styles.Wrapper>
   )
 

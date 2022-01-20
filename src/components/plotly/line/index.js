@@ -29,17 +29,11 @@ const Line = ({
     layout={{
       xaxis: {
         showticklabels: showTicks,
+        automargin: true,
       },
       yaxis: {
         showticklabels: showTicks,
-      },
-      ...!showTicks && {
-        margin: {
-          t: 0,
-          b: 0,
-          l: 0,
-          r: 0,
-        },
+        automargin: true,
       },
     }}
     {...props}

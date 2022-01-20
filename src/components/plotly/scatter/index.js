@@ -27,9 +27,11 @@ const Scatter = ({
     layout={{
       xaxis: {
         showticklabels: showTicks,
+        automargin: true,
       },
       yaxis: {
         showticklabels: showTicks,
+        automargin: true,
       },
       ...!showTicks && {
         margin: {

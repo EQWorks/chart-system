@@ -22,14 +22,6 @@ const Pie = ({
       },
       ...props,
     })}
-    layout={{
-      margin: {
-        b: 0,
-        t: 0,
-        l: 0,
-        r: 0,
-      },
-    }}
     {...props}
   />
 )
