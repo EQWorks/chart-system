@@ -38,7 +38,7 @@
     "iwanthue": "^1.5.1",
     "lodash.merge": "^4.6.2",
     "lodash.omit": "^4.5.0",
-    "plotly.js-basic-dist-min": "^2.5.1",
+    "plotly.js-basic-dist-min": "^2.8.3",
     "prop-types": "^15.7.2",
     "react-plotly.js": "^2.5.1",
     "react-resizable": "^1.10.1",
