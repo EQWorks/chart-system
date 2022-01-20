@@ -21,7 +21,6 @@ const Bar = ({
         ...props,
       })
     }
-    showTicks={showTicks}
     layout={{
       barmode: stacked ? 'stack' : 'group',
       xaxis: {

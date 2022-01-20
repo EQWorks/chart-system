@@ -17,7 +17,6 @@ const CustomPlot = ({
   titlePosition,
   showVizTitles,
   baseColor,
-  colorsNeeded,
   ...props
 }) => {
   const { width, ref } = useResizeDetector({})
@@ -25,7 +24,7 @@ const CustomPlot = ({
   const subPlotColumns = 2
   const subPlotRows = useMemo(() => Math.ceil(data.length / subPlotColumns), [data.length])
 
-  const colors = useMemo(() => getColorScheme(baseColor, colorsNeeded), [baseColor, colorsNeeded])
+  const colors = useMemo(() => getColorScheme(baseColor, data.length), [baseColor, data.length])
 
   const transformedData = useMemo(() => (
     doSubPlots ?
@@ -141,7 +140,6 @@ CustomPlot.propTypes = {
   showVizTitles: PropTypes.bool,
   size: PropTypes.number,
   baseColor: PropTypes.string,
-  colorsNeeded: PropTypes.number,
 }
 
 CustomPlot.defaultProps = {
@@ -151,7 +149,6 @@ CustomPlot.defaultProps = {
   showVizTitles: true,
   size: 0.8,
   baseColor: '#0017ff',
-  colorsNeeded: 12,
 }
 
 export default CustomPlot
