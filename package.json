@@ -42,7 +42,6 @@
     "prop-types": "^15.7.2",
     "react-plotly.js": "^2.5.1",
     "react-resizable": "^1.10.1",
-    "react-resize-detector": "^6.7.6",
     "storybook": "^6.1.20"
   },
   "peerDependencies": {
