@@ -10,7 +10,7 @@ const Pie = ({
   data,
   label,
   values,
-  titles,
+  groupByValue,
   donut,
   showLegend,
   showPercentage,

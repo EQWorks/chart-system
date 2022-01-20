@@ -9,7 +9,7 @@ const Bar = ({
   data,
   x,
   y,
-  titles,
+  groupByValue,
   stacked,
   showTicks,
   ...props

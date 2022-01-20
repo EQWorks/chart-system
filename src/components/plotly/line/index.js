@@ -9,7 +9,7 @@ const Line = ({
   data,
   x,
   y,
-  titles,
+  groupByValue,
   spline,
   showTicks,
   ...props

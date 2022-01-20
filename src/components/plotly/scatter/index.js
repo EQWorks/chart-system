@@ -9,7 +9,7 @@ const Scatter = ({
   data,
   x,
   y,
-  titles,
+  groupByValue,
   showTicks,
   showLines,
   ...props
