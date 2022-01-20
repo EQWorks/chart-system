@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 
 import { PlotlyPropTypes } from '../shared/constants'
-import ResponsivePlot from '../shared/responsive-plot'
+import CustomPlot from '../shared/custom-plot'
 
 
 const Pie = ({
@@ -49,7 +49,7 @@ const Pie = ({
   }), [showLegend])
 
   return (
-    <ResponsivePlot
+    <CustomPlot
       type='pie'
       data={finalData}
       layout={layout}

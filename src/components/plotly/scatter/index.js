@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 
 import { PlotlyPropTypes } from '../shared/constants'
-import ResponsivePlot from '../shared/responsive-plot'
+import CustomPlot from '../shared/custom-plot'
 
 
 const Scatter = ({
@@ -40,7 +40,7 @@ const Scatter = ({
   }), [showTicks])
 
   return (
-    <ResponsivePlot
+    <CustomPlot
       type='scatter'
       layout={layout}
       data={finalData}

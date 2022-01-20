@@ -35,7 +35,7 @@ const SizeablePlotWrapper = styled('div')(({ size }) => ({
 const MIN_SIZE = 60
 const MAX_SIZE = 100
 
-const ResponsivePlot = ({
+const CustomPlot = ({
   type,
   data,
   layout,
@@ -159,7 +159,7 @@ const ResponsivePlot = ({
     </Wrapper>
 }
 
-ResponsivePlot.propTypes = {
+CustomPlot.propTypes = {
   type: PropTypes.string.isRequired,
   data: PropTypes.array.isRequired,
   layout: PropTypes.object,
@@ -169,7 +169,7 @@ ResponsivePlot.propTypes = {
   size: PropTypes.number,
 }
 
-ResponsivePlot.defaultProps = {
+CustomPlot.defaultProps = {
   layout: {},
   subPlots: false,
   titleX: 0.5,
@@ -177,4 +177,4 @@ ResponsivePlot.defaultProps = {
   size: 0.8,
 }
 
-export default ResponsivePlot
+export default CustomPlot

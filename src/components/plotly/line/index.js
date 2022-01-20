@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 
 import { PlotlyPropTypes } from '../shared/constants'
-import ResponsivePlot from '../shared/responsive-plot'
+import CustomPlot from '../shared/custom-plot'
 
 
 const Line = ({
@@ -42,7 +42,7 @@ const Line = ({
   }), [showTicks])
 
   return (
-    <ResponsivePlot
+    <CustomPlot
       type='line'
       layout={layout}
       data={finalData}
