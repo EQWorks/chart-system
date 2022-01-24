@@ -44,12 +44,10 @@ jobs:
   commit-watch:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "fetch_depth=$((${{ github.event.pull_request.commits }} + 1))" >> $GITHUB_ENV
-
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: ${{ env.fetch_depth }}
+          fetch-depth: 0
 
       - uses: actions/setup-node@v2
         with:
