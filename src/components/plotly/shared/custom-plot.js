@@ -1,16 +1,15 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 
-import Plotly from 'plotly.js-basic-dist-min'
-import createPlotlyComponent from 'react-plotly.js/factory'
 import merge from 'lodash.merge'
+import { useResizeDetector } from 'react-resize-detector'
 
 import getColorScheme from './get-color-scheme'
-import styles from './styles'
 import Legend from './legend'
-import { plotlyInterfaces } from './constants'
+import { PLOTLY_BASE_LAYOUT, plotlyInterfaces } from './constants'
+import Plot from './plot'
+import styles from './styles'
 
-const Plot = createPlotlyComponent(Plotly)
 
 const CustomPlot = ({
   type,
@@ -18,25 +17,27 @@ const CustomPlot = ({
   layout,
   subPlots,
   size,
-  style,
   titlePosition,
   legendPosition,
   showVizTitles,
   baseColor,
   showLegend,
-  ...props
 }) => {
+  // subplot configuration
   const doSubPlots = useMemo(() => data.length > 1 && subPlots, [data.length, subPlots])
   const subPlotColumns = 2
   const subPlotRows = useMemo(() => Math.ceil(data.length / subPlotColumns), [data.length])
 
-  // TODO standardize among all types, or encapsulate in constants/plotlyInterfaces
-  const legendKeys = useMemo(() => (type === 'pie'
-    ? data[0][plotlyInterfaces[type].domain.output]
-    : data.map(({ name }) => name)
-  ), [data, type])
+  // memoize layout object
+  const finalLayout = useMemo(() => merge(layout, PLOTLY_BASE_LAYOUT), [layout])
+
+  // determine the keys for the legend
+  const legendKeys = useMemo(() => plotlyInterfaces[type].getLegendKeys(data), [data, type])
+
+  // generate the color scheme based on a single base color
   const colors = useMemo(() => getColorScheme(baseColor, legendKeys.length), [baseColor, legendKeys.length])
 
+  // enrich the data with color values
   const coloredData = useMemo(() => (
     data.map((obj, i) => ({
       type,
@@ -49,81 +50,65 @@ const CustomPlot = ({
     }))
   ), [colors, data, type])
 
-  const renderTitle = (title) => (
-    <styles.PlotTitle
-      x={titlePosition[0]}
-      y={titlePosition[1]}
-    >
-      {title}
-    </styles.PlotTitle>
+  // special styling is needed for square visualizations due to plotly.js deficiencies 
+  const isSquare = useMemo(() => type === 'pie', [type])
+  // resizeObserver helps force DOM reflows during padding transitions 
+  const { ref } = useResizeDetector()
+
+  // render a dummy element with the ref from react-resize-detector.
+  const renderDummy = (
+    <styles.DynamicPadding size={size}>
+      <styles.RefDummy ref={ref} />
+    </styles.DynamicPadding>
   )
 
-  const renderPlot = data => (
-    <styles.Plot>
-      <Plot
-        data={data}
-        layout={
-          merge(layout, {
-            showlegend: false,
-            autosize: true,
-            paper_bgcolor: 'transparent',
-            plot_bgcolor: 'transparent',
-            modebar: {
-              bgcolor: 'transparent',
-              color: 'black',
-              activecolor: 'black',
-            },
-            margin: {
-              t: 0,
-              b: 0,
-              l: 0,
-              r: 0,
-            },
-          })
+  // render a plotly.js visualization with a title and dynamic padding
+  const renderPlot = (data, title) => (
+    <styles.DynamicPadding size={size}>
+      <styles.PlotContainer square={isSquare}>
+        {isSquare && <styles.SquareHeightDummy />}
+        {showVizTitles &&
+          <styles.PlotTitle
+            x={titlePosition[0]}
+            y={titlePosition[1]}
+            absolute={isSquare}
+          >
+            {title}
+          </styles.PlotTitle>
         }
-        style={{
-          width: '100%',
-          height: '100%',
-          ...style,
-        }}
-        config={{
-          displayModeBar: false,
-        }}
-        {...props}
-      />
-    </styles.Plot>
-  )
-
-  const renderMultipleViz = (
-    <styles.SubPlotGrid columns={subPlotColumns} rows={subPlotRows}>
-      {
-        coloredData.map((d, i) => (
-          <styles.DynamicPadding key={i} size={size}>
-            <styles.SubPlot>
-              {showVizTitles && renderTitle(d.name)}
-              {renderPlot([d])}
-            </styles.SubPlot>
-          </styles.DynamicPadding>
-        ))
-      }
-    </styles.SubPlotGrid >
-  )
-
-  const renderSingleViz = (
-    <styles.Wrapper >
-      {showVizTitles && renderTitle(data[0].name)}
-      <styles.DynamicPadding size={size}>
-        {renderPlot(coloredData)}
-      </styles.DynamicPadding>
-    </styles.Wrapper>
+        <Plot
+          square={isSquare}
+          data={data}
+          layout={finalLayout}
+          config={{
+            displayModeBar: false,
+            responsive: true,
+          }}
+        />
+      </styles.PlotContainer>
+    </styles.DynamicPadding >
   )
 
   return (
     <styles.OuterContainer>
       {
         doSubPlots
-          ? renderMultipleViz
-          : renderSingleViz
+          ? <>
+            <styles.SubPlotGrid columns={subPlotColumns} rows={subPlotRows}>
+              {coloredData.map(d => renderPlot([d], d.name))}
+            </styles.SubPlotGrid >
+            <styles.HiddenContainer>
+              <styles.SubPlotGrid columns={subPlotColumns} rows={subPlotRows}>
+                {renderDummy}
+              </styles.SubPlotGrid >
+            </styles.HiddenContainer>
+          </>
+          : <>
+            {renderPlot(coloredData, data[0].name)}
+            <styles.HiddenContainer>
+              {renderDummy}
+            </styles.HiddenContainer>
+          </>
       }
       {
         showLegend &&
