@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
 
 import merge from 'lodash.merge'
@@ -9,6 +9,7 @@ import Legend from './legend'
 import { PLOTLY_BASE_LAYOUT, plotlyInterfaces } from './constants'
 import Plot from './plot'
 import styles from './styles'
+import Warning from './warning'
 
 
 const CustomPlot = ({
@@ -53,6 +54,9 @@ const CustomPlot = ({
   // ref helps force DOM reflows during padding transitions 
   const { ref, width, height } = useResizeDetector()
 
+  // record warnings
+  const [problem, setProblem] = useState()
+
   // special styling is needed for square visualizations due to plotly.js deficiencies 
   // however, this should only be applied if the container is taller than it is wide
   const isSquare = useMemo(() => (
@@ -80,15 +84,18 @@ const CustomPlot = ({
             {title}
           </styles.PlotTitle>
         }
-        <Plot
-          square={isSquare}
-          data={data}
-          layout={finalLayout}
-          config={{
-            displayModeBar: false,
-            responsive: true,
-          }}
-        />
+        {
+          !problem &&
+          <Plot
+            square={isSquare}
+            data={data}
+            layout={finalLayout}
+            config={{
+              displayModeBar: false,
+              responsive: true,
+            }}
+          />
+        }
       </styles.PlotContainer>
     </styles.DynamicPadding >
   )
@@ -121,6 +128,10 @@ const CustomPlot = ({
           keys={legendKeys}
           position={legendPosition}
         />
+      }
+      {
+        problem &&
+        <Warning message={problem} />
       }
     </styles.OuterContainer>
   )

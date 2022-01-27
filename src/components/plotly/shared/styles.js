@@ -38,7 +38,6 @@ export default {
         : 'center',
     ...(absolute
       ? {
-
         position: 'absolute',
         ...(y > 0.5
           ? {
@@ -86,6 +85,50 @@ export default {
         : { bottom: `${100 * y}%` }
     ),
   })),
+
+  WarningContainer: styled('div')({
+    zIndex: 40,
+    transition: 'opacity 1s',
+    transitionDelay: '1s',
+    '&:hover': {
+      opacity: 0.6,
+    },
+    position: 'absolute',
+    left: 0,
+    top: 0,
+  }),
+
+  Warning: styled('div')({
+    background: 'white',
+    border: 'solid',
+    color: 'red',
+    borderColor: 'red',
+    borderRadius: '0.2rem',
+    fontSize: '0.9rem',
+    borderWidth: '4px',
+    position: 'relative',
+    overflow: 'visible',
+    justifyContent: 'center',
+    padding: '1rem',
+    display: 'flex',
+    flexDirection: 'column',
+  }),
+
+  WarningTitle: styled('div')({
+    background: 'white',
+    border: 'solid',
+    color: 'red',
+    borderColor: 'red',
+    borderRadius: '0.2rem',
+    fontSize: '0.9rem',
+    borderWidth: '1px',
+    position: 'relative',
+    overflow: 'visible',
+    justifyContent: 'center',
+    padding: '1rem',
+    display: 'flex',
+    flexDirection: 'column',
+  }),
 
   Legend: styled('div')({
     background: 'white',
