@@ -56,6 +56,13 @@ const CustomPlot = ({
 
   // record warnings
   const [problem, setProblem] = useState()
+  useEffect(() => {
+    setProblem(
+      height < 50
+        ? `There isn't enough space to render the visualization${doSubPlots ? 's' : ''}.`
+        : null,
+    )
+  }, [doSubPlots, height])
 
   // special styling is needed for square visualizations due to plotly.js deficiencies 
   // however, this should only be applied if the container is taller than it is wide
