@@ -1,66 +1,53 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
-import { PlotlyPropTypes } from '../shared/constants'
-import ResponsivePlot from '../shared/responsive-plot'
+import { plotlyDefaultProps, plotlyPropTypes } from '../shared/constants'
+import CustomPlot from '../shared/custom-plot'
+import useTransformedData from '../shared/use-transformed-data'
 
 
 const Bar = ({
   data,
-  x,
-  y,
   stacked,
   showTicks,
   ...props
-}) => {
-  const finalData = useMemo(() => y.map(k => (
-    {
-      name: k,
-      x: data.map(d => d[x]),
-      y: data.map(d => d[k]),
+}) => (
+  <CustomPlot
+    type='bar'
+    data={
+      useTransformedData({
+        type: 'bar',
+        data,
+        ...props,
+      })
     }
-  )), [data, x, y])
-
-  const layout = useMemo(() => ({
-    barmode: stacked ? 'stack' : 'group',
-    xaxis: {
-      showticklabels: showTicks,
-    },
-    yaxis: {
-      showticklabels: showTicks,
-    },
-    ...!showTicks && {
-      margin: {
-        t: 0,
-        b: 0,
-        l: 0,
-        r: 0,
+    layout={{
+      barmode: stacked ? 'stack' : 'group',
+      xaxis: {
+        showticklabels: showTicks,
+        automargin: true,
       },
-    },
-  }), [showTicks, stacked])
-
-  return (
-    <ResponsivePlot
-      type='bar'
-      data={finalData}
-      showTicks={showTicks}
-      layout={layout}
-      {...props}
-    />
-  )
-}
+      yaxis: {
+        showticklabels: showTicks,
+        automargin: true,
+      },
+    }}
+    {...props}
+  />
+)
 
 Bar.propTypes = {
   x: PropTypes.string.isRequired,
   y: PropTypes.arrayOf(PropTypes.string).isRequired,
   stacked: PropTypes.bool,
   showTicks: PropTypes.bool,
-  ...PlotlyPropTypes,
+  ...plotlyPropTypes,
 }
 
 Bar.defaultProps = {
   stacked: false,
   showTicks: true,
+  ...plotlyDefaultProps,
 }
 
 export default Bar
