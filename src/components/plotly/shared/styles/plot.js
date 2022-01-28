@@ -14,8 +14,8 @@ export default {
     color: '#4d4d4d',
     fontWeight: 'bold',
     zIndex: '10',
-    width: '100%',
     overflow: 'visible',
+    whiteSpace: 'nowrap',
     textAlign:
       x === 0
         ? 'left'
@@ -34,20 +34,21 @@ export default {
     ),
   })),
 
-  PlotContainer: styled('div')({
-    width: 'inherit',
-    height: 'inherit',
-    justifyContent: 'center',
+  PlotContainer: styled('div', forwardRef)({
+    width: '100%',
+    height: '100%',
     display: 'flex',
-    flexDirection: 'column',
-    overflow: 'visible',
+    justifyContent: 'center',
+    alignItems: 'center',
   }),
 
   Plot: styled('div', forwardRef)({
     '& svg': {
       overflow: 'visible !important', // plotly.js override
     },
-    height: 'inherit',
-    width: 'inherit',
+    flex: 1,
+    minHeight: '10px',
+    minWidth: '10px',
+    width: '100%',
   }),
 }

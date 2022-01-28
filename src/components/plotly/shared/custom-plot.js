@@ -54,22 +54,37 @@ const CustomPlot = ({
   // also, ref helps force plotly to redraw during padding transitions 
   const { ref, width, height } = useResizeDetector()
 
+  const renderTitle = (title = '') => (
+    showVizTitles &&
+    <styles.PlotTitle
+      x={titlePosition[0]}
+      y={titlePosition[1]}
+    >
+      {title}
+    </styles.PlotTitle>
+  )
+
   // render a dummy element with the ref from react-resize-detector.
   const renderDummy = (
-    <styles.DynamicPadding size={size}>
-      <styles.RefDummy ref={ref} />
-    </styles.DynamicPadding>
+    <styles.PlotContainer>
+      <styles.DynamicSize ref={ref} size={size} >
+        {renderTitle(' ')}
+        <styles.Plot />
+      </styles.DynamicSize>,
+    </styles.PlotContainer>
   )
 
   // set manual height and width for special cases
   const [manualDimensions, setManualDimensions] = useState()
   useLayoutEffect(() => {
     if (type === 'pie') {
-      setManualDimensions(
-        width <= height
-          ? { height: `${width}px` }
-          : { width: `${height}px` },
-      )
+      if (width && height) {
+        setManualDimensions(
+          width <= height
+            ? { height: `${width}px` }
+            : { width: `${height}px` },
+        )
+      }
     } else {
       setManualDimensions(null)
     }
@@ -88,18 +103,11 @@ const CustomPlot = ({
 
   // render a plotly.js visualization with a title and dynamic padding
   const renderPlot = (data, title, key) => (
-    <styles.DynamicPadding size={size} key={key}>
+    <styles.PlotContainer key={key}>
       {
         applyManualDimensions(
-          <styles.PlotContainer >
-            {showVizTitles &&
-              <styles.PlotTitle
-                x={titlePosition[0]}
-                y={titlePosition[1]}
-              >
-                {title}
-              </styles.PlotTitle>
-            }
+          <styles.DynamicSize size={size} >
+            {renderTitle(title)}
             <Plot
               data={data}
               layout={finalLayout}
@@ -108,10 +116,10 @@ const CustomPlot = ({
                 responsive: true,
               }}
             />
-          </styles.PlotContainer >,
+          </styles.DynamicSize>,
         )
       }
-    </styles.DynamicPadding>
+    </styles.PlotContainer>
   )
 
   return (
