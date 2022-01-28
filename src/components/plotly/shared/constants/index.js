@@ -23,6 +23,7 @@ export const plotlyInterfaces = {
       input: 'values',
       output: 'values',
     },
+    getLegendKeys: data => data[0]['labels'],
   },
   bar: {
     domain: {
@@ -33,6 +34,7 @@ export const plotlyInterfaces = {
       input: 'y',
       output: 'y',
     },
+    getLegendKeys: data => data.map(({ name }) => name),
   },
   line: {
     domain: {
@@ -43,6 +45,7 @@ export const plotlyInterfaces = {
       input: 'y',
       output: 'y',
     },
+    getLegendKeys: data => data.map(({ name }) => name),
   },
   scatter: {
     domain: {
@@ -53,5 +56,24 @@ export const plotlyInterfaces = {
       input: 'y',
       output: 'y',
     },
+    getLegendKeys: data => data.map(({ name }) => name),
+  },
+}
+
+export const PLOTLY_BASE_LAYOUT = {
+  showlegend: false,
+  autosize: true,
+  paper_bgcolor: 'transparent',
+  plot_bgcolor: 'transparent',
+  modebar: {
+    bgcolor: 'transparent',
+    color: 'black',
+    activecolor: 'black',
+  },
+  margin: {
+    t: 0,
+    b: 0,
+    l: 0,
+    r: 0,
   },
 }
