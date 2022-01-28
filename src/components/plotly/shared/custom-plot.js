@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 
-import Plotly from 'plotly.js-basic-dist-min'
-import createPlotlyComponent from 'react-plotly.js/factory'
+import Plot from './plot'
 import merge from 'lodash.merge'
 
 import getColorScheme from './get-color-scheme'
@@ -10,7 +9,6 @@ import styles from './styles'
 import Legend from './legend'
 import { plotlyInterfaces } from './constants'
 
-const Plot = createPlotlyComponent(Plotly)
 
 const CustomPlot = ({
   type,
@@ -59,7 +57,7 @@ const CustomPlot = ({
   )
 
   const renderPlot = data => (
-    <styles.Plot>
+    <styles.PlotContainer>
       <Plot
         data={data}
         layout={
@@ -91,7 +89,7 @@ const CustomPlot = ({
         }}
         {...props}
       />
-    </styles.Plot>
+    </styles.PlotContainer>
   )
 
   const renderMultipleViz = (
@@ -99,10 +97,8 @@ const CustomPlot = ({
       {
         coloredData.map((d, i) => (
           <styles.DynamicPadding key={i} size={size}>
-            <styles.SubPlot>
-              {showVizTitles && renderTitle(d.name)}
-              {renderPlot([d])}
-            </styles.SubPlot>
+            {showVizTitles && renderTitle(d.name)}
+            {renderPlot([d])}
           </styles.DynamicPadding>
         ))
       }
