@@ -70,7 +70,7 @@ const CustomPlot = ({
       <styles.DynamicSize ref={ref} size={size} >
         {renderTitle(' ')}
         <styles.Plot />
-      </styles.DynamicSize>,
+      </styles.DynamicSize>
     </styles.PlotContainer>
   )
 
