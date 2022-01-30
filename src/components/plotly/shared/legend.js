@@ -11,18 +11,16 @@ const Legend = ({
   position: [x, y],
 }) => (
   <styles.LegendContainer x={x} y={y} >
-    <styles.Legend>
-      {
-        keys.map((k, i) => (
-          <styles.LegendRow key={i}>
-            <styles.LegendColorBox color={colors[i]} rightAligned={x > 0.5} />
-            <styles.LegendString rightAligned={x > 0.5}>
-              {k}
-            </styles.LegendString>
-          </styles.LegendRow>
-        ))
-      }
-    </styles.Legend>
+    {
+      keys.map((k, i) => (
+        <styles.LegendItem key={i}>
+          <styles.LegendColorBox color={colors[i]} rightAligned={x > 0.5} />
+          <styles.LegendString rightAligned={x > 0.5}>
+            {k}
+          </styles.LegendString>
+        </styles.LegendItem>
+      ))
+    }
   </styles.LegendContainer >
 )
 

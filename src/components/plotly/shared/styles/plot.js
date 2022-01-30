@@ -1,5 +1,6 @@
 import { forwardRef } from 'react'
 import { styled } from 'goober'
+import { getTailwindConfigColor } from '@eqworks/lumen-labs'
 
 export default {
   SubPlotGrid: styled('div')(({ columns, rows }) => ({
@@ -11,8 +12,11 @@ export default {
   })),
 
   PlotTitle: styled('div')(({ x, y }) => ({
-    color: '#4d4d4d',
-    fontWeight: 'bold',
+    background: 'white',
+    padding: '0.2rem',
+    borderRadius: '0.2rem',
+    color: getTailwindConfigColor('secondary-800'),
+    fontWeight: 700,
     zIndex: '10',
     overflow: 'visible',
     whiteSpace: 'nowrap',
@@ -25,11 +29,11 @@ export default {
     ...(y > 0.5
       ? {
         order: 0,
-        paddingBottom: '1rem',
+        marginBottom: '1rem',
       }
       : {
         order: 1,
-        paddingTop: '1rem',
+        marginTop: '1rem',
       }
     ),
   })),

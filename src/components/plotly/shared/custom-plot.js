@@ -123,26 +123,28 @@ const CustomPlot = ({
   )
 
   return (
-    <styles.OuterContainer>
-      {
-        doSubPlots
-          ? <>
-            <styles.SubPlotGrid columns={subPlotColumns} rows={subPlotRows}>
-              {coloredData.map((d, i) => renderPlot([d], d.name, i))}
-            </styles.SubPlotGrid >
-            <styles.HiddenContainer>
+    <styles.OuterContainer showLegend={showLegend} legendPosition={legendPosition}>
+      <styles.ContentContainer>
+        {
+          doSubPlots
+            ? <>
               <styles.SubPlotGrid columns={subPlotColumns} rows={subPlotRows}>
-                {renderDummy}
+                {coloredData.map((d, i) => renderPlot([d], d.name, i))}
               </styles.SubPlotGrid >
-            </styles.HiddenContainer>
-          </>
-          : <>
-            {renderPlot(coloredData, data[0].name)}
-            <styles.HiddenContainer>
-              {renderDummy}
-            </styles.HiddenContainer>
-          </>
-      }
+              <styles.HiddenContainer>
+                <styles.SubPlotGrid columns={subPlotColumns} rows={subPlotRows}>
+                  {renderDummy}
+                </styles.SubPlotGrid >
+              </styles.HiddenContainer>
+            </>
+            : <>
+              {renderPlot(coloredData, data[0].name)}
+              <styles.HiddenContainer>
+                {renderDummy}
+              </styles.HiddenContainer>
+            </>
+        }
+      </styles.ContentContainer>
       {
         showLegend &&
         <Legend
