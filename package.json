@@ -16,6 +16,7 @@
     "url": "https://github.com/EQWorks/chart-system.git"
   },
   "dependencies": {
+    "@eqworks/lumen-labs": "^0.1.0-alpha.25",
     "@nivo/bar": "^0.62.0",
     "@nivo/core": "^0.62.0",
     "@nivo/legends": "^0.62.0",
