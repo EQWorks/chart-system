@@ -25,6 +25,7 @@ const CustomPlot = ({
 }) => {
   // determine subplot requirements
   const doSubPlots = useMemo(() => data.length > 1 && subPlots, [data.length, subPlots])
+  const finalSize = useMemo(() => doSubPlots ? size : 0.8, [doSubPlots, size])
   const subPlotColumns = 2
   const subPlotRows = useMemo(() => Math.ceil(data.length / subPlotColumns), [data.length])
 
@@ -67,7 +68,7 @@ const CustomPlot = ({
   // render a dummy element with the ref from react-resize-detector.
   const renderDummy = (
     <styles.PlotContainer>
-      <styles.DynamicSize ref={ref} size={size} >
+      <styles.DynamicSize ref={ref} size={finalSize} >
         {renderTitle(' ')}
         <styles.Plot />
       </styles.DynamicSize>
@@ -106,7 +107,7 @@ const CustomPlot = ({
     <styles.PlotContainer key={key}>
       {
         applyManualDimensions(
-          <styles.DynamicSize size={size} >
+          <styles.DynamicSize size={finalSize} >
             {renderTitle(title)}
             <Plot
               data={data}
