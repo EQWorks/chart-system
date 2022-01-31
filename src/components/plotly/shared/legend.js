@@ -6,11 +6,12 @@ import getColorScheme from './get-color-scheme'
 
 
 const Legend = ({
+  margin,
   keys,
   colors,
   position: [x, y],
 }) => (
-  <styles.LegendContainer x={x} y={y} >
+  <styles.LegendContainer margin={margin} x={x} y={y} >
     {
       keys.map((k, i) => (
         <styles.LegendItem key={i}>
@@ -25,12 +26,14 @@ const Legend = ({
 )
 
 Legend.propTypes = {
+  margin: PropTypes.number,
   keys: PropTypes.arrayOf(PropTypes.string),
   colors: PropTypes.arrayOf(PropTypes.string),
   position: PropTypes.arrayOf(PropTypes.number),
 }
 
 Legend.defaultProps = {
+  margin: 0.05,
   keys: [],
   colors: getColorScheme('#0017ff', 12),
   position: [1, 0],

@@ -1,8 +1,9 @@
 import { styled } from 'goober'
 import { getTailwindConfigColor } from '@eqworks/lumen-labs'
 
+
 export default {
-  LegendContainer: styled('div')(({ x, y }) => {
+  LegendContainer: styled('div')(({ margin, x, y }) => {
     const horizontal = !(y % 1)
     let positionStyle = {
       flexDirection: horizontal ? 'row' : 'column',
@@ -11,7 +12,11 @@ export default {
     if (horizontal && !(x % 1)) {
       positionStyle.justifyContent = ['start', 'end'][x]
     }
+    const marginAmount = `${100 * margin}%`
+    const finalMargin = horizontal ? `0.2rem ${marginAmount}` : `${marginAmount} 0.2rem`
     return {
+      transition: 'margin 0.3s',
+      margin: finalMargin,
       minHeight: '2rem',
       flexWrap: 'wrap',
       display: 'flex',
