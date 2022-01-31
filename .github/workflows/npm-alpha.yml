@@ -6,23 +6,7 @@ on:
       - 'v*-alpha*'
 
 jobs:
-  publish-npm:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 14.x
-          registry-url: https://registry.npmjs.org/
-          scope: "@eqworks"
-      - run: yarn install
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.CD_GITHUB_TOKEN }}
-      - run: yarn publish --tag alpha --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.CD_NPM_TOKEN_PUBLISH}}
-
-  publish-gpr:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -30,10 +14,19 @@ jobs:
         with:
           node-version: 14.x
           registry-url: https://npm.pkg.github.com/
-          scope: "@eqworks"
+          scope: '@eqworks'
       - run: yarn install
         env:
           NODE_AUTH_TOKEN: ${{ secrets.CD_GITHUB_TOKEN }}
       - run: yarn publish --tag alpha --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.CD_GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+          registry-url: https://registry.npmjs.org/
+          scope: '@eqworks'
+      - run: yarn publish --tag alpha --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.CD_NPM_TOKEN_PUBLISH }}
