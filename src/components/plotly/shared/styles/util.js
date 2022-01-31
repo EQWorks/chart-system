@@ -1,12 +1,10 @@
 import { forwardRef } from 'react'
 import { styled } from 'goober'
 
-const MIN_SIZE = 50
-const MAX_PADDING = 100 - MIN_SIZE
 
 export default {
   DynamicSize: styled('div', forwardRef)(({ size }) => {
-    const finalSize = `${MIN_SIZE + (size * MAX_PADDING)}%`
+    const finalSize = `${size * 100}%`
     return {
       display: 'flex',
       flexDirection: 'column',
