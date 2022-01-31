@@ -35,6 +35,8 @@ jobs:
             ${{ runner.OS }}-
 
       - run: yarn install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.CD_GITHUB_TOKEN }}
       - run: yarn lint
       - run: yarn test
       - run: yarn build
