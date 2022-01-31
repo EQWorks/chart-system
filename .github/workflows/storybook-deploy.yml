@@ -27,8 +27,10 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - run: yarn install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.CD_GITHUB_TOKEN }}
       - name: Deploy
         run: yarn storybook-to-ghpages --ci
         env:
-          GH_TOKEN: EQWorks:${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: EQWorks:${{ secrets.CD_GITHUB_TOKEN }}
           
