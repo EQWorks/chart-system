@@ -14,6 +14,7 @@ jobs:
         with:
           node-version: 14.x
           registry-url: https://registry.npmjs.org/
+          scope: "@eqworks"
       - run: yarn install
         env:
           NODE_AUTH_TOKEN: ${{ secrets.CD_GITHUB_TOKEN }}
@@ -29,6 +30,7 @@ jobs:
         with:
           node-version: 14.x
           registry-url: https://npm.pkg.github.com/
+          scope: "@eqworks"
       - run: yarn install
         env:
           NODE_AUTH_TOKEN: ${{ secrets.CD_GITHUB_TOKEN }}
