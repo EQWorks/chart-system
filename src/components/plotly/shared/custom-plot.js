@@ -10,6 +10,10 @@ import { PLOTLY_BASE_LAYOUT, plotlyInterfaces } from './constants'
 import Plot from './plot'
 import styles from './styles'
 
+const DEFAULT_SIZE = 0.8 // [0, 1] 
+const MIN_SIZE = 0.5 // [0, 1] 
+
+const SUBPLOT_COLUMNS = 2
 
 const CustomPlot = ({
   type,
@@ -25,8 +29,17 @@ const CustomPlot = ({
 }) => {
   // determine subplot requirements
   const doSubPlots = useMemo(() => data.length > 1 && subPlots, [data.length, subPlots])
-  const subPlotColumns = 2
-  const subPlotRows = useMemo(() => Math.ceil(data.length / subPlotColumns), [data.length])
+  const finalVizSize = useMemo(() => (
+    doSubPlots
+      ? MIN_SIZE + (size * (1 - MIN_SIZE))
+      : DEFAULT_SIZE
+  ), [doSubPlots, size])
+  const legendMargin = useMemo(() => (
+    doSubPlots
+      ? (1 - finalVizSize) / SUBPLOT_COLUMNS / 2
+      : (1 - finalVizSize) / 2
+  ), [doSubPlots, finalVizSize])
+  const subPlotRows = useMemo(() => Math.ceil(data.length / SUBPLOT_COLUMNS), [data.length])
 
   // memoize layout object
   const finalLayout = useMemo(() => merge(layout, PLOTLY_BASE_LAYOUT), [layout])
@@ -67,10 +80,10 @@ const CustomPlot = ({
   // render a dummy element with the ref from react-resize-detector.
   const renderDummy = (
     <styles.PlotContainer>
-      <styles.DynamicSize ref={ref} size={size} >
+      <styles.DynamicSize ref={ref} size={finalVizSize} >
         {renderTitle(' ')}
         <styles.Plot />
-      </styles.DynamicSize>,
+      </styles.DynamicSize>
     </styles.PlotContainer>
   )
 
@@ -106,7 +119,7 @@ const CustomPlot = ({
     <styles.PlotContainer key={key}>
       {
         applyManualDimensions(
-          <styles.DynamicSize size={size} >
+          <styles.DynamicSize size={finalVizSize} >
             {renderTitle(title)}
             <Plot
               data={data}
@@ -123,29 +136,32 @@ const CustomPlot = ({
   )
 
   return (
-    <styles.OuterContainer>
-      {
-        doSubPlots
-          ? <>
-            <styles.SubPlotGrid columns={subPlotColumns} rows={subPlotRows}>
-              {coloredData.map((d, i) => renderPlot([d], d.name, i))}
-            </styles.SubPlotGrid >
-            <styles.HiddenContainer>
-              <styles.SubPlotGrid columns={subPlotColumns} rows={subPlotRows}>
-                {renderDummy}
+    <styles.OuterContainer showLegend={showLegend} legendPosition={legendPosition}>
+      <styles.ContentContainer>
+        {
+          doSubPlots
+            ? <>
+              <styles.SubPlotGrid columns={SUBPLOT_COLUMNS} rows={subPlotRows}>
+                {coloredData.map((d, i) => renderPlot([d], d.name, i))}
               </styles.SubPlotGrid >
-            </styles.HiddenContainer>
-          </>
-          : <>
-            {renderPlot(coloredData, data[0].name)}
-            <styles.HiddenContainer>
-              {renderDummy}
-            </styles.HiddenContainer>
-          </>
-      }
+              <styles.HiddenContainer>
+                <styles.SubPlotGrid columns={SUBPLOT_COLUMNS} rows={subPlotRows}>
+                  {renderDummy}
+                </styles.SubPlotGrid >
+              </styles.HiddenContainer>
+            </>
+            : <>
+              {renderPlot(coloredData, data[0].name)}
+              <styles.HiddenContainer>
+                {renderDummy}
+              </styles.HiddenContainer>
+            </>
+        }
+      </styles.ContentContainer>
       {
         showLegend &&
         <Legend
+          margin={legendMargin}
           colors={colors}
           keys={legendKeys}
           position={legendPosition}

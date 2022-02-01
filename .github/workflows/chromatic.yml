@@ -6,6 +6,13 @@ jobs:
   chromatic-deployment:
     runs-on: ubuntu-latest
     steps:
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+          registry-url: https://npm.pkg.github.com/
+          scope: "@eqworks"
+
       - uses: actions/checkout@v2
         # Version 2 of the actions/checkout action will only checkout a single commit without history by default.
         # Chromatic needs the full git history in order to track changes over time.
@@ -13,11 +20,13 @@ jobs:
         with:
           fetch-depth: 0
       - run: yarn install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.CD_GITHUB_TOKEN }}
 
       - name: Publish to Chromatic
         uses: chromaui/action@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CD_GITHUB_TOKEN }}
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           exitZeroOnChanges: true
           autoAcceptChanges: true
