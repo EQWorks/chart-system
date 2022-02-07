@@ -23,7 +23,8 @@ const CustomPlot = ({
   size,
   titlePosition,
   legendPosition,
-  showVizTitles,
+  showSubPlotTitles,
+  title,
   baseColor,
   showLegend,
 }) => {
@@ -67,21 +68,29 @@ const CustomPlot = ({
   // also, ref helps force plotly to redraw during padding transitions 
   const { ref, width, height } = useResizeDetector()
 
-  const renderTitle = (title = '') => (
-    showVizTitles &&
-    <styles.PlotTitle
+  const renderSubPlotTitle = (_title = '') => (
+    <styles.SubPlotTitle
+      x={titlePosition[0]}
+      y={titlePosition[1]}
+    >
+      {_title}
+    </styles.SubPlotTitle>
+  )
+
+  const renderTitle = (
+    <styles.Title
       x={titlePosition[0]}
       y={titlePosition[1]}
     >
       {title}
-    </styles.PlotTitle>
+    </styles.Title>
   )
 
   // render a dummy element with the ref from react-resize-detector.
   const renderDummy = (
     <styles.PlotContainer>
       <styles.DynamicSize ref={ref} size={finalVizSize} >
-        {renderTitle(' ')}
+        {showSubPlotTitles && renderSubPlotTitle(' ')}
         <styles.Plot />
       </styles.DynamicSize>
     </styles.PlotContainer>
@@ -120,7 +129,10 @@ const CustomPlot = ({
       {
         applyManualDimensions(
           <styles.DynamicSize size={finalVizSize} >
-            {renderTitle(title)}
+            {doSubPlots
+              ? (showSubPlotTitles && renderSubPlotTitle(title))
+              : renderTitle
+            }
             <Plot
               data={data}
               layout={finalLayout}
@@ -141,17 +153,20 @@ const CustomPlot = ({
         {
           doSubPlots
             ? <>
-              <styles.SubPlotGrid columns={SUBPLOT_COLUMNS} rows={subPlotRows}>
-                {coloredData.map((d, i) => renderPlot([d], d.name, i))}
-              </styles.SubPlotGrid >
-              <styles.HiddenContainer>
+              <styles.GenericContainer>
+                {renderTitle}
                 <styles.SubPlotGrid columns={SUBPLOT_COLUMNS} rows={subPlotRows}>
-                  {renderDummy}
+                  {coloredData.map((d, i) => renderPlot([d], d.name, i))}
                 </styles.SubPlotGrid >
-              </styles.HiddenContainer>
+                <styles.HiddenContainer>
+                  <styles.SubPlotGrid columns={SUBPLOT_COLUMNS} rows={subPlotRows}>
+                    {renderDummy}
+                  </styles.SubPlotGrid >
+                </styles.HiddenContainer>
+              </styles.GenericContainer>
             </>
             : <>
-              {renderPlot(coloredData, data[0].name)}
+              {renderPlot(coloredData)}
               <styles.HiddenContainer>
                 {renderDummy}
               </styles.HiddenContainer>
@@ -180,9 +195,10 @@ CustomPlot.propTypes = {
   titlePosition: PropTypes.arrayOf(PropTypes.number),
   legendPosition: PropTypes.arrayOf(PropTypes.number),
   showLegend: PropTypes.bool,
-  showVizTitles: PropTypes.bool,
+  showSubPlotTitles: PropTypes.bool,
   size: PropTypes.number,
   baseColor: PropTypes.string,
+  title: PropTypes.string,
 }
 
 CustomPlot.defaultProps = {
@@ -191,10 +207,11 @@ CustomPlot.defaultProps = {
   style: {},
   titlePosition: [0, 1],
   legendPosition: [1, 0],
-  showVizTitles: true,
+  showSubPlotTitles: true,
   size: 0.8,
   baseColor: '#0017ff',
   showLegend: true,
+  title: null,
 }
 
 export default CustomPlot
