@@ -32,6 +32,15 @@ export default {
       ...gridStyle,
     }
   }),
+  GenericContainer: styled('div')({
+    display: 'flex',
+    flexDirection: 'column',
+    alignContent: 'center',
+    position: 'relative',
+    width: '100%',
+    height: '100%',
+    transition: 'width 0.3s, height 0.3s',
+  }),
   ContentContainer: styled('div')({
     fontFamily: 'Open Sans,sans-serif',
     position: 'relative',
@@ -39,10 +48,5 @@ export default {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-  }),
-  LineBreak: styled('div')({
-    height: '100%',
-    width: '1px',
-    background: 'red',
   }),
 }
