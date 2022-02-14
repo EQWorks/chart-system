@@ -10,8 +10,8 @@ import { PLOTLY_BASE_LAYOUT, plotlyInterfaces } from './constants'
 import Plot from './plot'
 import styles from './styles'
 
-const DEFAULT_SIZE = 0.8 // [0, 1] 
-const MIN_SIZE = 0.5 // [0, 1] 
+const DEFAULT_SIZE = 0.8 // [0, 1]
+const MIN_SIZE = 0.5 // [0, 1]
 
 const SUBPLOT_COLUMNS = 2
 
@@ -65,8 +65,11 @@ const CustomPlot = ({
   ), [colors, data, type])
 
   // keep track of example viz container height and width for computing manual size
-  // also, ref helps force plotly to redraw during padding transitions 
-  const { ref, width, height } = useResizeDetector()
+  // also, ref helps force plotly to redraw during padding transitions
+  const { ref, width, height } = useResizeDetector({
+    refreshMode: 'debounce',
+    refreshRate: 100,
+  })
 
   const renderSubPlotTitle = (_title = '') => (
     <styles.SubPlotTitle
