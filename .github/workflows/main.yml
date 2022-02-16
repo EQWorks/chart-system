@@ -1,11 +1,10 @@
-name: Master
+name: Default workflow
 
 on:
   pull_request:
-    branches:
-      - master
   push:
     branches:
+      - main
       - master
 
 jobs:
@@ -25,16 +24,17 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           scope: "@eqworks"
 
-      - name: Cache Node Modules
-        uses: actions/cache@v2
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
-          path: node_modules
-          key: ${{ runner.OS }}-${{ matrix.node-version }}-build-${{ hashFiles('**/yarn.lock') }}
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.OS }}-${{ matrix.node-version }}-build-${{ env.cache-name }}-
-            ${{ runner.OS }}-${{ matrix.node-version }}-build-
-            ${{ runner.OS }}-${{ matrix.node-version }}-
-            ${{ runner.OS }}-
+            ${{ runner.os }}-yarn-
 
       - run: yarn install
         env:
