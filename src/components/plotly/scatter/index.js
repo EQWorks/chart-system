@@ -10,6 +10,9 @@ const Scatter = ({
   data,
   showTicks,
   showLines,
+  showAxisTitles,
+  x,
+  y,
   ...props
 }) => (
   <CustomPlot
@@ -18,6 +21,8 @@ const Scatter = ({
       useTransformedData({
         type: 'scatter',
         data,
+        x,
+        y,
         extra: {
           mode: showLines ? 'lines+markers' : 'markers',
         },
@@ -28,10 +33,22 @@ const Scatter = ({
       xaxis: {
         showticklabels: showTicks,
         automargin: true,
+        ...(showAxisTitles && {
+          title: {
+            text: x,
+            standoff: 20,
+          },
+        }),
       },
       yaxis: {
         showticklabels: showTicks,
         automargin: true,
+        ...(showAxisTitles && y?.length === 1 && {
+          title: {
+            text: y[0],
+            standoff: 30,
+          },
+        }),
       },
       ...!showTicks && {
         margin: {
@@ -50,11 +67,13 @@ Scatter.propTypes = {
   x: PropTypes.string.isRequired,
   y: PropTypes.arrayOf(PropTypes.string).isRequired,
   showTicks: PropTypes.bool,
+  showAxisTitles: PropTypes.bool,
   ...plotlyPropTypes,
 }
 
 Scatter.defaultProps = {
   showTicks: true,
+  showAxisTitles: true,
   ...plotlyDefaultProps,
 }
 

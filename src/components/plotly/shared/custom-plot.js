@@ -13,7 +13,7 @@ import styles from './styles'
 const DEFAULT_SIZE = 0.8 // [0, 1]
 const MIN_SIZE = 0.5 // [0, 1]
 
-const SUBPLOT_COLUMNS = 2
+const DEFAULT_SUBPLOT_COLUMNS = 2
 
 const CustomPlot = ({
   type,
@@ -29,7 +29,11 @@ const CustomPlot = ({
   showLegend,
 }) => {
   // determine subplot requirements
-  const doSubPlots = useMemo(() => data.length > 1 && subPlots, [data.length, subPlots])
+  const subPlotColumns = useMemo(() => Math.min(DEFAULT_SUBPLOT_COLUMNS, data.length), [data.length])
+  const subPlotRows = useMemo(() => Math.ceil(data.length / subPlotColumns), [data.length, subPlotColumns])
+  const doSubPlots = useMemo(() => type === 'pie' || (data.length > 1 && subPlots), [data.length, subPlots, type])
+
+  // compute sizing stuff
   const finalVizSize = useMemo(() => (
     doSubPlots
       ? MIN_SIZE + (size * (1 - MIN_SIZE))
@@ -37,10 +41,9 @@ const CustomPlot = ({
   ), [doSubPlots, size])
   const legendMargin = useMemo(() => (
     doSubPlots
-      ? (1 - finalVizSize) / SUBPLOT_COLUMNS / 2
+      ? (1 - finalVizSize) / subPlotColumns / 2
       : (1 - finalVizSize) / 2
-  ), [doSubPlots, finalVizSize])
-  const subPlotRows = useMemo(() => Math.ceil(data.length / SUBPLOT_COLUMNS), [data.length])
+  ), [doSubPlots, subPlotColumns, finalVizSize])
 
   // memoize layout object
   const finalLayout = useMemo(() => merge(layout, PLOTLY_BASE_LAYOUT), [layout])
@@ -158,11 +161,11 @@ const CustomPlot = ({
             ? <>
               <styles.GenericContainer>
                 {renderTitle}
-                <styles.SubPlotGrid columns={SUBPLOT_COLUMNS} rows={subPlotRows}>
+                <styles.SubPlotGrid columns={subPlotColumns} rows={subPlotRows}>
                   {coloredData.map((d, i) => renderPlot([d], d.name, i))}
                 </styles.SubPlotGrid >
                 <styles.HiddenContainer>
-                  <styles.SubPlotGrid columns={SUBPLOT_COLUMNS} rows={subPlotRows}>
+                  <styles.SubPlotGrid columns={subPlotColumns} rows={subPlotRows}>
                     {renderDummy}
                   </styles.SubPlotGrid >
                 </styles.HiddenContainer>

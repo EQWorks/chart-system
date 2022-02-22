@@ -10,6 +10,9 @@ const Line = ({
   data,
   spline,
   showTicks,
+  showAxisTitles,
+  x,
+  y,
   ...props
 }) => (
   <CustomPlot
@@ -18,6 +21,8 @@ const Line = ({
       useTransformedData({
         type: 'line',
         data,
+        x,
+        y,
         extra: {
           line: {
             shape: spline ? 'spline' : 'linear',
@@ -30,10 +35,22 @@ const Line = ({
       xaxis: {
         showticklabels: showTicks,
         automargin: true,
+        ...(showAxisTitles && {
+          title: {
+            text: x,
+            standoff: 20,
+          },
+        }),
       },
       yaxis: {
         showticklabels: showTicks,
         automargin: true,
+        ...(showAxisTitles && y?.length === 1 && {
+          title: {
+            text: y[0],
+            standoff: 30,
+          },
+        }),
       },
     }}
     {...props}
@@ -45,12 +62,14 @@ Line.propTypes = {
   y: PropTypes.arrayOf(PropTypes.string).isRequired,
   spline: PropTypes.bool,
   showTicks: PropTypes.bool,
+  showAxisTitles: PropTypes.bool,
   ...plotlyPropTypes,
 }
 
 Line.defaultProps = {
   spline: false,
   showTicks: true,
+  showAxisTitles: true,
   ...plotlyDefaultProps,
 }
 
