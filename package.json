@@ -16,7 +16,6 @@
     "url": "https://github.com/EQWorks/chart-system.git"
   },
   "dependencies": {
-    "@eqworks/lumen-labs": "^0.1.0-alpha.25",
     "@nivo/bar": "^0.62.0",
     "@nivo/core": "^0.62.0",
     "@nivo/legends": "^0.62.0",
@@ -46,6 +45,7 @@
     "storybook": "^6.1.20"
   },
   "peerDependencies": {
+    "@eqworks/lumen-labs": "^0.1.0-alpha.37",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },
@@ -107,6 +107,7 @@
     "@babel/plugin-transform-runtime": "^7.11.0",
     "@babel/preset-env": "^7.10.3",
     "@babel/preset-react": "^7.9.4",
+    "@eqworks/lumen-labs": "^0.1.0-alpha.40",
     "@size-limit/preset-small-lib": "^4.5.6",
     "@storybook/addon-actions": "^6.0.12",
     "@storybook/addon-docs": "^6.0.12",

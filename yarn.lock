@@ -1252,10 +1252,10 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz#8eed982e2ee6f7f4e44c253e12962980791efd46"
   integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
 
-"@eqworks/lumen-labs@^0.1.0-alpha.25":
-  version "0.1.0-alpha.25"
-  resolved "https://npm.pkg.github.com/download/@eqworks/lumen-labs/0.1.0-alpha.25/5b123e17102ba66b261cce6a694a3626ee3dc830d80a02aeeeb1fd4d3584be4a#3aa6ac009b49ab10e563f1094f462a4ed13dd13a"
-  integrity sha512-5A3LGsi/4J/l0RFAMi5yS8cWYIqOAnZujnL99w+gEwtagjK/HrEcQGJwslOdAu5kyBzKqXk3SrsNCRnHYytBWw==
+"@eqworks/lumen-labs@^0.1.0-alpha.40":
+  version "0.1.0-alpha.40"
+  resolved "https://npm.pkg.github.com/download/@eqworks/lumen-labs/0.1.0-alpha.40/62c101c8a5d932dc3ece9bc38c4cb09a6be13b9ea1cc8e92457de0df6094f33f#43e89f9d6b145cb0a7142dd1cbea876f94842fc2"
+  integrity sha512-vmC3twy/aUgEucyPxXFB+678ffXVRK4oVQoO0qj6TzxeEpfmpGZ7e54yKSQmNxZAkq5kd53KUQEpkkM9Qg2mJA==
   dependencies:
     "@headlessui/react" "^1.4.0"
     clsx "^1.1.1"
@@ -1264,6 +1264,7 @@
     react-resize-detector "^6.7.6"
     react-virtualized-auto-sizer "^1.0.5"
     react-window "^1.8.6"
+    use-debounce "^7.0.1"
 
 "@headlessui/react@^1.4.0":
   version "1.4.3"
@@ -13262,6 +13263,11 @@ use-composed-ref@^1.0.0:
   integrity sha512-my1lNHGWsSDAhhVAT4MKs6IjBUtG6ZG11uUqexPH9PptiIZDQOzaF4f5tEbJ2+7qvNbtXNBbU3SfmN+fXlWDhg==
   dependencies:
     ts-essentials "^2.0.3"
+
+use-debounce@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/use-debounce/-/use-debounce-7.0.1.tgz#380e6191cc13ad29f8e2149a12b5c37cc2891190"
+  integrity sha512-fOrzIw2wstbAJuv8PC9Vg4XgwyTLEOdq4y/Z3IhVl8DAE4svRcgyEUvrEXu+BMNgMoc3YND6qLT61kkgEKXh7Q==
 
 use-isomorphic-layout-effect@^1.0.0:
   version "1.1.1"
