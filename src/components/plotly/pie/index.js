@@ -17,7 +17,7 @@ const Pie = ({
       type: 'pie',
       data,
       extra: {
-        textinfo: showPercentage ? 'values' : 'none',
+        textinfo: showPercentage ? 'percent' : 'none',
         hole: donut ? 0.4 : 0,
       },
       ...props,
