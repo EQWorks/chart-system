@@ -20,6 +20,9 @@ const Template = (args) =>
 
 export const Default = Template.bind({})
 
+export const WithLabelName = Template.bind({})
+WithLabelName.args = { showLabelName: true }
+
 export const Donut = Template.bind({})
 Donut.args = { donut: true }
 
