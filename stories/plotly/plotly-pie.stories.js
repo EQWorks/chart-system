@@ -23,12 +23,10 @@ export const Default = Template.bind({})
 export const WithLabelName = Template.bind({})
 WithLabelName.args = { showLabelName: true }
 
-export const PlotlyExtraOverride = Template.bind({})
-PlotlyExtraOverride.args = {
-  extra: {
-    textinfo: 'label+value+percent',
-    hole: '0.9',
-  },
+export const PlotlyOverride = Template.bind({})
+PlotlyOverride.args = {
+  textinfo: 'label+value+percent',
+  hole: 0.9,
 }
 
 export const Donut = Template.bind({})
