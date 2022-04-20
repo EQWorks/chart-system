@@ -20,6 +20,15 @@ const Template = (args) =>
 
 export const Default = Template.bind({})
 
+export const WithLabelName = Template.bind({})
+WithLabelName.args = { showLabelName: true }
+
+export const PlotlyOverride = Template.bind({})
+PlotlyOverride.args = {
+  textinfo: 'label+value+percent',
+  hole: 0.9,
+}
+
 export const Donut = Template.bind({})
 Donut.args = { donut: true }
 
