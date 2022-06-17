@@ -68,13 +68,13 @@ const PyramidBar = ({
           type: 'linear', 
           range: [-Math.abs(maxVal * 1.2), maxVal * 1.2], 
           ticktext: getTickText(), 
-          tickvals: [...x.map(val => -Math.abs(val)), 0, ...xValReverse]
+          tickvals: [...x.map(val => -Math.abs(val)), 0, ...xValReverse],
         },
         yaxis: {
           showticklabels: showTicks,
           automargin: true,
           type: 'category', 
-          autorange: true
+          autorange: true,
         },
       }}
     />
