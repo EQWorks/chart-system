@@ -8,13 +8,13 @@ import useTransformedData from '../shared/use-transformed-data'
 
 const PyramidBar = ({
   data,
-  stacked,
   showTicks,
   showAxisTitles,
   x,
   y,
   orientation,
   percentage,
+  yAxisLabel,
   ...props
 }) => {
   const getSum = () => {
@@ -26,7 +26,6 @@ const PyramidBar = ({
 
     return total
   }
-
 
   const _data = useTransformedData({
     type: 'bar',
@@ -53,7 +52,6 @@ const PyramidBar = ({
     return tickText
   }
 
-
   return (
     <CustomPlot
       type='bar'
@@ -69,12 +67,24 @@ const PyramidBar = ({
           range: [-Math.abs(maxVal * 1.2), maxVal * 1.2], 
           ticktext: getTickText(), 
           tickvals: [...x.map(val => -Math.abs(val)), 0, ...xValReverse],
+          ...(showAxisTitles && {
+            title: {
+              text: yAxisLabel,
+              standoff: 20,
+            },
+          }),
         },
         yaxis: {
           showticklabels: showTicks,
           automargin: true,
           type: 'category', 
           autorange: true,
+          ...(showAxisTitles && {
+            title: {
+              text: data.length && Object.keys(data[0])[0],
+              standoff: 20,
+            },
+          }),
         },
       }}
     />
@@ -84,20 +94,20 @@ const PyramidBar = ({
 PyramidBar.propTypes = {
   x: PropTypes.arrayOf(PropTypes.number).isRequired,
   y: PropTypes.arrayOf(PropTypes.string).isRequired,
-  stacked: PropTypes.bool,
   showTicks: PropTypes.bool,
   showAxisTitles: PropTypes.bool,
   orientation: PropTypes.oneOf(['v', 'h']),
   percentage: PropTypes.bool,
+  yAxisLabel: PropTypes.string,
   ...plotlyPropTypes,
 }
 
 PyramidBar.defaultProps = {
-  stacked: false,
   showTicks: true,
   showAxisTitles: true,
   orientation: 'h',
   percentage: false,
+  yAxisLabel: 'count',
   ...plotlyDefaultProps,
 }
 
