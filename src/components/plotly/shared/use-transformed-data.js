@@ -43,16 +43,16 @@ const useTransformedData = ({
           ...extra,
         }
       })
-    } else {
-      return args[range.input].map(k => (
-        {
-          name: k,
-          [domain.output]: data.map(d => d[args[domain.input]]),
-          [range.output]: data.map(d => d[k]),
-          ...extra,
-        }
-      ))
     }
+    
+    return args[range.input].map(k => (
+      {
+        name: k,
+        [domain.output]: data.map(d => d[args[domain.input]]),
+        [range.output]: data.map(d => d[k]),
+        ...extra,
+      }
+    ))
   }, [args, data, domain, range, extra, groupByValue, variant])
 }
 

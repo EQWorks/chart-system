@@ -8,6 +8,15 @@ export default {
   title: 'Plotly/pyramid-bar',
 }
 
+/** -- props (PyramidBar):
+ * [x] - array of numbers, defines the range value of 'y' data to be displayed in the chart. (isRequired)
+ * [y] - array of string, defines the selected values from the data source to be displayed in the chart. (isRequired)
+ * [showTicks] - bool, control ticks display in the chart, default = true
+ * [showAxisTitles] - bool, control axisTitles display in the chart, default = true
+ * [showPercentage] - bool, control value display format in the chart, default = false
+ * [axisLabel] - array of string, defines the chart axis label/title to be displayed, [xAxis, yAxis], default = ['count']
+*/
+
 const Template = (args) =>
   <ResponsiveChartWrapper>
     <PyramidBar

@@ -12,9 +12,8 @@ const PyramidBar = ({
   showAxisTitles,
   x,
   y,
-  orientation,
-  percentage,
-  yAxisLabel,
+  showPercentage,
+  axisLabel,
   ...props
 }) => {
   const getSum = () => {
@@ -31,9 +30,9 @@ const PyramidBar = ({
     type: 'bar',
     data,
     y,
-    orientation,
+    orientation: 'h',
     variant: 'pyramidBar',
-    percentage,
+    showPercentage,
     sum: getSum(),
     ...props,
   })
@@ -44,7 +43,7 @@ const PyramidBar = ({
   const getTickText = () => {
     let tickText = [...x, 0, ...xValReverse]
 
-    if (percentage) { 
+    if (showPercentage) { 
       const transformPercentage = x.map(val => `${Math.round((val*100) / getSum())}%`)
       tickText = [...transformPercentage, '0%', ...transformPercentage.slice().reverse()]
     }
@@ -69,7 +68,7 @@ const PyramidBar = ({
           tickvals: [...x.map(val => -Math.abs(val)), 0, ...xValReverse],
           ...(showAxisTitles && {
             title: {
-              text: yAxisLabel,
+              text: axisLabel[0],
               standoff: 20,
             },
           }),
@@ -81,7 +80,7 @@ const PyramidBar = ({
           autorange: true,
           ...(showAxisTitles && {
             title: {
-              text: data.length && Object.keys(data[0])[0],
+              text: axisLabel[1] || Object.keys(data[0])[0],
               standoff: 20,
             },
           }),
@@ -96,18 +95,16 @@ PyramidBar.propTypes = {
   y: PropTypes.arrayOf(PropTypes.string).isRequired,
   showTicks: PropTypes.bool,
   showAxisTitles: PropTypes.bool,
-  orientation: PropTypes.oneOf(['v', 'h']),
-  percentage: PropTypes.bool,
-  yAxisLabel: PropTypes.string,
+  showPercentage: PropTypes.bool,
+  axisLabel: PropTypes.arrayOf(PropTypes.string),
   ...plotlyPropTypes,
 }
 
 PyramidBar.defaultProps = {
   showTicks: true,
   showAxisTitles: true,
-  orientation: 'h',
-  percentage: false,
-  yAxisLabel: 'count',
+  showPercentage: false,
+  axisLabel: ['count'],
   ...plotlyDefaultProps,
 }
 
