@@ -24,7 +24,6 @@ const Template = (args) =>
       data={mockData}
       x={[1000, 700, 300]}
       y={['man', 'woman']}
-      axisLabel={[]}
       {...args}
     />
   </ResponsiveChartWrapper>
