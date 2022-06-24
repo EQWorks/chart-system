@@ -14,6 +14,7 @@ const PyramidBar = ({
   y,
   showPercentage,
   axisLabel,
+  textPosition,
   ...props
 }) => {
   const getSum = () => {
@@ -34,6 +35,7 @@ const PyramidBar = ({
     variant: 'pyramidBar',
     showPercentage,
     sum: getSum(),
+    textPosition,
     ...props,
   })
 
@@ -97,6 +99,7 @@ PyramidBar.propTypes = {
   showAxisTitles: PropTypes.bool,
   showPercentage: PropTypes.bool,
   axisLabel: PropTypes.arrayOf(PropTypes.string),
+  textPosition: PropTypes.oneOf(['inside', 'outside', 'auto', 'none']),
   ...plotlyPropTypes,
 }
 
@@ -105,6 +108,7 @@ PyramidBar.defaultProps = {
   showAxisTitles: true,
   showPercentage: false,
   axisLabel: ['count'],
+  textPosition: 'outside',
   ...plotlyDefaultProps,
 }
 

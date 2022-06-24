@@ -15,6 +15,7 @@ export default {
  * [showAxisTitles] - bool, control axisTitles display in the chart, default = true
  * [showPercentage] - bool, control value display format in the chart, default = false
  * [axisLabel] - array of string, defines the chart axis label/title to be displayed, [xAxis, yAxis], default = ['count']
+ * [textPosition] - string, defines the text position inside each bar graph, default = 'outside'. only ['inside', 'outside', 'auto', 'none']
 */
 
 const Template = (args) =>
@@ -23,6 +24,7 @@ const Template = (args) =>
       data={mockData}
       x={[1000, 700, 300]}
       y={['man', 'woman']}
+      axisLabel={[]}
       {...args}
     />
   </ResponsiveChartWrapper>
