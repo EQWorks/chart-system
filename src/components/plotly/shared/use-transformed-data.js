@@ -14,10 +14,10 @@ const useTransformedData = ({
 
   return useMemo(() => {
     if (variant === 'pyramidBar') {
-      const { orientation, percentage, sum, textPosition } = args
+      const { orientation, showPercentage, sum, textPosition } = args
 
       return args[range.input].map((k, i) => {
-        const text = percentage ? data.map(d => `${((d[k]*100) / sum).toFixed(2)}%`) : data.map(d => d[k])
+        const text = showPercentage ? data.map(d => `${((d[k]*100) / sum).toFixed(2)}%`) : data.map(d => d[k])
         return (
           {
             name: k,
