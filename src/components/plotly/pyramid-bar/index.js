@@ -88,6 +88,7 @@ const PyramidBar = ({
           }),
         },
       }}
+      {...props}
     />
   )
 }
