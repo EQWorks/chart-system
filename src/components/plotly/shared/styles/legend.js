@@ -26,6 +26,7 @@ export default {
       fontWeight: 600,
       fontSize: '0.8rem',
       position: 'relative',
+      textTransform: 'capitalize',
       ...positionStyle,
     }
   }),

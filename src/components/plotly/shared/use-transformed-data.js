@@ -7,12 +7,33 @@ const useTransformedData = ({
   data,
   groupByValue,
   extra = {},
+  variant,
   ...args
 }) => {
   const { domain, range } = plotlyInterfaces[type]
-  return useMemo(() => (
-    groupByValue
-      ? data.map(d => {
+
+  return useMemo(() => {
+    if (variant === 'pyramidBar') {
+      const { orientation, showPercentage, sum, textPosition } = args
+
+      return args[range.input].map((k, i) => {
+        const text = showPercentage ? data.map(d => `${((d[k]*100) / sum).toFixed(2)}%`) : data.map(d => d[k])
+        return (
+          {
+            name: k,
+            [domain.output]: data.map(d => i === 1 ? d[k] : -Math.abs(d[k])),
+            [range.output]: data.map(d => Object.values(d)[0]),
+            orientation,
+            text: text,
+            textposition: textPosition,
+            ...extra,
+          }
+        )
+      })
+    } 
+
+    if (groupByValue) {
+      return data.map(d => {
         const _d = { ...d }
         const name = _d[args[domain.input]]
         delete _d[args[domain.input]]
@@ -23,15 +44,17 @@ const useTransformedData = ({
           ...extra,
         }
       })
-      : args[range.input].map(k => (
-        {
-          name: k,
-          [domain.output]: data.map(d => d[args[domain.input]]),
-          [range.output]: data.map(d => d[k]),
-          ...extra,
-        }
-      ))
-  ), [args, data, domain, range, extra, groupByValue])
+    }
+    
+    return args[range.input].map(k => (
+      {
+        name: k,
+        [domain.output]: data.map(d => d[args[domain.input]]),
+        [range.output]: data.map(d => d[k]),
+        ...extra,
+      }
+    ))
+  }, [args, data, domain, range, extra, groupByValue, variant])
 }
 
 export default useTransformedData
