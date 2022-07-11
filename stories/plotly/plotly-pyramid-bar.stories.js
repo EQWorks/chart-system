@@ -31,5 +31,5 @@ const Template = (args) =>
 export const Default = Template.bind({})
 
 export const Percentage = Template.bind({})
-Percentage.args = { percentage: true }
+Percentage.args = { showPercentage: true }
 

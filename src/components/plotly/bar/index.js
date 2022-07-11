@@ -13,6 +13,8 @@ const Bar = ({
   showAxisTitles,
   x,
   y,
+  orientation,
+  textPosition,
   ...props
 }) => (
   <CustomPlot
@@ -23,6 +25,8 @@ const Bar = ({
         data,
         x,
         y,
+        orientation,
+        textPosition,
         ...props,
       })
     }
@@ -31,7 +35,6 @@ const Bar = ({
       xaxis: {
         showticklabels: showTicks,
         automargin: true,
-        type: 'category',
         ...(showAxisTitles && {
           title: {
             text: x,
@@ -60,6 +63,8 @@ Bar.propTypes = {
   stacked: PropTypes.bool,
   showTicks: PropTypes.bool,
   showAxisTitles: PropTypes.bool,
+  orientation: PropTypes.oneOf(['v', 'h']),
+  textPosition: PropTypes.oneOf(['inside', 'outside', 'auto', 'none']),
   ...plotlyPropTypes,
 }
 
@@ -67,6 +72,8 @@ Bar.defaultProps = {
   stacked: false,
   showTicks: true,
   showAxisTitles: true,
+  orientation: 'v',
+  textPosition: 'outside',
   ...plotlyDefaultProps,
 }
 

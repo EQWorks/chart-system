@@ -21,5 +21,10 @@ const Template = (args) =>
 export const Default = Template.bind({})
 
 export const Stacked = Template.bind({})
-Default.args = { stacked: true }
+Stacked.args = { stacked: true }
 
+export const Horizontal = Template.bind({})
+Horizontal.args = { orientation: 'h', }
+
+export const HorizontalStacked = Template.bind({})
+HorizontalStacked.args = { orientation: 'h', stacked: true }
