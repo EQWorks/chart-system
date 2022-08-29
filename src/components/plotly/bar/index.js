@@ -15,54 +15,60 @@ const Bar = ({
   y,
   orientation,
   textPosition,
+  showPercentage,
   ...props
-}) => (
-  <CustomPlot
-    type='bar'
-    data={
-      useTransformedData({
-        type: 'bar',
-        data,
-        x,
-        y,
-        orientation,
-        textPosition,
-        ...props,
-      })
+}) => {
+  const getAxisTitle = (position) => {
+    return {
+      text: orientation === position ? x : (y?.length === 1 && y[0]),
+      standoff: 20,
     }
-    layout={{
-      barmode: stacked ? 'stack' : 'group',
-      xaxis: {
-        showticklabels: showTicks,
-        automargin: true,
-        ...(showAxisTitles && {
-          title: {
-            text: x,
-            standoff: 20,
-          },
-        }),
-      },
-      yaxis: {
-        showticklabels: showTicks,
-        automargin: true,
-        ...(showAxisTitles && y?.length === 1 && {
-          title: {
-            text: y[0],
-            standoff: 30,
-          },
-        }),
-      },
-      margin: {
-        l: 50,
-        r: 50,
-        b: 100,
-        t: 100,
-        pad: 4,
-      },
-    }}
-    {...props}
-  />
-)
+  }
+
+  return (
+    <CustomPlot
+      type='bar'
+      data={
+        useTransformedData({
+          type: 'bar',
+          data,
+          x,
+          y,
+          orientation,
+          textPosition,
+          ...props,
+        })
+      }
+      layout={{
+        barmode: stacked ? 'stack' : 'group',
+        xaxis: {
+          showticklabels: showTicks,
+          ticksuffix: orientation === 'h' && showPercentage && '%',
+          automargin: true,
+          ...(showAxisTitles && {
+            title: getAxisTitle('v'),
+          }),
+        },
+        yaxis: {
+          showticklabels: showTicks,
+          ticksuffix: orientation === 'v' && showPercentage && '%',
+          automargin: true,
+          ...(showAxisTitles && {
+            title: getAxisTitle('h'),
+          }),
+        },
+        margin: {
+          l: 50,
+          r: 50,
+          b: 100,
+          t: 100,
+          pad: 4,
+        },
+      }}
+      {...props}
+    />
+  )
+}
 
 Bar.propTypes = {
   x: PropTypes.string.isRequired,
@@ -70,6 +76,7 @@ Bar.propTypes = {
   stacked: PropTypes.bool,
   showTicks: PropTypes.bool,
   showAxisTitles: PropTypes.bool,
+  showPercentage: PropTypes.bool,
   orientation: PropTypes.oneOf(['v', 'h']),
   textPosition: PropTypes.oneOf(['inside', 'outside', 'auto', 'none']),
   ...plotlyPropTypes,
@@ -79,6 +86,7 @@ Bar.defaultProps = {
   stacked: false,
   showTicks: true,
   showAxisTitles: true,
+  showPercentage: false,
   orientation: 'v',
   textPosition: 'outside',
   ...plotlyDefaultProps,

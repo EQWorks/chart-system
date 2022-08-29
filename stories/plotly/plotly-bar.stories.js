@@ -23,8 +23,11 @@ export const Default = Template.bind({})
 export const Stacked = Template.bind({})
 Stacked.args = { stacked: true }
 
+export const PercentageLabel = Template.bind({})
+PercentageLabel.args = { showPercentage: true }
+
 export const Horizontal = Template.bind({})
-Horizontal.args = { orientation: 'h', }
+Horizontal.args = { orientation: 'h' }
 
 export const HorizontalStacked = Template.bind({})
 HorizontalStacked.args = { orientation: 'h', stacked: true }
