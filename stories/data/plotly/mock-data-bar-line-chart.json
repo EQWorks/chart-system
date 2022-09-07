@@ -1,0 +1,52 @@
+[
+  {
+    "city": "Longueuil",
+    "spend": 250,
+    "transactions": 2.2
+  },
+  {
+    "city": "Niagara Falls",
+    "spend": 113,
+    "transactions": 2.5
+  },
+  {
+    "city": "Montreal",
+    "spend": 141,
+    "transactions": 2
+  },
+  {
+    "city": "Saskatoon",
+    "spend": 152,
+    "transactions": 2.3
+  },
+  {
+    "city": "Vancouver",
+    "spend": 220,
+    "transactions": 3
+  },
+  {
+    "city": "Toronto",
+    "spend": 250,
+    "transactions": 2.8
+  },
+  {
+    "city": "Ottawa",
+    "spend": 113,
+    "transactions": 2.5
+  },
+  {
+    "city": "Brampton",
+    "spend": 141,
+    "transactions": 2
+  },
+  {
+    "city": "Calgary",
+    "spend": 152,
+    "transactions": 2.3
+  },
+  {
+    "city": "Edmonton",
+    "spend": 300,
+    "transactions": 3
+  }
+]
