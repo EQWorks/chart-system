@@ -8,7 +8,6 @@ import useTransformedData from '../shared/use-transformed-data'
 
 const BarLine = ({
   data,
-  stacked,
   showTicks,
   showAxisTitles,
   x,
@@ -91,7 +90,6 @@ const BarLine = ({
 BarLine.propTypes = {
   x: PropTypes.string.isRequired,
   y: PropTypes.arrayOf(PropTypes.string).isRequired,
-  stacked: PropTypes.bool,
   showTicks: PropTypes.bool,
   showAxisTitles: PropTypes.bool,
   showCurrency: PropTypes.bool,
@@ -99,7 +97,6 @@ BarLine.propTypes = {
 }
 
 BarLine.defaultProps = {
-  stacked: false,
   showTicks: true,
   showAxisTitles: true,
   showCurrency: false,
