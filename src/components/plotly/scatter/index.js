@@ -76,7 +76,7 @@ Scatter.propTypes = {
   y: PropTypes.arrayOf(PropTypes.string).isRequired,
   showTicks: PropTypes.bool,
   showAxisTitles: PropTypes.bool,
-  formatData: PropTypes.func,
+  formatData: PropTypes.objectOf(PropTypes.func),
   tickSuffix: PropTypes.arrayOf(PropTypes.string),
   tickPrefix: PropTypes.arrayOf(PropTypes.string),
   ...plotlyPropTypes,
@@ -85,6 +85,7 @@ Scatter.propTypes = {
 Scatter.defaultProps = {
   showTicks: true,
   showAxisTitles: true,
+  formatData: {},
   tickSuffix: [],
   tickPrefix: [],
   ...plotlyDefaultProps,
