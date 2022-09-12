@@ -2,7 +2,14 @@ import { useMemo } from 'react'
 import { plotlyInterfaces } from './constants'
 
 
-const getObjectByType = ( data, type, domain, range, args, key, grouped = false ) => {
+const getText = (value, format) => {
+  if (format && typeof format === 'function') {
+    return format(value)
+  }
+  return value
+}
+
+const getObjectByType = ( data, type, domain, range, args, key, format, grouped = false ) => {
   let typeConfig = {}
 
   if (grouped) {
@@ -11,13 +18,16 @@ const getObjectByType = ( data, type, domain, range, args, key, grouped = false 
         [domain.output]: args?.orientation === 'h' ? Object.values(key) : Object.keys(key),
         [range.output]: args?.orientation === 'h' ? Object.keys(key) : Object.values(key),
         orientation: args.orientation,
-        text: args?.orientation === 'h' ? Object.values(key) : Object.keys(key),
+        text: typeof format === 'function' ? 
+          args[range.input].map(k => Object.values(key).map(v => getText(v, format && format[k]))) : Object.values(key),
         textposition: args?.orientation === 'h' ? args.textPosition : 'none',
       }
     } else {
       typeConfig = {
         [domain.output]: Object.keys(key),
         [range.output]: Object.values(key),
+        text: typeof format === 'function' ? 
+          args[range.input].map(k => Object.values(key).map(v => getText(v, format && format[k]))) : Object.values(key),
       }
     }
   } else {
@@ -26,13 +36,18 @@ const getObjectByType = ( data, type, domain, range, args, key, grouped = false 
         [domain.output]: args?.orientation === 'h' ? data.map(d => d[key]) : data.map(d => d[args[domain.input]]), 
         [range.output]: args?.orientation === 'h' ? data.map(d => d[args[domain.input]]) : data.map(d => d[key]), 
         orientation: args.orientation,
-        text: args?.orientation === 'h' ? data.map(d => d[key]) : data.map(d => d[args[domain.input]]),
+        text: args[range.input].map(k => (
+          data.map(d => getText(d[key], format && format[k]))
+        )),
         textposition: args?.orientation === 'h' ? args.textPosition : 'none',
       }
     } else {
       typeConfig = {
         [domain.output]: data.map(d => d[args[domain.input]]), 
         [range.output]: data.map(d => d[key]), 
+        text: args[range.input].map(k => (
+          data.map(d => getText(d[key], format && format[k]))
+        )),
       }
     }
   }
@@ -46,6 +61,7 @@ const useTransformedData = ({
   groupByValue,
   extra = {},
   variant,
+  formatData,
   ...args
 }) => {
   const { domain, range } = plotlyInterfaces[type]
@@ -55,7 +71,8 @@ const useTransformedData = ({
       const { orientation, showPercentage, sum, textPosition } = args
 
       return args[range.input].map((k, i) => {
-        const text = showPercentage ? data.map(d => `${((d[k]*100) / sum).toFixed(2)}%`) : data.map(d => d[k])
+        const text = showPercentage ? data.map(d => `${((d[k]*100) / sum).toFixed(2)}%`) : data.map(d => getText(d[k], formatData[k]))
+
         return (
           {
             name: k,
@@ -77,7 +94,7 @@ const useTransformedData = ({
         delete _d[args[domain.input]]
         return {
           name,
-          ...getObjectByType(data, type, domain, range, args, _d, true),
+          ...getObjectByType(data, type, domain, range, args, _d, formatData, true),
           ...extra,
         }
       })
@@ -86,11 +103,11 @@ const useTransformedData = ({
     return args[range.input].map(k => (
       {
         name: k,
-        ...getObjectByType(data, type, domain, range, args, k),
+        ...getObjectByType(data, type, domain, range, args, k, formatData),
         ...extra,
       }
     ))
-  }, [args, data, type, domain, range, extra, groupByValue, variant])
+  }, [args, data, type, domain, range, extra, groupByValue, variant, formatData])
 }
 
 export default useTransformedData

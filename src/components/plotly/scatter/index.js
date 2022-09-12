@@ -13,6 +13,9 @@ const Scatter = ({
   showAxisTitles,
   x,
   y,
+  formatData,
+  tickSuffix,
+  tickPrefix,
   ...props
 }) => (
   <CustomPlot
@@ -23,6 +26,7 @@ const Scatter = ({
         data,
         x,
         y,
+        formatData,
         extra: {
           mode: showLines ? 'lines+markers' : 'markers',
         },
@@ -33,6 +37,8 @@ const Scatter = ({
       xaxis: {
         showticklabels: showTicks,
         automargin: true,
+        ticksuffix: tickSuffix[0],
+        tickprefix: tickPrefix[0],
         ...(showAxisTitles && {
           title: {
             text: x,
@@ -43,6 +49,8 @@ const Scatter = ({
       yaxis: {
         showticklabels: showTicks,
         automargin: true,
+        ticksuffix: tickSuffix[1],
+        tickprefix: tickPrefix[1],
         ...(showAxisTitles && y?.length === 1 && {
           title: {
             text: y[0],
@@ -68,12 +76,17 @@ Scatter.propTypes = {
   y: PropTypes.arrayOf(PropTypes.string).isRequired,
   showTicks: PropTypes.bool,
   showAxisTitles: PropTypes.bool,
+  formatData: PropTypes.func,
+  tickSuffix: PropTypes.arrayOf(PropTypes.string),
+  tickPrefix: PropTypes.arrayOf(PropTypes.string),
   ...plotlyPropTypes,
 }
 
 Scatter.defaultProps = {
   showTicks: true,
   showAxisTitles: true,
+  tickSuffix: [],
+  tickPrefix: [],
   ...plotlyDefaultProps,
 }
 

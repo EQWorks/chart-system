@@ -15,6 +15,9 @@ const PyramidBar = ({
   showPercentage,
   axisLabel,
   textPosition,
+  formatData,
+  tickSuffix,
+  tickPrefix,
   ...props
 }) => {
   const getSum = () => {
@@ -36,6 +39,7 @@ const PyramidBar = ({
     showPercentage,
     sum: getSum(),
     textPosition,
+    formatData,
     ...props,
   })
 
@@ -68,6 +72,8 @@ const PyramidBar = ({
           range: [-Math.abs(maxVal * 1.2), maxVal * 1.2], 
           ticktext: getTickText(), 
           tickvals: [...x.map(val => -Math.abs(val)), 0, ...xValReverse],
+          ticksuffix: tickSuffix[0],
+          tickprefix: tickPrefix[0],
           ...(showAxisTitles && {
             title: {
               text: axisLabel[0],
@@ -80,6 +86,8 @@ const PyramidBar = ({
           automargin: true,
           type: 'category', 
           autorange: true,
+          ticksuffix: tickSuffix[1],
+          tickprefix: tickPrefix[1],
           ...(showAxisTitles && {
             title: {
               text: axisLabel[1] || Object.keys(data[0])[0],
@@ -101,6 +109,9 @@ PyramidBar.propTypes = {
   showPercentage: PropTypes.bool,
   axisLabel: PropTypes.arrayOf(PropTypes.string),
   textPosition: PropTypes.oneOf(['inside', 'outside', 'auto', 'none']),
+  formatData: PropTypes.objectOf(PropTypes.func),
+  tickSuffix: PropTypes.arrayOf(PropTypes.string),
+  tickPrefix: PropTypes.arrayOf(PropTypes.string),
   ...plotlyPropTypes,
 }
 
@@ -110,6 +121,9 @@ PyramidBar.defaultProps = {
   showPercentage: false,
   axisLabel: ['count'],
   textPosition: 'outside',
+  formatData: {},
+  tickSuffix: [],
+  tickPrefix: [],
   ...plotlyDefaultProps,
 }
 

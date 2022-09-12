@@ -13,6 +13,9 @@ const Line = ({
   showAxisTitles,
   x,
   y,
+  formatData,
+  tickSuffix,
+  tickPrefix,
   ...props
 }) => (
   <CustomPlot
@@ -23,6 +26,7 @@ const Line = ({
         data,
         x,
         y,
+        formatData,
         extra: {
           line: {
             shape: spline ? 'spline' : 'linear',
@@ -35,6 +39,8 @@ const Line = ({
       xaxis: {
         showticklabels: showTicks,
         automargin: true,
+        ticksuffix: tickSuffix[0],
+        tickprefix: tickPrefix[0],
         ...(showAxisTitles && {
           title: {
             text: x,
@@ -45,6 +51,8 @@ const Line = ({
       yaxis: {
         showticklabels: showTicks,
         automargin: true,
+        ticksuffix: tickSuffix[1],
+        tickprefix: tickPrefix[1],
         ...(showAxisTitles && y?.length === 1 && {
           title: {
             text: y[0],
@@ -63,6 +71,9 @@ Line.propTypes = {
   spline: PropTypes.bool,
   showTicks: PropTypes.bool,
   showAxisTitles: PropTypes.bool,
+  formatData: PropTypes.func,
+  tickSuffix: PropTypes.arrayOf(PropTypes.string),
+  tickPrefix: PropTypes.arrayOf(PropTypes.string),
   ...plotlyPropTypes,
 }
 
@@ -70,6 +81,8 @@ Line.defaultProps = {
   spline: false,
   showTicks: true,
   showAxisTitles: true,
+  tickSuffix: [],
+  tickPrefix: [],
   ...plotlyDefaultProps,
 }
 
