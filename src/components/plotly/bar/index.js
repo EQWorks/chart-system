@@ -16,6 +16,9 @@ const Bar = ({
   orientation,
   textPosition,
   showPercentage,
+  formatData,
+  tickSuffix,
+  tickPrefix,
   ...props
 }) => {
   const getAxisTitle = (position) => {
@@ -36,6 +39,7 @@ const Bar = ({
           y,
           orientation,
           textPosition,
+          formatData,
           ...props,
         })
       }
@@ -43,7 +47,8 @@ const Bar = ({
         barmode: stacked ? 'stack' : 'group',
         xaxis: {
           showticklabels: showTicks,
-          ticksuffix: orientation === 'h' && showPercentage && '%',
+          ticksuffix: tickSuffix[0] || orientation === 'h' && showPercentage && '%',
+          tickprefix: tickPrefix[0],
           automargin: true,
           ...(showAxisTitles && {
             title: getAxisTitle('v'),
@@ -51,7 +56,8 @@ const Bar = ({
         },
         yaxis: {
           showticklabels: showTicks,
-          ticksuffix: orientation === 'v' && showPercentage && '%',
+          ticksuffix: tickSuffix[1] || orientation === 'v' && showPercentage && '%',
+          tickprefix: tickPrefix[1],
           automargin: true,
           ...(showAxisTitles && {
             title: getAxisTitle('h'),
@@ -79,6 +85,9 @@ Bar.propTypes = {
   showPercentage: PropTypes.bool,
   orientation: PropTypes.oneOf(['v', 'h']),
   textPosition: PropTypes.oneOf(['inside', 'outside', 'auto', 'none']),
+  formatData: PropTypes.objectOf(PropTypes.func),
+  tickSuffix: PropTypes.arrayOf(PropTypes.string),
+  tickPrefix: PropTypes.arrayOf(PropTypes.string),
   ...plotlyPropTypes,
 }
 
@@ -89,6 +98,9 @@ Bar.defaultProps = {
   showPercentage: false,
   orientation: 'v',
   textPosition: 'outside',
+  formatData: {},
+  tickSuffix: [],
+  tickPrefix: [],
   ...plotlyDefaultProps,
 }
 
