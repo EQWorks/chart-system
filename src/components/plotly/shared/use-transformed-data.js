@@ -19,7 +19,7 @@ const getObjectByType = ( data, type, domain, range, args, key, format, grouped 
         [range.output]: args?.orientation === 'h' ? Object.keys(key) : Object.values(key),
         orientation: args.orientation,
         text: typeof format === 'function' ? 
-          args[range.input].map(k => Object.values(key).map(v => getText(v, format && format[k]))) : Object.values(key),
+          Object.values(key).map(v => getText(v, format && format[key])) : Object.values(key),
         textposition: args?.orientation === 'h' ? args.textPosition : 'none',
       }
     } else {
@@ -27,7 +27,7 @@ const getObjectByType = ( data, type, domain, range, args, key, format, grouped 
         [domain.output]: Object.keys(key),
         [range.output]: Object.values(key),
         text: typeof format === 'function' ? 
-          args[range.input].map(k => Object.values(key).map(v => getText(v, format && format[k]))) : Object.values(key),
+          Object.values(key).map(v => getText(v, format && format[key])) : Object.values(key),
       }
     }
   } else {

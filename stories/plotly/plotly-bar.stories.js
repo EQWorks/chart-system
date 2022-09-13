@@ -9,7 +9,7 @@ export default {
   title: 'Plotly/bar',
 }
 
-const formatting = val => Number(val).toFixed(2)
+const formatting = val => `${Number(val).toFixed(2)}%`
 
 const Template = (args) =>
   <ResponsiveChartWrapper>
@@ -60,5 +60,6 @@ HorizontalFormatted.args = {
     'hh_income_100_150k': formatting,
     'hh_income_150_200k': formatting,
     'hh_income_200k+': formatting
-  } 
+  },
+  tickSuffix: ['%'],
 }
