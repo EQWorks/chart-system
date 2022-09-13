@@ -36,18 +36,14 @@ const getObjectByType = ( data, type, domain, range, args, key, format, grouped 
         [domain.output]: args?.orientation === 'h' ? data.map(d => d[key]) : data.map(d => d[args[domain.input]]), 
         [range.output]: args?.orientation === 'h' ? data.map(d => d[args[domain.input]]) : data.map(d => d[key]), 
         orientation: args.orientation,
-        text: args[range.input].map(k => (
-          data.map(d => getText(d[key], format && format[k]))
-        )),
+        text: data.map(d => getText(d[key], format && format[key])),
         textposition: args?.orientation === 'h' ? args.textPosition : 'none',
       }
     } else {
       typeConfig = {
         [domain.output]: data.map(d => d[args[domain.input]]), 
         [range.output]: data.map(d => d[key]), 
-        text: args[range.input].map(k => (
-          data.map(d => getText(d[key], format && format[k]))
-        )),
+        text: data.map(d => getText(d[key], format && format[key])),
       }
     }
   }
