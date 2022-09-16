@@ -18,32 +18,30 @@ const getObjectByType = ( data, type, domain, range, args, key, format, grouped 
         [domain.output]: args?.orientation === 'h' ? Object.values(key) : Object.keys(key),
         [range.output]: args?.orientation === 'h' ? Object.keys(key) : Object.values(key),
         orientation: args.orientation,
-        text: typeof format === 'function' ? 
-          Object.values(key).map(v => getText(v, format && format[key])) : Object.values(key),
+        text: Object.values(key).map(v => getText(v, format && format)),
         textposition: args?.orientation === 'h' ? args.textPosition : 'none',
       }
     } else {
       typeConfig = {
         [domain.output]: Object.keys(key),
         [range.output]: Object.values(key),
-        text: typeof format === 'function' ? 
-          Object.values(key).map(v => getText(v, format && format[key])) : Object.values(key),
+        text: Object.values(key).map(v => getText(v, format && format)),
       }
     }
   } else {
     if (type === 'bar') {
       typeConfig = {
         [domain.output]: args?.orientation === 'h' ? data.map(d => d[key]) : data.map(d => d[args[domain.input]]), 
-        [range.output]: args?.orientation === 'h' ? data.map(d => d[args[domain.input]]) : data.map(d => d[key]), 
+        [range.output]: args?.orientation === 'h' ? data.map(d => d[args[range.input]]) : data.map(d => d[key]), 
         orientation: args.orientation,
-        text: data.map(d => getText(d[key], format && format[key])),
+        text: data.map(d => getText(d[key], format && format)),
         textposition: args?.orientation === 'h' ? args.textPosition : 'none',
       }
     } else {
       typeConfig = {
         [domain.output]: data.map(d => d[args[domain.input]]), 
         [range.output]: data.map(d => d[key]), 
-        text: data.map(d => getText(d[key], format && format[key])),
+        text: data.map(d => getText(d[key], format && format)),
       }
     }
   }
@@ -84,13 +82,15 @@ const useTransformedData = ({
     } 
 
     if (groupByValue) {
-      return data.map(d => {
+      return data.map((d, i) => {
         const _d = { ...d }
         const name = _d[args[domain.input]]
         delete _d[args[domain.input]]
+        const keys = Object.keys(_d)
+
         return {
           name,
-          ...getObjectByType(data, type, domain, range, args, _d, formatData, true),
+          ...getObjectByType(data, type, domain, range, args, _d, formatData[keys[i]], true),
           ...extra,
         }
       })
@@ -99,7 +99,7 @@ const useTransformedData = ({
     return args[range.input].map(k => (
       {
         name: k,
-        ...getObjectByType(data, type, domain, range, args, k, formatData),
+        ...getObjectByType(data, type, domain, range, args, k, formatData[k]),
         ...extra,
       }
     ))
