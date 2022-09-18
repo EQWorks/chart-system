@@ -32,7 +32,7 @@ const getObjectByType = ( data, type, domain, range, args, key, format, grouped 
     if (type === 'bar') {
       typeConfig = {
         [domain.output]: args?.orientation === 'h' ? data.map(d => d[key]) : data.map(d => d[args[domain.input]]), 
-        [range.output]: args?.orientation === 'h' ? data.map(d => d[args[range.input]]) : data.map(d => d[key]), 
+        [range.output]: args?.orientation === 'h' ? data.map(d => d[args[domain.input]]) : data.map(d => d[key]), 
         orientation: args.orientation,
         text: data.map(d => getText(d[key], format && format)),
         textposition: args?.orientation === 'h' ? args.textPosition : 'none',

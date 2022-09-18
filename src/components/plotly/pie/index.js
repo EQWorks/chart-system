@@ -19,6 +19,7 @@ const Pie = ({
   showLabelName,
   textinfo,
   hole,
+  formatData,
   ...props
 }) => (
   <CustomPlot
@@ -30,6 +31,7 @@ const Pie = ({
         textinfo: textinfo ?? getTextInfo({ showPercentage, showLabelName }),
         hole: hole ?? (donut ? 0.4 : 0),
       },
+      formatData,
       ...props,
     })}
     {...props}
@@ -44,6 +46,7 @@ Pie.propTypes = {
   showLabelName: PropTypes.bool,
   textinfo: PropTypes.string,
   hole: PropTypes.number,
+  formatData: PropTypes.objectOf(PropTypes.func),
   ...plotlyPropTypes,
 }
 
@@ -53,6 +56,7 @@ Pie.defaultProps = {
   showLabelName: false,
   textinfo: null,
   hole: null,
+  formatData: {},
   ...plotlyDefaultProps,
 }
 
