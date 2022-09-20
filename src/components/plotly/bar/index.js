@@ -41,15 +41,15 @@ const Bar = ({
 
   const getMaxRange = (data) => {
     const xAxisValues = data.map(v => Math.max(...v.x))
-    const roundUpValue = Math.ceil(Math.max(...xAxisValues))
+    const roundUpValue = Math.ceil(stacked ? xAxisValues.reduce((a, b) => a + b, 0) : Math.max(...xAxisValues))
     const arrayOfZero = [...Array(roundUpValue.toString().length - 1).fill('0')]
 
     let valueUnit = '1'
     arrayOfZero.forEach(v => valueUnit = valueUnit + v)
     
-    const maxRange = (Math.ceil(Math.ceil(Math.max(...xAxisValues)) / valueUnit) * valueUnit) * 1.1
+    const maxRange = (Math.ceil(roundUpValue / valueUnit) * valueUnit) * 1.1
 
-    return Number(maxRange.toFixed(0))
+    return Number((stacked ? (roundUpValue * 1.15) : maxRange).toFixed(0))
   }
 
   return (
@@ -59,7 +59,7 @@ const Bar = ({
       layout={{
         barmode: stacked ? 'stack' : 'group',
         xaxis: {
-          range: orientation === 'h' && stacked ? [] : [0, getMaxRange(_data)],
+          range: orientation === 'h' && [0, getMaxRange(_data)],
           showticklabels: showTicks,
           ticksuffix: tickSuffix[0] || orientation === 'h' && showPercentage && '%',
           tickprefix: tickPrefix[0],
