@@ -53,40 +53,40 @@ const Bar = ({
   }
 
   return (
-      <CustomPlot
-        type='bar'
-        data={_data}
-        layout={{
-          barmode: stacked ? 'stack' : 'group',
-          xaxis: {
-            range: orientation === 'v' && stacked ? [] : [0, getMaxRange(_data)],
-            showticklabels: showTicks,
-            ticksuffix: tickSuffix[0] || orientation === 'h' && showPercentage && '%',
-            tickprefix: tickPrefix[0],
-            automargin: true,
-            ...(showAxisTitles && {
-              title: getAxisTitle('v'),
-            }),
-          },
-          yaxis: {
-            showticklabels: showTicks,
-            ticksuffix: tickSuffix[1] || orientation === 'v' && showPercentage && '%',
-            tickprefix: tickPrefix[1],
-            automargin: true,
-            ...(showAxisTitles && {
-              title: getAxisTitle('h'),
-            }),
-          },
-          margin: {
-            l: 50,
-            r: 50,
-            b: 100,
-            t: 100,
-            pad: 4,
-          },
-        }}
-        {...props}
-      />
+    <CustomPlot
+      type='bar'
+      data={_data}
+      layout={{
+        barmode: stacked ? 'stack' : 'group',
+        xaxis: {
+          range: orientation === 'h' && stacked ? [] : [0, getMaxRange(_data)],
+          showticklabels: showTicks,
+          ticksuffix: tickSuffix[0] || orientation === 'h' && showPercentage && '%',
+          tickprefix: tickPrefix[0],
+          automargin: true,
+          ...(showAxisTitles && {
+            title: getAxisTitle('v'),
+          }),
+        },
+        yaxis: {
+          showticklabels: showTicks,
+          ticksuffix: tickSuffix[1] || orientation === 'v' && showPercentage && '%',
+          tickprefix: tickPrefix[1],
+          automargin: true,
+          ...(showAxisTitles && {
+            title: getAxisTitle('h'),
+          }),
+        },
+        margin: {
+          l: 50,
+          r: 50,
+          b: 100,
+          t: 100,
+          pad: 4,
+        },
+      }}
+      {...props}
+    />
   )
 }
 
