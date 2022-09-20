@@ -28,51 +28,65 @@ const Bar = ({
     }
   }
 
+  const _data = useTransformedData({
+    type: 'bar',
+    data,
+    x,
+    y,
+    orientation,
+    textPosition,
+    formatData,
+    ...props,
+  })
+
+  const getMaxRange = (data) => {
+    const xAxisValues = data.map(v => Math.max(...v.x))
+    const roundUpValue = Math.ceil(Math.max(...xAxisValues))
+    const arrayOfZero = [...Array(roundUpValue.toString().length - 1).fill('0')]
+
+    let valueUnit = '1'
+    arrayOfZero.forEach(v => valueUnit = valueUnit + v)
+    
+    const maxRange = (Math.ceil(Math.ceil(Math.max(...xAxisValues)) / valueUnit) * valueUnit) * 1.1
+
+    return Number(maxRange.toFixed(0))
+  }
+
   return (
-    <CustomPlot
-      type='bar'
-      data={
-        useTransformedData({
-          type: 'bar',
-          data,
-          x,
-          y,
-          orientation,
-          textPosition,
-          formatData,
-          ...props,
-        })
-      }
-      layout={{
-        barmode: stacked ? 'stack' : 'group',
-        xaxis: {
-          showticklabels: showTicks,
-          ticksuffix: tickSuffix[0] || orientation === 'h' && showPercentage && '%',
-          tickprefix: tickPrefix[0],
-          automargin: true,
-          ...(showAxisTitles && {
-            title: getAxisTitle('v'),
-          }),
-        },
-        yaxis: {
-          showticklabels: showTicks,
-          ticksuffix: tickSuffix[1] || orientation === 'v' && showPercentage && '%',
-          tickprefix: tickPrefix[1],
-          automargin: true,
-          ...(showAxisTitles && {
-            title: getAxisTitle('h'),
-          }),
-        },
-        margin: {
-          l: 50,
-          r: 50,
-          b: 100,
-          t: 100,
-          pad: 4,
-        },
-      }}
-      {...props}
-    />
+      <CustomPlot
+        type='bar'
+        data={_data}
+        layout={{
+          barmode: stacked ? 'stack' : 'group',
+          xaxis: {
+            range: orientation === 'v' && stacked ? [] : [0, getMaxRange(_data)],
+            showticklabels: showTicks,
+            ticksuffix: tickSuffix[0] || orientation === 'h' && showPercentage && '%',
+            tickprefix: tickPrefix[0],
+            automargin: true,
+            ...(showAxisTitles && {
+              title: getAxisTitle('v'),
+            }),
+          },
+          yaxis: {
+            showticklabels: showTicks,
+            ticksuffix: tickSuffix[1] || orientation === 'v' && showPercentage && '%',
+            tickprefix: tickPrefix[1],
+            automargin: true,
+            ...(showAxisTitles && {
+              title: getAxisTitle('h'),
+            }),
+          },
+          margin: {
+            l: 50,
+            r: 50,
+            b: 100,
+            t: 100,
+            pad: 4,
+          },
+        }}
+        {...props}
+      />
   )
 }
 
