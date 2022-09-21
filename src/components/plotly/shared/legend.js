@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import styles from './styles'
+import Styles from './styles'
 import getColorScheme from './get-color-scheme'
 
 
@@ -11,18 +11,18 @@ const Legend = ({
   colors,
   position: [x, y],
 }) => (
-  <styles.LegendContainer margin={margin} x={x} y={y} >
+  <Styles.LegendContainer margin={margin} x={x} y={y} >
     {
       keys.map((k, i) => (
-        <styles.LegendItem key={i}>
-          <styles.LegendColorBox color={colors[i]} rightAligned={x > 0.5} />
-          <styles.LegendString rightAligned={x > 0.5}>
+        <Styles.LegendItem key={i}>
+          <Styles.LegendColorBox color={colors[i]} rightAligned={x > 0.5} />
+          <Styles.LegendString rightAligned={x > 0.5}>
             {k}
-          </styles.LegendString>
-        </styles.LegendItem>
+          </Styles.LegendString>
+        </Styles.LegendItem>
       ))
     }
-  </styles.LegendContainer >
+  </Styles.LegendContainer >
 )
 
 Legend.propTypes = {
