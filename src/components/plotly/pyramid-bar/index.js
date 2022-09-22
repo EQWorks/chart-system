@@ -69,7 +69,7 @@ const PyramidBar = ({
           showticklabels: showTicks,
           automargin: true,
           type: 'linear', 
-          range: [-Math.abs(maxVal * 1.2), maxVal * 1.2], 
+          range: [-Math.abs(maxVal * 1.5), maxVal * 1.5], 
           ticktext: getTickText(), 
           tickvals: [...x.map(val => -Math.abs(val)), 0, ...xValReverse],
           ticksuffix: tickSuffix[0],

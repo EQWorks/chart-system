@@ -28,24 +28,38 @@ const Bar = ({
     }
   }
 
+  const _data = useTransformedData({
+    type: 'bar',
+    data,
+    x,
+    y,
+    orientation,
+    textPosition,
+    formatData,
+    ...props,
+  })
+
+  const getMaxRange = (data) => {
+    const xAxisValues = data.map(v => Math.max(...v.x))
+    const roundUpValue = Math.ceil(stacked ? xAxisValues.reduce((a, b) => a + b, 0) : Math.max(...xAxisValues))
+    const arrayOfZero = [...Array(roundUpValue.toString().length - 1).fill('0')]
+
+    let valueUnit = '1'
+    arrayOfZero.forEach(v => valueUnit = valueUnit + v)
+    
+    const maxRange = (Math.ceil(roundUpValue / valueUnit) * valueUnit) * 1.1
+
+    return Number((stacked ? (roundUpValue * 1.15) : maxRange).toFixed(0))
+  }
+
   return (
     <CustomPlot
       type='bar'
-      data={
-        useTransformedData({
-          type: 'bar',
-          data,
-          x,
-          y,
-          orientation,
-          textPosition,
-          formatData,
-          ...props,
-        })
-      }
+      data={_data}
       layout={{
         barmode: stacked ? 'stack' : 'group',
         xaxis: {
+          range: orientation === 'h' && [0, getMaxRange(_data)],
           showticklabels: showTicks,
           ticksuffix: tickSuffix[0] || orientation === 'h' && showPercentage && '%',
           tickprefix: tickPrefix[0],
