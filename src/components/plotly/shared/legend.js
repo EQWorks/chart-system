@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import Styles from './styles'
 import getColorScheme from './get-color-scheme'
 
-
 const Legend = ({
   margin,
   keys,

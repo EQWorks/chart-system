@@ -4,6 +4,7 @@ import { setup, styled } from 'goober'
 import plotStyles from './plot'
 import legendStyles from './legend'
 import utilStyles from './util'
+import DivBase from '../div-base'
 
 setup(createElement)
 
@@ -11,7 +12,7 @@ export default {
   ...plotStyles,
   ...legendStyles,
   ...utilStyles,
-  OuterContainer: styled('div')(({ showLegend, legendPosition: [lX, lY] }) => {
+  OuterContainer: styled(DivBase)(({ showLegend, legendPosition: [lX, lY] }) => {
     let gridStyle = {}
     if (showLegend) {
       if (lY === 1) {
@@ -32,7 +33,7 @@ export default {
       ...gridStyle,
     }
   }),
-  GenericContainer: styled('div')({
+  GenericContainer: styled(DivBase)({
     display: 'flex',
     flexDirection: 'column',
     alignContent: 'center',
@@ -41,7 +42,7 @@ export default {
     height: '100%',
     transition: 'width 0.3s, height 0.3s',
   }),
-  ContentContainer: styled('div')({
+  ContentContainer: styled(DivBase)({
     fontFamily: 'Open Sans,sans-serif',
     position: 'relative',
     order: 1,
