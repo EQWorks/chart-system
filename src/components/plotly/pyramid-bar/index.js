@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { plotlyDefaultProps, plotlyPropTypes } from '../shared/constants'
 import CustomPlot from '../shared/custom-plot'
 import useTransformedData from '../shared/use-transformed-data'
+import { onlyNumbers, getRoundToNumberDigit } from '../../../util/numeric'
 
 
 const PyramidBar = ({
@@ -14,6 +15,8 @@ const PyramidBar = ({
   y,
   showPercentage,
   axisLabel,
+  xAxisTick,
+  xAxisLabelLength,
   textPosition,
   formatData,
   tickSuffix,
@@ -22,7 +25,7 @@ const PyramidBar = ({
 }) => {
   const getSum = () => {
     let total = 0
-    y.forEach(k => {
+    x.forEach(k => {
       const sum = data.map(d => d[k]).reduce((acc, val) => acc + val, 0)
       total += sum
     })
@@ -33,6 +36,7 @@ const PyramidBar = ({
   const _data = useTransformedData({
     type: 'bar',
     data,
+    x,
     y,
     orientation: 'h',
     variant: 'pyramidBar',
@@ -43,19 +47,49 @@ const PyramidBar = ({
     ...props,
   })
 
-  const xValReverse = x.slice().reverse()
-  const maxVal = Math.max(...x)
+  const getMaxRange = (data) => {
+    const xAxisValues = data.map(v => {
+      const values = v.x.map(num => Math.abs(num))
+      return Math.max(...values)
+    })
 
-  const getTickText = () => {
-    let tickText = [...x, 0, ...xValReverse]
+    const roundUpValue = Math.ceil(Math.max(...xAxisValues))
+    const arrayOfZero = [...Array(roundUpValue.toString().length - 1).fill('0')]
+
+    let valueUnit = '1'
+    arrayOfZero.forEach(v => valueUnit = valueUnit + v)
+    
+    const maxRange = (Math.ceil(roundUpValue / valueUnit) * valueUnit)
+
+    return maxRange
+  }
+
+  const getAxisTicks = (array, maxValue) => {
+    let axisTicks = array
+
+    if (!axisTicks.length || !onlyNumbers(axisTicks)) {
+      const determineGraphVal = maxValue > 10 ? getRoundToNumberDigit(maxValue) : 10
+
+      axisTicks = [...Array(xAxisLabelLength).keys()].map((val) => (
+        Math.round((determineGraphVal / xAxisLabelLength) * (xAxisLabelLength - val))
+      ))
+    }
+
+    const xValReverse = axisTicks.slice().reverse()
+    
+    let tickText = [...axisTicks, 0, ...xValReverse]
 
     if (showPercentage) { 
-      const transformPercentage = x.map(val => `${Math.round((val*100) / getSum())}%`)
+      const transformPercentage = axisTicks.map(val => `${Math.round((val*100) / getSum())}%`)
       tickText = [...transformPercentage, '0%', ...transformPercentage.slice().reverse()]
     }
 
-    return tickText
+    return { tickText, positive: xValReverse, negative: axisTicks.map(val => -Math.abs(val)) }
+
   }
+
+  const maxValue = getMaxRange(_data)
+  const getXaxisTicks = getAxisTicks(xAxisTick, maxValue)
 
   return (
     <CustomPlot
@@ -69,9 +103,9 @@ const PyramidBar = ({
           showticklabels: showTicks,
           automargin: true,
           type: 'linear', 
-          range: [-Math.abs(maxVal * 1.5), maxVal * 1.5], 
-          ticktext: getTickText(), 
-          tickvals: [...x.map(val => -Math.abs(val)), 0, ...xValReverse],
+          range: [-Math.abs(maxValue * 1.4), maxValue * 1.4], 
+          ticktext: getXaxisTicks.tickText, 
+          tickvals: [...getXaxisTicks.negative, 0, ...getXaxisTicks.positive],
           ticksuffix: tickSuffix[0],
           tickprefix: tickPrefix[0],
           ...(showAxisTitles && {
@@ -102,12 +136,14 @@ const PyramidBar = ({
 }
 
 PyramidBar.propTypes = {
-  x: PropTypes.arrayOf(PropTypes.number).isRequired,
+  x: PropTypes.arrayOf(PropTypes.string).isRequired,
   y: PropTypes.arrayOf(PropTypes.string).isRequired,
   showTicks: PropTypes.bool,
   showAxisTitles: PropTypes.bool,
   showPercentage: PropTypes.bool,
   axisLabel: PropTypes.arrayOf(PropTypes.string),
+  xAxisTick: PropTypes.arrayOf(PropTypes.number),
+  xAxisLabelLength: PropTypes.number,
   textPosition: PropTypes.oneOf(['inside', 'outside', 'auto', 'none']),
   formatData: PropTypes.objectOf(PropTypes.func),
   tickSuffix: PropTypes.arrayOf(PropTypes.string),
@@ -120,6 +156,8 @@ PyramidBar.defaultProps = {
   showAxisTitles: true,
   showPercentage: false,
   axisLabel: ['count'],
+  xAxisTick: [],
+  xAxisLabelLength: 5,
   textPosition: 'outside',
   formatData: {},
   tickSuffix: [],
