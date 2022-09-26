@@ -1,7 +1,7 @@
 /**
- * onlyNumbers - checks if every elements inside of the array are intiger numbers
+ * onlyNumbers - checks if every elements inside the array are integer numbers
  * @param { array } array - array of numbers
- * @returns { boolean } - return true if it is only intiger numbers in the array, false otherwise
+ * @returns { boolean } - return true if the array contains only integers, false otherwise
  */
 export const onlyNumbers = (array) => {
   return array.every(el => {
@@ -10,7 +10,7 @@ export const onlyNumbers = (array) => {
 }
 
 /**
- * getRoundToNumberDigit - rounds a number up to the next largest integer based of the lenght of its digits
+ * getRoundToNumberDigit - rounds a number up to the next largest integer based of the length of its digits
  * @param { numeric } num - numeric key param
  * @returns { numeric } - return the rounded up number
  */
