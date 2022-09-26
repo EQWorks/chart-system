@@ -1,10 +1,11 @@
 import { useMemo } from 'react'
+import * as d3 from 'd3'
 import { plotlyInterfaces } from './constants'
 
 
-const getText = (value, format) => {
-  if (format && typeof format === 'function') {
-    return format(value)
+const getText = (value, formatting) => {
+  if (formatting && typeof formatting === 'function') {
+    return formatting(value)
   }
   return value
 }
@@ -18,7 +19,10 @@ const getObjectByType = ( data, type, domain, range, args, key, format, grouped 
         [domain.output]: args?.orientation === 'h' ? Object.values(key) : Object.keys(key),
         [range.output]: args?.orientation === 'h' ? Object.keys(key) : Object.values(key),
         orientation: args.orientation,
-        text: Object.values(key).map(v => getText(v, format && format)),
+        text: Object.values(key).map(v => {
+          const _getText = getText(v, format && format)
+          return isNaN(_getText) ? _getText : d3.format('~s')(_getText)
+        }),
         textposition: args?.orientation === 'h' ? args.textPosition : 'none',
       }
     } else {
@@ -34,7 +38,10 @@ const getObjectByType = ( data, type, domain, range, args, key, format, grouped 
         [domain.output]: args?.orientation === 'h' ? data.map(d => d[key]) : data.map(d => d[args[domain.input]]), 
         [range.output]: args?.orientation === 'h' ? data.map(d => d[args[domain.input]]) : data.map(d => d[key]), 
         orientation: args.orientation,
-        text: data.map(d => getText(d[key], format && format)),
+        text: data.map(d => {
+          const _getText = getText(d[key], format && format)
+          return isNaN(_getText) ? _getText : d3.format('~s')(_getText)
+        }),
         textposition: args?.orientation === 'h' ? args.textPosition : 'none',
       }
     } else {
@@ -64,16 +71,20 @@ const useTransformedData = ({
     if (variant === 'pyramidBar') {
       const { orientation, showPercentage, sum, textPosition } = args
 
-      return args[range.input].map((k, i) => {
-        const text = showPercentage ? data.map(d => `${((d[k]*100) / sum).toFixed(2)}%`) : data.map(d => getText(d[k], formatData[k]))
+      return args[domain.input].map((k, i) => {
+        const textArray = showPercentage ? data.map(d => `${((d[k]*100) / sum).toFixed(2)}%`) : 
+          data.map(d => { 
+            const _getText = getText(d[k], formatData[k]) 
+            return isNaN(_getText) ? _getText : d3.format('~s')(_getText)
+          })
 
         return (
           {
             name: k,
             [domain.output]: data.map(d => i === 1 ? d[k] : -Math.abs(d[k])),
-            [range.output]: data.map(d => Object.values(d)[0]),
+            [range.output]: data.map(d => d[args[range.input][0]]),
             orientation,
-            text: text,
+            text: textArray,
             textposition: textPosition,
             ...extra,
           }
