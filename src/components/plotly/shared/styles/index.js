@@ -1,18 +1,19 @@
 import { createElement } from 'react'
 import { setup, styled } from 'goober'
-
+import { shouldForwardProp } from 'goober/should-forward-prop'
 import plotStyles from './plot'
 import legendStyles from './legend'
 import utilStyles from './util'
-import DivBase from '../div-base'
 
-setup(createElement)
+setup(createElement, undefined, undefined, shouldForwardProp((prop) => {
+  return prop !== 'showLegend' && prop !== 'legendPosition' && prop !== 'rightAligned'
+}))
 
 export default {
   ...plotStyles,
   ...legendStyles,
   ...utilStyles,
-  OuterContainer: styled(DivBase)(({ showLegend, legendPosition: [lX, lY] }) => {
+  OuterContainer: styled('div')(({ showLegend, legendPosition: [lX, lY] }) => {
     let gridStyle = {}
     if (showLegend) {
       if (lY === 1) {
@@ -33,7 +34,7 @@ export default {
       ...gridStyle,
     }
   }),
-  GenericContainer: styled(DivBase)({
+  GenericContainer: styled('div')({
     display: 'flex',
     flexDirection: 'column',
     alignContent: 'center',
@@ -42,7 +43,7 @@ export default {
     height: '100%',
     transition: 'width 0.3s, height 0.3s',
   }),
-  ContentContainer: styled(DivBase)({
+  ContentContainer: styled('div')({
     fontFamily: 'Open Sans,sans-serif',
     position: 'relative',
     order: 1,

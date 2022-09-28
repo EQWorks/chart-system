@@ -1,9 +1,8 @@
 import { styled } from 'goober'
 import { getTailwindConfigColor } from '@eqworks/lumen-labs'
-import DivBase from '../div-base'
 
 export default {
-  LegendContainer: styled(DivBase)(({ margin, x, y }) => {
+  LegendContainer: styled('div')(({ margin, x, y }) => {
     const horizontal = !(y % 1)
     let positionStyle = {
       flexDirection: horizontal ? 'row' : 'column',
@@ -31,28 +30,25 @@ export default {
     }
   }),
 
-  LegendItem: styled(DivBase)({
+  LegendItem: styled('div')({
     display: 'flex',
     margin: '0.2rem',
     alignItems: 'center',
   }),
 
-  LegendColorBox: styled(DivBase)(({ rightAligned, color }) => {
-    return {
-      order: + !rightAligned,
-      background: color,
-      borderRadius: '0.2rem',
-      width: '1rem',
-      height: '1rem',
-      margin: '0 0.5rem',
-    }
+  LegendColorBox: styled('div')(({ rightAligned, color }) => ({
+    order: + !rightAligned,
+    background: color,
+    borderRadius: '0.2rem',
+    width: '1rem',
+    height: '1rem',
+    margin: '0 0.5rem',
   }),
-
-  LegendString: styled(DivBase)(({ rightAligned }) => {
-    return {
-      order: + rightAligned,
-      textAlign: rightAligned ? 'right' : 'left',
-      flex: 1,
-    }
+  ),
+  LegendString: styled('div')(({ rightAligned }) => ({
+    order: + rightAligned,
+    textAlign: rightAligned ? 'right' : 'left',
+    flex: 1,
   }),
+  ),
 }
