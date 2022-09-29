@@ -77,5 +77,5 @@ export const PLOTLY_BASE_LAYOUT = {
     r: 0,
   },
   xaxis: { fixedrange: true },
-  yaxis: { fixedrange: true }
+  yaxis: { fixedrange: true },
 }
