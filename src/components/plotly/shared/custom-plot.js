@@ -8,7 +8,7 @@ import getColorScheme from './get-color-scheme'
 import Legend from './legend'
 import { PLOTLY_BASE_LAYOUT, plotlyInterfaces } from './constants'
 import Plot from './plot'
-import styles from './styles'
+import Styles from './styles'
 
 const DEFAULT_SIZE = 0.8 // [0, 1]
 const MIN_SIZE = 0.5 // [0, 1]
@@ -75,31 +75,31 @@ const CustomPlot = ({
   })
 
   const renderSubPlotTitle = (_title = '') => (
-    <styles.SubPlotTitle
+    <Styles.SubPlotTitle
       x={titlePosition[0]}
       y={titlePosition[1]}
     >
       {_title}
-    </styles.SubPlotTitle>
+    </Styles.SubPlotTitle>
   )
 
   const renderTitle = (
-    <styles.Title
+    <Styles.Title
       x={titlePosition[0]}
       y={titlePosition[1]}
     >
       {title}
-    </styles.Title>
+    </Styles.Title>
   )
 
   // render a dummy element with the ref from react-resize-detector.
   const renderDummy = (
-    <styles.PlotContainer>
-      <styles.DynamicSize ref={ref} size={finalVizSize} >
+    <Styles.PlotContainer>
+      <Styles.DynamicSize ref={ref} size={finalVizSize} >
         {showSubPlotTitles && renderSubPlotTitle(' ')}
-        <styles.Plot />
-      </styles.DynamicSize>
-    </styles.PlotContainer>
+        <Styles.Plot />
+      </Styles.DynamicSize>
+    </Styles.PlotContainer>
   )
 
   // set manual height and width for special cases
@@ -122,19 +122,19 @@ const CustomPlot = ({
   const applyManualDimensions = children => (
     manualDimensions
       ? (
-        <styles.ManualDimensions {...manualDimensions}>
+        <Styles.ManualDimensions {...manualDimensions}>
           {children}
-        </styles.ManualDimensions>
+        </Styles.ManualDimensions>
       )
       : children
   )
 
   // render a plotly.js visualization with a title and dynamic padding
   const renderPlot = (data, title, key) => (
-    <styles.PlotContainer key={key}>
+    <Styles.PlotContainer key={key}>
       {
         applyManualDimensions(
-          <styles.DynamicSize size={finalVizSize} >
+          <Styles.DynamicSize size={finalVizSize} >
             {doSubPlots
               ? (showSubPlotTitles && renderSubPlotTitle(title))
               : renderTitle
@@ -147,38 +147,38 @@ const CustomPlot = ({
                 responsive: true,
               }}
             />
-          </styles.DynamicSize>,
+          </Styles.DynamicSize>,
         )
       }
-    </styles.PlotContainer>
+    </Styles.PlotContainer>
   )
 
   return (
-    <styles.OuterContainer showLegend={showLegend} legendPosition={legendPosition}>
-      <styles.ContentContainer>
+    <Styles.OuterContainer showLegend={showLegend} legendPosition={legendPosition}>
+      <Styles.ContentContainer>
         {
           doSubPlots
             ? <>
-              <styles.GenericContainer>
+              <Styles.GenericContainer>
                 {renderTitle}
-                <styles.SubPlotGrid columns={subPlotColumns} rows={subPlotRows}>
+                <Styles.SubPlotGrid columns={subPlotColumns} rows={subPlotRows}>
                   {coloredData.map((d, i) => renderPlot([d], d.name, i))}
-                </styles.SubPlotGrid >
-                <styles.HiddenContainer>
-                  <styles.SubPlotGrid columns={subPlotColumns} rows={subPlotRows}>
+                </Styles.SubPlotGrid >
+                <Styles.HiddenContainer>
+                  <Styles.SubPlotGrid columns={subPlotColumns} rows={subPlotRows}>
                     {renderDummy}
-                  </styles.SubPlotGrid >
-                </styles.HiddenContainer>
-              </styles.GenericContainer>
+                  </Styles.SubPlotGrid >
+                </Styles.HiddenContainer>
+              </Styles.GenericContainer>
             </>
             : <>
               {renderPlot(coloredData)}
-              <styles.HiddenContainer>
+              <Styles.HiddenContainer>
                 {renderDummy}
-              </styles.HiddenContainer>
+              </Styles.HiddenContainer>
             </>
         }
-      </styles.ContentContainer>
+      </Styles.ContentContainer>
       {
         showLegend &&
         <Legend
@@ -188,7 +188,7 @@ const CustomPlot = ({
           position={legendPosition}
         />
       }
-    </styles.OuterContainer>
+    </Styles.OuterContainer>
   )
 }
 

@@ -1,7 +1,6 @@
 import { styled } from 'goober'
 import { getTailwindConfigColor } from '@eqworks/lumen-labs'
 
-
 export default {
   LegendContainer: styled('div')(({ margin, x, y }) => {
     const horizontal = !(y % 1)
@@ -37,18 +36,19 @@ export default {
     alignItems: 'center',
   }),
 
-  LegendColorBox: styled('div')(({ color, rightAligned }) => ({
+  LegendColorBox: styled('div')(({ rightAligned, color }) => ({
     order: + !rightAligned,
     background: color,
     borderRadius: '0.2rem',
     width: '1rem',
     height: '1rem',
     margin: '0 0.5rem',
-  })),
-
+  }),
+  ),
   LegendString: styled('div')(({ rightAligned }) => ({
     order: + rightAligned,
     textAlign: rightAligned ? 'right' : 'left',
     flex: 1,
-  })),
+  }),
+  ),
 }

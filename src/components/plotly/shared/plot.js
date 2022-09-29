@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Plotly from 'plotly.js-basic-dist-min'
 
-import styles from './styles'
+import Styles from './styles'
 
 // credit JamesRamm
 // https://github.com/plotly/react-plotly.js/issues/242
@@ -21,7 +21,7 @@ const Plot = ({ data, layout, config }) => {
       ref && Plotly.purge(ref)
     }
   }, [ref, data, layout, config])
-  return <styles.Plot ref={setRef} />
+  return <Styles.Plot ref={setRef} />
 }
 
 Plot.propTypes = {

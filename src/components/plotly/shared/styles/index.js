@@ -1,11 +1,13 @@
 import { createElement } from 'react'
 import { setup, styled } from 'goober'
-
+import { shouldForwardProp } from 'goober/should-forward-prop'
 import plotStyles from './plot'
 import legendStyles from './legend'
 import utilStyles from './util'
 
-setup(createElement)
+setup(createElement, undefined, undefined, shouldForwardProp((prop) => {
+  return prop !== 'showLegend' && prop !== 'legendPosition' && prop !== 'rightAligned'
+}))
 
 export default {
   ...plotStyles,
