@@ -5,12 +5,7 @@ import { plotlyDefaultProps, plotlyPropTypes } from '../shared/constants'
 import CustomPlot from '../shared/custom-plot'
 import useTransformedData from '../shared/use-transformed-data'
 
-const getTextInfo = ({ showPercentage, showLabelName }) => {
-  if (showPercentage) {
-    return showLabelName ? 'label+percent' : 'percent'
-  }
-  return 'none'
-}
+import { getTextInfo } from '../shared/utils'
 
 const Pie = ({
   donut,
@@ -21,22 +16,23 @@ const Pie = ({
   hole,
   formatData,
   ...props
-}) => (
-  <CustomPlot
-    type='pie'
-    data={useTransformedData({
-      type: 'pie',
-      data,
-      extra: {
-        textinfo: textinfo ?? getTextInfo({ showPercentage, showLabelName }),
-        hole: hole ?? (donut ? 0.4 : 0),
-      },
-      formatData,
-      ...props,
-    })}
-    {...props}
-  />
-)
+}) => {
+  return (
+    <CustomPlot
+      type='pie'
+      data={useTransformedData({
+        type: 'pie',
+        data,
+        extra: {
+          textinfo: textinfo ?? getTextInfo({ showPercentage, showLabelName }),
+          hole: hole ?? (donut ? 0.4 : 0),
+        },
+        formatData,
+        ...props,
+      })}
+      {...props}
+    />
+  )}
 
 Pie.propTypes = {
   label: PropTypes.string.isRequired,
