@@ -1,3 +1,5 @@
+import * as d3 from 'd3'
+
 const getTextInfo = ({ showPercentage, showLabelName }) => {
   if (showPercentage) {
     return showLabelName ? 'label+percent' : 'percent'
@@ -49,4 +51,57 @@ const getSum = (x, data) => {
   return total
 }
 
-export { getTextInfo, getAxisTitle, getMaxRange, getSum }
+const getText = (value, formatting) => {
+  if (formatting && typeof formatting === 'function') {
+    return formatting(value)
+  }
+  return value
+}
+
+const getObjectByType = ( data, type, domain, range, args, key, format, grouped = false ) => {
+  let typeConfig = {}
+
+  if (grouped) {
+    if (type === 'bar') {
+      typeConfig = {
+        [domain.output]: args?.orientation === 'h' ? Object.values(key) : Object.keys(key),
+        [range.output]: args?.orientation === 'h' ? Object.keys(key) : Object.values(key),
+        orientation: args.orientation,
+        text: Object.values(key).map(v => {
+          const _getText = getText(v, format && format)
+          return isNaN(_getText) ? _getText : d3.format('~s')(_getText)
+        }),
+        textposition: args?.orientation === 'h' ? args.textPosition : 'none',
+      }
+    } else {
+      typeConfig = {
+        [domain.output]: Object.keys(key),
+        [range.output]: Object.values(key),
+        text: Object.values(key).map(v => getText(v, format && format)),
+      }
+    }
+  } else {
+    if (type === 'bar') {
+      typeConfig = {
+        [domain.output]: args?.orientation === 'h' ? data.map(d => d[key]) : data.map(d => d[args[domain.input]]), 
+        [range.output]: args?.orientation === 'h' ? data.map(d => d[args[domain.input]]) : data.map(d => d[key]), 
+        orientation: args.orientation,
+        text: data.map(d => {
+          const _getText = getText(d[key], format && format)
+          return isNaN(_getText) ? _getText : d3.format('~s')(_getText)
+        }),
+        textposition: args?.orientation === 'h' ? args.textPosition : 'none',
+      }
+    } else {
+      typeConfig = {
+        [domain.output]: data.map(d => d[args[domain.input]]), 
+        [range.output]: data.map(d => d[key]), 
+        text: data.map(d => getText(d[key], format && format)),
+      }
+    }
+  }
+
+  return typeConfig
+}
+
+export { getTextInfo, getAxisTitle, getMaxRange, getSum, getText, getObjectByType }
