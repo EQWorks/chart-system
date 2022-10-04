@@ -11,6 +11,7 @@ const Line = ({
   spline,
   showTicks,
   showAxisTitles,
+  axisTitles,
   x,
   y,
   formatData,
@@ -45,9 +46,9 @@ const Line = ({
         automargin: true,
         ticksuffix: tickSuffix[0],
         tickprefix: tickPrefix[0],
-        ...(showAxisTitles && {
+        ...(showAxisTitles.x && {
           title: {
-            text: x,
+            text: axisTitles.x || x,
             standoff: 20,
           },
         }),
@@ -57,9 +58,9 @@ const Line = ({
         automargin: true,
         ticksuffix: tickSuffix[1],
         tickprefix: tickPrefix[1],
-        ...(showAxisTitles && y?.length === 1 && {
+        ...(showAxisTitles.y && (axisTitles.y || y?.length === 1) && {
           title: {
-            text: y[0],
+            text: axisTitles.y || y[0],
             standoff: 30,
           },
         }),
@@ -74,7 +75,8 @@ Line.propTypes = {
   y: PropTypes.arrayOf(PropTypes.string).isRequired,
   spline: PropTypes.bool,
   showTicks: PropTypes.bool,
-  showAxisTitles: PropTypes.bool,
+  showAxisTitles: PropTypes.objectOf(PropTypes.bool),
+  axisTitles: PropTypes.objectOf(PropTypes.string),
   formatData: PropTypes.objectOf(PropTypes.func),
   tickSuffix: PropTypes.arrayOf(PropTypes.string),
   tickPrefix: PropTypes.arrayOf(PropTypes.string),
@@ -89,7 +91,14 @@ Line.propTypes = {
 Line.defaultProps = {
   spline: false,
   showTicks: true,
-  showAxisTitles: true,
+  showAxisTitles: {
+    x: true,
+    y: true,
+  },
+  axisTitles: {
+    x: '',
+    y: '',
+  },
   formatData: {},
   tickSuffix: [],
   tickPrefix: [],

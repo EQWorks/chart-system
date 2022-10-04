@@ -15,7 +15,7 @@ const PyramidBar = ({
   x,
   y,
   showPercentage,
-  axisLabel,
+  axisTitles,
   xAxisTick,
   xAxisLabelLength,
   textPosition,
@@ -26,7 +26,6 @@ const PyramidBar = ({
   hoverText,
   ...props
 }) => {
-
   const _data = useTransformedData({
     type: 'bar',
     data,
@@ -64,7 +63,6 @@ const PyramidBar = ({
     }
 
     return { tickText, positive: xValReverse, negative: axisTicks.map(val => -Math.abs(val)) }
-
   }
 
   const maxValue = getMaxRange(_data, false, 'pyramid')
@@ -87,9 +85,9 @@ const PyramidBar = ({
           tickvals: [...getXaxisTicks.negative, 0, ...getXaxisTicks.positive],
           ticksuffix: tickSuffix[0],
           tickprefix: tickPrefix[0],
-          ...(showAxisTitles && {
+          ...(showAxisTitles.x && {
             title: {
-              text: axisLabel[0],
+              text: axisTitles.x,
               standoff: 20,
             },
           }),
@@ -101,10 +99,10 @@ const PyramidBar = ({
           autorange: true,
           ticksuffix: tickSuffix[1],
           tickprefix: tickPrefix[1],
-          ...(showAxisTitles && {
+          ...(showAxisTitles.y && {
             title: {
-              text: axisLabel[1] || Object.keys(data[0])[0],
-              standoff: 20,
+              text: axisTitles.y || Object.keys(data[0])[0],
+              standoff: 30,
             },
           }),
         },
@@ -118,9 +116,9 @@ PyramidBar.propTypes = {
   x: PropTypes.arrayOf(PropTypes.string).isRequired,
   y: PropTypes.arrayOf(PropTypes.string).isRequired,
   showTicks: PropTypes.bool,
-  showAxisTitles: PropTypes.bool,
+  showAxisTitles: PropTypes.objectOf(PropTypes.bool),
+  axisTitles: PropTypes.objectOf(PropTypes.string),
   showPercentage: PropTypes.bool,
-  axisLabel: PropTypes.arrayOf(PropTypes.string),
   xAxisTick: PropTypes.arrayOf(PropTypes.number),
   xAxisLabelLength: PropTypes.number,
   textPosition: PropTypes.oneOf(['inside', 'outside', 'auto', 'none']),
@@ -137,9 +135,15 @@ PyramidBar.propTypes = {
 
 PyramidBar.defaultProps = {
   showTicks: true,
-  showAxisTitles: true,
+  showAxisTitles: {
+    x: true,
+    y: true,
+  },
+  axisTitles: {
+    x: 'count',
+    y: '',
+  },
   showPercentage: false,
-  axisLabel: ['count'],
   xAxisTick: [],
   xAxisLabelLength: 5,
   textPosition: 'outside',
