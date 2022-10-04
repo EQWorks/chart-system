@@ -18,25 +18,24 @@ const Pie = ({
   hoverInfo,
   hoverText,
   ...props
-}) => {
-  return (
-    <CustomPlot
-      type='pie'
-      data={useTransformedData({
-        type: 'pie',
-        data,
-        extra: {
-          textinfo: textinfo ?? getTextInfo({ showPercentage, showLabelName }),
-          hole: hole ?? (donut ? 0.4 : 0),
-        },
-        formatData,
-        hoverInfo,
-        hoverText,
-        ...props,
-      })}
-      {...props}
-    />
-  )}
+}) => (
+  <CustomPlot
+    type='pie'
+    data={useTransformedData({
+      type: 'pie',
+      data,
+      extra: {
+        textinfo: textinfo ?? getTextInfo({ showPercentage, showLabelName }),
+        hole: hole ?? (donut ? 0.4 : 0),
+      },
+      formatData,
+      hoverInfo,
+      hoverText,
+      ...props,
+    })}
+    {...props}
+  />
+)
 
 Pie.propTypes = {
   label: PropTypes.string.isRequired,

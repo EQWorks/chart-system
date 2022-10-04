@@ -31,7 +31,7 @@ const FormattingTemplate = (args) =>
         'hh_income_50_100k', 
         'hh_income_100_150k',
         'hh_income_150_200k',
-        'hh_income_200k+'
+        'hh_income_200k+',
       ]}
       {...args}
     />
