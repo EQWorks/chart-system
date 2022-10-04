@@ -1,5 +1,8 @@
+import mockData from '../../stories/data/plotly/mock-data-pie-bar.json'
+import mockLineData from '../../stories/data/plotly/mock-data-line-scatter'
+import mockScatterData from '../../stories/data/plotly/mock-data-line-scatter'
 import mockPyramidData from '../../stories/data/plotly/mock-data-pyramid-bar'
-import { getTextInfo, getAxisTitle, getMaxRange, getSum } from '../../src/components/plotly/shared/utils'
+import { getTextInfo, getAxisTitle, getMaxRange, getSum, getObjectByType } from '../../src/components/plotly/shared/utils'
 
 describe('Get Text Info', () => {
   it('should return a label depending on props provided', () => {
@@ -197,5 +200,158 @@ describe('Get Max Range', () => {
 describe('Get Sum', () => {
   it('should return the value of all X values from dataset', () => {
     expect(getSum(['man', 'woman'], mockPyramidData)).toEqual(7250)
+  })
+})
+
+describe('Get Object By Type', () => {
+
+  it('should return an object composed of values usable by a plotly bar graph', () => {
+    const bar = getObjectByType(
+      mockData, 
+      'bar', 
+      { input: 'x', output: 'x' }, 
+      { input: 'y', output: 'y' }, 
+      { x: 'city', y: [ 'stat1', 'stat2' ], orientation: 'v', textPosition: 'outside', titles: [], showLegend: true }, 
+      'stat1', 
+      undefined, 
+      false,
+    )
+
+    expect(bar).toEqual({
+      x: [
+        'Longueuil',
+        'Niagara Falls',
+        'Montreal',
+        'Saskatoon',
+        'Vancouver',
+      ],
+      y: [
+        53,
+        13,
+        41,
+        52,
+        32,
+      ],
+      orientation: 'v',
+      text: [
+        '53',
+        '13',
+        '41',
+        '52',
+        '32',
+      ],
+      textposition: 'none',
+    })
+  })
+
+  it('should return an object composed of values usable by a plotly line graph', () => {
+    const line = getObjectByType(
+      mockLineData,
+      'line',
+      { input: 'x', output: 'x' }, 
+      { input: 'y', output: 'y' },
+      { x: 'age', y: [ 'stat1', 'stat2' ], titles: [], showLegend: true },
+      'stat1',
+      undefined,
+      false,
+    )
+
+    expect(line).toEqual({
+      x: [
+        18,
+        25,
+        27,
+        34,
+        36,
+      ],
+      y: [
+        53,
+        52,
+        32,
+        13,
+        41,
+      ],
+      text: [
+        53,
+        52,
+        32,
+        13,
+        41,
+      ],
+    })
+  })
+
+  it('should return an object composed of values usable by a plotly pie graph', () => {
+    const pie = getObjectByType(
+      mockData,
+      'pie',
+      { input: 'label', output: 'labels' }, 
+      { input: 'value', output: 'values' },
+      { label: 'city', values: [ 'stat1', 'stat2' ], titles: [], showLegend: true },
+      'stat1',
+      undefined,
+      false,
+    )
+
+    expect(pie).toEqual({
+      labels: [
+        'Longueuil',
+        'Niagara Falls',
+        'Montreal',
+        'Saskatoon',
+        'Vancouver',
+      ],
+      values: [
+        53,
+        13,
+        41,
+        52,
+        32,
+      ],
+      text: [
+        53,
+        13,
+        41,
+        52,
+        32,
+      ],
+    })
+  })
+
+  it('should return an object composed of values usable by a plotly scatter graph', () => {
+    const scatter = getObjectByType(
+      mockScatterData,
+      'scatter',
+      { input: 'x', output: 'x' }, 
+      { input: 'y', output: 'y' },
+      { x: 'age', y: [ 'stat1', 'stat2' ], titles: [], showLegend: true },
+      'stat1',
+      undefined,
+      false,
+    )
+
+    expect(scatter).toEqual({
+      x: [
+        18,
+        25,
+        27,
+        34,
+        36,
+      ],
+      y: [
+        53,
+        52,
+        32,
+        13,
+        41,
+      ],
+      text: [
+        53,
+        52,
+        32,
+        13,
+        41,
+      ],
+    })
   })
 })
