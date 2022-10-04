@@ -12,6 +12,7 @@ const Bar = ({
   stacked,
   showTicks,
   showAxisTitles,
+  axisTitles,
   x,
   y,
   orientation,
@@ -24,7 +25,6 @@ const Bar = ({
   hoverText,
   ...props
 }) => {
-
   const _data = useTransformedData({
     type: 'bar',
     data,
@@ -50,8 +50,8 @@ const Bar = ({
           ticksuffix: tickSuffix[0] || orientation === 'h' && showPercentage && '%',
           tickprefix: tickPrefix[0],
           automargin: true,
-          ...(showAxisTitles && {
-            title: getAxisTitle(orientation, 'v', x, y),
+          ...(showAxisTitles.x && {
+            title: axisTitles.x || getAxisTitle(orientation, 'v', x, y),
           }),
         },
         yaxis: {
@@ -59,8 +59,11 @@ const Bar = ({
           ticksuffix: tickSuffix[1] || orientation === 'v' && showPercentage && '%',
           tickprefix: tickPrefix[1],
           automargin: true,
-          ...(showAxisTitles && {
-            title: getAxisTitle(orientation, 'h', x, y),
+          ...(showAxisTitles.y && {
+            title: {
+              text: axisTitles.y || getAxisTitle(orientation, 'h', x, y),
+              standoff: 30,
+            },
           }),
         },
         margin: {
@@ -81,7 +84,8 @@ Bar.propTypes = {
   y: PropTypes.arrayOf(PropTypes.string).isRequired,
   stacked: PropTypes.bool,
   showTicks: PropTypes.bool,
-  showAxisTitles: PropTypes.bool,
+  showAxisTitles: PropTypes.objectOf(PropTypes.bool),
+  axisTitles: PropTypes.objectOf(PropTypes.string),
   showPercentage: PropTypes.bool,
   orientation: PropTypes.oneOf(['v', 'h']),
   textPosition: PropTypes.oneOf(['inside', 'outside', 'auto', 'none']),
@@ -99,7 +103,14 @@ Bar.propTypes = {
 Bar.defaultProps = {
   stacked: false,
   showTicks: true,
-  showAxisTitles: true,
+  showAxisTitles: {
+    x: true,
+    y: true,
+  },
+  axisTitles: {
+    x: '',
+    y: '',
+  },
   showPercentage: false,
   orientation: 'v',
   textPosition: 'outside',
