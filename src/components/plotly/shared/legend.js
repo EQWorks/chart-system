@@ -14,8 +14,8 @@ const Legend = ({
     {
       keys.map((k, i) => (
         <Styles.LegendItem key={i}>
-          <Styles.LegendColorBox color={colors[i]} rightAligned={x > 0.5} />
-          <Styles.LegendString rightAligned={x > 0.5}>
+          <Styles.LegendColorBox color={colors[i]} />
+          <Styles.LegendString>
             {k}
           </Styles.LegendString>
         </Styles.LegendItem>
