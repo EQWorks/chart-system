@@ -6,7 +6,7 @@ import legendStyles from './legend'
 import utilStyles from './util'
 
 setup(createElement, undefined, undefined, shouldForwardProp((prop) => {
-  return prop !== 'showLegend' && prop !== 'legendPosition' && prop !== 'rightAligned'
+  return !['showLegend', 'legendPosition'].includes(prop)
 }))
 
 export default {
@@ -26,6 +26,7 @@ export default {
         gridStyle = { gridTemplateColumns: 'fit-content(20%) 1fr' }
       }
     }
+
     return {
       width: '100%',
       height: '100%',
@@ -34,6 +35,7 @@ export default {
       ...gridStyle,
     }
   }),
+
   GenericContainer: styled('div')({
     display: 'flex',
     flexDirection: 'column',
@@ -43,6 +45,7 @@ export default {
     height: '100%',
     transition: 'width 0.3s, height 0.3s',
   }),
+
   ContentContainer: styled('div')({
     fontFamily: 'Open Sans,sans-serif',
     position: 'relative',
