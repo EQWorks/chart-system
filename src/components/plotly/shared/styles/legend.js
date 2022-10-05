@@ -25,7 +25,6 @@ export default {
       fontWeight: 600,
       fontSize: '0.8rem',
       position: 'relative',
-      textTransform: 'capitalize',
       ...positionStyle,
     }
   }),
@@ -36,19 +35,16 @@ export default {
     alignItems: 'center',
   }),
 
-  LegendColorBox: styled('div')(({ rightAligned, color }) => ({
-    order: + !rightAligned,
+  LegendColorBox: styled('div')(({ color }) => ({
     background: color,
     borderRadius: '0.2rem',
     width: '1rem',
     height: '1rem',
     margin: '0 0.5rem',
-  }),
-  ),
-  LegendString: styled('div')(({ rightAligned }) => ({
-    order: + rightAligned,
-    textAlign: rightAligned ? 'right' : 'left',
+  })),
+
+  LegendString: styled('div')({
+    textAlign: 'left',
     flex: 1,
   }),
-  ),
 }
