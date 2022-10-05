@@ -29,6 +29,9 @@ PlotlyOverride.args = {
   hole: 0.9,
 }
 
+export const LongDecimals = Template.bind({})
+LongDecimals.args = { values: ['stat4'] }
+
 export const Donut = Template.bind({})
 Donut.args = { donut: true }
 
