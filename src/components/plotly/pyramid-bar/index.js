@@ -22,6 +22,8 @@ const PyramidBar = ({
   formatData,
   tickSuffix,
   tickPrefix,
+  hoverInfo,
+  hoverText,
   ...props
 }) => {
 
@@ -36,6 +38,8 @@ const PyramidBar = ({
     sum: getSum(x, data),
     textPosition,
     formatData,
+    hoverInfo,
+    hoverText,
     ...props,
   })
 
@@ -123,6 +127,11 @@ PyramidBar.propTypes = {
   formatData: PropTypes.objectOf(PropTypes.func),
   tickSuffix: PropTypes.arrayOf(PropTypes.string),
   tickPrefix: PropTypes.arrayOf(PropTypes.string),
+  hoverInfo: PropTypes.string,
+  hoverText: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.string,
+  ]),
   ...plotlyPropTypes,
 }
 
@@ -137,6 +146,8 @@ PyramidBar.defaultProps = {
   formatData: {},
   tickSuffix: [],
   tickPrefix: [],
+  hoverInfo: '',
+  hoverText: [],
   ...plotlyDefaultProps,
 }
 

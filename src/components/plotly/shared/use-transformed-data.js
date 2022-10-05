@@ -63,6 +63,8 @@ const useTransformedData = ({
   extra = {},
   variant,
   formatData,
+  hoverInfo,
+  hoverText,
   ...args
 }) => {
   const { domain, range } = plotlyInterfaces[type]
@@ -86,6 +88,8 @@ const useTransformedData = ({
             orientation,
             text: textArray,
             textposition: textPosition,
+            hoverinfo: hoverInfo,
+            hovertext: hoverText,
             ...extra,
           }
         )
@@ -101,6 +105,8 @@ const useTransformedData = ({
 
         return {
           name,
+          hoverinfo: hoverInfo,
+          hovertext: hoverText,
           ...getObjectByType(data, type, domain, range, args, _d, formatData[keys[i]], true),
           ...extra,
         }
@@ -110,11 +116,13 @@ const useTransformedData = ({
     return args[range.input].map(k => (
       {
         name: k,
+        hoverinfo: hoverInfo,
+        hovertext: hoverText,
         ...getObjectByType(data, type, domain, range, args, k, formatData[k]),
         ...extra,
       }
     ))
-  }, [args, data, type, domain, range, extra, groupByValue, variant, formatData])
+  }, [args, data, type, domain, range, extra, groupByValue, variant, formatData, hoverInfo, hoverText])
 }
 
 export default useTransformedData

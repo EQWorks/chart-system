@@ -15,6 +15,8 @@ const Pie = ({
   textinfo,
   hole,
   formatData,
+  hoverInfo,
+  hoverText,
   ...props
 }) => {
   return (
@@ -28,6 +30,8 @@ const Pie = ({
           hole: hole ?? (donut ? 0.4 : 0),
         },
         formatData,
+        hoverInfo,
+        hoverText,
         ...props,
       })}
       {...props}
@@ -43,6 +47,11 @@ Pie.propTypes = {
   textinfo: PropTypes.string,
   hole: PropTypes.number,
   formatData: PropTypes.objectOf(PropTypes.func),
+  hoverInfo: PropTypes.string,
+  hoverText: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.string,
+  ]),
   ...plotlyPropTypes,
 }
 
@@ -53,6 +62,8 @@ Pie.defaultProps = {
   textinfo: null,
   hole: null,
   formatData: {},
+  hoverInfo: '',
+  hoverText: [],
   ...plotlyDefaultProps,
 }
 

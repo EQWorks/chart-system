@@ -16,6 +16,8 @@ const Scatter = ({
   formatData,
   tickSuffix,
   tickPrefix,
+  hoverInfo,
+  hoverText,
   ...props
 }) => (
   <CustomPlot
@@ -27,6 +29,8 @@ const Scatter = ({
         x,
         y,
         formatData,
+        hoverInfo,
+        hoverText,
         extra: {
           mode: showLines ? 'lines+markers' : 'markers',
         },
@@ -79,6 +83,11 @@ Scatter.propTypes = {
   formatData: PropTypes.objectOf(PropTypes.func),
   tickSuffix: PropTypes.arrayOf(PropTypes.string),
   tickPrefix: PropTypes.arrayOf(PropTypes.string),
+  hoverInfo: PropTypes.string,
+  hoverText: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.string,
+  ]),
   ...plotlyPropTypes,
 }
 
@@ -88,6 +97,8 @@ Scatter.defaultProps = {
   formatData: {},
   tickSuffix: [],
   tickPrefix: [],
+  hoverInfo: '',
+  hoverText: [],
   ...plotlyDefaultProps,
 }
 

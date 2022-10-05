@@ -20,6 +20,8 @@ const Bar = ({
   formatData,
   tickSuffix,
   tickPrefix,
+  hoverInfo,
+  hoverText,
   ...props
 }) => {
 
@@ -31,6 +33,8 @@ const Bar = ({
     orientation,
     textPosition,
     formatData,
+    hoverInfo,
+    hoverText,
     ...props,
   })
 
@@ -84,6 +88,11 @@ Bar.propTypes = {
   formatData: PropTypes.objectOf(PropTypes.func),
   tickSuffix: PropTypes.arrayOf(PropTypes.string),
   tickPrefix: PropTypes.arrayOf(PropTypes.string),
+  hoverInfo: PropTypes.string,
+  hoverText: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.string,
+  ]),
   ...plotlyPropTypes,
 }
 
@@ -97,6 +106,8 @@ Bar.defaultProps = {
   formatData: {},
   tickSuffix: [],
   tickPrefix: [],
+  hoverInfo: '',
+  hoverText: [],
   ...plotlyDefaultProps,
 }
 
