@@ -39,6 +39,9 @@ const FormattingTemplate = (args) =>
 
 export const Default = Template.bind({})
 
+export const CustomAxisTitles = Template.bind({})
+CustomAxisTitles.args= { axisTitles: { y: 'Score' } }
+
 export const Stacked = Template.bind({})
 Stacked.args = { stacked: true }
 
@@ -59,7 +62,7 @@ HorizontalFormatted.args = {
     'hh_income_50_100k': formatting,
     'hh_income_100_150k': formatting,
     'hh_income_150_200k': formatting,
-    'hh_income_200k+': formatting
+    'hh_income_200k+': formatting,
   },
   tickSuffix: ['%'],
 }

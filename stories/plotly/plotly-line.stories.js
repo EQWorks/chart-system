@@ -20,5 +20,8 @@ const Template = (args) =>
 
 export const Default = Template.bind({})
 
+export const CustomAxisTitles = Template.bind({})
+CustomAxisTitles.args= { axisTitles: { x: 'Stat', y: '%' } }
+
 export const Spline = Template.bind({})
 Spline.args = { spline: true }
