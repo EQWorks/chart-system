@@ -14,7 +14,7 @@ export default {
  * [showTicks] - bool, control ticks display in the chart, default = true
  * [showAxisTitles] - bool, control axisTitles display in the chart, default = true
  * [showPercentage] - bool, control value display format in the chart, default = false
- * [axisLabel] - array of string, defines the chart axis label/title to be displayed, [xAxis, yAxis], default = ['count']
+ * [axisTitles] - array of string, defines the chart axis label/title to be displayed, [xAxis, yAxis], default = ['count']
  * [xAxisTick] - array of numbers, defines the range value of 'x' data to be displayed in the chart.
  * [xAxisLabelLength] - number, defines de number of tick in xAxis. Only works if there is not xAxisTick
  * [textPosition] - string, defines the text position inside each bar graph, default = 'outside'. only ['inside', 'outside', 'auto', 'none']
@@ -35,8 +35,11 @@ const Template = (args) =>
 
 export const Default = Template.bind({})
 
+export const CustomAxisTitles = Template.bind({})
+CustomAxisTitles.args= { axisTitles: { x: 'Count', y: 'Age Group' } }
+
 export const Percentage = Template.bind({})
 Percentage.args = { showPercentage: true }
 
 export const CustomXaxisTick = Template.bind({})
-CustomXaxisTick.args = { xAxisTick: [1000, 600, 300]}
+CustomXaxisTick.args = { xAxisTick: [1000, 600, 300] }

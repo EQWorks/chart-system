@@ -20,5 +20,8 @@ const Template = (args) =>
 
 export const Default = Template.bind({})
 
+export const CustomAxisTitles = Template.bind({})
+CustomAxisTitles.args= { axisTitles: { x: 'Stat', y: 'Score' } }
+
 export const WithLines = Template.bind({})
 WithLines.args = { showLines: true }
