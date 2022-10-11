@@ -13,6 +13,9 @@ const BarLine = ({
   x,
   y,
   showCurrency,
+  formatData,
+  hoverInfo,
+  hoverText,
   ...props
 }) => {
   const bar_data = {
@@ -23,6 +26,9 @@ const BarLine = ({
       x,
       y: [y[0]],
       orientation: 'v',
+      formatData,
+      hoverInfo,
+      hoverText,
       ...props,
     })[0],
   }
@@ -36,6 +42,9 @@ const BarLine = ({
       data,
       x,
       y: [y[1] ? y[1] : y[0]],
+      formatData,
+      hoverInfo,
+      hoverText,
       extra: {
         mode: 'lines',
         fill: 'tonexty',
@@ -93,6 +102,12 @@ BarLine.propTypes = {
   showTicks: PropTypes.bool,
   showAxisTitles: PropTypes.bool,
   showCurrency: PropTypes.bool,
+  formatData: PropTypes.objectOf(PropTypes.func),
+  hoverInfo: PropTypes.string,
+  hoverText: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.string,
+  ]),
   ...plotlyPropTypes,
 }
 
@@ -100,6 +115,9 @@ BarLine.defaultProps = {
   showTicks: true,
   showAxisTitles: true,
   showCurrency: false,
+  formatData: {},
+  hoverInfo: '',
+  hoverText: [],
   ...plotlyDefaultProps,
 }
 
