@@ -1,7 +1,7 @@
 {
   "name": "@eqworks/chart-system",
   "private": false,
-  "version": "0.7.9",
+  "version": "0.8.0-alpha.2",
   "main": "dist/index.js",
   "source": "src/index.js",
   "files": [
