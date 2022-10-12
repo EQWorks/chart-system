@@ -10,6 +10,7 @@ const BarLine = ({
   data,
   showTicks,
   showAxisTitles,
+  axisTitles,
   x,
   y,
   showCurrency,
@@ -66,12 +67,18 @@ const BarLine = ({
             showticklabels: showTicks,
             tickmode: 'linear',
             tickformat: '%b %d',
-          },
-          yaxis: {
-            ...(showAxisTitles && y[0] && { 
+            ...(showAxisTitles.x && {
               title: {
                 standoff: 20,
-                text: y[0],
+                text: axisTitles.x || x,
+              },
+            }),
+          },
+          yaxis: {
+            ...(showAxisTitles.y && y[0] && {
+              title: {
+                standoff: 20,
+                text: axisTitles.y || y[0],
               },
             }),
             showticklabels: showTicks,
@@ -80,10 +87,10 @@ const BarLine = ({
             overlaying: 'y2',
           },
           yaxis2: {
-            ...(showAxisTitles && y[1] && { 
+            ...(showAxisTitles.y2 && y[1] && {
               title: {
                 standoff: 20,
-                text: y[1],
+                text: axisTitles.y2 || y[1],
               },
             }),
             showticklabels: showTicks,
@@ -100,7 +107,8 @@ BarLine.propTypes = {
   x: PropTypes.string.isRequired,
   y: PropTypes.arrayOf(PropTypes.string).isRequired,
   showTicks: PropTypes.bool,
-  showAxisTitles: PropTypes.bool,
+  showAxisTitles: PropTypes.objectOf(PropTypes.bool),
+  axisTitles: PropTypes.objectOf(PropTypes.string),
   showCurrency: PropTypes.bool,
   formatData: PropTypes.objectOf(PropTypes.func),
   hoverInfo: PropTypes.string,
@@ -113,7 +121,16 @@ BarLine.propTypes = {
 
 BarLine.defaultProps = {
   showTicks: true,
-  showAxisTitles: true,
+  showAxisTitles: {
+    x: true,
+    y: true,
+    y2: true,
+  },
+  axisTitles: {
+    x: '',
+    y: '',
+    y2: '',
+  },
   showCurrency: false,
   formatData: {},
   hoverInfo: '',
