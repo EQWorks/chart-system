@@ -51,7 +51,7 @@ const Bar = ({
           tickprefix: tickPrefix[0],
           automargin: true,
           ...(showAxisTitles.x && {
-            title: getAxisTitle(orientation, 'v', axisTitles.x || x, y),
+            title: getAxisTitle(orientation, 'v', axisTitles.x || x, axisTitles.y ? [axisTitles.y] : y),
           }),
         },
         yaxis: {
@@ -60,7 +60,7 @@ const Bar = ({
           tickprefix: tickPrefix[1],
           automargin: true,
           ...(showAxisTitles.y && {
-            title: getAxisTitle(orientation, 'h', x, axisTitles.y ? [axisTitles.y] : y),
+            title: getAxisTitle(orientation, 'h', axisTitles.x || x, axisTitles.y ? [axisTitles.y] : y),
           }),
         },
         margin: {
