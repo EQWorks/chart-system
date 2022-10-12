@@ -34,12 +34,12 @@ const BarLine = ({
     })[0],
   }
 
-  const scatter_data = {
-    type: 'scatter',
+  const line_data = {
+    type: 'line',
     yaxis: 'y2',
     connectgaps: true,
     ...useTransformedData({
-      type: 'scatter',
+      type: 'line',
       data,
       x,
       y: [y[1] ? y[1] : y[0]],
@@ -59,7 +59,7 @@ const BarLine = ({
       <CustomPlot
         type='barline'
         data={y[1] ? [
-          scatter_data,
+          line_data,
           bar_data,
         ] : [bar_data]}
         layout={{
@@ -67,6 +67,7 @@ const BarLine = ({
             showticklabels: showTicks,
             tickmode: 'linear',
             tickformat: '%b %d',
+            automargin: true,
             ...(showAxisTitles.x && {
               title: {
                 standoff: 20,
