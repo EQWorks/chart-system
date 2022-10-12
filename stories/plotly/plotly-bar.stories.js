@@ -51,8 +51,16 @@ PercentageLabel.args = { showPercentage: true }
 export const Horizontal = Template.bind({})
 Horizontal.args = { orientation: 'h' }
 
+export const HorizontalCustomAxisTitles = Template.bind({})
+Horizontal.args = { orientation: 'h' }
+
 export const HorizontalStacked = Template.bind({})
-HorizontalStacked.args = { orientation: 'h', stacked: true }
+HorizontalCustomAxisTitles.args = {
+  orientation: 'h',
+  stacked: true.valueOf,
+  showAxisTitles: { x: true },
+  axisTitles: { y: 'Impressions' },
+}
 
 export const HorizontalFormatted = FormattingTemplate.bind({})
 HorizontalFormatted.args = { 
