@@ -116,8 +116,14 @@ PyramidBar.propTypes = {
   x: PropTypes.arrayOf(PropTypes.string).isRequired,
   y: PropTypes.arrayOf(PropTypes.string).isRequired,
   showTicks: PropTypes.bool,
-  showAxisTitles: PropTypes.objectOf(PropTypes.bool),
-  axisTitles: PropTypes.objectOf(PropTypes.string),
+  showAxisTitles: PropTypes.shape({
+    x: PropTypes.bool,
+    y: PropTypes.bool,
+  }),
+  axisTitles: PropTypes.shape({
+    x: PropTypes.string,
+    y: PropTypes.string,
+  }),
   showPercentage: PropTypes.bool,
   xAxisTick: PropTypes.arrayOf(PropTypes.number),
   xAxisLabelLength: PropTypes.number,

@@ -108,8 +108,16 @@ BarLine.propTypes = {
   x: PropTypes.string.isRequired,
   y: PropTypes.arrayOf(PropTypes.string).isRequired,
   showTicks: PropTypes.bool,
-  showAxisTitles: PropTypes.objectOf(PropTypes.bool),
-  axisTitles: PropTypes.objectOf(PropTypes.string),
+  showAxisTitles: PropTypes.shape({
+    x: PropTypes.bool,
+    y: PropTypes.bool,
+    y2: PropTypes.bool,
+  }),
+  axisTitles: PropTypes.shape({
+    x: PropTypes.string,
+    y: PropTypes.string,
+    y2: PropTypes.string,
+  }),
   showCurrency: PropTypes.bool,
   formatData: PropTypes.objectOf(PropTypes.func),
   hoverInfo: PropTypes.string,
