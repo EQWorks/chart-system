@@ -81,8 +81,14 @@ Bar.propTypes = {
   y: PropTypes.arrayOf(PropTypes.string).isRequired,
   stacked: PropTypes.bool,
   showTicks: PropTypes.bool,
-  showAxisTitles: PropTypes.objectOf(PropTypes.bool),
-  axisTitles: PropTypes.objectOf(PropTypes.string),
+  showAxisTitles: PropTypes.shape({
+    x: PropTypes.bool,
+    y: PropTypes.bool,
+  }),
+  axisTitles: PropTypes.shape({
+    x: PropTypes.string,
+    y: PropTypes.string,
+  }),
   showPercentage: PropTypes.bool,
   orientation: PropTypes.oneOf(['v', 'h']),
   textPosition: PropTypes.oneOf(['inside', 'outside', 'auto', 'none']),
