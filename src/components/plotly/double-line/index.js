@@ -18,11 +18,11 @@ const DoubleLine = ({
   hoverText,
   ...props
 }) => {
-  const bar_data = {
-    type: 'scatter',
+  const line_data1 = {
+    type: 'line',
     connectgaps: true,
     ...useTransformedData({
-      type: 'scatter',
+      type: 'line',
       data,
       x,
       y: [y[0]],
@@ -37,12 +37,12 @@ const DoubleLine = ({
     })[0],
   }
 
-  const scatter_data = {
-    type: 'scatter',
+  const line_data2 = {
+    type: 'line',
     yaxis: 'y2',
     connectgaps: true,
     ...useTransformedData({
-      type: 'scatter',
+      type: 'line',
       data,
       x,
       y: [y[1] ? y[1] : y[0]],
@@ -62,9 +62,9 @@ const DoubleLine = ({
       <CustomPlot
         type='doubleLine'
         data={y[1] ? [
-          scatter_data,
-          bar_data,
-        ] : [bar_data]}
+          line_data1,
+          line_data2,
+        ] : [line_data1]}
         layout={{
           xaxis: {
             showticklabels: showTicks,
@@ -79,7 +79,7 @@ const DoubleLine = ({
               },
             }),
             showticklabels: showTicks,
-            tickprefix: showCurrency && '$',
+            tickprefix: showCurrency[0] && '$',
             automargin: true,
             overlaying: 'y2',
           },
@@ -91,8 +91,12 @@ const DoubleLine = ({
               },
             }),
             showticklabels: showTicks,
+            tickprefix: showCurrency[1] && '$',
             automargin: true,
             side: 'right',
+          },
+          margin: {
+            pad: 4,
           },
         }}
       />
@@ -106,7 +110,7 @@ DoubleLine.propTypes = {
   formatData: PropTypes.objectOf(PropTypes.func),
   showTicks: PropTypes.bool,
   showAxisTitles: PropTypes.bool,
-  showCurrency: PropTypes.bool,
+  showCurrency: PropTypes.arrayOf(PropTypes.bool),
   hoverInfo: PropTypes.string,
   hoverText: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.string),
@@ -119,7 +123,7 @@ DoubleLine.defaultProps = {
   formatData: {},
   showTicks: true,
   showAxisTitles: true,
-  showCurrency: false,
+  showCurrency: [false, false],
   hoverInfo: '',
   hoverText: [],
   ...plotlyDefaultProps,

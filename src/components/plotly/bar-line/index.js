@@ -29,6 +29,7 @@ const BarLine = ({
       x,
       y: [y[0]],
       orientation: 'v',
+      textPosition: 'none',
       formatData,
       tickSuffix,
       tickPrefix,

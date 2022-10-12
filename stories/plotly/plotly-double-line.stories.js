@@ -5,7 +5,7 @@ import mockData from '../data/plotly/mock-data-double-line.json'
 import ResponsiveChartWrapper from '../shared/responsive-chart-wrapper'
 
 export default {
-  title: 'Plotly/bar-line',
+  title: 'Plotly/double-line',
 }
 
 const Template = (args) =>
@@ -19,4 +19,4 @@ const Template = (args) =>
   </ResponsiveChartWrapper>
 
 export const Default = Template.bind({})
-Default.args = { showCurrency: true }
+Default.args = { showCurrency: [true, false] }
