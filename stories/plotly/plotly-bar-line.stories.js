@@ -20,3 +20,9 @@ const Template = (args) =>
 
 export const Default = Template.bind({})
 Default.args = { showCurrency: true }
+
+export const CustomAxisTitles = Template.bind({})
+CustomAxisTitles.args= {
+  showAxisTitles: { x: true, y: false, y2: true },
+  axisTitles: { x: 'Canadian City', y2: 'Score' },
+}
