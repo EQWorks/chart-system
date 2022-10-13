@@ -33,7 +33,7 @@ export const LongDecimals = Template.bind({})
 LongDecimals.args = { values: ['stat4'] }
 
 export const Percentage = Template.bind({})
-Percentage.args = { values: ['stat3'] }
+Percentage.args = { values: ['stat3', 'stat4'] }
 
 export const Donut = Template.bind({})
 Donut.args = { donut: true }

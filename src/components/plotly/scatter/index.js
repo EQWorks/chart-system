@@ -112,7 +112,7 @@ Scatter.defaultProps = {
   formatData: {},
   tickSuffix: [],
   tickPrefix: [],
-  hoverInfo: '',
+  hoverInfo: 'all',
   hoverText: '',
   ...plotlyDefaultProps,
 }

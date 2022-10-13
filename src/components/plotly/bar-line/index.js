@@ -142,7 +142,7 @@ BarLine.defaultProps = {
   },
   showCurrency: false,
   formatData: {},
-  hoverInfo: '',
+  hoverInfo: 'all',
   hoverText: '',
   ...plotlyDefaultProps,
 }

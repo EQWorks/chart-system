@@ -64,8 +64,8 @@ const getObjectByType = ( data, type, domain, range, args, key, format, hoverTex
   if (grouped) {
     if (type === 'bar') {
       const _getText = Object.values(key).map(v => {
-        const _getText = getText(v, format && format)
-        return isNaN(_getText) ? _getText : d3.format('~s')(_getText)
+        const formattedText = getText(v, format && format)
+        return isNaN(formattedText) ? formattedText : d3.format('~s')(formattedText)
       })
 
       typeConfig = {

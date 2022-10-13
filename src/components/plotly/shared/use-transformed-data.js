@@ -2,7 +2,7 @@ import * as d3 from 'd3'
 import { useMemo } from 'react'
 import { plotlyInterfaces } from './constants'
 
-import { getText, getObjectByType } from '../shared/utils'
+import { getText, getObjectByType, getSum } from '../shared/utils'
 
 const useTransformedData = ({
   type, 
@@ -53,7 +53,7 @@ const useTransformedData = ({
 
         return {
           name,
-          hoverinfo: hoverInfo,
+          hoverinfo: Math.round(getSum(keys, [d])) === 100 ? 'label+percent' : hoverInfo,
           ...getObjectByType(data, type, domain, range, args, _d, formatData[keys[i]], hoverText, true),
           ...extra,
         }
@@ -63,7 +63,7 @@ const useTransformedData = ({
     return args[range.input].map(k => (
       {
         name: k,
-        hoverinfo: hoverInfo,
+        hoverinfo: Math.round(getSum(args[range.input], data)) === 100 ? 'label+percent' : hoverInfo,
         ...getObjectByType(data, type, domain, range, args, k, formatData[k], hoverText),
         ...extra,
       }

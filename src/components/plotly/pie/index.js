@@ -5,7 +5,7 @@ import { plotlyDefaultProps, plotlyPropTypes } from '../shared/constants'
 import CustomPlot from '../shared/custom-plot'
 import useTransformedData from '../shared/use-transformed-data'
 
-import { getSum, getTextInfo } from '../shared/utils'
+import { getTextInfo } from '../shared/utils'
 
 const Pie = ({
   donut,
@@ -61,7 +61,7 @@ Pie.defaultProps = {
   textinfo: null,
   hole: null,
   formatData: {},
-  hoverInfo: '',
+  hoverInfo: 'label+percent+text',
   hoverText: '',
   ...plotlyDefaultProps,
 }
