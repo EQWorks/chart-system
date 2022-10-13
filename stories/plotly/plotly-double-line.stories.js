@@ -19,4 +19,4 @@ const Template = (args) =>
   </ResponsiveChartWrapper>
 
 export const Default = Template.bind({})
-Default.args = { showCurrency: [true, false] }
+Default.args = { tickSuffix: ['%', '%'] }
