@@ -62,7 +62,7 @@ Pie.defaultProps = {
   hole: null,
   formatData: {},
   hoverInfo: 'label+percent+text',
-  hoverText: [],
+  hoverText: '',
   ...plotlyDefaultProps,
 }
 

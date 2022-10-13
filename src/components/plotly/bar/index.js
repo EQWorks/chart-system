@@ -121,7 +121,7 @@ Bar.defaultProps = {
   tickSuffix: [],
   tickPrefix: [],
   hoverInfo: '',
-  hoverText: [],
+  hoverText: '',
   ...plotlyDefaultProps,
 }
 

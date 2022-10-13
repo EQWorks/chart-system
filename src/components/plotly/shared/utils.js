@@ -58,7 +58,7 @@ const getText = (value, formatting) => {
   return Number(value).toFixed(value % 1 && 2)
 }
 
-const getObjectByType = ( data, type, domain, range, args, key, format, grouped = false ) => {
+const getObjectByType = ( data, type, domain, range, args, key, format, hoverText, grouped = false ) => {
   let typeConfig = {}
 
   if (grouped) {
@@ -73,7 +73,7 @@ const getObjectByType = ( data, type, domain, range, args, key, format, grouped 
         [range.output]: args?.orientation === 'h' ? Object.keys(key) : Object.values(key),
         orientation: args.orientation,
         text: _getText,
-        hovertext: _getText,
+        hovertext: hoverText || _getText,
         textposition: args?.orientation === 'h' ? args.textPosition : 'none',
       }
     } else {
@@ -83,7 +83,7 @@ const getObjectByType = ( data, type, domain, range, args, key, format, grouped 
         [domain.output]: Object.keys(key),
         [range.output]: Object.values(key),
         text: _getText,
-        hovertext: _getText
+        hovertext: hoverText || _getText,
       }
     }
   } else {
@@ -98,7 +98,7 @@ const getObjectByType = ( data, type, domain, range, args, key, format, grouped 
         [range.output]: args?.orientation === 'h' ? data.map(d => d[args[domain.input]]) : data.map(d => d[key]), 
         orientation: args.orientation,
         text: _getText,
-        hovertext: _getText,
+        hovertext: hoverText || _getText,
         textposition: args?.orientation === 'h' ? args.textPosition : 'none',
       }
     } else {
@@ -108,7 +108,7 @@ const getObjectByType = ( data, type, domain, range, args, key, format, grouped 
         [domain.output]: data.map(d => d[args[domain.input]]), 
         [range.output]: data.map(d => d[key]), 
         text: _getText,
-        hovertext: _getText
+        hovertext: hoverText || _getText,
       }
     }
   }

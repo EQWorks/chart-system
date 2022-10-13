@@ -54,7 +54,7 @@ const useTransformedData = ({
         return {
           name,
           hoverinfo: hoverInfo,
-          ...getObjectByType(data, type, domain, range, args, _d, formatData[keys[i]], true),
+          ...getObjectByType(data, type, domain, range, args, _d, formatData[keys[i]], hoverText, true),
           ...extra,
         }
       })
@@ -64,7 +64,7 @@ const useTransformedData = ({
       {
         name: k,
         hoverinfo: hoverInfo,
-        ...getObjectByType(data, type, domain, range, args, k, formatData[k]),
+        ...getObjectByType(data, type, domain, range, args, k, formatData[k], hoverText),
         ...extra,
       }
     ))
