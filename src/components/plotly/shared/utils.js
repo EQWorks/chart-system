@@ -41,9 +41,9 @@ const getMaxRange = (data, stacked, graphType = 'bar') => {
   }
 }
 
-const getSum = (x, data) => {
+const getSum = (keys, data) => {
   let total = 0
-  x.forEach(k => {
+  keys.forEach(k => {
     const sum = data.map(d => d[k]).reduce((acc, val) => acc + val, 0)
     total += sum
   })

@@ -63,7 +63,7 @@ const useTransformedData = ({
     return args[range.input].map(k => (
       {
         name: k,
-        hoverinfo: Math.round(getSum(args[range.input], data)) === 100 ? 'label+percent' : hoverInfo,
+        hoverinfo: Math.round(getSum([k], data)) === 100 ? 'label+percent' : hoverInfo,
         ...getObjectByType(data, type, domain, range, args, k, formatData[k], hoverText),
         ...extra,
       }
