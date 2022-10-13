@@ -37,7 +37,7 @@ const useTransformedData = ({
             text: textArray,
             textposition: textPosition,
             hoverinfo: hoverInfo,
-            hovertext: hoverText,
+
             ...extra,
           }
         )
@@ -54,7 +54,6 @@ const useTransformedData = ({
         return {
           name,
           hoverinfo: hoverInfo,
-          hovertext: hoverText,
           ...getObjectByType(data, type, domain, range, args, _d, formatData[keys[i]], true),
           ...extra,
         }
@@ -65,7 +64,6 @@ const useTransformedData = ({
       {
         name: k,
         hoverinfo: hoverInfo,
-        hovertext: hoverText,
         ...getObjectByType(data, type, domain, range, args, k, formatData[k]),
         ...extra,
       }
