@@ -156,8 +156,8 @@ PyramidBar.defaultProps = {
   formatData: {},
   tickSuffix: [],
   tickPrefix: [],
-  hoverInfo: '',
-  hoverText: [],
+  hoverInfo: 'all',
+  hoverText: '',
   ...plotlyDefaultProps,
 }
 

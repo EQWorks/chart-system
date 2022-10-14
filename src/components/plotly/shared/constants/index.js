@@ -90,3 +90,10 @@ export const PLOTLY_BASE_LAYOUT = {
   xaxis: { fixedrange: true },
   yaxis: { fixedrange: true },
 }
+
+export const PLOTLY_HOVERINFO_PERCENTAGE = {
+  pie: 'label+percent',
+  bar: '',
+  line: 'x+text+name',
+  scatter: 'x+text+name',
+}

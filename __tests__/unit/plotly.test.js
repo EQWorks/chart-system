@@ -214,6 +214,9 @@ describe('Get Object By Type', () => {
       { x: 'city', y: [ 'stat1', 'stat2' ], orientation: 'v', textPosition: 'outside', titles: [], showLegend: true }, 
       'stat1', 
       undefined, 
+      [],
+      [],
+      '',
       false,
     )
 
@@ -241,6 +244,13 @@ describe('Get Object By Type', () => {
         '32',
       ],
       textposition: 'none',
+      hovertext: [
+        '53',
+        '13',
+        '41',
+        '52',
+        '32',
+      ],
     })
   })
 
@@ -253,6 +263,9 @@ describe('Get Object By Type', () => {
       { x: 'age', y: [ 'stat1', 'stat2' ], titles: [], showLegend: true },
       'stat1',
       undefined,
+      [],
+      [],
+      '',
       false,
     )
 
@@ -272,11 +285,18 @@ describe('Get Object By Type', () => {
         41,
       ],
       text: [
-        53,
-        52,
-        32,
-        13,
-        41,
+        '53',
+        '52',
+        '32',
+        '13',
+        '41',
+      ],
+      hovertext: [
+        '53',
+        '52',
+        '32',
+        '13',
+        '41',
       ],
     })
   })
@@ -290,6 +310,9 @@ describe('Get Object By Type', () => {
       { label: 'city', values: [ 'stat1', 'stat2' ], titles: [], showLegend: true },
       'stat1',
       undefined,
+      [],
+      [],
+      '',
       false,
     )
 
@@ -309,11 +332,18 @@ describe('Get Object By Type', () => {
         32,
       ],
       text: [
-        53,
-        13,
-        41,
-        52,
-        32,
+        '53',
+        '13',
+        '41',
+        '52',
+        '32',
+      ],
+      hovertext: [
+        '53',
+        '13',
+        '41',
+        '52',
+        '32',
       ],
     })
   })
@@ -327,6 +357,9 @@ describe('Get Object By Type', () => {
       { x: 'age', y: [ 'stat1', 'stat2' ], titles: [], showLegend: true },
       'stat1',
       undefined,
+      [],
+      [],
+      '',
       false,
     )
 
@@ -346,11 +379,18 @@ describe('Get Object By Type', () => {
         41,
       ],
       text: [
-        53,
-        52,
-        32,
-        13,
-        41,
+        '53',
+        '52',
+        '32',
+        '13',
+        '41',
+      ],
+      hovertext: [
+        '53',
+        '52',
+        '32',
+        '13',
+        '41',
       ],
     })
   })

@@ -30,7 +30,9 @@ const Line = ({
         x,
         y,
         formatData,
-        hoverInfo,
+        tickSuffix,
+        tickPrefix,
+        hoverInfo: hoverInfo || 'x+text+name',
         hoverText,
         extra: {
           line: {
@@ -44,8 +46,8 @@ const Line = ({
       xaxis: {
         showticklabels: showTicks,
         automargin: true,
-        ticksuffix: tickSuffix[0],
-        tickprefix: tickPrefix[0],
+        ticksuffix: hoverInfo && tickSuffix[0],
+        tickprefix: hoverInfo && tickPrefix[0],
         ...(showAxisTitles.x && {
           title: {
             text: axisTitles.x || x,
@@ -56,8 +58,8 @@ const Line = ({
       yaxis: {
         showticklabels: showTicks,
         automargin: true,
-        ticksuffix: tickSuffix[1],
-        tickprefix: tickPrefix[1],
+        ticksuffix: hoverInfo && tickSuffix[1],
+        tickprefix: hoverInfo && tickPrefix[1],
         ...(showAxisTitles.y && (axisTitles.y || y?.length === 1) && {
           title: {
             text: axisTitles.y || y[0],
@@ -109,7 +111,7 @@ Line.defaultProps = {
   tickSuffix: [],
   tickPrefix: [],
   hoverInfo: '',
-  hoverText: [],
+  hoverText: '',
   ...plotlyDefaultProps,
 }
 

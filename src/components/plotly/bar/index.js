@@ -17,7 +17,6 @@ const Bar = ({
   y,
   orientation,
   textPosition,
-  showPercentage,
   formatData,
   tickSuffix,
   tickPrefix,
@@ -25,6 +24,7 @@ const Bar = ({
   hoverText,
   ...props
 }) => {
+  console.log('tick: ', { tickSuffix, tickPrefix })
   const _data = useTransformedData({
     type: 'bar',
     data,
@@ -33,7 +33,9 @@ const Bar = ({
     orientation,
     textPosition,
     formatData,
-    hoverInfo,
+    tickSuffix,
+    tickPrefix,
+    hoverInfo: hoverInfo || orientation === 'h' ? 'y+text+name' : 'x+text+name',
     hoverText,
     ...props,
   })
@@ -47,8 +49,8 @@ const Bar = ({
         xaxis: {
           range: orientation === 'h' && [0, getMaxRange(_data, stacked)],
           showticklabels: showTicks,
-          ticksuffix: tickSuffix[0] || orientation === 'h' && showPercentage && '%',
-          tickprefix: tickPrefix[0],
+          ticksuffix: hoverInfo && tickSuffix[0],
+          tickprefix: hoverInfo && tickPrefix[0],
           automargin: true,
           ...(showAxisTitles.x && {
             title: getAxisTitle(orientation, 'v', axisTitles.x || x, axisTitles.y ? [axisTitles.y] : y),
@@ -56,8 +58,8 @@ const Bar = ({
         },
         yaxis: {
           showticklabels: showTicks,
-          ticksuffix: tickSuffix[1] || orientation === 'v' && showPercentage && '%',
-          tickprefix: tickPrefix[1],
+          ticksuffix: hoverInfo && tickSuffix[1],
+          tickprefix: hoverInfo && tickPrefix[1],
           automargin: true,
           ...(showAxisTitles.y && {
             title: getAxisTitle(orientation, 'h', axisTitles.x || x, axisTitles.y ? [axisTitles.y] : y),
@@ -89,7 +91,6 @@ Bar.propTypes = {
     x: PropTypes.string,
     y: PropTypes.string,
   }),
-  showPercentage: PropTypes.bool,
   orientation: PropTypes.oneOf(['v', 'h']),
   textPosition: PropTypes.oneOf(['inside', 'outside', 'auto', 'none']),
   formatData: PropTypes.objectOf(PropTypes.func),
@@ -114,14 +115,13 @@ Bar.defaultProps = {
     x: '',
     y: '',
   },
-  showPercentage: false,
   orientation: 'v',
   textPosition: 'outside',
   formatData: {},
   tickSuffix: [],
   tickPrefix: [],
   hoverInfo: '',
-  hoverText: [],
+  hoverText: '',
   ...plotlyDefaultProps,
 }
 

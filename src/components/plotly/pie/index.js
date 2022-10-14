@@ -15,6 +15,8 @@ const Pie = ({
   textinfo,
   hole,
   formatData,
+  tickSuffix,
+  tickPrefix,
   hoverInfo,
   hoverText,
   ...props
@@ -29,7 +31,9 @@ const Pie = ({
         hole: hole ?? (donut ? 0.4 : 0),
       },
       formatData,
-      hoverInfo,
+      tickSuffix,
+      tickPrefix,
+      hoverInfo: hoverInfo || 'label+percent+text',
       hoverText,
       ...props,
     })}
@@ -61,8 +65,10 @@ Pie.defaultProps = {
   textinfo: null,
   hole: null,
   formatData: {},
+  tickSuffix: [],
+  tickPrefix: [],
   hoverInfo: '',
-  hoverText: [],
+  hoverText: '',
   ...plotlyDefaultProps,
 }
 
