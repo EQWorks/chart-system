@@ -49,13 +49,10 @@ export const PercentageLabel = Template.bind({})
 PercentageLabel.args = { tickSuffix: ['%'] }
 
 export const Horizontal = Template.bind({})
-Horizontal.args = { orientation: 'h' }
-
-export const HorizontalCustomAxisTitles = Template.bind({})
-Horizontal.args = { orientation: 'h' }
+Horizontal.args = { orientation: 'h', tickSuffix: ['%'] }
 
 export const HorizontalStacked = Template.bind({})
-HorizontalCustomAxisTitles.args = {
+HorizontalStacked.args = {
   orientation: 'h',
   stacked: true.valueOf,
   showAxisTitles: { x: true },
@@ -72,5 +69,4 @@ HorizontalFormatted.args = {
     'hh_income_150_200k': formatting,
     'hh_income_200k+': formatting,
   },
-  tickSuffix: ['%'],
 }

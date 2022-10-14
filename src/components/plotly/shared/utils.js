@@ -69,15 +69,15 @@ const getObjectByType = (
   tickSuffix, 
   tickPrefix, 
   hoverText, 
-  grouped = false 
+  grouped = false, 
 ) => {
   let typeConfig = {}
+  const _tickPrefix = tickPrefix[0] || ''
+  const _tickSuffix = tickSuffix[0] || ''
 
   if (grouped) {
     const _getText = Object.values(key).map(v => {
       const formattedText = getText(v, format && format)
-      const _tickPrefix = tickPrefix[args?.orientation === 'h' ? 1 : 0] || ''
-      const _tickSuffix = tickSuffix[args?.orientation === 'h' ? 1 : 0] || ''
       return `${_tickPrefix}${isNaN(formattedText) ? formattedText : d3.format('~s')(formattedText)}${_tickSuffix}`
     })
 
@@ -101,8 +101,6 @@ const getObjectByType = (
   } else {
     const _getText = data.map(d => {
       const _getText = getText(d[key], format && format)
-      const _tickPrefix = tickPrefix[args?.orientation === 'h' ? 1 : 0] || ''
-      const _tickSuffix = tickSuffix[args?.orientation === 'h' ? 1 : 0] || ''
       return `${_tickPrefix}${isNaN(_getText) ? _getText : d3.format('~s')(_getText)}${_tickSuffix}`
     })
 
