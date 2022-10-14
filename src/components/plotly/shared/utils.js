@@ -58,16 +58,30 @@ const getText = (value, formatting) => {
   return Number(value).toFixed(value % 1 && 2)
 }
 
-const getObjectByType = ( data, type, domain, range, args, key, format, hoverText, grouped = false ) => {
+const getObjectByType = ( 
+  data, 
+  type, 
+  domain, 
+  range, 
+  args, 
+  key, 
+  format, 
+  tickSuffix, 
+  tickPrefix, 
+  hoverText, 
+  grouped = false 
+) => {
   let typeConfig = {}
 
   if (grouped) {
-    if (type === 'bar') {
-      const _getText = Object.values(key).map(v => {
-        const formattedText = getText(v, format && format)
-        return isNaN(formattedText) ? formattedText : d3.format('~s')(formattedText)
-      })
+    const _getText = Object.values(key).map(v => {
+      const formattedText = getText(v, format && format)
+      const _tickPrefix = tickPrefix[args?.orientation === 'h' ? 1 : 0] || ''
+      const _tickSuffix = tickSuffix[args?.orientation === 'h' ? 1 : 0] || ''
+      return `${_tickPrefix}${isNaN(formattedText) ? formattedText : d3.format('~s')(formattedText)}${_tickSuffix}`
+    })
 
+    if (type === 'bar') {
       typeConfig = {
         [domain.output]: args?.orientation === 'h' ? Object.values(key) : Object.keys(key),
         [range.output]: args?.orientation === 'h' ? Object.keys(key) : Object.values(key),
@@ -77,8 +91,6 @@ const getObjectByType = ( data, type, domain, range, args, key, format, hoverTex
         textposition: args?.orientation === 'h' ? args.textPosition : 'none',
       }
     } else {
-      const _getText = Object.values(key).map(v => getText(v, format && format))
-
       typeConfig = {
         [domain.output]: Object.keys(key),
         [range.output]: Object.values(key),
@@ -87,12 +99,14 @@ const getObjectByType = ( data, type, domain, range, args, key, format, hoverTex
       }
     }
   } else {
-    if (type === 'bar') {
-      const _getText = data.map(d => {
-        const _getText = getText(d[key], format && format)
-        return isNaN(_getText) ? _getText : d3.format('~s')(_getText)
-      })
+    const _getText = data.map(d => {
+      const _getText = getText(d[key], format && format)
+      const _tickPrefix = tickPrefix[args?.orientation === 'h' ? 1 : 0] || ''
+      const _tickSuffix = tickSuffix[args?.orientation === 'h' ? 1 : 0] || ''
+      return `${_tickPrefix}${isNaN(_getText) ? _getText : d3.format('~s')(_getText)}${_tickSuffix}`
+    })
 
+    if (type === 'bar') {
       typeConfig = {
         [domain.output]: args?.orientation === 'h' ? data.map(d => d[key]) : data.map(d => d[args[domain.input]]), 
         [range.output]: args?.orientation === 'h' ? data.map(d => d[args[domain.input]]) : data.map(d => d[key]), 
@@ -102,8 +116,6 @@ const getObjectByType = ( data, type, domain, range, args, key, format, hoverTex
         textposition: args?.orientation === 'h' ? args.textPosition : 'none',
       }
     } else {
-      const _getText = data.map(d => getText(d[key], format && format))
-
       typeConfig = {
         [domain.output]: data.map(d => d[args[domain.input]]), 
         [range.output]: data.map(d => d[key]), 

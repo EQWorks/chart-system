@@ -1,6 +1,6 @@
 import * as d3 from 'd3'
 import { useMemo } from 'react'
-import { plotlyInterfaces } from './constants'
+import { plotlyInterfaces, PLOTLY_HOVERINFO_PERCENTAGE } from './constants'
 
 import { getText, getObjectByType, getSum } from '../shared/utils'
 
@@ -11,12 +11,13 @@ const useTransformedData = ({
   extra = {},
   variant,
   formatData,
+  tickSuffix,
+  tickPrefix,
   hoverInfo,
   hoverText,
   ...args
 }) => {
   const { domain, range } = plotlyInterfaces[type]
-
   return useMemo(() => {
     if (variant === 'pyramidBar') {
       const { orientation, showPercentage, sum, textPosition } = args
@@ -37,7 +38,6 @@ const useTransformedData = ({
             text: textArray,
             textposition: textPosition,
             hoverinfo: hoverInfo,
-
             ...extra,
           }
         )
@@ -53,8 +53,8 @@ const useTransformedData = ({
 
         return {
           name,
-          hoverinfo: Math.round(getSum(keys, [d])) === 100 ? 'label+percent' : hoverInfo,
-          ...getObjectByType(data, type, domain, range, args, _d, formatData[keys[i]], hoverText, true),
+          hoverinfo: Math.round(getSum(keys, [d])) === 100 ? PLOTLY_HOVERINFO_PERCENTAGE[type] || hoverInfo : hoverInfo,
+          ...getObjectByType(data, type, domain, range, args, _d, formatData[keys[i]], tickSuffix, tickPrefix, hoverText, true),
           ...extra,
         }
       })
@@ -63,12 +63,12 @@ const useTransformedData = ({
     return args[range.input].map(k => (
       {
         name: k,
-        hoverinfo: Math.round(getSum([k], data)) === 100 ? 'label+percent' : hoverInfo,
-        ...getObjectByType(data, type, domain, range, args, k, formatData[k], hoverText),
+        hoverinfo: Math.round(getSum([k], data)) === 100 ? PLOTLY_HOVERINFO_PERCENTAGE[type] || hoverInfo : hoverInfo,
+        ...getObjectByType(data, type, domain, range, args, k, formatData[k], tickSuffix, tickPrefix, hoverText),
         ...extra,
       }
     ))
-  }, [args, data, type, domain, range, extra, groupByValue, variant, formatData, hoverInfo, hoverText])
+  }, [args, data, type, domain, range, extra, groupByValue, variant, formatData, tickSuffix, tickPrefix, hoverInfo, hoverText])
 }
 
 export default useTransformedData

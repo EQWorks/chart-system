@@ -46,7 +46,7 @@ export const Stacked = Template.bind({})
 Stacked.args = { stacked: true }
 
 export const PercentageLabel = Template.bind({})
-PercentageLabel.args = { showPercentage: true }
+PercentageLabel.args = { tickSuffix: ['%'] }
 
 export const Horizontal = Template.bind({})
 Horizontal.args = { orientation: 'h' }
