@@ -214,6 +214,9 @@ describe('Get Object By Type', () => {
       { x: 'city', y: [ 'stat1', 'stat2' ], orientation: 'v', textPosition: 'outside', titles: [], showLegend: true }, 
       'stat1', 
       undefined, 
+      [],
+      [],
+      '',
       false,
     )
 
@@ -260,6 +263,9 @@ describe('Get Object By Type', () => {
       { x: 'age', y: [ 'stat1', 'stat2' ], titles: [], showLegend: true },
       'stat1',
       undefined,
+      [],
+      [],
+      '',
       false,
     )
 
@@ -304,6 +310,9 @@ describe('Get Object By Type', () => {
       { label: 'city', values: [ 'stat1', 'stat2' ], titles: [], showLegend: true },
       'stat1',
       undefined,
+      [],
+      [],
+      '',
       false,
     )
 
@@ -348,6 +357,9 @@ describe('Get Object By Type', () => {
       { x: 'age', y: [ 'stat1', 'stat2' ], titles: [], showLegend: true },
       'stat1',
       undefined,
+      [],
+      [],
+      '',
       false,
     )
 
