@@ -103,7 +103,7 @@ const DoubleLine = ({
             ticksuffix: tickSuffix[1],
             automargin: true,
             side: 'right',
-            ...(showAxisTitles.y1 && y[1] && { 
+            ...(showAxisTitles.y2 && y[1] && { 
               title: {
                 standoff: 20,
                 text: axisTitles.y2 || y[1],

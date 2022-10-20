@@ -20,3 +20,9 @@ const Template = (args) =>
 
 export const Default = Template.bind({})
 Default.args = { tickSuffix: ['%', '%'] }
+
+export const CustomAxisTitles = Template.bind({})
+CustomAxisTitles.args= {
+  axisTitles: { x: 'Canadian City', y: 'Dollar Spend (%)', y2: 'Transactions (%)' },
+  tickSuffix: ['%', '%']
+}
