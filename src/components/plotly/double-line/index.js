@@ -13,6 +13,7 @@ const DoubleLine = ({
   formatData,
   showTicks,
   showAxisTitles,
+  axisTitles,
   tickSuffix,
   tickPrefix,
   hoverInfo,
@@ -28,6 +29,8 @@ const DoubleLine = ({
       x,
       y: [y[0]],
       formatData,
+      tickSuffix,
+      tickPrefix,
       hoverInfo,
       hoverText,
       extra: {
@@ -48,6 +51,8 @@ const DoubleLine = ({
       x,
       y: [y[1] ? y[1] : y[0]],
       formatData,
+      tickSuffix,
+      tickPrefix,
       hoverInfo,
       hoverText,
       extra: {
@@ -71,32 +76,39 @@ const DoubleLine = ({
             showticklabels: showTicks,
             tickmode: 'linear',
             tickformat: '%b %d',
-          },
-          yaxis: {
-            ...(showAxisTitles && y[0] && { 
+            automargin: true,
+            ...(showAxisTitles.x && {
               title: {
                 standoff: 20,
-                text: y[0],
+                text: axisTitles.x || x,
               },
             }),
+          },
+          yaxis: {
             showticklabels: showTicks,
             tickprefix: tickPrefix[0],
             ticksuffix: tickSuffix[0],
             automargin: true,
             overlaying: 'y2',
-          },
-          yaxis2: {
-            ...(showAxisTitles && y[1] && { 
+            ...(showAxisTitles.y && y[0] && { 
               title: {
                 standoff: 20,
-                text: y[1],
+                text: axisTitles.y || y[0],
               },
             }),
+          },
+          yaxis2: {
             showticklabels: showTicks,
             tickprefix: tickPrefix[1],
             ticksuffix: tickSuffix[1],
             automargin: true,
             side: 'right',
+            ...(showAxisTitles.y1 && y[1] && { 
+              title: {
+                standoff: 20,
+                text: axisTitles.y2 || y[1],
+              },
+            }),
           },
           margin: {
             pad: 10,
@@ -112,7 +124,16 @@ DoubleLine.propTypes = {
   y: PropTypes.arrayOf(PropTypes.string).isRequired,
   formatData: PropTypes.objectOf(PropTypes.func),
   showTicks: PropTypes.bool,
-  showAxisTitles: PropTypes.bool,
+  showAxisTitles: PropTypes.shape({
+    x: PropTypes.bool,
+    y: PropTypes.bool,
+    y2: PropTypes.bool,
+  }),
+  axisTitles: PropTypes.shape({
+    x: PropTypes.string,
+    y: PropTypes.string,
+    y2: PropTypes.string,
+  }),
   tickSuffix: PropTypes.arrayOf(PropTypes.string),
   tickPrefix: PropTypes.arrayOf(PropTypes.string),
   hoverInfo: PropTypes.string,
@@ -126,7 +147,16 @@ DoubleLine.propTypes = {
 DoubleLine.defaultProps = {
   formatData: {},
   showTicks: true,
-  showAxisTitles: true,
+  showAxisTitles: {
+    x: true,
+    y: true,
+    y2: true,
+  },
+  axisTitles: {
+    x: '',
+    y: '',
+    y2: '',
+  },
   tickSuffix: [],
   tickPrefix: [],
   hoverInfo: '',

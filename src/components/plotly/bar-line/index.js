@@ -105,6 +105,9 @@ const BarLine = ({
             automargin: true,
             side: 'right',
           },
+          margin: {
+            pad: 10,
+          },
         }}
       />
     </>
