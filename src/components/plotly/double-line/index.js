@@ -18,6 +18,7 @@ const DoubleLine = ({
   tickPrefix,
   hoverInfo,
   hoverText,
+  mode,
   ...props
 }) => {
   const line_data1 = {
@@ -34,7 +35,7 @@ const DoubleLine = ({
       hoverInfo,
       hoverText,
       extra: {
-        mode: 'lines',
+        mode: mode,
         fill: 'tonexty',
       },
       ...props,
@@ -56,7 +57,7 @@ const DoubleLine = ({
       hoverInfo,
       hoverText,
       extra: {
-        mode: 'lines',
+        mode: mode,
         fill: 'tonexty',
       },
       ...props,
@@ -141,6 +142,7 @@ DoubleLine.propTypes = {
     PropTypes.arrayOf(PropTypes.string),
     PropTypes.string,
   ]),
+  mode: PropTypes.string,
   ...plotlyPropTypes,
 }
 
@@ -161,6 +163,7 @@ DoubleLine.defaultProps = {
   tickPrefix: [],
   hoverInfo: '',
   hoverText: [],
+  mode: 'lines+markers',
   ...plotlyDefaultProps,
 }
 
