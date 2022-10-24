@@ -69,6 +69,17 @@ export const plotlyInterfaces = {
     },
     getLegendKeys: data => data.map(({ name }) => name),
   },
+  doubleLine: {
+    domain: {
+      input: 'x',
+      output: 'x',
+    },
+    range: {
+      input: 'y',
+      output: 'y',
+    },
+    getLegendKeys: data => data.map(({ name }) => name),
+  },
 }
 
 export const PLOTLY_BASE_LAYOUT = {

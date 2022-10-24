@@ -6,40 +6,43 @@ import CustomPlot from '../shared/custom-plot'
 import useTransformedData from '../shared/use-transformed-data'
 
 
-const BarLine = ({
+const DoubleLine = ({
   data,
+  x,
+  y,
+  formatData,
   showTicks,
   showAxisTitles,
   axisTitles,
-  x,
-  y,
-  showCurrency,
-  formatData,
   tickSuffix,
   tickPrefix,
   hoverInfo,
   hoverText,
+  mode,
   ...props
 }) => {
-  const bar_data = {
-    type: 'bar',
+  const line_data1 = {
+    type: 'line',
+    connectgaps: true,
     ...useTransformedData({
-      type: 'bar',
+      type: 'line',
       data,
       x,
       y: [y[0]],
-      orientation: 'v',
-      textPosition: 'none',
       formatData,
       tickSuffix,
       tickPrefix,
-      hoverInfo: hoverInfo || 'x+text+name',
+      hoverInfo,
       hoverText,
+      extra: {
+        mode: mode,
+        fill: 'tonexty',
+      },
       ...props,
     })[0],
   }
 
-  const line_data = {
+  const line_data2 = {
     type: 'line',
     yaxis: 'y2',
     connectgaps: true,
@@ -51,10 +54,10 @@ const BarLine = ({
       formatData,
       tickSuffix,
       tickPrefix,
-      hoverInfo: hoverInfo || 'x+text+name',
+      hoverInfo,
       hoverText,
       extra: {
-        mode: 'lines',
+        mode: mode,
         fill: 'tonexty',
       },
       ...props,
@@ -64,11 +67,11 @@ const BarLine = ({
   return (
     <>
       <CustomPlot
-        type='barline'
+        type='doubleLine'
         data={y[1] ? [
-          line_data,
-          bar_data,
-        ] : [bar_data]}
+          line_data1,
+          line_data2,
+        ] : [line_data1]}
         layout={{
           xaxis: {
             showticklabels: showTicks,
@@ -83,27 +86,30 @@ const BarLine = ({
             }),
           },
           yaxis: {
-            ...(showAxisTitles.y && y[0] && {
+            showticklabels: showTicks,
+            tickprefix: tickPrefix[0],
+            ticksuffix: tickSuffix[0],
+            automargin: true,
+            overlaying: 'y2',
+            ...(showAxisTitles.y && y[0] && { 
               title: {
                 standoff: 20,
                 text: axisTitles.y || y[0],
               },
             }),
-            showticklabels: showTicks,
-            tickprefix: showCurrency && '$',
-            automargin: true,
-            overlaying: 'y2',
           },
           yaxis2: {
-            ...(showAxisTitles.y2 && y[1] && {
+            showticklabels: showTicks,
+            tickprefix: tickPrefix[1],
+            ticksuffix: tickSuffix[1],
+            automargin: true,
+            side: 'right',
+            ...(showAxisTitles.y2 && y[1] && { 
               title: {
                 standoff: 20,
                 text: axisTitles.y2 || y[1],
               },
             }),
-            showticklabels: showTicks,
-            automargin: true,
-            side: 'right',
           },
           margin: {
             pad: 10,
@@ -114,9 +120,10 @@ const BarLine = ({
   )
 }
 
-BarLine.propTypes = {
+DoubleLine.propTypes = {
   x: PropTypes.string.isRequired,
   y: PropTypes.arrayOf(PropTypes.string).isRequired,
+  formatData: PropTypes.objectOf(PropTypes.func),
   showTicks: PropTypes.bool,
   showAxisTitles: PropTypes.shape({
     x: PropTypes.bool,
@@ -128,8 +135,6 @@ BarLine.propTypes = {
     y: PropTypes.string,
     y2: PropTypes.string,
   }),
-  showCurrency: PropTypes.bool,
-  formatData: PropTypes.objectOf(PropTypes.func),
   tickSuffix: PropTypes.arrayOf(PropTypes.string),
   tickPrefix: PropTypes.arrayOf(PropTypes.string),
   hoverInfo: PropTypes.string,
@@ -137,10 +142,12 @@ BarLine.propTypes = {
     PropTypes.arrayOf(PropTypes.string),
     PropTypes.string,
   ]),
+  mode: PropTypes.string,
   ...plotlyPropTypes,
 }
 
-BarLine.defaultProps = {
+DoubleLine.defaultProps = {
+  formatData: {},
   showTicks: true,
   showAxisTitles: {
     x: true,
@@ -152,13 +159,12 @@ BarLine.defaultProps = {
     y: '',
     y2: '',
   },
-  showCurrency: false,
-  formatData: {},
   tickSuffix: [],
   tickPrefix: [],
   hoverInfo: '',
-  hoverText: '',
+  hoverText: [],
+  mode: 'lines+markers',
   ...plotlyDefaultProps,
 }
 
-export default BarLine
+export default DoubleLine

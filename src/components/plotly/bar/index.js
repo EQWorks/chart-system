@@ -24,7 +24,6 @@ const Bar = ({
   hoverText,
   ...props
 }) => {
-  console.log('tick: ', { tickSuffix, tickPrefix })
   const _data = useTransformedData({
     type: 'bar',
     data,
