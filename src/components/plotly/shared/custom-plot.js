@@ -75,10 +75,6 @@ const CustomPlot = ({
     refreshRate: 100,
   })
 
-  const handleOnAfterPlot = (res) => {
-    onAfterPlot(res)
-  }
-
   const renderSubPlotTitle = (_title = '') => (
     <Styles.SubPlotTitle
       x={titlePosition[0]}
@@ -151,7 +147,7 @@ const CustomPlot = ({
                 displayModeBar: false,
                 responsive: true,
               }}
-              onAfterPlot={handleOnAfterPlot}
+              onAfterPlot={onAfterPlot}
             />
           </Styles.DynamicSize>,
         )

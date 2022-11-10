@@ -19,6 +19,7 @@ const DoubleLine = ({
   hoverInfo,
   hoverText,
   mode,
+  onAfterPlot,
   ...props
 }) => {
   const line_data1 = {
@@ -115,6 +116,8 @@ const DoubleLine = ({
             pad: 10,
           },
         }}
+        onAfterPlot={onAfterPlot}
+        {...props}
       />
     </>
   )
@@ -143,6 +146,7 @@ DoubleLine.propTypes = {
     PropTypes.string,
   ]),
   mode: PropTypes.string,
+  onAfterPlot: PropTypes.func,
   ...plotlyPropTypes,
 }
 
@@ -164,6 +168,7 @@ DoubleLine.defaultProps = {
   hoverInfo: '',
   hoverText: [],
   mode: 'lines+markers',
+  onAfterPlot: () => {},
   ...plotlyDefaultProps,
 }
 
