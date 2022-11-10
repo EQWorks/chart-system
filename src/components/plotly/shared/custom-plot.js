@@ -225,7 +225,7 @@ CustomPlot.defaultProps = {
   baseColor: '#0017ff',
   showLegend: true,
   title: null,
-  onAfterPlot: () => {}
+  onAfterPlot: () => {},
 }
 
 export default CustomPlot

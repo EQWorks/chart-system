@@ -15,12 +15,12 @@ const Plot = ({ data, layout, config, onAfterPlot }) => {
     try {
       if (data && layout && config) {
         ref && Plotly.react(ref, { data, layout, config })
-        .then((res) => { 
-          onAfterPlot({ response: res, isLoaded: true })
-        })
-        .catch((err) => {
-          onAfterPlot({ response: err, isLoaded: false })
-        })
+          .then((res) => { 
+            onAfterPlot({ response: res, isLoaded: true })
+          })
+          .catch((err) => {
+            onAfterPlot({ response: err, isLoaded: false })
+          })
       }
     } catch (e) {
       // don't crash on errors
@@ -37,13 +37,13 @@ Plot.propTypes = {
   data: PropTypes.array,
   layout: PropTypes.object,
   config: PropTypes.object,
-  onAfterPlot: PropTypes.func
+  onAfterPlot: PropTypes.func,
 }
 Plot.defaultProps = {
   data: null,
   layout: null,
   config: null,
-  onAfterPlot: () => {}
+  onAfterPlot: () => {},
 }
 
 export default Plot
