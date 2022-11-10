@@ -27,6 +27,7 @@ const CustomPlot = ({
   title,
   baseColor,
   showLegend,
+  onAfterPlot,
 }) => {
   // determine subplot requirements
   const subPlotColumns = useMemo(() => Math.min(DEFAULT_SUBPLOT_COLUMNS, data.length), [data.length])
@@ -73,6 +74,10 @@ const CustomPlot = ({
     refreshMode: 'debounce',
     refreshRate: 100,
   })
+
+  const handleOnAfterPlot = (res) => {
+    onAfterPlot(res)
+  }
 
   const renderSubPlotTitle = (_title = '') => (
     <Styles.SubPlotTitle
@@ -146,6 +151,7 @@ const CustomPlot = ({
                 displayModeBar: false,
                 responsive: true,
               }}
+              onAfterPlot={handleOnAfterPlot}
             />
           </Styles.DynamicSize>,
         )
@@ -205,6 +211,7 @@ CustomPlot.propTypes = {
   size: PropTypes.number,
   baseColor: PropTypes.string,
   title: PropTypes.string,
+  onAfterPlot: PropTypes.func,
 }
 
 CustomPlot.defaultProps = {
@@ -218,6 +225,7 @@ CustomPlot.defaultProps = {
   baseColor: '#0017ff',
   showLegend: true,
   title: null,
+  onAfterPlot: () => {}
 }
 
 export default CustomPlot

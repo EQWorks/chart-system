@@ -22,6 +22,7 @@ const Bar = ({
   tickPrefix,
   hoverInfo,
   hoverText,
+  onAfterPlot,
   ...props
 }) => {
   const _data = useTransformedData({
@@ -72,6 +73,7 @@ const Bar = ({
           pad: 4,
         },
       }}
+      onAfterPlot={onAfterPlot}
       {...props}
     />
   )
@@ -100,6 +102,7 @@ Bar.propTypes = {
     PropTypes.arrayOf(PropTypes.string),
     PropTypes.string,
   ]),
+  onAfterPlot: PropTypes.func,
   ...plotlyPropTypes,
 }
 
@@ -121,6 +124,7 @@ Bar.defaultProps = {
   tickPrefix: [],
   hoverInfo: '',
   hoverText: '',
+  onAfterPlot: () => {},
   ...plotlyDefaultProps,
 }
 
