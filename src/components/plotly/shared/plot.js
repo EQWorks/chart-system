@@ -13,8 +13,8 @@ const Plot = ({ data, layout, config, onAfterPlot }) => {
 
   useLayoutEffect(() => {
     try {
-      if (data && layout && config) {
-        ref && Plotly.react(ref, { data, layout, config })
+      if (data && layout && config && ref) {
+        Plotly.react(ref, { data, layout, config })
           .then((res) => { 
             onAfterPlot({ response: res, isLoaded: true })
           })
@@ -25,6 +25,7 @@ const Plot = ({ data, layout, config, onAfterPlot }) => {
     } catch (e) {
       // don't crash on errors
     }
+
     return () => {
       ref && Plotly.purge(ref)
     }
