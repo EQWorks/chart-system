@@ -19,6 +19,7 @@ const Pie = ({
   tickPrefix,
   hoverInfo,
   hoverText,
+  onAfterPlot,
   ...props
 }) => (
   <CustomPlot
@@ -37,6 +38,7 @@ const Pie = ({
       hoverText,
       ...props,
     })}
+    onAfterPlot={onAfterPlot}
     {...props}
   />
 )
@@ -55,6 +57,7 @@ Pie.propTypes = {
     PropTypes.arrayOf(PropTypes.string),
     PropTypes.string,
   ]),
+  onAfterPlot: PropTypes.func,
   ...plotlyPropTypes,
 }
 
@@ -69,6 +72,7 @@ Pie.defaultProps = {
   tickPrefix: [],
   hoverInfo: '',
   hoverText: '',
+  onAfterPlot: () => {},
   ...plotlyDefaultProps,
 }
 

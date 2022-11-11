@@ -19,6 +19,7 @@ const Scatter = ({
   tickPrefix,
   hoverInfo,
   hoverText,
+  onAfterPlot,
   ...props
 }) => (
   <CustomPlot
@@ -74,6 +75,7 @@ const Scatter = ({
         },
       },
     }}
+    onAfterPlot={onAfterPlot}
     {...props}
   />
 )
@@ -98,6 +100,7 @@ Scatter.propTypes = {
     PropTypes.arrayOf(PropTypes.string),
     PropTypes.string,
   ]),
+  onAfterPlot: PropTypes.func,
   ...plotlyPropTypes,
 }
 
@@ -116,6 +119,7 @@ Scatter.defaultProps = {
   tickPrefix: [],
   hoverInfo: '',
   hoverText: '',
+  onAfterPlot: () => {},
   ...plotlyDefaultProps,
 }
 

@@ -24,6 +24,7 @@ const PyramidBar = ({
   tickPrefix,
   hoverInfo,
   hoverText,
+  onAfterPlot,
   ...props
 }) => {
   const _data = useTransformedData({
@@ -107,6 +108,7 @@ const PyramidBar = ({
           }),
         },
       }}
+      onAfterPlot={onAfterPlot}
       {...props}
     />
   )
@@ -136,6 +138,7 @@ PyramidBar.propTypes = {
     PropTypes.arrayOf(PropTypes.string),
     PropTypes.string,
   ]),
+  onAfterPlot: PropTypes.func,
   ...plotlyPropTypes,
 }
 
@@ -158,6 +161,7 @@ PyramidBar.defaultProps = {
   tickPrefix: [],
   hoverInfo: 'all',
   hoverText: '',
+  onAfterPlot: () => {},
   ...plotlyDefaultProps,
 }
 

@@ -19,6 +19,7 @@ const BarLine = ({
   tickPrefix,
   hoverInfo,
   hoverText,
+  onAfterPlot,
   ...props
 }) => {
   const bar_data = {
@@ -109,6 +110,8 @@ const BarLine = ({
             pad: 10,
           },
         }}
+        onAfterPlot={onAfterPlot}
+        {...props}
       />
     </>
   )
@@ -137,6 +140,7 @@ BarLine.propTypes = {
     PropTypes.arrayOf(PropTypes.string),
     PropTypes.string,
   ]),
+  onAfterPlot: PropTypes.func,
   ...plotlyPropTypes,
 }
 
@@ -158,6 +162,7 @@ BarLine.defaultProps = {
   tickPrefix: [],
   hoverInfo: '',
   hoverText: '',
+  onAfterPlot: () => {},
   ...plotlyDefaultProps,
 }
 

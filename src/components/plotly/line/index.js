@@ -19,6 +19,7 @@ const Line = ({
   tickPrefix,
   hoverInfo,
   hoverText,
+  onAfterPlot,
   ...props
 }) => (
   <CustomPlot
@@ -68,6 +69,7 @@ const Line = ({
         }),
       },
     }}
+    onAfterPlot={onAfterPlot}
     {...props}
   />
 )
@@ -93,6 +95,7 @@ Line.propTypes = {
     PropTypes.arrayOf(PropTypes.string),
     PropTypes.string,
   ]),
+  onAfterPlot: PropTypes.func,
   ...plotlyPropTypes,
 }
 
@@ -112,6 +115,7 @@ Line.defaultProps = {
   tickPrefix: [],
   hoverInfo: '',
   hoverText: '',
+  onAfterPlot: () => {},
   ...plotlyDefaultProps,
 }
 
