@@ -16,10 +16,10 @@ const Plot = ({ data, layout, config, onAfterPlot }) => {
       if (data && layout && config && ref) {
         Plotly.react(ref, { data, layout, config })
           .then((res) => { 
-            onAfterPlot({ response: res, isLoaded: true })
+            onAfterPlot({ response: res, isLoading: false })
           })
           .catch((err) => {
-            onAfterPlot({ response: err, isLoaded: false })
+            onAfterPlot({ response: err, isLoading: false })
           })
       }
     } catch (e) {
@@ -48,3 +48,4 @@ Plot.defaultProps = {
 }
 
 export default Plot
+
