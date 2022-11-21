@@ -40,3 +40,6 @@ Donut.args = { donut: true }
 
 export const NoLabels = Template.bind({})
 NoLabels.args = { showPercentage: false }
+
+export const CustomColors = Template.bind({})
+CustomColors.args = { customColors: ['#88CCEE', '#CC6677', '#DDCC77', '#477733', '#0F2288'] }
