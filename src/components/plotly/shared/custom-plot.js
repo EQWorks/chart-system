@@ -26,6 +26,7 @@ const CustomPlot = ({
   showSubPlotTitles,
   title,
   baseColor,
+  customColors,
   showLegend,
   onAfterPlot,
 }) => {
@@ -52,8 +53,11 @@ const CustomPlot = ({
   // determine the keys for the legend
   const legendKeys = useMemo(() => plotlyInterfaces[type].getLegendKeys(data), [data, type])
 
-  // generate the color scheme based on a single base color
-  const colors = useMemo(() => getColorScheme(baseColor, legendKeys.length), [baseColor, legendKeys.length])
+  // use customColors or generate the color scheme based on a single base color
+  const colors = useMemo(() => customColors.length
+    ? customColors
+    : getColorScheme(baseColor, legendKeys.length)
+  , [customColors, baseColor, legendKeys.length])
 
   // enrich the data with color values
   const coloredData = useMemo(() => (
@@ -206,6 +210,7 @@ CustomPlot.propTypes = {
   showSubPlotTitles: PropTypes.bool,
   size: PropTypes.number,
   baseColor: PropTypes.string,
+  customColors: PropTypes.arrayOf(PropTypes.string),
   title: PropTypes.string,
   onAfterPlot: PropTypes.func,
 }
@@ -219,6 +224,7 @@ CustomPlot.defaultProps = {
   showSubPlotTitles: true,
   size: 0.8,
   baseColor: '#0017ff',
+  customColors: [],
   showLegend: true,
   title: null,
   onAfterPlot: () => {},
