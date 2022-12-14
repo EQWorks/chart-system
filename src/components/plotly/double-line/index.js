@@ -69,10 +69,10 @@ const DoubleLine = ({
     <>
       <CustomPlot
         type='doubleLine'
-        data={y[1] ? [
+        data={[
           line_data1,
           line_data2,
-        ] : [line_data1]}
+        ]}
         layout={{
           xaxis: {
             showticklabels: showTicks,

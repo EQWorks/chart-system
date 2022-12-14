@@ -6,7 +6,7 @@ import { useResizeDetector } from 'react-resize-detector'
 
 import getColorScheme from './get-color-scheme'
 import Legend from './legend'
-import { PLOTLY_BASE_LAYOUT, plotlyInterfaces } from './constants'
+import { PLOTLY_BASE_LAYOUT, plotlyInterfaces, PLOTLY_MULTI_CHARTS } from './constants'
 import Plot from './plot'
 import Styles from './styles'
 
@@ -26,6 +26,7 @@ const CustomPlot = ({
   showSubPlotTitles,
   title,
   baseColor,
+  testBaseColor,
   customColors,
   showLegend,
   onAfterPlot,
@@ -52,12 +53,19 @@ const CustomPlot = ({
 
   // determine the keys for the legend
   const legendKeys = useMemo(() => plotlyInterfaces[type].getLegendKeys(data), [data, type])
-
+  // console.log('baseColor: ', baseColor)
+  // console.log('test: ', testBaseColor)
+  
   // use customColors or generate the color scheme based on a single base color
-  const colors = useMemo(() => customColors.length
+  const colors = useMemo(() => {
+    const _baseColor = Object.keys(baseColor).map((key) => {
+      return getColorScheme(baseColor[key], legendKeys.length)
+    })
+    console.log('_baseColor: ', _baseColor)
+    return customColors.length
     ? customColors
-    : getColorScheme(baseColor, legendKeys.length)
-  , [customColors, baseColor, legendKeys.length])
+    : _baseColor
+  }, [customColors, baseColor, legendKeys.length])
 
   // enrich the data with color values
   const coloredData = useMemo(() => (
@@ -65,13 +73,13 @@ const CustomPlot = ({
       type,
       marker: {
         ...obj.marker,
-        color: colors[i],
+        color: colors[0][i],
         colors, // plotly uses both 'color' and 'colors' depending on the chart type
       },
       ...obj,
     }))
   ), [colors, data, type])
-
+  console.log("coloredData: ", coloredData)
   // keep track of example viz container height and width for computing manual size
   // also, ref helps force plotly to redraw during padding transitions
   const { ref, width, height } = useResizeDetector({
@@ -209,7 +217,7 @@ CustomPlot.propTypes = {
   showLegend: PropTypes.bool,
   showSubPlotTitles: PropTypes.bool,
   size: PropTypes.number,
-  baseColor: PropTypes.string,
+  baseColor: PropTypes.object,
   customColors: PropTypes.arrayOf(PropTypes.string),
   title: PropTypes.string,
   onAfterPlot: PropTypes.func,
@@ -223,7 +231,7 @@ CustomPlot.defaultProps = {
   legendPosition: [1, 0],
   showSubPlotTitles: true,
   size: 0.8,
-  baseColor: '#0017ff',
+  baseColor: { color1: '#0017ff' },
   customColors: [],
   showLegend: true,
   title: null,
