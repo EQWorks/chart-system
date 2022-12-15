@@ -24,6 +24,7 @@ const BarLine = ({
   chartOverlay,
   lineWidth,
   showLineMarkers,
+  sharedYAxis,
   ...props
 }) => {
   const bar_ = useTransformedData({
@@ -35,7 +36,7 @@ const BarLine = ({
     textPosition: 'none',
     formatData,
     tickSuffix: tickSuffix[0],
-    tickSuffix: tickPrefix[0],
+    tickPrefix: tickPrefix[0],
     hoverInfo: hoverInfo || 'x+text+name',
     hoverText,
     ...props,
@@ -54,8 +55,8 @@ const BarLine = ({
     extra: {
       mode: showLineMarkers ? 'lines+markers' : 'lines',
       line: {
-        width: lineWidth
-      }
+        width: lineWidth,
+      },
     },
     ...props,
   })
@@ -68,7 +69,7 @@ const BarLine = ({
         dataArray.push({
           type: 'bar',
           multi: 1,
-          ...data
+          ...data,
         })
       })
     }
@@ -76,9 +77,9 @@ const BarLine = ({
       line_.forEach(data => {
         dataArray.push({
           type: 'line',
-          yaxis: 'y2',
+          yaxis: sharedYAxis ? '' : 'y2',
           multi: 2,
-          ...data
+          ...data,
         })
       })
     }
@@ -110,13 +111,13 @@ const BarLine = ({
             tickprefix: tickPrefix[0] || '',
             automargin: true,
             showgrid: showGrid.y,
+            overlaying: chartOverlay ? 'y2' : '',
             ...(showAxisTitles.y && {
               title: {
                 standoff: 20,
                 text: axisTitles.y || y[0],
               },
             }),
-            overlaying: chartOverlay ? 'y2' : '',
           },
           yaxis2: {
             showticklabels: showTicks.y2,
@@ -138,6 +139,7 @@ const BarLine = ({
           },
         }}
         onAfterPlot={onAfterPlot}
+        multiChartLength={[bar_.length, line_.length]}
         {...props}
       />
     </>
@@ -179,6 +181,7 @@ BarLine.propTypes = {
   isBarOverlay: PropTypes.bool,
   lineWidth: PropTypes.number,
   showLineMarkers: PropTypes.bool,
+  sharedYAxis: PropTypes.bool,
   ...plotlyPropTypes,
 }
 
@@ -211,6 +214,7 @@ BarLine.defaultProps = {
   chartOverlay: false,
   lineWidth: 2,
   showLineMarkers: false,
+  sharedYAxis: true,
   ...plotlyDefaultProps,
 }
 
