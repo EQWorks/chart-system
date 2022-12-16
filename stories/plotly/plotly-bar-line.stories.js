@@ -8,16 +8,6 @@ export default {
   title: 'Plotly/bar-line',
 }
 
-const customColors = {
-  color1: ['#004C86', '#1F7F79', '#B24456', '#582A7D', '#D3A642', '#3175AC', '#7A002D',
-  '#437345', '#802C6D'],
-}
-
-const baseColor = {
-  color1: '#004C86',
-  color2: '#CF7047',
-}
-
 const Template = (args) =>
   <ResponsiveChartWrapper>
     <BarLine
@@ -30,6 +20,12 @@ const Template = (args) =>
   </ResponsiveChartWrapper>
 
 export const Default = Template.bind({})
+
+export const LineMarkersAndFill = Template.bind({})
+LineMarkersAndFill.args= {
+  showLineMarkers: true,
+  lineFill: true,
+}
 
 export const CustomColors = Template.bind({})
 CustomColors.args= {

@@ -6,6 +6,15 @@ import CustomPlot from '../shared/custom-plot'
 import useTransformedData from '../shared/use-transformed-data'
 
 
+const getDataArray = ({ bar_, line_, sharedYAxis }) => ([
+  ...bar_.map(data => ({ type: 'bar', ...data })),
+  ...line_.map(data => ({
+    type: 'line', 
+    yaxis: sharedYAxis ? '' : 'y2', 
+    ...data, 
+  })),
+])
+
 const BarLine = ({
   data,
   x,
@@ -25,6 +34,7 @@ const BarLine = ({
   lineWidth,
   showLineMarkers,
   sharedYAxis,
+  lineFill,
   ...props
 }) => {
   const bar_ = useTransformedData({
@@ -57,41 +67,16 @@ const BarLine = ({
       line: {
         width: lineWidth,
       },
+      fill: lineFill ? 'tonexty' : '',
     },
     ...props,
   })
-
-  const getData = () => {
-    const dataArray = []
-
-    if (bar_.length) {
-      bar_.forEach(data => {
-        dataArray.push({
-          type: 'bar',
-          multi: 1,
-          ...data,
-        })
-      })
-    }
-    if (line_.length) {
-      line_.forEach(data => {
-        dataArray.push({
-          type: 'line',
-          yaxis: sharedYAxis ? '' : 'y2',
-          multi: 2,
-          ...data,
-        })
-      })
-    }
-
-    return dataArray
-  }
 
   return (
     <>
       <CustomPlot
         type='barLine'
-        data={getData()}
+        data={getDataArray({ bar_, line_, sharedYAxis })}
         layout={{
           xaxis: {
             showticklabels: showTicks.x,
@@ -182,6 +167,7 @@ BarLine.propTypes = {
   lineWidth: PropTypes.number,
   showLineMarkers: PropTypes.bool,
   sharedYAxis: PropTypes.bool,
+  lineFill: PropTypes.bool,
   ...plotlyPropTypes,
 }
 
@@ -215,6 +201,7 @@ BarLine.defaultProps = {
   lineWidth: 2,
   showLineMarkers: false,
   sharedYAxis: true,
+  lineFill: false,
   ...plotlyDefaultProps,
 }
 

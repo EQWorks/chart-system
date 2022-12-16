@@ -53,29 +53,29 @@ const CustomPlot = ({
 
   // determine the keys for the legend
   const legendKeys = useMemo(() => plotlyInterfaces[type].getLegendKeys(data), [data, type])
-  
+
   // use customColors or generate the color scheme based on a single base color
   const colors = useMemo(() => {
     const customColorsLength = Object.keys(customColors).length
     const colorOptions = customColorsLength ? customColors : baseColor
+    const isMultiCharts = PLOTLY_MULTI_CHARTS.includes(type)
     let numberOfColors = [legendKeys.length]
 
-    if (PLOTLY_MULTI_CHARTS.includes(type) && (
+    if (isMultiCharts && (
       Object.keys(baseColor).length > 1 || customColorsLength > 1
     )) {
       numberOfColors = [...multiChartLength]
     }
 
     return Object.keys(colorOptions).map((key, i) => (
-      customColorsLength ? customColors[key] : getColorScheme(colorOptions[key], numberOfColors[i])
+      customColorsLength ? customColors[key] : 
+        getColorScheme(colorOptions[key], numberOfColors[isMultiCharts ? i : 0])
     ))
   }, [customColors, baseColor, legendKeys.length, multiChartLength, type])
 
   const getColors = useCallback(() => {
     if (PLOTLY_MULTI_CHARTS.includes(type) && colors.length > 1) {
-      const slicedArray = []
-      colors.forEach((c, i) => slicedArray.push(...c.slice(0, multiChartLength[i])))
-      return slicedArray
+      return colors.map((c, i) => c.slice(0, multiChartLength[i])).flat()
     }
     return colors[0]
   }, [colors, type, multiChartLength])
