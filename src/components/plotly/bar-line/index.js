@@ -6,73 +6,80 @@ import CustomPlot from '../shared/custom-plot'
 import useTransformedData from '../shared/use-transformed-data'
 
 
+const getDataArray = ({ bar_, line_, sharedYAxis }) => ([
+  ...bar_.map(data => ({ type: 'bar', ...data })),
+  ...line_.map(data => ({
+    type: 'line', 
+    yaxis: sharedYAxis ? '' : 'y2', 
+    ...data, 
+  })),
+])
+
 const BarLine = ({
   data,
+  x,
+  y,
+  y2,
   showTicks,
   showAxisTitles,
   axisTitles,
-  x,
-  y,
-  showCurrency,
+  showGrid,
   formatData,
   tickSuffix,
   tickPrefix,
   hoverInfo,
   hoverText,
   onAfterPlot,
+  chartOverlay,
+  lineWidth,
+  showLineMarkers,
+  sharedYAxis,
+  lineFill,
   ...props
 }) => {
-  const bar_data = {
+  const bar_ = useTransformedData({
     type: 'bar',
-    ...useTransformedData({
-      type: 'bar',
-      data,
-      x,
-      y: [y[0]],
-      orientation: 'v',
-      textPosition: 'none',
-      formatData,
-      tickSuffix,
-      tickPrefix,
-      hoverInfo: hoverInfo || 'x+text+name',
-      hoverText,
-      ...props,
-    })[0],
-  }
+    data,
+    x,
+    y,
+    orientation: 'v',
+    textPosition: 'none',
+    formatData,
+    tickSuffix: tickSuffix[0],
+    tickPrefix: tickPrefix[0],
+    hoverInfo: hoverInfo || 'x+text+name',
+    hoverText,
+    ...props,
+  })
 
-  const line_data = {
+  const line_ = useTransformedData({
     type: 'line',
-    yaxis: 'y2',
-    connectgaps: true,
-    ...useTransformedData({
-      type: 'line',
-      data,
-      x,
-      y: [y[1] ? y[1] : y[0]],
-      formatData,
-      tickSuffix,
-      tickPrefix,
-      hoverInfo: hoverInfo || 'x+text+name',
-      hoverText,
-      extra: {
-        mode: 'lines',
-        fill: 'tonexty',
+    data,
+    x,
+    y: y2,
+    formatData,
+    tickSuffix: tickSuffix[1],
+    tickPrefix: tickPrefix[1],
+    hoverInfo: hoverInfo || 'x+text+name',
+    hoverText,
+    extra: {
+      mode: showLineMarkers ? 'lines+markers' : 'lines',
+      line: {
+        width: lineWidth,
       },
-      ...props,
-    })[0],
-  }
+      fill: lineFill ? 'tonexty' : '',
+    },
+    ...props,
+  })
 
   return (
     <>
       <CustomPlot
-        type='barline'
-        data={y[1] ? [
-          line_data,
-          bar_data,
-        ] : [bar_data]}
+        type='barLine'
+        data={getDataArray({ bar_, line_, sharedYAxis })}
         layout={{
           xaxis: {
-            showticklabels: showTicks,
+            showticklabels: showTicks.x,
             tickmode: 'linear',
             tickformat: '%b %d',
             automargin: true,
@@ -84,33 +91,40 @@ const BarLine = ({
             }),
           },
           yaxis: {
-            ...(showAxisTitles.y && y[0] && {
+            showticklabels: showTicks.y,
+            ticksuffix: tickSuffix[0] || '',
+            tickprefix: tickPrefix[0] || '',
+            automargin: true,
+            showgrid: showGrid.y,
+            overlaying: chartOverlay ? 'y2' : '',
+            ...(showAxisTitles.y && {
               title: {
                 standoff: 20,
                 text: axisTitles.y || y[0],
               },
             }),
-            showticklabels: showTicks,
-            tickprefix: showCurrency && '$',
-            automargin: true,
-            overlaying: 'y2',
           },
           yaxis2: {
-            ...(showAxisTitles.y2 && y[1] && {
+            showticklabels: showTicks.y2,
+            ticksuffix: tickSuffix[1] || '',
+            tickprefix: tickPrefix[1] || '',
+            automargin: true,
+            showgrid: showGrid.y2,
+            side: 'right',
+            overlaying: chartOverlay ? '' : 'y',
+            ...(showAxisTitles.y2 && {
               title: {
                 standoff: 20,
-                text: axisTitles.y2 || y[1],
+                text: axisTitles.y2 || y2[0],
               },
             }),
-            showticklabels: showTicks,
-            automargin: true,
-            side: 'right',
           },
           margin: {
             pad: 10,
           },
         }}
         onAfterPlot={onAfterPlot}
+        multiChartLength={[bar_.length, line_.length]}
         {...props}
       />
     </>
@@ -120,7 +134,12 @@ const BarLine = ({
 BarLine.propTypes = {
   x: PropTypes.string.isRequired,
   y: PropTypes.arrayOf(PropTypes.string).isRequired,
-  showTicks: PropTypes.bool,
+  y2: PropTypes.arrayOf(PropTypes.string).isRequired,
+  showTicks: PropTypes.shape({
+    x: PropTypes.bool,
+    y: PropTypes.bool,
+    y2: PropTypes.bool,
+  }),
   showAxisTitles: PropTypes.shape({
     x: PropTypes.bool,
     y: PropTypes.bool,
@@ -131,7 +150,10 @@ BarLine.propTypes = {
     y: PropTypes.string,
     y2: PropTypes.string,
   }),
-  showCurrency: PropTypes.bool,
+  showGrid: PropTypes.shape({
+    y: PropTypes.bool,
+    y2: PropTypes.bool,
+  }),
   formatData: PropTypes.objectOf(PropTypes.func),
   tickSuffix: PropTypes.arrayOf(PropTypes.string),
   tickPrefix: PropTypes.arrayOf(PropTypes.string),
@@ -141,11 +163,20 @@ BarLine.propTypes = {
     PropTypes.string,
   ]),
   onAfterPlot: PropTypes.func,
+  isBarOverlay: PropTypes.bool,
+  lineWidth: PropTypes.number,
+  showLineMarkers: PropTypes.bool,
+  sharedYAxis: PropTypes.bool,
+  lineFill: PropTypes.bool,
   ...plotlyPropTypes,
 }
 
 BarLine.defaultProps = {
-  showTicks: true,
+  showTicks: {
+    x: true,
+    y: true,
+    y2: true,
+  },
   showAxisTitles: {
     x: true,
     y: true,
@@ -156,13 +187,21 @@ BarLine.defaultProps = {
     y: '',
     y2: '',
   },
-  showCurrency: false,
+  showGrid: {
+    y: true,
+    y2: false,
+  },
   formatData: {},
   tickSuffix: [],
   tickPrefix: [],
   hoverInfo: '',
   hoverText: '',
   onAfterPlot: () => {},
+  chartOverlay: false,
+  lineWidth: 2,
+  showLineMarkers: false,
+  sharedYAxis: true,
+  lineFill: false,
   ...plotlyDefaultProps,
 }
 

@@ -21,7 +21,9 @@ const Template = (args) =>
 export const Default = Template.bind({})
 
 export const WithLabelName = Template.bind({})
-WithLabelName.args = { showLabelName: true }
+WithLabelName.args = { 
+  showLabelName: true,
+}
 
 export const PlotlyOverride = Template.bind({})
 PlotlyOverride.args = {
@@ -42,4 +44,17 @@ export const NoLabels = Template.bind({})
 NoLabels.args = { showPercentage: false }
 
 export const CustomColors = Template.bind({})
-CustomColors.args = { customColors: ['#88CCEE', '#CC6677', '#DDCC77', '#477733', '#0F2288'] }
+CustomColors.args = { 
+  customColors: {
+    color1: ['#88CCEE', '#CC6677', '#DDCC77', '#477733', '#0F2288'],
+    color2: ['#B24456', '#D3A642'],
+  } 
+}
+
+export const CustomBaseColor = Template.bind({})
+CustomBaseColor.args = {
+  baseColor: {
+    color1: '#004C86',
+    color2: '#CF7047',
+  }
+}

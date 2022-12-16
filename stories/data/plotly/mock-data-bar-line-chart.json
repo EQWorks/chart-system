@@ -2,51 +2,71 @@
   {
     "city": "Longueuil",
     "spend": 250,
-    "transactions": 2.2
+    "spend1": 200,
+    "transactions": 2.2,
+    "transactions1": 1.2
   },
   {
     "city": "Niagara Falls",
     "spend": 113,
-    "transactions": 2.5
+    "spend1": 63,
+    "transactions": 2.5,
+    "transactions1": 1.5
   },
   {
     "city": "Montreal",
     "spend": 141,
-    "transactions": 2
+    "spend1": 91,
+    "transactions": 2,
+    "transactions1": 1
   },
   {
     "city": "Saskatoon",
     "spend": 152,
-    "transactions": 2.3
+    "spend1": 102,
+    "transactions": 2.3,
+    "transactions1": 1.3
   },
   {
     "city": "Vancouver",
     "spend": 220,
-    "transactions": 3
+    "spend1": 170,
+    "transactions": 3,
+    "transactions1": 2
   },
   {
     "city": "Toronto",
     "spend": 250,
-    "transactions": 2.8
+    "spend1": 200,
+    "transactions": 2.8,
+    "transactions1": 1.8
   },
   {
     "city": "Ottawa",
     "spend": 113,
-    "transactions": 2.5
+    "spend1": 63,
+    "transactions": 2.5,
+    "transactions1": 1.5
   },
   {
     "city": "Brampton",
     "spend": 141,
-    "transactions": 2
+    "spend1": 91,
+    "transactions": 2,
+    "transactions1": 1
   },
   {
     "city": "Calgary",
     "spend": 152,
-    "transactions": 2.3
+    "spend1": 102,
+    "transactions": 2.3,
+    "transactions1": 1.3
   },
   {
     "city": "Edmonton",
     "spend": 300,
-    "transactions": 3
+    "spend1": 250,
+    "transactions": 3,
+    "transactions1": 2
   }
 ]

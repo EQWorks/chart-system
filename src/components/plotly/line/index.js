@@ -20,6 +20,8 @@ const Line = ({
   hoverInfo,
   hoverText,
   onAfterPlot,
+  showLineMarkers,
+  lineFill,
   ...props
 }) => (
   <CustomPlot
@@ -36,9 +38,11 @@ const Line = ({
         hoverInfo: hoverInfo || 'x+text+name',
         hoverText,
         extra: {
+          mode: showLineMarkers ? 'lines+markers' : 'lines',
           line: {
-            shape: spline ? 'spline' : 'linear',
+            shape: spline ? 'spline' : '',
           },
+          fill: lineFill ? 'tonexty' : '',
         },
         ...props,
       })
@@ -96,6 +100,8 @@ Line.propTypes = {
     PropTypes.string,
   ]),
   onAfterPlot: PropTypes.func,
+  showLineMarkers: PropTypes.bool,
+  lineFill: PropTypes.bool,
   ...plotlyPropTypes,
 }
 
@@ -116,6 +122,8 @@ Line.defaultProps = {
   hoverInfo: '',
   hoverText: '',
   onAfterPlot: () => {},
+  showLineMarkers: false,
+  lineFill: false,
   ...plotlyDefaultProps,
 }
 

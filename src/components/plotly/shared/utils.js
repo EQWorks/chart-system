@@ -72,8 +72,8 @@ const getObjectByType = (
   grouped = false, 
 ) => {
   let typeConfig = {}
-  const _tickPrefix = tickPrefix[0] || ''
-  const _tickSuffix = tickSuffix[0] || ''
+  const _tickPrefix = tickPrefix || ''
+  const _tickSuffix = tickSuffix || ''
 
   if (grouped) {
     const _getText = Object.values(key).map(v => {

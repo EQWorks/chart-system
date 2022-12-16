@@ -58,7 +58,7 @@ export const plotlyInterfaces = {
     },
     getLegendKeys: data => data.map(({ name }) => name),
   },
-  barline: {
+  barLine: {
     domain: {
       input: 'x',
       output: 'x',
@@ -108,3 +108,5 @@ export const PLOTLY_HOVERINFO_PERCENTAGE = {
   line: 'x+text+name',
   scatter: 'x+text+name',
 }
+
+export const PLOTLY_MULTI_CHARTS = ['barLine', 'doubleLine']

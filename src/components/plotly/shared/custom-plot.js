@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useLayoutEffect } from 'react'
+import React, { useState, useMemo, useLayoutEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
 import merge from 'lodash.merge'
@@ -6,7 +6,7 @@ import { useResizeDetector } from 'react-resize-detector'
 
 import getColorScheme from './get-color-scheme'
 import Legend from './legend'
-import { PLOTLY_BASE_LAYOUT, plotlyInterfaces } from './constants'
+import { PLOTLY_BASE_LAYOUT, plotlyInterfaces, PLOTLY_MULTI_CHARTS } from './constants'
 import Plot from './plot'
 import Styles from './styles'
 
@@ -29,6 +29,7 @@ const CustomPlot = ({
   customColors,
   showLegend,
   onAfterPlot,
+  multiChartLength,
 }) => {
   // determine subplot requirements
   const subPlotColumns = useMemo(() => Math.min(DEFAULT_SUBPLOT_COLUMNS, data.length), [data.length])
@@ -54,10 +55,30 @@ const CustomPlot = ({
   const legendKeys = useMemo(() => plotlyInterfaces[type].getLegendKeys(data), [data, type])
 
   // use customColors or generate the color scheme based on a single base color
-  const colors = useMemo(() => customColors.length
-    ? customColors
-    : getColorScheme(baseColor, legendKeys.length)
-  , [customColors, baseColor, legendKeys.length])
+  const colors = useMemo(() => {
+    const customColorsLength = Object.keys(customColors).length
+    const colorOptions = customColorsLength ? customColors : baseColor
+    const isMultiCharts = PLOTLY_MULTI_CHARTS.includes(type)
+    let numberOfColors = [legendKeys.length]
+
+    if (isMultiCharts && (
+      Object.keys(baseColor).length > 1 || customColorsLength > 1
+    )) {
+      numberOfColors = [...multiChartLength]
+    }
+
+    return Object.keys(colorOptions).map((key, i) => (
+      customColorsLength ? customColors[key] : 
+        getColorScheme(colorOptions[key], numberOfColors[isMultiCharts ? i : 0])
+    ))
+  }, [customColors, baseColor, legendKeys.length, multiChartLength, type])
+
+  const getColors = useCallback(() => {
+    if (PLOTLY_MULTI_CHARTS.includes(type) && colors.length > 1) {
+      return colors.map((c, i) => c.slice(0, multiChartLength[i])).flat()
+    }
+    return colors[0]
+  }, [colors, type, multiChartLength])
 
   // enrich the data with color values
   const coloredData = useMemo(() => (
@@ -65,12 +86,12 @@ const CustomPlot = ({
       type,
       marker: {
         ...obj.marker,
-        color: colors[i],
-        colors, // plotly uses both 'color' and 'colors' depending on the chart type
+        color: getColors()[i],
+        colors: getColors(), // plotly uses both 'color' and 'colors' depending on the chart type
       },
       ...obj,
     }))
-  ), [colors, data, type])
+  ), [data, type, getColors])
 
   // keep track of example viz container height and width for computing manual size
   // also, ref helps force plotly to redraw during padding transitions
@@ -189,7 +210,7 @@ const CustomPlot = ({
         showLegend &&
         <Legend
           margin={legendMargin}
-          colors={colors}
+          colors={getColors()}
           keys={legendKeys}
           position={legendPosition}
         />
@@ -209,10 +230,11 @@ CustomPlot.propTypes = {
   showLegend: PropTypes.bool,
   showSubPlotTitles: PropTypes.bool,
   size: PropTypes.number,
-  baseColor: PropTypes.string,
-  customColors: PropTypes.arrayOf(PropTypes.string),
+  baseColor: PropTypes.object,
+  customColors: PropTypes.object,
   title: PropTypes.string,
   onAfterPlot: PropTypes.func,
+  multiChartLength: PropTypes.arrayOf(PropTypes.number),
 }
 
 CustomPlot.defaultProps = {
@@ -223,11 +245,12 @@ CustomPlot.defaultProps = {
   legendPosition: [1, 0],
   showSubPlotTitles: true,
   size: 0.8,
-  baseColor: '#0017ff',
-  customColors: [],
+  baseColor: { color1: '#0017ff' },
+  customColors: {},
   showLegend: true,
   title: null,
   onAfterPlot: () => {},
+  multiChartLength: [],
 }
 
 export default CustomPlot
