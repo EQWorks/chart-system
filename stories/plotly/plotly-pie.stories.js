@@ -46,7 +46,8 @@ NoLabels.args = { showPercentage: false }
 export const CustomColors = Template.bind({})
 CustomColors.args = { 
   customColors: {
-    color1: ['#88CCEE', '#CC6677', '#DDCC77', '#477733', '#0F2288']
+    color1: ['#88CCEE', '#CC6677', '#DDCC77', '#477733', '#0F2288'],
+    color2: ['#B24456', '#D3A642'],
   } 
 }
 
@@ -54,5 +55,6 @@ export const CustomBaseColor = Template.bind({})
 CustomBaseColor.args = {
   baseColor: {
     color1: '#004C86',
+    color2: '#CF7047',
   }
 }

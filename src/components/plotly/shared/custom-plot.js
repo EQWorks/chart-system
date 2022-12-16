@@ -75,9 +75,7 @@ const CustomPlot = ({
 
   const getColors = useCallback(() => {
     if (PLOTLY_MULTI_CHARTS.includes(type) && colors.length > 1) {
-      const slicedArray = []
-      colors.forEach((c, i) => slicedArray.push(...c.slice(0, multiChartLength[i])))
-      return slicedArray
+      return colors.map((c, i) => c.slice(0, multiChartLength[i])).flat()
     }
     return colors[0]
   }, [colors, type, multiChartLength])
