@@ -98,6 +98,7 @@ export const PLOTLY_BASE_LAYOUT = {
     l: 0,
     r: 0,
   },
+  hoverlabel: { namelength :-1 },
   xaxis: { fixedrange: true },
   yaxis: { fixedrange: true },
 }
