@@ -3,7 +3,7 @@ import { styled } from 'goober'
 
 
 export default {
-  DynamicSize: styled('div', forwardRef)(({ size }) => {
+  DynamicSize: styled('div', forwardRef)(({ size, type }) => {
     const finalSize = `${size * 100}%`
     return {
       display: 'flex',
@@ -11,7 +11,7 @@ export default {
       alignContent: 'center',
       position: 'relative',
       width: finalSize,
-      height: finalSize,
+      height: type === 'pie' ? finalSize : '100%',
       maxWidth: '100%',
       maxHeight: '100%',
       transition: 'width 0.3s, height 0.3s',

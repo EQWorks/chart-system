@@ -10,7 +10,7 @@ import { PLOTLY_BASE_LAYOUT, plotlyInterfaces, PLOTLY_MULTI_CHARTS } from './con
 import Plot from './plot'
 import Styles from './styles'
 
-const DEFAULT_SIZE = 0.9 // [0, 1]
+const DEFAULT_SIZE = 0.8 // [0, 1]
 const MIN_SIZE = 0.5 // [0, 1]
 
 const DEFAULT_SUBPLOT_COLUMNS = 2
@@ -160,7 +160,7 @@ const CustomPlot = ({
     <Styles.PlotContainer key={key}>
       {
         applyManualDimensions(
-          <Styles.DynamicSize size={finalVizSize} >
+          <Styles.DynamicSize size={finalVizSize} type={type}>
             {doSubPlots
               ? (showSubPlotTitles && renderSubPlotTitle(title))
               : renderTitle
@@ -244,7 +244,7 @@ CustomPlot.defaultProps = {
   titlePosition: [0, 1],
   legendPosition: [1, 0],
   showSubPlotTitles: true,
-  size: 0.9,
+  size: 0.8,
   baseColor: { color1: '#0017ff' },
   customColors: {},
   showLegend: true,
