@@ -20,6 +20,7 @@ const Pie = ({
   hoverInfo,
   hoverText,
   onAfterPlot,
+  size,
   ...props
 }) => (
   <CustomPlot
@@ -39,6 +40,7 @@ const Pie = ({
       ...props,
     })}
     onAfterPlot={onAfterPlot}
+    size={size}
     {...props}
   />
 )
@@ -58,6 +60,7 @@ Pie.propTypes = {
     PropTypes.string,
   ]),
   onAfterPlot: PropTypes.func,
+  size: PropTypes.number,
   ...plotlyPropTypes,
 }
 
@@ -73,6 +76,7 @@ Pie.defaultProps = {
   hoverInfo: '',
   hoverText: '',
   onAfterPlot: () => {},
+  size: 0.8,
   ...plotlyDefaultProps,
 }
 
