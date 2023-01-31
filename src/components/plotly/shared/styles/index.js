@@ -46,7 +46,8 @@ export default {
     transition: 'width 0.3s, height 0.3s',
   }),
 
-  ContentContainer: styled('div')({
+  ContentContainer: styled('div')(({ isPieTooSmall }) => ({
+    marginBottom: isPieTooSmall ? '0.5rem' : 'initial',
     fontFamily: 'Open Sans,sans-serif',
     position: 'relative',
     order: 1,
@@ -54,5 +55,5 @@ export default {
     justifyContent: 'center',
     alignItems: 'center',
     textTransform: 'capitalize',
-  }),
+  })),
 }

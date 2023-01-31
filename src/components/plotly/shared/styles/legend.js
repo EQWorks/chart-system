@@ -12,7 +12,7 @@ export default {
       positionStyle.justifyContent = ['start', 'end'][x]
     }
     const marginAmount = `${100 * margin}%`
-    const finalMargin = horizontal ? `1rem ${marginAmount}` : `${marginAmount} 1rem`
+    const finalMargin = horizontal ? `1rem ${marginAmount} 0.6rem ${marginAmount}` : `${marginAmount} 0.6rem`
     return {
       transition: 'margin 0.3s',
       margin: finalMargin,
