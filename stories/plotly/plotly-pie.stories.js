@@ -27,7 +27,7 @@ WithLabelName.args = {
 
 export const PlotlyOverride = Template.bind({})
 PlotlyOverride.args = {
-  textinfo: 'label+value+percent',
+  textinfo: 'label+value',
   hole: 0.9,
 }
 
@@ -35,7 +35,7 @@ export const LongDecimals = Template.bind({})
 LongDecimals.args = { values: ['stat4'] }
 
 export const Percentage = Template.bind({})
-Percentage.args = { values: ['stat3', 'stat4'] }
+Percentage.args = { values: ['stat3'] }
 
 export const Donut = Template.bind({})
 Donut.args = { donut: true }

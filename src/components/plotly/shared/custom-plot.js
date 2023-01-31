@@ -30,6 +30,7 @@ const CustomPlot = ({
   showLegend,
   onAfterPlot,
   multiChartLength,
+  isPieTooSmall,
 }) => {
   // determine subplot requirements
   const subPlotColumns = useMemo(() => Math.min(DEFAULT_SUBPLOT_COLUMNS, data.length), [data.length])
@@ -40,7 +41,7 @@ const CustomPlot = ({
   const finalVizSize = useMemo(() => (
     doSubPlots
       ? MIN_SIZE + (size * (1 - MIN_SIZE))
-      : DEFAULT_SIZE
+      : size || DEFAULT_SIZE
   ), [doSubPlots, size])
   const legendMargin = useMemo(() => (
     doSubPlots
@@ -121,7 +122,7 @@ const CustomPlot = ({
   // render a dummy element with the ref from react-resize-detector.
   const renderDummy = (
     <Styles.PlotContainer>
-      <Styles.DynamicSize ref={ref} size={finalVizSize} >
+      <Styles.DynamicSize ref={ref} size={finalVizSize} type={type}>
         {showSubPlotTitles && renderSubPlotTitle(' ')}
         <Styles.Plot />
       </Styles.DynamicSize>
@@ -160,7 +161,7 @@ const CustomPlot = ({
     <Styles.PlotContainer key={key}>
       {
         applyManualDimensions(
-          <Styles.DynamicSize size={finalVizSize} >
+          <Styles.DynamicSize size={finalVizSize} type={type}>
             {doSubPlots
               ? (showSubPlotTitles && renderSubPlotTitle(title))
               : renderTitle
@@ -182,7 +183,7 @@ const CustomPlot = ({
 
   return (
     <Styles.OuterContainer showLegend={showLegend} legendPosition={legendPosition}>
-      <Styles.ContentContainer>
+      <Styles.ContentContainer isPieTooSmall={isPieTooSmall}>
         {
           doSubPlots
             ? <>
@@ -235,6 +236,7 @@ CustomPlot.propTypes = {
   title: PropTypes.string,
   onAfterPlot: PropTypes.func,
   multiChartLength: PropTypes.arrayOf(PropTypes.number),
+  isPieTooSmall: PropTypes.bool,
 }
 
 CustomPlot.defaultProps = {
@@ -251,6 +253,7 @@ CustomPlot.defaultProps = {
   title: null,
   onAfterPlot: () => {},
   multiChartLength: [],
+  isPieTooSmall: false,
 }
 
 export default CustomPlot
