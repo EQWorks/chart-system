@@ -30,6 +30,7 @@ const CustomPlot = ({
   showLegend,
   onAfterPlot,
   multiChartLength,
+  isPieTooSmall,
 }) => {
   // determine subplot requirements
   const subPlotColumns = useMemo(() => Math.min(DEFAULT_SUBPLOT_COLUMNS, data.length), [data.length])
@@ -182,7 +183,7 @@ const CustomPlot = ({
 
   return (
     <Styles.OuterContainer showLegend={showLegend} legendPosition={legendPosition}>
-      <Styles.ContentContainer>
+      <Styles.ContentContainer isPieTooSmall={isPieTooSmall}>
         {
           doSubPlots
             ? <>
@@ -235,6 +236,7 @@ CustomPlot.propTypes = {
   title: PropTypes.string,
   onAfterPlot: PropTypes.func,
   multiChartLength: PropTypes.arrayOf(PropTypes.number),
+  isPieTooSmall: PropTypes.bool,
 }
 
 CustomPlot.defaultProps = {
@@ -251,6 +253,7 @@ CustomPlot.defaultProps = {
   title: null,
   onAfterPlot: () => {},
   multiChartLength: [],
+  isPieTooSmall: false,
 }
 
 export default CustomPlot

@@ -50,10 +50,12 @@ const useTransformedData = ({
         const name = _d[args[domain.input]]
         delete _d[args[domain.input]]
         const keys = Object.keys(_d)
+        const totalSum = getSum(keys, [d])
 
         return {
           name,
-          hoverinfo: Math.round(getSum(keys, [d])) === 100 ? PLOTLY_HOVERINFO_PERCENTAGE[type] || hoverInfo : hoverInfo,
+          hoverinfo: Math.round(totalSum) === 100 ? PLOTLY_HOVERINFO_PERCENTAGE[type] || hoverInfo : hoverInfo,
+          totalSum,
           ...getObjectByType(data, type, domain, range, args, _d, formatData[keys[i]], tickSuffix, tickPrefix, hoverText, true),
           ...extra,
         }
@@ -64,6 +66,7 @@ const useTransformedData = ({
       {
         name: k,
         hoverinfo: Math.round(getSum([k], data)) === 100 ? PLOTLY_HOVERINFO_PERCENTAGE[type] || hoverInfo : hoverInfo,
+        totalSum: getSum([k], data),
         ...getObjectByType(data, type, domain, range, args, k, formatData[k], tickSuffix, tickPrefix, hoverText),
         ...extra,
       }
