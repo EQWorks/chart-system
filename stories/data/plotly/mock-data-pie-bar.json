@@ -26,13 +26,13 @@
   {
     "city": "Vancouver",
     "age": 27,
-    "stat1": 32,
+    "stat1": 52,
     "stat2": 82,
     "stat3": 28,
     "stat4": 5.47438978973428908409283498
   },
   {
-    "city": "Test",
+    "city": "Saskatoon",
     "age": 27,
     "stat1": 32,
     "stat2": 82,
@@ -40,7 +40,7 @@
     "stat4": 2.47438978973428908409283498
   },
   {
-    "city": "Test1",
+    "city": "Test",
     "age": 27,
     "stat1": 32,
     "stat2": 82,
