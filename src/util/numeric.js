@@ -26,3 +26,33 @@ export const getRoundToNumberDigit = (num) => {
 
   return Math.ceil(num / roundTo) * roundTo
 }
+
+export const isPieTooSmallCalc = (transformedData) => {
+  let isPieTooSmall = false
+  const percentages = []
+
+  if (transformedData.length) {
+    transformedData.forEach(data => {
+      const numberOfValues = data?.values.length
+      let max = 0
+
+      data?.values.forEach((val) => {
+        const calcPercentage = (100 * val) / data.totalSum
+        if (calcPercentage < 5) {
+          percentages.push(val)
+        }
+  
+        if (calcPercentage > max) {
+          max = calcPercentage
+        }
+      })
+      percentages.push({ max })
+
+      if (percentages.length && numberOfValues > 5 && (max > 25 && max < 60)) {
+        isPieTooSmall = true
+      }
+    })
+  }
+
+  return isPieTooSmall
+}
