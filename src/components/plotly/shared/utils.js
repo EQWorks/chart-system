@@ -13,6 +13,19 @@ const getAxisTitle = (orientation, position, x, y) => {
     standoff: 20,
   }
 }
+
+const getBarAxisShowTitle = (showAxisTitles, orientation, axis, current) => {
+  if (orientation === 'h') {
+    if (axis === 'x') {
+      return showAxisTitles.y
+    }
+
+    if (axis === 'y') {
+      return showAxisTitles.x
+    }
+  }
+  return current
+}
   
 const getMaxRange = (data, stacked, graphType = 'bar') => {
   let xAxisValues
@@ -126,4 +139,4 @@ const getObjectByType = (
   return typeConfig
 }
 
-export { getTextInfo, getAxisTitle, getMaxRange, getSum, getText, getObjectByType }
+export { getTextInfo, getAxisTitle, getMaxRange, getSum, getText, getObjectByType, getBarAxisShowTitle }

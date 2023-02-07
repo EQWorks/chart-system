@@ -5,7 +5,7 @@ import { plotlyDefaultProps, plotlyPropTypes } from '../shared/constants'
 import CustomPlot from '../shared/custom-plot'
 import useTransformedData from '../shared/use-transformed-data'
 
-import { getMaxRange } from '../shared/utils'
+import { getAxisTitle, getMaxRange, getBarAxisShowTitle } from '../shared/utils'
 
 const Bar = ({
   data,
@@ -52,11 +52,8 @@ const Bar = ({
           ticksuffix: hoverInfo && tickSuffix[0],
           tickprefix: hoverInfo && tickPrefix[0],
           automargin: true,
-          ...(showAxisTitles.x && {
-            title: {
-              text: axisTitles.x || x,
-              standoff: 20,
-            },
+          ...(getBarAxisShowTitle(showAxisTitles, orientation, 'x', showAxisTitles.x) && {
+            title: getAxisTitle(orientation, 'v', axisTitles.x || x, axisTitles.y ? [axisTitles.y] : y),
           }),
         },
         yaxis: {
@@ -64,11 +61,8 @@ const Bar = ({
           ticksuffix: hoverInfo && tickSuffix[1],
           tickprefix: hoverInfo && tickPrefix[1],
           automargin: true,
-          ...(showAxisTitles.y && {
-            title: {
-              text: axisTitles.y ? [axisTitles.y] : y,
-              standoff: 20,
-            },
+          ...(getBarAxisShowTitle(showAxisTitles, orientation, 'y', showAxisTitles.y) && {
+            title: getAxisTitle(orientation, 'h', axisTitles.x || x, axisTitles.y ? [axisTitles.y] : y),
           }),
         },
         margin: {
