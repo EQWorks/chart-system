@@ -8,9 +8,7 @@ export default {
       flexDirection: horizontal ? 'row' : 'column',
       order: horizontal ? +!y : x,
     }
-    if (horizontal && !(x % 1)) {
-      positionStyle.justifyContent = ['start', 'end'][x]
-    }
+
     const marginAmount = `${100 * margin}%`
     const finalMargin = horizontal ? `1rem ${marginAmount} 0.6rem ${marginAmount}` : `${marginAmount} 0.6rem`
     return {
@@ -31,20 +29,23 @@ export default {
 
   LegendItem: styled('div')({
     display: 'flex',
-    margin: '0.2rem',
+    marginRight: '1rem',
     alignItems: 'center',
   }),
 
   LegendColorBox: styled('div')(({ color }) => ({
     background: color,
     borderRadius: '0.2rem',
-    width: '1rem',
-    height: '1rem',
-    margin: '0 0.5rem',
+    width: '0.625rem',
+    height: '0.625rem',
+    marginRight: '0.313rem',
   })),
 
   LegendString: styled('div')({
     textAlign: 'left',
     flex: 1,
+    fontSize: '0.688rem',
+    lineHeight: '1rem',
+    letterSpacing: '0.025rem',
   }),
 }
