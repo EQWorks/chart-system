@@ -10,7 +10,7 @@ import { PLOTLY_BASE_LAYOUT, plotlyInterfaces, PLOTLY_MULTI_CHARTS } from './con
 import Plot from './plot'
 import Styles from './styles'
 
-const DEFAULT_SIZE = 0.8 // [0, 1]
+const DEFAULT_SIZE = 0.9 // [0, 1]
 const MIN_SIZE = 0.5 // [0, 1]
 
 const DEFAULT_SUBPLOT_COLUMNS = 2
@@ -246,7 +246,7 @@ CustomPlot.defaultProps = {
   titlePosition: [0, 1],
   legendPosition: [1, 0],
   showSubPlotTitles: true,
-  size: 0.8,
+  size: 0.9,
   baseColor: { color1: '#0017ff' },
   customColors: {},
   showLegend: true,
