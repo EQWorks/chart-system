@@ -214,6 +214,7 @@ const CustomPlot = ({
           colors={getColors()}
           keys={legendKeys}
           position={legendPosition}
+          type={type}
         />
       }
     </Styles.OuterContainer>
