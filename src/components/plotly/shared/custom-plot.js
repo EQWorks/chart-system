@@ -101,7 +101,7 @@ const CustomPlot = ({
     refreshRate: 100,
   })
 
-  const renderSubPlotTitle = (_title = '') => (
+  const renderSubPlotTitle = (_title = '') => ( title &&
     <Styles.SubPlotTitle
       x={titlePosition[0]}
       y={titlePosition[1]}
@@ -110,7 +110,7 @@ const CustomPlot = ({
     </Styles.SubPlotTitle>
   )
 
-  const renderTitle = (
+  const renderTitle = ( title &&
     <Styles.Title
       x={titlePosition[0]}
       y={titlePosition[1]}
@@ -124,7 +124,7 @@ const CustomPlot = ({
     <Styles.PlotContainer>
       <Styles.DynamicSize ref={ref} size={finalVizSize} type={type}>
         {showSubPlotTitles && renderSubPlotTitle(' ')}
-        <Styles.Plot />
+        <Styles.Plot title={title} />
       </Styles.DynamicSize>
     </Styles.PlotContainer>
   )
@@ -188,7 +188,7 @@ const CustomPlot = ({
           doSubPlots
             ? <>
               <Styles.GenericContainer>
-                {renderTitle}
+                {title && renderTitle}
                 <Styles.SubPlotGrid columns={subPlotColumns} rows={subPlotRows}>
                   {coloredData.map((d, i) => renderPlot([d], d.name, i))}
                 </Styles.SubPlotGrid >
@@ -214,7 +214,6 @@ const CustomPlot = ({
           colors={getColors()}
           keys={legendKeys}
           position={legendPosition}
-          type={type}
         />
       }
     </Styles.OuterContainer>
