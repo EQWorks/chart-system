@@ -10,7 +10,7 @@ import { PLOTLY_BASE_LAYOUT, plotlyInterfaces, PLOTLY_MULTI_CHARTS } from './con
 import Plot from './plot'
 import Styles from './styles'
 
-const DEFAULT_SIZE = 0.8 // [0, 1]
+const DEFAULT_SIZE = 0.9 // [0, 1]
 const MIN_SIZE = 0.5 // [0, 1]
 
 const DEFAULT_SUBPLOT_COLUMNS = 2
@@ -101,7 +101,7 @@ const CustomPlot = ({
     refreshRate: 100,
   })
 
-  const renderSubPlotTitle = (_title = '') => (
+  const renderSubPlotTitle = (_title = '') => ( title &&
     <Styles.SubPlotTitle
       x={titlePosition[0]}
       y={titlePosition[1]}
@@ -110,7 +110,7 @@ const CustomPlot = ({
     </Styles.SubPlotTitle>
   )
 
-  const renderTitle = (
+  const renderTitle = ( title &&
     <Styles.Title
       x={titlePosition[0]}
       y={titlePosition[1]}
@@ -124,7 +124,7 @@ const CustomPlot = ({
     <Styles.PlotContainer>
       <Styles.DynamicSize ref={ref} size={finalVizSize} type={type}>
         {showSubPlotTitles && renderSubPlotTitle(' ')}
-        <Styles.Plot />
+        <Styles.Plot title={title} />
       </Styles.DynamicSize>
     </Styles.PlotContainer>
   )
@@ -188,7 +188,7 @@ const CustomPlot = ({
           doSubPlots
             ? <>
               <Styles.GenericContainer>
-                {renderTitle}
+                {title && renderTitle}
                 <Styles.SubPlotGrid columns={subPlotColumns} rows={subPlotRows}>
                   {coloredData.map((d, i) => renderPlot([d], d.name, i))}
                 </Styles.SubPlotGrid >
@@ -246,7 +246,7 @@ CustomPlot.defaultProps = {
   titlePosition: [0, 1],
   legendPosition: [1, 0],
   showSubPlotTitles: true,
-  size: 0.8,
+  size: 0.9,
   baseColor: { color1: '#0017ff' },
   customColors: {},
   showLegend: true,

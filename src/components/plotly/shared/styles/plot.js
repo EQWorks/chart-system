@@ -63,13 +63,14 @@ export default {
     alignItems: 'center',
   }),
 
-  Plot: styled('div', forwardRef)({
+  Plot: styled('div', forwardRef)(({ title }) => ({
     '& svg': {
       overflow: 'visible !important', // plotly.js override
     },
+    marginTop: title ? 'initial' : '1.2rem',
     flex: 1,
     minHeight: '10px',
     minWidth: '10px',
     width: '100%',
-  }),
+  })),
 }

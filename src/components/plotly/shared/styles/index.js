@@ -6,7 +6,7 @@ import legendStyles from './legend'
 import utilStyles from './util'
 
 setup(createElement, undefined, undefined, shouldForwardProp((prop) => {
-  return !['showLegend', 'legendPosition'].includes(prop)
+  return !['showLegend', 'legendPosition', 'isPieTooSmall'].includes(prop)
 }))
 
 export default {
@@ -17,9 +17,9 @@ export default {
     let gridStyle = {}
     if (showLegend) {
       if (lY === 1) {
-        gridStyle = { gridTemplateRows: 'fit-content(20%) 1fr' }
+        gridStyle = { gridTemplateRows: 'fit-content(30%) 1fr' }
       } else if (lY === 0) {
-        gridStyle = { gridTemplateRows: '1fr fit-content(20%)' }
+        gridStyle = { gridTemplateRows: '1fr fit-content(30%)' }
       } else if (lX > 0.5) {
         gridStyle = { gridTemplateColumns: '1fr fit-content(20%)' }
       } else {

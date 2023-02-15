@@ -10,7 +10,7 @@ const Legend = ({
   colors,
   position: [x, y],
 }) => (
-  <Styles.LegendContainer margin={margin} x={x} y={y} >
+  <Styles.LegendContainer margin={margin} x={x} y={y}>
     {
       keys.map((k, i) => (
         <Styles.LegendItem key={i}>
