@@ -9,9 +9,8 @@ const Legend = ({
   keys,
   colors,
   position: [x, y],
-  type,
 }) => (
-  <Styles.LegendContainer margin={margin} x={x} y={y} type={type}>
+  <Styles.LegendContainer margin={margin} x={x} y={y}>
     {
       keys.map((k, i) => (
         <Styles.LegendItem key={i}>
@@ -30,7 +29,6 @@ Legend.propTypes = {
   keys: PropTypes.arrayOf(PropTypes.string),
   colors: PropTypes.arrayOf(PropTypes.string),
   position: PropTypes.arrayOf(PropTypes.number),
-  type: PropTypes.string.isRequired,
 }
 
 Legend.defaultProps = {

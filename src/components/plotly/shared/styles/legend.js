@@ -2,7 +2,7 @@ import { styled } from 'goober'
 import { getTailwindConfigColor } from '@eqworks/lumen-labs'
 
 export default {
-  LegendContainer: styled('div')(({ margin, x, y, type }) => {
+  LegendContainer: styled('div')(({ margin, x, y }) => {
     const horizontal = !(y % 1)
     let positionStyle = {
       flexDirection: horizontal ? 'row' : 'column',
@@ -10,12 +10,12 @@ export default {
     }
 
     const marginAmount = `${100 * margin}%`
-    const finalMargin = horizontal ? `${type === 'pie' ? '1rem' : '0.6rem'} ${marginAmount} 0.6rem ${marginAmount}` : 
+    const finalMargin = horizontal ? `1rem ${marginAmount} 0.6rem ${marginAmount}` : 
       `${marginAmount} 0.6rem`
     return {
       transition: 'margin 0.3s',
       margin: finalMargin,
-      minHeight: '1rem',
+      minHeight: '2rem',
       flexWrap: 'wrap',
       display: 'flex',
       justifyContent: 'center',
