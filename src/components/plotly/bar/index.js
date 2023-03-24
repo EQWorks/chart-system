@@ -23,6 +23,7 @@ const Bar = ({
   hoverInfo,
   hoverText,
   onAfterPlot,
+  columnNameAliases,
   ...props
 }) => {
   const _data = useTransformedData({
@@ -30,6 +31,7 @@ const Bar = ({
     data,
     x,
     y,
+    columnNameAliases,
     orientation,
     textPosition,
     formatData,
@@ -54,7 +56,7 @@ const Bar = ({
           automargin: true,
           ...(showAxisTitles.x && {
             title: {
-              text: axisTitles.x || x,
+              text: axisTitles.x || columnNameAliases[x] || x,
               standoff: 20,
             },
           }),
@@ -66,7 +68,7 @@ const Bar = ({
           automargin: true,
           ...(showAxisTitles.y && {
             title: {
-              text: axisTitles.y ? axisTitles.y : y[0],
+              text: axisTitles.y || columnNameAliases[y[0]] || y[0],
               standoff: 20,
             },
           }),
@@ -109,6 +111,7 @@ Bar.propTypes = {
     PropTypes.string,
   ]),
   onAfterPlot: PropTypes.func,
+  columnNameAliases: PropTypes.object,
   ...plotlyPropTypes,
 }
 
@@ -131,6 +134,7 @@ Bar.defaultProps = {
   hoverInfo: '',
   hoverText: '',
   onAfterPlot: () => {},
+  columnNameAliases: {},
   ...plotlyDefaultProps,
 }
 
