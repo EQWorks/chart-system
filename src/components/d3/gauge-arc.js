@@ -20,6 +20,7 @@ const GaugeArc = ({ data, width, height, config }) => {
 
   const arcsGenerator = d3.pie().sortValues(function (a, b) { return isAscending ? b - a : a - b })
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const arcsData = useMemo(() => arcsGenerator([value, remainder]), [value, remainder])
 
   const arcPath = d3.arc().innerRadius(pieSize - lineThickness).outerRadius(pieSize).cornerRadius(lineThickness)
@@ -53,6 +54,7 @@ const GaugeArc = ({ data, width, height, config }) => {
           })
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [svgRef.current, arcsData])
 
   return (
