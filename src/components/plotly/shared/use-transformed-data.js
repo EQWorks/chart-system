@@ -2,11 +2,12 @@ import * as d3 from 'd3'
 import { useMemo } from 'react'
 import { plotlyInterfaces, PLOTLY_HOVERINFO_PERCENTAGE } from './constants'
 
-import { getText, getObjectByType, getSum } from '../shared/utils'
+import { getText, getObjectByType, getSum, getHoverInfo } from '../shared/utils'
 
 const useTransformedData = ({
   type, 
   data,
+  columnNameAliases,
   groupByValue,
   extra = {},
   variant,
@@ -31,7 +32,7 @@ const useTransformedData = ({
 
         return (
           {
-            name: k,
+            name: columnNameAliases[k] || k,
             [domain.output]: data.map(d => i === 1 ? d[k] : -Math.abs(d[k])),
             [range.output]: data.map(d => d[args[range.input][0]]),
             orientation,
@@ -44,19 +45,28 @@ const useTransformedData = ({
       })
     } 
 
+    // this is an expensive process for large data sets
     if (groupByValue) {
       return data.map((d, i) => {
-        const _d = { ...d }
-        const name = _d[args[domain.input]]
-        delete _d[args[domain.input]]
-        const keys = Object.keys(_d)
+        const keys = args.y || args.values
+        const _d = {}
+        const name = d[args[domain.input]]
+        Object.keys(d).forEach(key => {
+          if (keys.includes(key)) {
+            _d[columnNameAliases[key] || key] = d[key]
+          }
+        })
         const totalSum = getSum(keys, [d])
-
         return {
-          name,
-          hoverinfo: Math.round(totalSum) === 100 ? PLOTLY_HOVERINFO_PERCENTAGE[type] || hoverInfo : hoverInfo,
+          name: columnNameAliases[name] || name,
+          hoverinfo: getHoverInfo({
+            cond: Math.round(totalSum) === 100,
+            value: PLOTLY_HOVERINFO_PERCENTAGE[type],
+            hoverInfo,
+          }),
           totalSum,
-          ...getObjectByType(data, type, domain, range, args, _d, formatData[keys[i]], tickSuffix, tickPrefix, hoverText, true),
+          ...getObjectByType(data, type, domain, range, args, _d, formatData[keys[i]],tickSuffix,
+            tickPrefix, hoverText, true),
           ...extra,
         }
       })
@@ -64,14 +74,33 @@ const useTransformedData = ({
 
     return args[range.input].map(k => (
       {
-        name: k,
-        hoverinfo: Math.round(getSum([k], data)) === 100 ? PLOTLY_HOVERINFO_PERCENTAGE[type] || hoverInfo : hoverInfo,
+        name: columnNameAliases[k] || k,
+        hoverinfo: getHoverInfo({
+          cond: Math.round(getSum([k], data)) === 100,
+          value: PLOTLY_HOVERINFO_PERCENTAGE[type],
+          hoverInfo,
+        }),
         totalSum: getSum([k], data),
         ...getObjectByType(data, type, domain, range, args, k, formatData[k], tickSuffix, tickPrefix, hoverText),
         ...extra,
       }
     ))
-  }, [args, data, type, domain, range, extra, groupByValue, variant, formatData, tickSuffix, tickPrefix, hoverInfo, hoverText])
+  }, [
+    args,
+    data,
+    columnNameAliases,
+    type,
+    domain,
+    range,
+    extra,
+    groupByValue,
+    variant,
+    formatData,
+    tickSuffix,
+    tickPrefix,
+    hoverInfo,
+    hoverText,
+  ])
 }
 
 export default useTransformedData
