@@ -48,7 +48,7 @@ CustomColors.args = {
   customColors: {
     color1: ['#88CCEE', '#CC6677', '#DDCC77', '#477733', '#0F2288'],
     color2: ['#B24456', '#D3A642'],
-  } 
+  },
 }
 
 export const CustomBaseColor = Template.bind({})
@@ -56,5 +56,14 @@ CustomBaseColor.args = {
   baseColor: {
     color1: '#004C86',
     color2: '#CF7047',
-  }
+  },
+}
+
+export const ColumnNameAliases = Template.bind({})
+ColumnNameAliases.args = { columnNameAliases: { stat1: 'Stat 1', stat2: 'Stat 2' } }
+
+export const ColumnNameAliasesInverseDomain = Template.bind({})
+ColumnNameAliasesInverseDomain.args = {
+  columnNameAliases: { stat1: 'Stat 1', stat2: 'Stat 2' },
+  groupByValue: true,
 }
