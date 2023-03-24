@@ -22,6 +22,7 @@ const Line = ({
   onAfterPlot,
   showLineMarkers,
   lineFill,
+  columnNameAliases,
   ...props
 }) => (
   <CustomPlot
@@ -32,6 +33,7 @@ const Line = ({
         data,
         x,
         y,
+        columnNameAliases,
         formatData,
         tickSuffix,
         tickPrefix,
@@ -55,7 +57,7 @@ const Line = ({
         tickprefix: hoverInfo && tickPrefix[0],
         ...(showAxisTitles.x && {
           title: {
-            text: axisTitles.x || x,
+            text: axisTitles.x || columnNameAliases[x] || x,
             standoff: 20,
           },
         }),
@@ -67,7 +69,7 @@ const Line = ({
         tickprefix: hoverInfo && tickPrefix[1],
         ...(showAxisTitles.y && (axisTitles.y || y?.length === 1) && {
           title: {
-            text: axisTitles.y || y[0],
+            text: axisTitles.y || columnNameAliases[y[0]] || y[0],
             standoff: 30,
           },
         }),
@@ -102,6 +104,7 @@ Line.propTypes = {
   onAfterPlot: PropTypes.func,
   showLineMarkers: PropTypes.bool,
   lineFill: PropTypes.bool,
+  columnNameAliases: PropTypes.object,
   ...plotlyPropTypes,
 }
 
@@ -124,6 +127,7 @@ Line.defaultProps = {
   onAfterPlot: () => {},
   showLineMarkers: false,
   lineFill: false,
+  columnNameAliases: {},
   ...plotlyDefaultProps,
 }
 

@@ -35,6 +35,7 @@ const BarLine = ({
   showLineMarkers,
   sharedYAxis,
   lineFill,
+  columnNameAliases,
   ...props
 }) => {
   const bar_ = useTransformedData({
@@ -42,6 +43,7 @@ const BarLine = ({
     data,
     x,
     y,
+    columnNameAliases,
     orientation: 'v',
     textPosition: 'none',
     formatData,
@@ -57,6 +59,7 @@ const BarLine = ({
     data,
     x,
     y: y2,
+    columnNameAliases,
     formatData,
     tickSuffix: tickSuffix[1],
     tickPrefix: tickPrefix[1],
@@ -86,7 +89,7 @@ const BarLine = ({
             ...(showAxisTitles.x && {
               title: {
                 standoff: 20,
-                text: axisTitles.x || x,
+                text: axisTitles.x || columnNameAliases[x] || x,
               },
             }),
           },
@@ -100,7 +103,7 @@ const BarLine = ({
             ...(showAxisTitles.y && {
               title: {
                 standoff: 20,
-                text: axisTitles.y || y[0],
+                text: axisTitles.y || columnNameAliases[y[0]] || y[0],
               },
             }),
           },
@@ -115,7 +118,7 @@ const BarLine = ({
             ...(showAxisTitles.y2 && {
               title: {
                 standoff: 20,
-                text: axisTitles.y2 || y2[0],
+                text: axisTitles.y2 || columnNameAliases[y2[0]] || y2[0],
               },
             }),
           },
@@ -168,6 +171,7 @@ BarLine.propTypes = {
   showLineMarkers: PropTypes.bool,
   sharedYAxis: PropTypes.bool,
   lineFill: PropTypes.bool,
+  columnNameAliases: PropTypes.object,
   ...plotlyPropTypes,
 }
 
@@ -202,6 +206,7 @@ BarLine.defaultProps = {
   showLineMarkers: false,
   sharedYAxis: true,
   lineFill: false,
+  columnNameAliases: {},
   ...plotlyDefaultProps,
 }
 

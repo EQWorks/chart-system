@@ -23,11 +23,22 @@ const Pie = ({
   hoverText,
   onAfterPlot,
   size,
+  columnNameAliases,
   ...props
 }) => {
+  const { values } = props
+  let _hoverInfo = hoverInfo
+  if (!hoverInfo) {
+    if (values.length === 1) {
+      _hoverInfo = 'label+percent+text'
+    } else {
+      _hoverInfo = 'label+percent+text+name'
+    }
+  }
   const transformedData = useTransformedData({
     type: 'pie',
     data,
+    columnNameAliases,
     extra: {
       textinfo: textinfo ?? getTextInfo({ showPercentage, showLabelName }),
       hole: hole ?? (donut ? 0.4 : 0),
@@ -35,7 +46,7 @@ const Pie = ({
     formatData,
     tickSuffix,
     tickPrefix,
-    hoverInfo: hoverInfo || 'label+percent+text',
+    hoverInfo: _hoverInfo,
     hoverText,
     ...props,
   })
@@ -72,6 +83,7 @@ Pie.propTypes = {
   ]),
   onAfterPlot: PropTypes.func,
   size: PropTypes.number,
+  columnNameAliases: PropTypes.object,
   ...plotlyPropTypes,
 }
 
@@ -88,6 +100,7 @@ Pie.defaultProps = {
   hoverText: '',
   onAfterPlot: () => {},
   size: 0.8,
+  columnNameAliases: {},
   ...plotlyDefaultProps,
 }
 

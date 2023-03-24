@@ -20,6 +20,7 @@ const DoubleLine = ({
   hoverText,
   mode,
   onAfterPlot,
+  columnNameAliases,
   ...props
 }) => {
   const line_data1 = {
@@ -30,6 +31,7 @@ const DoubleLine = ({
       data,
       x,
       y: [y[0]],
+      columnNameAliases,
       formatData,
       tickSuffix,
       tickPrefix,
@@ -52,6 +54,7 @@ const DoubleLine = ({
       data,
       x,
       y: [y[1] ? y[1] : y[0]],
+      columnNameAliases,
       formatData,
       tickSuffix,
       tickPrefix,
@@ -82,7 +85,7 @@ const DoubleLine = ({
             ...(showAxisTitles.x && {
               title: {
                 standoff: 20,
-                text: axisTitles.x || x,
+                text: axisTitles.x ||columnNameAliases[x] || x,
               },
             }),
           },
@@ -95,7 +98,7 @@ const DoubleLine = ({
             ...(showAxisTitles.y && y[0] && { 
               title: {
                 standoff: 20,
-                text: axisTitles.y || y[0],
+                text: axisTitles.y || columnNameAliases[y[0]] || y[0],
               },
             }),
           },
@@ -108,7 +111,7 @@ const DoubleLine = ({
             ...(showAxisTitles.y2 && y[1] && { 
               title: {
                 standoff: 20,
-                text: axisTitles.y2 || y[1],
+                text: axisTitles.y2 || columnNameAliases[y[1]] || y[1],
               },
             }),
           },
@@ -147,6 +150,7 @@ DoubleLine.propTypes = {
   ]),
   mode: PropTypes.string,
   onAfterPlot: PropTypes.func,
+  columnNameAliases: PropTypes.object,
   ...plotlyPropTypes,
 }
 
@@ -169,6 +173,7 @@ DoubleLine.defaultProps = {
   hoverText: [],
   mode: 'lines+markers',
   onAfterPlot: () => {},
+  columnNameAliases: {},
   ...plotlyDefaultProps,
 }
 

@@ -25,6 +25,7 @@ const PyramidBar = ({
   hoverInfo,
   hoverText,
   onAfterPlot,
+  columnNameAliases,
   ...props
 }) => {
   const _data = useTransformedData({
@@ -32,13 +33,14 @@ const PyramidBar = ({
     data,
     x,
     y,
+    columnNameAliases,
     orientation: 'h',
     variant: 'pyramidBar',
     showPercentage,
     sum: getSum(x, data),
     textPosition,
     formatData,
-    hoverInfo,
+    hoverInfo: hoverInfo || 'y+text+name',
     hoverText,
     ...props,
   })
@@ -76,7 +78,6 @@ const PyramidBar = ({
       layout={{
         barmode: 'relative',
         bargap: 0.1,
-        hovermode: false,
         xaxis: {
           showticklabels: showTicks,
           automargin: true,
@@ -88,7 +89,7 @@ const PyramidBar = ({
           tickprefix: tickPrefix[0],
           ...(showAxisTitles.x && {
             title: {
-              text: axisTitles.x,
+              text: axisTitles.x || columnNameAliases[x] || x,
               standoff: 20,
             },
           }),
@@ -102,13 +103,14 @@ const PyramidBar = ({
           tickprefix: tickPrefix[1],
           ...(showAxisTitles.y && {
             title: {
-              text: axisTitles.y || Object.keys(data[0])[0],
+              text: axisTitles.y || columnNameAliases[Object.keys(data[0])[0]] || Object.keys(data[0])[0],
               standoff: 30,
             },
           }),
         },
       }}
       onAfterPlot={onAfterPlot}
+      columnNameAliases={columnNameAliases}
       {...props}
     />
   )
@@ -139,6 +141,7 @@ PyramidBar.propTypes = {
     PropTypes.string,
   ]),
   onAfterPlot: PropTypes.func,
+  columnNameAliases: PropTypes.object,
   ...plotlyPropTypes,
 }
 
@@ -159,9 +162,10 @@ PyramidBar.defaultProps = {
   formatData: {},
   tickSuffix: [],
   tickPrefix: [],
-  hoverInfo: 'all',
+  hoverInfo: '',
   hoverText: '',
   onAfterPlot: () => {},
+  columnNameAliases: {},
   ...plotlyDefaultProps,
 }
 
