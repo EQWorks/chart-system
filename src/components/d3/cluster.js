@@ -100,6 +100,7 @@ const Cluster = ({ width, height, data, config }) => {
             .remove()
         })
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [svgRef.current, clusters, currentGroup ])
 
   return (
