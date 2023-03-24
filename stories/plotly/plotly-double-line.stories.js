@@ -22,7 +22,12 @@ export const Default = Template.bind({})
 Default.args = { tickSuffix: ['%', '%'] }
 
 export const CustomAxisTitles = Template.bind({})
-CustomAxisTitles.args= {
+CustomAxisTitles.args = {
   axisTitles: { x: 'Canadian City', y: 'Dollar Spend (%)', y2: 'Transactions (%)' },
-  tickSuffix: ['%', '%']
+  tickSuffix: ['%', '%'],
+}
+
+export const ColumnNameAliases = Template.bind({})
+ColumnNameAliases.args = {
+  columnNameAliases: { city: 'New City', spend: 'Spend (%)', transactions: 'Transactions (%)' },
 }

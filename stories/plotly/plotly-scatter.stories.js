@@ -21,7 +21,16 @@ const Template = (args) =>
 export const Default = Template.bind({})
 
 export const CustomAxisTitles = Template.bind({})
-CustomAxisTitles.args= { axisTitles: { x: 'Stat', y: 'Score' } }
+CustomAxisTitles.args = { axisTitles: { x: 'Stat', y: 'Score' } }
 
 export const WithLines = Template.bind({})
 WithLines.args = { showLines: true }
+
+export const ColumnNameAliases = Template.bind({})
+ColumnNameAliases.args = { columnNameAliases: { stat1: 'Stat 1', stat2: 'Stat 2', age: 'Age' } }
+
+export const ColumnNameAliasesInverseDomain = Template.bind({})
+ColumnNameAliasesInverseDomain.args = {
+  columnNameAliases: { stat1: 'Stat 1', stat2: 'Stat 2', age: 'Age' },
+  groupByValue: true,
+}
