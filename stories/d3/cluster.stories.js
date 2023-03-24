@@ -78,7 +78,7 @@ export const Default = (args) => {
     mode: {
       showCommonNodes: args.commonNodes,
       groups: [1, 2],
-      colors: ['#a9ff91', '#4278ff', '#dc91ff']
+      colors: ['#a9ff91', '#4278ff', '#dc91ff'],
     },
     clusterMaxLength: args.clusterMaxLength,
     tooltip: {
