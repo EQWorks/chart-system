@@ -139,4 +139,20 @@ const getObjectByType = (
   return typeConfig
 }
 
-export { getTextInfo, getAxisTitle, getMaxRange, getSum, getText, getObjectByType, getBarAxisShowTitle }
+const getHoverInfo = ({ cond, value, hoverInfo }) => {
+  if (cond && value) {
+    return value
+  }
+  return hoverInfo
+}
+
+export {
+  getTextInfo,
+  getAxisTitle,
+  getMaxRange,
+  getSum,
+  getText,
+  getObjectByType,
+  getBarAxisShowTitle,
+  getHoverInfo,
+}
