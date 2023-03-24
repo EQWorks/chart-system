@@ -20,6 +20,7 @@ const Scatter = ({
   hoverInfo,
   hoverText,
   onAfterPlot,
+  columnNameAliases,
   ...props
 }) => (
   <CustomPlot
@@ -30,6 +31,7 @@ const Scatter = ({
         data,
         x,
         y,
+        columnNameAliases,
         formatData,
         tickSuffix,
         tickPrefix,
@@ -49,7 +51,7 @@ const Scatter = ({
         tickprefix: hoverInfo || tickPrefix[0],
         ...(showAxisTitles.x && {
           title: {
-            text: axisTitles.x || x,
+            text: axisTitles.x || columnNameAliases[x] || x,
             standoff: 20,
           },
         }),
@@ -61,7 +63,7 @@ const Scatter = ({
         tickprefix: hoverInfo || tickPrefix[1],
         ...(showAxisTitles.y && (axisTitles.y || y?.length === 1) && {
           title: {
-            text: axisTitles.y || y[0],
+            text: axisTitles.y || columnNameAliases[y[0]] || y[0],
             standoff: 30,
           },
         }),
@@ -101,6 +103,7 @@ Scatter.propTypes = {
     PropTypes.string,
   ]),
   onAfterPlot: PropTypes.func,
+  columnNameAliases: PropTypes.object,
   ...plotlyPropTypes,
 }
 
@@ -120,6 +123,7 @@ Scatter.defaultProps = {
   hoverInfo: '',
   hoverText: '',
   onAfterPlot: () => {},
+  columnNameAliases: {},
   ...plotlyDefaultProps,
 }
 
