@@ -36,10 +36,13 @@ const Template = (args) =>
 export const Default = Template.bind({})
 
 export const CustomAxisTitles = Template.bind({})
-CustomAxisTitles.args= { axisTitles: { x: 'Count', y: 'Age Group' } }
+CustomAxisTitles.args = { axisTitles: { x: 'Count', y: 'Age Group' } }
 
 export const Percentage = Template.bind({})
 Percentage.args = { showPercentage: true }
 
 export const CustomXaxisTick = Template.bind({})
 CustomXaxisTick.args = { xAxisTick: [1000, 600, 300] }
+
+export const ColumnNameAliases = Template.bind({})
+ColumnNameAliases.args = { columnNameAliases: { man: 'Man', woman: 'Woman' } }

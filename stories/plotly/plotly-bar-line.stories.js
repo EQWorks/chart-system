@@ -22,33 +22,33 @@ const Template = (args) =>
 export const Default = Template.bind({})
 
 export const LineMarkersAndFill = Template.bind({})
-LineMarkersAndFill.args= {
+LineMarkersAndFill.args = {
   showLineMarkers: true,
   lineFill: true,
 }
 
 export const CustomColors = Template.bind({})
-CustomColors.args= {
+CustomColors.args = {
   y: ['transactions', 'transactions1'],
   y2: ['transactions', 'transactions1'],
   customColors: {
     color1: ['#004C86', '#1F7F79', '#D3A642', '#3175AC'],
-    color2: ['#B24456', '#D3A642']
-  }
+    color2: ['#B24456', '#D3A642'],
+  },
 }
 
 export const CustomBaseColors = Template.bind({})
-CustomBaseColors.args= {
+CustomBaseColors.args = {
   y: ['transactions', 'transactions1'],
   y2: ['transactions', 'transactions1'],
   baseColor: {
     color1: '#004C86',
     color2: '#CF7047',
-  }
+  },
 }
 
 export const MultipleYaxis = Template.bind({})
-MultipleYaxis.args= {
+MultipleYaxis.args = {
   y: ['spend'],
   y2: ['transactions'],
   tickPrefix: ['$'],
@@ -56,11 +56,21 @@ MultipleYaxis.args= {
 }
 
 export const CustomAxisTitles = Template.bind({})
-CustomAxisTitles.args= {
+CustomAxisTitles.args = {
   y: ['spend'],
   y2: ['transactions'],
   tickPrefix: ['$'],
   sharedYAxis: false,
   showAxisTitles: { x: true, y: false, y2: true },
   axisTitles: { x: 'Canadian City', y: 'Custom Spend', y2: 'Custom Transactions' },
+}
+
+export const ColumnNameAliases = Template.bind({})
+ColumnNameAliases.args = {
+  y: ['spend'],
+  y2: ['transactions'],
+  tickPrefix: ['$'],
+  sharedYAxis: false,
+  showAxisTitles: { x: true, y: false, y2: true },
+  columnNameAliases: { spend: 'Spend', transactions: 'New Transactions', city: 'New City' },
 }

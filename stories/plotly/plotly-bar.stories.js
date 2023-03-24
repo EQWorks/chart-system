@@ -40,7 +40,18 @@ const FormattingTemplate = (args) =>
 export const Default = Template.bind({})
 
 export const CustomAxisTitles = Template.bind({})
-CustomAxisTitles.args= { axisTitles: { y: 'Score' } }
+CustomAxisTitles.args = { axisTitles: { y: 'Score' } }
+
+export const ColumnNameAliases = Template.bind({})
+ColumnNameAliases.args = { columnNameAliases: { city: 'City New', stat1: 'Stat 1', stat2: 'Stat 2' } }
+
+export const ColumnNameAliasesInverseDomain = Template.bind({})
+ColumnNameAliasesInverseDomain.args = {
+  columnNameAliases: { city: 'City New', stat1: 'Stat 1', stat2: 'Stat 2' },
+  showAxisTitles: { x: false, y: true },
+  axisTitles: { y: 'Stats (%)' },
+  groupByValue: true,
+}
 
 export const Stacked = Template.bind({})
 Stacked.args = { stacked: true }
@@ -59,8 +70,8 @@ HorizontalStacked.args = {
   axisTitles: { y: 'Impressions' },
 }
 
-export const HorizontalFormatted = FormattingTemplate.bind({})
-HorizontalFormatted.args = { 
+export const HorizontalFormattedData = FormattingTemplate.bind({})
+HorizontalFormattedData.args = {
   orientation: 'h', 
   formatData: { 
     'hh_income_0_50k': formatting,
