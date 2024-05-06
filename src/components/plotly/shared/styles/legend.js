@@ -36,7 +36,7 @@ export default {
 
   LegendColorBox: styled('div')(({ color }) => ({
     background: color,
-    borderRadius: '0.2rem',
+    borderRadius: '0.5rem',
     width: '0.625rem',
     height: '0.625rem',
     marginRight: '0.313rem',
