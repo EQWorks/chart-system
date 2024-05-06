@@ -63,6 +63,7 @@ const PieChart = ({
   colors,
   colorType,
   colorParam,
+  labelTranslate = 50,
   width,
   height,
   enableSlicesLabels,
@@ -75,10 +76,20 @@ const PieChart = ({
   tooltipFormat,
   disableTooltipTitle,
   typographyProps,
+  legendValue = false,
   ...nivoProps
 }) => {
   const [slicePadAngle, setSlicePadAngle] = useState(padAngle)
   const [sliceCornerRadius, setSliceCornerRadius] = useState(cornerRadius)
+
+  // Calculate total value
+  const totalValue = data.reduce((acc, curr) => acc + curr.value, 0)
+
+  // Calculate percentages
+  const legendData = data.map((item) => ({
+    ...item,
+    id: `${item.id} ${((item.value / totalValue) * 100).toFixed(2)}%`,
+  }))
 
   const {
     nivoData,
@@ -187,51 +198,112 @@ const PieChart = ({
 
   const legendToggle = useLegendToggle(data)
   return (
-    <Pie
-      { ...nivoProps }
-      height={ height }
-      width={ width }
-      data={ finalData }
-      colors={ finalColors }
-      padAngle={ slicePadAngle }
-      cornerRadius={ sliceCornerRadius }
-      enableRadialLabels={ false }
-      fit={ true }
-      enableSlicesLabels={ enableSlicesLabels }
-      sliceLabel={ showLabels ? 'percent' : '' }
-      slicesLabelsSkipAngle={ slicesLabelsSkipAngle }
-      slicesLabelsTextColor='#fff'
-      innerRadius={ isDonut ? 0.6 : 0 }
-      tooltip={ ({ id, value, percent, color }) => (
-        <Tooltip
-          label={ id }
-          color={ color }
-          display={ [
-            { label: 'Value', value: tooltipFormat(value) },
-            { label: 'Share', value: percent },
-          ] }
-          disableTooltipTitle={ disableTooltipTitle }
-          chartType='pie'
-          typography={ typographyProps }
-        />
-      ) }
-      onMouseEnter={ mouseOverHandler }
-      onMouseLeave={ mouseLeaveHandler }
-      { ...getCommonProps({
-        useAxis: false,
-        keys: finalData.map(o => o.id),
-        legendOnClick,
-        height,
-        width,
-        maxRowLegendItems,
-        trimLegend,
-        disableLegend,
-        typographyProps,
-        dash: true,
-      }) }
-      { ...legendToggle }
-    >
-    </Pie>
+    legendValue ? 
+      <Pie
+        { ...nivoProps }
+        height={ height }
+        width={ width }
+        data={ legendData }
+        colors={ finalColors }
+        padAngle={ slicePadAngle }
+        cornerRadius={ sliceCornerRadius }
+        enableRadialLabels={ false }
+        fit={ true }
+        enableSlicesLabels={ enableSlicesLabels }
+        sliceLabel={ showLabels ? 'percent' : '' }
+        slicesLabelsSkipAngle={ slicesLabelsSkipAngle }
+        slicesLabelsTextColor='#fff'
+        innerRadius={ isDonut ? 0.6 : 0 }
+        tooltip={ ({ id, value, color }) => (
+          <Tooltip
+            label={ id }
+            color={ color }
+            display={ [
+              { label: 'Value', value: tooltipFormat(value) },
+            ] }
+            disableTooltipTitle={ disableTooltipTitle }
+            chartType='pie'
+            typography={ typographyProps }
+          />
+        ) }
+        onMouseEnter={ mouseOverHandler }
+        onMouseLeave={ mouseLeaveHandler }
+        { ...getCommonProps({
+          useAxis: false,
+          keys: finalData.map(o => o.id),
+          legendOnClick,
+          height,
+          width,
+          maxRowLegendItems,
+          trimLegend,
+          disableLegend,
+          typographyProps,
+          dash: true,
+        }) }
+        { ...legendToggle }
+        legends={[{
+          anchor: 'right',
+          direction: 'column',
+          justify: false,
+          translateX: labelTranslate,
+          translateY: 0,
+          itemsSpacing: 10,
+          itemWidth: 100,
+          itemHeight: 18,
+          itemTextColor: 'black',
+          itemDirection: 'left-to-right',
+          itemOpacity: 1,
+          symbolSize: 16,
+          symbolShape: 'circle',
+        }]}
+      >
+      </Pie>
+      :
+      <Pie
+        { ...nivoProps }
+        height={ height }
+        width={ width }
+        data={ finalData }
+        colors={ finalColors }
+        padAngle={ slicePadAngle }
+        cornerRadius={ sliceCornerRadius }
+        enableRadialLabels={ false }
+        fit={ true }
+        enableSlicesLabels={ enableSlicesLabels }
+        sliceLabel={ showLabels ? 'percent' : '' }
+        slicesLabelsSkipAngle={ slicesLabelsSkipAngle }
+        slicesLabelsTextColor='#fff'
+        innerRadius={ isDonut ? 0.6 : 0 }
+        tooltip={ ({ id, value, percent, color }) => (
+          <Tooltip
+            label={ id }
+            color={ color }
+            display={ [
+              { label: 'Value', value: tooltipFormat(value) },
+              { label: 'Share', value: percent },
+            ] }
+            disableTooltipTitle={ disableTooltipTitle }
+            chartType='pie'
+            typography={ typographyProps }
+          />
+        ) }
+        onMouseEnter={ mouseOverHandler }
+        onMouseLeave={ mouseLeaveHandler }
+        { ...getCommonProps({
+          useAxis: false,
+          keys: finalData.map(o => o.id),
+          legendOnClick,
+          height,
+          width,
+          maxRowLegendItems,
+          trimLegend,
+          disableLegend,
+          typographyProps,
+          dash: true,
+        }) }
+        { ...legendToggle }
+      >
+      </Pie>
   )
 }
 
