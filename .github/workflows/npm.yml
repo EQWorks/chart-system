@@ -6,6 +6,10 @@ on:
       - 'v*' # proceeds eg: v1.0
       - '!v*-*' # skips eg: v1.2.99-beta1, v3.5.0-test, etc.
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   publish:
     runs-on: ubuntu-latest
