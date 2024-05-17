@@ -6,6 +6,10 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   chromatic-deployment:
     runs-on: ubuntu-latest
@@ -13,17 +17,17 @@ jobs:
       storybook-url: ${{ steps.chromatic-publish.outputs.storybookUrl}}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-        # Version 3 of the actions/checkout action will only checkout a single commit without history by default.
+        uses: actions/checkout@v4
+        # Version 4 of the actions/checkout action will only checkout a single commit without history by default.
         # Chromatic needs the full git history in order to track changes over time.
         # see https://www.chromatic.com/docs/github-actions#support-for-codeactionscheckoutv2code-and-above
         with:
           fetch-depth: 0
 
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 14.x
+          node-version: 16.x
           cache: 'yarn'
           registry-url: https://npm.pkg.github.com/
           scope: '@eqworks'
@@ -34,7 +38,7 @@ jobs:
 
       - name: Publish to Chromatic
         id: chromatic-publish
-        uses: chromaui/action@v1
+        uses: chromaui/action@latest
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
@@ -47,7 +51,7 @@ jobs:
     if: github.event_name == 'pull_request' && needs.chromatic-deployment.result == 'success'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
@@ -60,3 +64,5 @@ jobs:
         with:
           message: |
             ### 📚 **[Storybook preview](${{ env.STORYBOOK_URL }})** _(updated to ${{ env.SHA }})_
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
